@@ -15,7 +15,7 @@ services:
 
   php:
     container_name: lemp_php_formalin
-    image: peerasakp/php7-4
+    image: safefoodavenue
     restart: unless-stopped
     volumes:
       - ./safe-foodavenue/:/var/www/html
