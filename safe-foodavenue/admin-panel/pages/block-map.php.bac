@@ -1,0 +1,58 @@
+<style>
+  /* Set the size of the div element that contains the map */
+  #map {
+    height: 400px;
+    /* The height is 400 pixels */
+    width: 100%;
+    /* The width is the width of the web page */
+  }
+</style>
+
+<div id="map" class="map-canvas"></div>
+<script>
+  // Initialize and add the map
+  <?php
+  $sql = "SELECT * FROM sfa_block WHERE `block_lat` IS NOT NULL AND `block_lon` IS NOT NULL";
+  $obj = mysqli_query($con, $sql);
+  ?>
+  var locations = [
+    <?php
+    while ($row = mysqli_fetch_array($obj)) {
+    ?>['<?php echo $row["block_title"]; ?>', <?php echo $row["block_lat"]; ?>, <?php echo $row["block_lon"]; ?>],
+    <?php
+    } // End while
+    ?>['บางแสน', 13.285381, 100.913837, 1]
+
+  ];
+  var myStyles = [{
+    featureType: "poi",
+    elementType: "labels",
+    stylers: [{
+      visibility: "off"
+    }]
+  }];
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 15,
+    center: new google.maps.LatLng(13.285381, 100.913837),
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    styles: myStyles
+  });
+
+  var infowindow = new google.maps.InfoWindow();
+
+  var marker, i;
+
+  for (i = 0; i < locations.length; i++) {
+    marker = new google.maps.Marker({
+      position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+      map: map
+    });
+
+    google.maps.event.addListener(marker, 'click', (function(marker, i) {
+      return function() {
+        infowindow.setContent(locations[i][0]);
+        infowindow.open(map, marker);
+      }
+    })(marker, i));
+  }
+</script>

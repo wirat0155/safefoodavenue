@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  nginx:
+    container_name: lemp_nginx_formalin
+    image: nginx:stable-alpine
+    restart: unless-stopped
+    volumes:
+      - ./safe-foodavenue/:/var/www/html
+      - ./nginx/conf/nginx.conf:/etc/nginx/conf/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+
+    ports:
+      - "80:80"
+
+  php:
+    container_name: lemp_php_formalin
+    image: peerasakp/php7-4
+    restart: unless-stopped
+    volumes:
+      - ./safe-foodavenue/:/var/www/html
+    expose:
+      - "5000:9000"
+
+  db:
+    image: mysql:5.7
+    restart: always
+    ports:
+      - "3306:3306"
+    # volumes:
+      # - ./db_data:/var/lib/mysql
+      # - ./backup/SFA_formalin.sql:/docker-entrypoint-initdb.d/1.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: some_password
+      MYSQL_DATABASE: manpower
+      MYSQL_USER: manpower
+      MYSQL_PASSWORD: some_password
+
+  # db:
+  #   container_name: lemp_mariadb_formalin
+  #   image: mariadb:10.3
+  #   restart: unless-stopped
+  #   # volumes:
+  #   #   - ./mariadb/initdb/:/docker-entrypoint-initdb.d
+  #   #   - ./mariadb/data/:/var/lib/mysql/
+  #   # env_file:
+  #   #   - ./mariadb/db.env
+  #   ports:
+  #     - "8001"
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=some_password
+
+  phpmyadmin:
+    container_name: lemp_phpmyadmin_formalin
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_HOST=db

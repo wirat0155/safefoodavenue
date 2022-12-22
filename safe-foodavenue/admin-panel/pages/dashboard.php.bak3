@@ -1,0 +1,286 @@
+<script src='https://cdn.plot.ly/plotly-2.12.1.min.js'></script>
+
+<?php
+
+function get_allrestaurant($con)
+{
+    $sql = "SELECT count(res_id) as count_res FROM `sfa_restaurant`";
+    $entries = mysqli_query($con, $sql);
+    return $entries;
+}
+$count_rest = get_allrestaurant($con);
+$entry = mysqli_fetch_array($count_rest);
+
+function get_status_restaurant($con)
+{
+    $sql = "SELECT count(res_status) as count_stat FROM `sfa_restaurant` where res_status = 1";
+    $entries = mysqli_query($con, $sql);
+    return $entries;
+}
+$count_resstat = get_status_restaurant($con);
+$entry2 = mysqli_fetch_array($count_resstat);
+
+function get_cat_restaurant($con)
+{
+    $sql = "SELECT count(res_cat_id) as count_cat FROM `sfa_res_category`";
+    $entries = mysqli_query($con, $sql);
+    return $entries;
+}
+$count_cat = get_cat_restaurant($con);
+$entry3 = mysqli_fetch_array($count_cat);
+
+
+
+
+?>
+
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">ภาพรวมข้อมูล</h6>
+                </div>
+
+            </div>
+            <!-- Card stats -->
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card card-stats">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">จำนวนร้านอาหารทั้งหมด</h5>
+                                    <span class="h2 font-weight-bold mb-0"><?php echo ($entry['count_res']); ?></span>
+                                </div>
+                                <div class="col-auto">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-stats">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">จำนวนร้านอาหารที่เปิดกิจการอยู่</h5>
+                                    <span class="h2 font-weight-bold mb-0"> <?php echo ($entry2['count_stat']) ?></span>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-stats">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">ประเภทร้านอาหาร</h5>
+                                    <span class="h2 font-weight-bold mb-0"><?php echo ($entry3['count_cat']); ?></span>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<?php
+
+
+
+
+
+
+$category_name = array();
+$category_quantity = array();
+$quantity_category = get_quantity_category($con);
+while ($entry = mysqli_fetch_array($quantity_category)) {
+    array_push($category_name, $entry['res_cat_title']);
+    array_push($category_quantity, $entry['cat_quantity']);
+}
+
+function get_quantity_category($con)
+{
+    $sql = "SELECT res_cat_title , count(res_cat_title) as cat_quantity FROM `sfa_restaurant` natural join sfa_res_category group by res_cat_title";
+    $entries = mysqli_query($con, $sql);
+    return $entries;
+}
+
+$block_titles = array();
+$block_quantity = array();
+$quantity_blocks = get_quantity_blocks($con);
+while ($entry = mysqli_fetch_array($quantity_blocks)) {
+    array_push($block_titles, $entry['block_title']);
+    array_push($block_quantity, $entry['block_quantity']);
+}
+
+function get_quantity_blocks($con)
+{
+    $sql = "SELECT block_title, count(block_id) as block_quantity FROM `sfa_restaurant` natural join sfa_block group by block_id";
+    // echo $sql;
+    $entries = mysqli_query($con, $sql);
+    return $entries;
+}
+
+$res_status = array();
+$res_quantity = array();
+$quantity_status = get_quantity_status($con);
+while ($entry = mysqli_fetch_array($quantity_status)) {
+    array_push($res_status, $entry['res_status']);
+    array_push($res_quantity, $entry['res_quantity']);
+}
+
+function get_quantity_status($con)
+{
+    $sql = "SELECT res_status , count(res_status) as res_quantity from sfa_restaurant group by res_status";
+    // echo $sql;
+    $entries = mysqli_query($con, $sql);
+    return $entries;
+}
+?>
+
+<style>
+    .js-plotly-plot .plotly .main-svg {
+        position: absolute;
+        top: 0px;
+        left: 10%;
+        pointer-events: none;
+    }
+</style>
+<div>
+    <form id="myForm">
+        <select id="mySelect">
+            <option>1</option>
+            <option>5</option>
+            <option>6</option>
+        </select>
+    </form>
+</div>
+<div class="row justify-content-md-center">
+    <div class="col-md-8 text-center border rounded" style="padding:20px; margin: 20px 10px;background-color:#ffffff;">
+        <div id='myDiv1'></div>
+    </div>
+    <div class="col-md-5">
+        <div id='myDiv2'></div>
+    </div>
+    <div class="col-md-5">
+        <div id='myDiv3'></div>
+    </div>
+    <!-- <div class="col-md-5 text-center border rounded" style="padding:20px; margin: 20px 10px;background-color:#ffffff;">
+        <div id='myDiv3'></div>
+    </div> -->
+    <!-- <div class="col-md-5 text-center border rounded" style="padding:20px; margin: 20px 10px;background-color:#ffffff;">
+        <div id='myDiv3'></div>
+    </div> -->
+</div>
+
+<!-- <tr> <br></tr> -->
+
+
+<div class="container">
+    <div class="row">
+        <?php include("./pages/block-map.php"); ?>
+    </div>
+
+</div>
+
+<script>
+    // Stack Chart
+    var category_name = <?php echo '["' . implode('", "', $category_name) . '"]'; ?>;
+    var quantity_category = <?php echo '["' . implode('", "', $category_quantity) . '"]'; ?>;
+    console.log(category_name);
+    // var trace1 = {
+    //     type: 'bar',
+    //     x: category_name,
+    //     y: quantity_category,
+    //     marker: {
+    //         color: '#C8A2C8',
+    //         line: {
+    //             width: 2.5
+    //         }
+    //     }
+    // };
+
+
+    var trace1 = {
+        x: ['ผ่าน', 'ไม่ผ่าน'],
+        y: [12, 1],
+        name: 'ข้าว',
+        type: 'bar'
+    };
+
+    var trace2 = {
+        x: ['ผ่าน', 'ไม่ผ่าน'],
+        y: [30, 2],
+        name: 'ยำ',
+        type: 'bar'
+    };
+
+    var data2 = [trace1, trace2];
+
+    var layout = {
+        title: 'ผลตรวจการใช้ฟอร์มาลีนจำแนกตามประเภทของร้านอาหาร',
+        font: {
+            size: 18
+        },
+        width: 550,
+        barmode: 'stack'
+    };
+
+    var config = {
+        responsive: true
+    }
+    Plotly.newPlot('myDiv1', data2, layout, config);
+
+
+    // Pie Chart 
+    var res_status = <?php echo '["' . implode('", "', $res_status) . '"]'; ?>;
+    var res_quantity = <?php echo '["' . implode('", "', $res_quantity) . '"]'; ?>;
+    var data = [{
+        // values: res_quantity,
+        // labels: res_status,
+        values: [80, 20],
+        labels: ['ผ่าน', 'ไม่ผ่าน'],
+        type: 'pie'
+    }];
+
+    var layout = {
+        title: 'อัตราส่วนร้านที่ใช้ฟอร์มาลีน',
+        height: 550,
+        width: 550,
+    };
+    Plotly.newPlot('myDiv2', data, layout);
+
+    var data = [{
+        // values: res_quantity,
+        // labels: res_status,
+        values: [30, 20, 40, 10],
+        labels: ['0-100', '101-300', '301-600', '601-800'],
+        // values: [80, 20],
+        // labels: ['ผ่าน', 'ไม่ผ่าน'],
+        type: 'pie',
+        textinfo: 'value'
+    }];
+
+    var layout = {
+        title: 'จำนวนร้านจำแนกตามปริมาณฟอร์มาลีนที่ใช้',
+
+        height: 550,
+        width: 550,
+    };
+    Plotly.newPlot('myDiv3', data, layout);
+</script>
