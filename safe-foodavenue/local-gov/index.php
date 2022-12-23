@@ -9,7 +9,7 @@
     date_default_timezone_set("Asia/Bangkok");
 
     // check if not signed in
-    if(!isset($_SESSION["username"])) {
+    if(!isset($_SESSION["us_id"])) {
       // header("location: ../login/login.php");
     }
 
@@ -64,6 +64,7 @@
         
     ?> 
   </div>
+
   <!-- Argon Scripts -->
   <!-- Core -->
   <script src="../assets/vendor/jquery/dist/jquery.min.js"></script>
@@ -72,8 +73,6 @@
   <script src="../assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
   <script src="../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
   <!-- Optional JS -->
-  
- 
   <script src="../assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
   <script src="../assets/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="../assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
@@ -82,6 +81,7 @@
   <script src="../assets/vendor/datatables.net-buttons/js/buttons.flash.min.js"></script>
   <script src="../assets/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
   <script src="../assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <!-- Argon JS -->
   <script src="../assets/js/argon.js?v=1.1.0"></script>
   <!-- Datatable --> 

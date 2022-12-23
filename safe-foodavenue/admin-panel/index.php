@@ -10,7 +10,7 @@
 
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
@@ -30,37 +30,41 @@
     <link rel="stylesheet" href="../assets/css/argon.css?v=1.1.0" type="text/css">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsQsJq6QLsJRyETeDLBLyc6Wx73snZPIo&callback=initMap"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link href="../assets/vendor/chosen/chosen.css" rel="stylesheet" />
-    <link href="../assets/vendor/chosen/chosen.min.css" rel="stylesheet" />
-</head>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  </head>
 
-<style>
-body {
-  font-family: 'Prompt';
-}
-.required:after {
-    color: red;
-    content: ' *';
-    display: inline;
-}
-.required {
-    color: blue;
-}
-.form-control {
-  color: black;
-}
-.select2-container .select2-selection--single {
-  height: 47px !important;
-  font-size: 0.85rem;
-  border-color: #DDD;
-}
-.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
-  background-color: #5e72e4;
-}
-</style>
+  <style>
+    body {
+      font-family: 'Prompt';
+    }
+    .required:after {
+        color: red;
+        content: ' *';
+        display: inline;
+    }
+    .required {
+        color: blue;
+    }
+    .form-control {
+      color: black;
+    }
+    .select2-container .select2-selection--single {
+      height: 47px !important;
+      font-size: 0.85rem;
+      border-color: #DDD;
+    }
+    .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+      background-color: #5e72e4;
+    }
+  </style>
 
-
-<body>
+  <body>
     <!-- Sidenav -->
     <?php include("sidebar.php"); ?>
     <!-- Main content -->
@@ -84,11 +88,10 @@ body {
       include("./pages/dashboard.php");
     }
 
-
     ?>
     <script>
       $(document).ready(function() {
-          $('.select2').select2();
+        $('.select2').select2();
       });
     </script>
     </div>
@@ -100,8 +103,6 @@ body {
     <script src="../assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
     <script src="../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
     <!-- Optional JS -->
-
-
     <script src="../assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../assets/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="../assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
@@ -110,14 +111,12 @@ body {
     <script src="../assets/vendor/datatables.net-buttons/js/buttons.flash.min.js"></script>
     <script src="../assets/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
     <script src="../assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
-    
-    <script src="../assets/vendor/chosen/chosen.jquery.js"></script>
-    <script src="../assets/vendor/chosen/chosen.jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     
     <!-- Argon JS -->
     <script src="../assets/js/argon.js?v=1.1.0"></script>
     <!-- Datatable -->
-</body>
+  </body>
 
 </html>
