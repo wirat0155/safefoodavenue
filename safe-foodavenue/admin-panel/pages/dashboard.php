@@ -18,39 +18,116 @@
 
 <?php
     // จำนวนร้านอาหารทั้งหมด
-    function get_allrestaurant($con)
+    function get_all_restaurant($con)
     {
         $sql = "SELECT COUNT(`res_id`) as `count_res` 
         FROM `sfa_restaurant` 
-        WHERE `sfa_restaurant`.`res_active` = 1";
+        WHERE `sfa_restaurant`.`res_active` = 1 
+        AND `sfa_restaurant`.`res_gov_id` = " . $_SESSION['us_gov_id'];
+        $arr_restaurant = mysqli_query($con, $sql);
+        $count_restaurant = mysqli_fetch_assoc($arr_restaurant)["count_res"];
+        return $count_restaurant;
+    }
+    $all_restaurant = get_all_restaurant($con);
+    echo "จำนวนร้านค้าที่เปิดกิจการ ณ ปัจจุบัน " . $all_restaurant;
+    echo "<br/>";
+
+    function get_number_formalin_pass_restaurant($con) {
+        $sql = "SELECT COUNT(`res_for_id`) as `count_res` 
+        FROM `sfa_res_formalin_status` 
+        LEFT JOIN `sfa_restaurant` ON `sfa_res_formalin_status`.`res_for_res_id` = `sfa_restaurant`.`res_id`
+        WHERE `sfa_res_formalin_status`.`res_for_status` = 0 
+        AND `sfa_restaurant`.`res_gov_id` = " . $_SESSION['us_gov_id'];
+        $arr_restaurant = mysqli_query($con, $sql);
+        $count_restaurant = mysqli_fetch_assoc($arr_restaurant)["count_res"];
+        return $count_restaurant;
+    }
+    $pass_restaurant = get_number_formalin_pass_restaurant($con);
+    echo "ร้านค้าที่ผ่านการตรวจสอบ " . $pass_restaurant;
+    echo "<br/>";
+   
+
+    echo "ร้อยละที่ผ่าน " . ($pass_restaurant / $all_restaurant) * 100;
+    echo "<br/>";
+    
+
+    function get_year_dropdown($con) {
+        $sql = "SELECT DISTINCT YEAR(`fcl_startdate`) AS `fcl_year` 
+                FROM `sfa_formalin_checklist` WHERE `fcl_gov_id` = " . $_SESSION['us_gov_id'];
         $arr_restaurant = mysqli_query($con, $sql);
         return $arr_restaurant;
     }
-    $arr_restaurant = get_allrestaurant($con);
-    $count_restaurant = mysqli_fetch_array($arr_restaurant)["count_res"];
-
-    echo "จำนวนร้านค้าที่เปิดกิจการ ณ ปัจจุบัน " . $count_restaurant;
-    exit;
-
-    // จำนวนร้านอาหารที่เปิดกิจการอยู่
-    function get_status_restaurant($con)
-    {
-        $sql = "SELECT count(res_status) as count_stat FROM `sfa_restaurant` where res_status = 1";
-        $entries = mysqli_query($con, $sql);
-        return $entries;
+    $arr_restaurant = get_year_dropdown($con);
+    while($year = mysqli_fetch_assoc($arr_restaurant)["fcl_year"]) {
+        echo $year . "<br/>";
     }
-    $db_restaurant = get_status_restaurant($con);
-    $row_available_restaurant = mysqli_fetch_array($db_restaurant)["count_stat"];
+    
 
-    // ประเภทร้านอาหาร
-    function get_cat_restaurant($con)
-    {
-        $sql = "SELECT count(res_cat_id) as count_cat FROM `sfa_res_category`";
-        $entries = mysqli_query($con, $sql);
-        return $entries;
+
+    function get_formalin_checklist_this_year($con) {
+        $sql = "SELECT * FROM `sfa_formalin_checklist` WHERE `sfa_formalin_checklist`.`fcl_year` = '" . date('Y') . "' 
+                AND `fcl_gov_id` = " . $_SESSION['us_gov_id'];
+        $arr_formalin_checklist = mysqli_query($con, $sql);
+        return $arr_formalin_checklist;
     }
-    $db_restaurant = get_cat_restaurant($con);
-    $row_category = mysqli_fetch_array($db_restaurant)["count_cat"];
+    $arr_formalin_checklist = get_formalin_checklist_this_year($con);
+    $arr_fcl_id = array();
+    while ($obj_fcl_id = mysqli_fetch_assoc($arr_formalin_checklist)["fcl_id"]) {
+        array_push($arr_fcl_id, $obj_fcl_id);
+    }
+    print_r($arr_fcl_id);
+
+    function get_all_restaurant_by_year($con) {
+        $sql = "SELECT COUNT(`res_for_res_id`) AS `count_res` FROM `sfa_res_formalin_status`
+        LEFT JOIN `sfa_formalin_checklist` ON `sfa_res_formalin_status`.`res_for_last_fcl_id` = `sfa_formalin_checklist`.`fcl_id`
+        WHERE `sfa_formalin_checklist`.`fcl_year` = '" . date('Y') . "'";
+        $arr_res_formalin_status = mysqli_query($con, $sql);
+        $count_restaurant = mysqli_fetch_assoc($arr_res_formalin_status)["count_res"];
+        return $count_restaurant;
+    }
+    $all_restaurant = get_all_restaurant_by_year($con);
+    echo "<br/>";
+    echo "ร้านค้าที่ตรวจสอบในปีนี้ " . $all_restaurant;
+    echo "<br/>";
+    $all_restaurant = $all_restaurant == 0? 1 : $all_restaurant;
+
+    function get_pass_restaurant_by_year($con) {
+        $sql = "SELECT COUNT(`res_for_res_id`) AS `count_res` FROM `sfa_res_formalin_status`
+        LEFT JOIN `sfa_formalin_checklist` ON `sfa_res_formalin_status`.`res_for_last_fcl_id` = `sfa_formalin_checklist`.`fcl_id`
+        WHERE `sfa_formalin_checklist`.`fcl_year` = '" . date('Y') . "' AND `sfa_res_formalin_status`.`res_for_status` = 0";
+        $arr_res_formalin_status = mysqli_query($con, $sql);
+        $count_restaurant = mysqli_fetch_assoc($arr_res_formalin_status)["count_res"];
+        return $count_restaurant;
+    }
+    $pass_restaurant = get_pass_restaurant_by_year($con);
+    echo "ร้านค้าที่ผ่านในปีนี้ " . $pass_restaurant;
+    echo "<br/>";
+
+    echo "ร้อยละที่ผ่าน " . ($pass_restaurant / $all_restaurant) * 100;
+    echo "<br/>";
+
+ 
+
+
+    // // จำนวนร้านอาหารที่เปิดกิจการอยู่
+    // function get_status_restaurant($con)
+    // {
+    //     $sql = "SELECT count(res_status) as count_stat FROM `sfa_restaurant` where res_status = 1";
+    //     $entries = mysqli_query($con, $sql);
+    //     return $entries;
+    // }
+    // $db_restaurant = get_status_restaurant($con);
+    // $row_available_restaurant = mysqli_fetch_array($db_restaurant)["count_stat"];
+
+    // // ประเภทร้านอาหาร
+    // function get_cat_restaurant($con)
+    // {
+    //     $sql = "SELECT count(res_cat_id) as count_cat FROM `sfa_res_category`";
+    //     $entries = mysqli_query($con, $sql);
+    //     return $entries;
+    // }
+    // $db_restaurant = get_cat_restaurant($con);
+    // $row_category = mysqli_fetch_array($db_restaurant)["count_cat"];
 ?>
 
 <div class="header pb-2">
@@ -61,8 +138,11 @@
                     <h6 class="h1 d-inline-block mb-0">ปีปฏิทิน</h6>
                 </div>
                 <div class="col-lg">
-                    <a href="#" class="btn btn-primary">2565</a>
-                    <a href="#" class="btn btn-secondary">2566</a>
+                    <select name="" id="">
+                        <option value="">2022</option>
+                    </select>
+                    <!-- <a href="#" class="btn btn-primary">2565</a>
+                    <a href="#" class="btn btn-secondary">2566</a> -->
                 </div>
             </div>
             <!-- Card stats -->
@@ -115,7 +195,7 @@
 </div>
 
 <?php 
-
+   exit;
     // ผลตรวจการใช้ฟอร์มาลีนจำแนกตามประเภทของร้านอาหาร
     function get_quantity_category($con) {
         $sql = "SELECT res_cat_title , count(res_cat_title) as cat_quantity FROM `sfa_restaurant` natural join sfa_res_category group by res_cat_title";
