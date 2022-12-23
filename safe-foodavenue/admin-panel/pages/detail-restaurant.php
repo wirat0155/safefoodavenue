@@ -9,11 +9,60 @@
 */ 
 -->
 
+<?php
+$res_id = isset($_GET["res_id"]) ? $_GET["res_id"] : "1";
+?>
 
 <style>
-.btn-custom {
-    box-shadow: none !important;
-}
+    .btn-custom {
+        box-shadow: none !important;
+    }
+    .card-fix {
+        max-height: 400px !important;
+        height: 400px !important;
+
+    }
+
+    .text-size-24 {
+        font-size: 24px;
+    }
+
+    .text-size-16 {
+        font-size: 16px;
+    }
+
+    .text-size-36 {
+        font-size: 36px;
+    }
+
+    .text-size-42 {
+        font-size: 42px;
+    }
+
+    .bg-gray-fix {
+        background-color: #F5F5F5;
+    }
+
+    .badge-success {
+        background-color: #3FCE5E;
+    }
+
+    .set-pic {
+        width: 150px;
+        height: 150px;
+    }
+
+    #res_img_path {
+        width: 100%;
+        height: 100%;
+    }
+
+    .badge-warning-fix {
+        background-color: #FFB600;
+    }
+    .pic_fix{
+        object-fit: cover;
+    }
 </style>
 
 <!-- Header -->
@@ -31,88 +80,11 @@
                         </ol>
                     </nav>
                 </div>
-                <!-- <div class="col-lg-6 col-5 text-right">
-          <a href="#" class="btn btn-sm btn-neutral">New</a>
-          <a href="#" class="btn btn-sm btn-neutral">Filters</a>
-        </div> -->
             </div>
         </div>
     </div>
 </div>
 
-<!-- Content -->
-<?php
-$res_id = $_GET['res_id'];
-$sql = "SELECT * 
-FROM  `sfa_block` INNER JOIN `sfa_restaurant` 
-   ON  `sfa_block`.`block_id` = `sfa_restaurant`.`block_id`
-      WHERE sfa_restaurant.res_id = '" . $res_id . "'";
-$dbRestaurant = mysqli_query($con, $sql);
-$data = mysqli_fetch_array($dbRestaurant);
-
-// $sql = " SELECT * FROM sfa_restaurant WHERE res_id = '".$res_id."' "; 
-// $dbRestaurant = mysqli_query($con, $sql);
-// $resInfo = mysqli_fetch_array($dbRestaurant);
-
-// // $sql = " SELECT * FROM food_database WHERE res_id = '".$res_id."' "; 
-// // $dbFood = mysqli_query($con, $sql);
-
-function getRestaurantInfo($con, $res_id)
-{
-  //get restaurant info
-  $sql = " SELECT * FROM sfa_restaurant NATURAL JOIN sfa_res_category NATURAL JOIN sfa_block NATURAL JOIN sfa_entrepreneur  WHERE res_id=" . $res_id;
-  $dbRestaurant = mysqli_query($con, $sql);
-  $resInfo = mysqli_fetch_assoc($dbRestaurant);
-  return $resInfo;
-}
-
-function getRestaurantImg($con, $res_id)
-{
-  //get restaurant image from database
-  $sql = " SELECT * FROM sfa_res_image WHERE res_id=" . $res_id;
-  // echo "<script>alert('$sql')</script>";
-  $dbRestaurantImg = mysqli_query($con, $sql);
-  if (mysqli_num_rows($dbRestaurantImg) == 0) {
-    return FALSE;
-  }
-  //echo "<script>alert('".$resImg['res_img_path']."')</script>";
-  $resImg = mysqli_fetch_array($dbRestaurantImg);
-  return $resImg["res_img_path"];
-}
-
-function getResImgPath($imgPath)
-{
-  if ($imgPath) {
-    // https://prepro.informatics.buu.ac.th/~manpower/safe-foodavenue/admin-panel/php/uploads/img/
-    return "../admin-panel/php/uploads/img/" . $imgPath;
-  }
-//   https://prepro.informatics.buu.ac.th/~manpower/safe-foodavenue/admin-panel/php/uploads/img/restaurant.png
-  return "../admin-panel/php/uploads/img/restaurant.png";
-}
-
-function getFoodInfo($con, $res_id)
-{
-  //get food info
-  $sql = " SELECT menu_name, for_radi FROM sfa_menu NATURAL JOIN sfa_formaline WHERE res_id=" . $res_id;
-  // echo "<script>alert('$sql')</script>";
-  $dbFood = mysqli_query($con, $sql);
-  return $dbFood;
-}
-
-function getMenuInfo($con, $res_id)
-{
-  //get food info
-  $sql = " SELECT * FROM sfa_menu  WHERE res_id=" . $res_id;
-  // echo "<script>alert('$sql')</script>";
-  $dbMenu = mysqli_query($con, $sql);
-  return $dbMenu;
-}
-$resInfo = getRestaurantInfo($con, $res_id);
-$resImg = getRestaurantImg($con, $res_id);
-$dbFood = getFoodInfo($con, $res_id);
-$dbMenu = getMenuInfo($con, $res_id)
-
-?>
 
 <div class="container-fluid mt--6">
     <div class="row">
@@ -120,194 +92,272 @@ $dbMenu = getMenuInfo($con, $res_id)
             <div class="card border-0">
                 <div class="table-responsive py-4 px-4">
 
-                    <form action="#" method="POST" enctype="multipart/form-data">
+                    <hr style="margin-top: -1rem; margin-bottom: 1rem;">
 
-                        <div class="row pb-4">
-                            <div class="col-md-2">
-                                <label>ชื่อร้านอาหาร</label>
-                            </div>
-                            <div class="col-md">
-                                <?= $resInfo["res_title"] ?>
-                            </div>
-                        </div>
-
-                        <hr style="margin-top: -1rem; margin-bottom: 1rem;">
-
-                        <div class="row pb-4 justify-content-md-center">
-                            <div class="col-md-8">
-                                <img src="<?php echo getResImgPath($resImg) ?>" width=800 class="img-thumbnail rounded">
-                            </div>
-                        </div>
-
-                        <div class="row pb-4">
-                            <div class="col-md">
-                                <label>รายละเอียดร้านอาหาร</label>
-                            </div>
-                        </div>
-
-                        <hr style="margin-top: -1rem; margin-bottom: 1rem;">
-
-                        <div class="row pb-4">
-                            <div class="col-md">
-                                <?= $resInfo["res_description"] ?>
-                            </div>
-                        </div>
-
-                        <!-- <div class="row">
-              <div class="col-md text-center mt-5">
-                <b>รายการอาหารที่ผ่านตรวจสารฟอร์มาลิน ประจำปีงบประมาณ 2565</b>
-              </div>
-            </div> -->
-
-                        <!-- รายการเมนู+ผลการตรวจ -->
-
-                        <!-- <div class="row pb-4 justify-content-md-center">
-              <div class="col-md-6">
-                <table class="table table-bordered table-hover mb-5">
-                  <tr>
-                    <td class="text-center" style="font-size: 16px;">ลำดับ</td>
-                    <td class="text-left" style="font-size: 16px;">รายการอาหาร</td>
-                    <td class="text-center" style="font-size: 16px;">ผลการตรวจสอบ</td>
-                  </tr>
-                  </?php $no = 1 ?>
-                  </?php while ($menu = mysqli_fetch_assoc($dbFood)) { ?>
-                    <tr>
-                      <td class="text-center" style="font-size: 16px;"></?= $no ?></td>
-                      <td class="text-left" style="font-size: 16px;"></?= $menu["menu_name"] ?></td>
-                      <td class="text-center" style="font-size: 16px;">
-                        </?php
-                        $status = $menu["for_radi"] >= 300 ? "text-success" : "text-danger";
-                        ?>
-                        <i class="fa fa-flag </?= $status ?>" aria-hidden="true"></i>
-                      </td>
-                    </tr>
-                    </?php $no++; ?>
-                  </?php } ?>
-                </table>
-              </div>
-            </div> -->
-
+                    <div class="container" id="container">
                         <div class="row">
-                            <div class="col-md text-center mt-5">
-                                <b>รายการอาหาร</b>
-                            </div>
-                        </div>
-
-                        <!-- รายการเมนูอย่างเดียว -->
-                        <div class="row pb-4 justify-content-md-center">
-                            <div class="col-md-6">
-                                <table class="table table-bordered table-hover mb-5">
-                                    <tr>
-                                        <td class="text-center" style="font-size: 16px;">ลำดับ</td>
-                                        <td class="text-left" style="font-size: 16px;">รายการอาหาร</td>
-                                    </tr>
-                                    <?php $no = 1 ?>
-                                    <?php while ($menu = mysqli_fetch_assoc($dbMenu)) { ?>
-                                    <tr>
-                                        <td class="text-center" style="font-size: 16px;"><?= $no ?></td>
-                                        <td class="text-left" style="font-size: 16px;"><?= $menu["menu_name"] ?></td>
-                                    </tr>
-                                    <?php $no++; ?>
-                                    <?php } ?>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="row pb-4">
-                            <div class="col-md">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <tr>
-                                            <td colspan="2" style="font-size: 18px;">
-                                                ตำแหน่งร้านอาหาร
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-size: 18px;">
-                                                <div class="row mx-4 ">
-                                                    <div class="col-md">
-                                                        <label>ที่อยู่ : </label>
-                                                        <?= $resInfo["res_address"] ?>
-                                                    </div>
-                                                    <div class="col-md">
-                                                        <div id="map" style="width: 900px; height: 500px;"></div>
-                                                        <?php //include "./pages/block-map.php"; ?>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-
-
+                            <div class="col">
+                                <div class="" style="height: 500px;">
+                                    <img id="res_img_path" class="pic_fix" src="">
                                 </div>
                             </div>
                         </div>
 
-                    </form>
-                    <div class="col-md-12">
-                        <button type="button" class="btn btn-secondary pull-right" onclick="location.href='./?content=list-restaurant'">กลับ</button>
+                        <div class="row mt-5">
+                            <div class="col-lg-8 col-md-16">
+                                <div class="card card-fix bg-gray-fix">
+                                    <div class="card-body">
+
+                                        <div class="" id="display_formalin"></div>
+
+                                        <h1 class="mt-2 text-size-42" id="res_title"></h1>
+                                        <p class="mt-2" id="res_cat_title"></p>
+
+                                        <button class="btn btn-primary mt-2" id="modal_sfa_menu">ดูวัตถุดิบที่ได้รับการตรวจ</button>
+
+                                        <p class="font-weight-bold mt-3 text-size-24">รายละเอียดร้านอาหาร</p>
+
+                                        <p class="text text-size-16" id="res_description"></p>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-16">
+                                <div class="card card-fix">
+                                    <div class="card-body text-center bg-gray-fix">
+                                        <img src="./../assets/img/icons/common/googlemap.PNG" class="set-pic text-center" alt="test"> <br>
+
+                                        <!-- <div class="go_google_map" id="go_google_map"></div> -->
+
+                                        <button class="btn btn-info mt-2" id="button_geolocation"><span class="text-size-16">
+                                                <i class="fas fa-map-marker"></i> นำทาง</span></button>
+
+                                        <p class="text mt-4 text-size-16" id="res_address">ตัวอย่าง ที่อยู่</p>
+                                        <hr>
+                                        <p>เบอร์โทร : <span id="ent_tel"></span></p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-secondary pull-right" onclick="location.href='./?content=list-restaurant'">กลับ</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-    var lat =
-        '<?= $data["block_lat"] ?>'; //มีการส่งค่าตัวแปร block_lat php ที่มีการเก็บค่า field lati จากฐานข้อมูลมาเก็บไว้ในตัวแปร lat ของ javascript
-    var long =
-        '<?= $data["block_lon"] ?>'; //มีการส่งค่าตัวแปร block_lon php ที่มีการเก็บค่า field longti จากฐานข้อมูลมาเก็บไว้ในตัวแปร long ของ javascript
-    console.log(lat, long);
-    var marker;
-    //ปิดหมุดที่ไม่เกี่ยวข้อง
-    var myStyles = [{
-        featureType: "poi",
-        elementType: "labels",
-        stylers: [{
-            visibility: "off"
-        }]
-    }];
-
-    var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 15,
-        center: new google.maps.LatLng(13.285381, 100.913837),
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        styles: myStyles
-    });
-
-    var infowindow = new google.maps.InfoWindow();
-
-    var restStatus = '<?= $dataFormalin["for_status"] ?>';
-    console.log(restStatus);
-    var checkStatus = true;
-    if (restStatus == 2) {
-        image = "../assets/img/brand/icon-store-green.png";
-    } else {
-        image = "../assets/img/brand/icon-store-grey.png";
-    }
-
-    marker = new google.maps.Marker({
-        position: new google.maps.LatLng(lat, long),
-        icon: image,
-        map: map
-    });
-
-    google.maps.event.addListener(marker, 'click', (function(marker, i) {
-        return function() {
-
-            // set window content
-            var makerContent = ""
-            // title
-            makerContent += "<div class='maker-title'>" + '<?= $data["block_title"] ?>' + "</div>";
-            // restuarant content
-            makerContent += "<table style='width:100%'>";
-            makerContent += "<tr><td>" + '<?= $data["res_title"] ?>' + "</td></tr>";
-            makerContent += "</table>";
-
-            infowindow.setContent(makerContent);
-            infowindow.open(map, marker);
-        }
-    })(marker));
-    </script>
-    <!-- Footer -->
-    <?php include("footer.php"); ?>
 </div>
+
+<div class="modal bd-example-modal-lg" id="sfa_menu_modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">วัตถุดิบที่ได้รับการตรวจสารฟอร์มาลีน</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="table_menu"></div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>
+            var res_id = <?php echo $res_id;  ?>;
+            var res_location_lat = '';
+            var res_location_lon = '';
+
+            $(document).ready(function() {
+                //set data in ajax
+                jQuery.ajax({
+                    url: "./get-restaurant-detail.php",
+                    data: {
+                        res_id: res_id
+                    },
+                    type: "POST",
+                    success: function(data) {
+                        set_data_in_page(data);
+                        set_picture_res(data['data_pic']);
+
+
+                        console.log(data);
+                    },
+                    error: function() {
+                        console.log("ERROR");
+                        //location.href = "./index.php?content=404_page";
+                    }
+                });
+
+                //show modal menu in res
+                $("#modal_sfa_menu").click(function() {
+                    $('#sfa_menu_modal').modal('show');
+                    get_data_menu();
+                });
+
+
+                //event cilck button "นำทาง" 
+                $("#button_geolocation").click(function() {
+                    //console.log(res_location_lon + res_location_lat);
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(on_geo_success, on_geo_error);
+                    } else {
+                        //  x.innerHTML = "Geolocation is not supported by this browser.";
+                        alert("Geolocation is not supported by this browser.");
+                    }
+                });
+                // If we have a successful location update
+                function on_geo_success(event) {
+                    lat = event.coords.latitude;
+                    lon = event.coords.longitude;
+
+                    if (!lat && !lon) {
+
+                        window.open(
+                            "https://maps.google.com/?daddr=" + res_location_lat + ',' + res_location_lon,
+                            '_blank'
+                        );
+                    } else {
+                        //    href="https://maps.google.com/?saddr=My%20Location&daddr=' + data.lat + ',' + data.lon + '" target="_blank" style="background-color:' + object_detail.front_color6 + ';color:' + object_detail.front_color7 + ';">นำทาง</a>';
+                        window.open(
+                            "https://maps.google.com/?saddr=" + lat + "," + lon + "&daddr=" + res_location_lat + ',' + res_location_lon,
+                            '_blank'
+                        );
+                    }
+                }
+
+                // If something has gone wrong with the geolocation request
+                function on_geo_error(event) {
+                    alert("Error code " + event.code + ". " + event.message);
+                }
+
+            });
+
+
+
+            function get_data_menu() {
+                jQuery.ajax({
+                    url: "./get-data-menu-detail-res-page.php",
+                    data: {
+                        res_id: res_id
+                    },
+                    type: "POST",
+                    success: function(data) {
+                        console.log(data);
+                        show_data_menu(data);
+                    },
+                    error: function() {
+
+                    }
+                });
+            }
+
+            function show_data_menu(data) {
+                let element = '';
+                //add table to var html
+                element += '<table class="table table-hover">';
+                element += '   <thead class="thead-primary bg-primary">';
+                element += '       <tr>';
+                element += '           <th> <h3 class="text-white">ลำดับ</h3></th>';
+                element += '           <th><h3 class="text-white">รายการ</h3></th>';
+                element += '           <th><h3 class="text-white">ผลการตรวจสอบ</h3></th>';
+                element += '       </tr>';
+                element += '   </thead>';
+                element += '    <tbody>'
+
+                if (data["data_menu"].length == 0) {
+                    element += '<tr class="text-center" >';
+                    element += '<td colspan = "3">ไม่มีข้อมูล</td>';
+                    element += '<tr>';
+                } else {
+                    data["data_menu"].forEach((row_menu, index_menu) => {
+
+                        element += '<tr>';
+                        element += '<td>' + (index_menu + 1) + '</td>';
+                        element += '<td>';
+                        element += row_menu['menu_name'];
+                        element += '</td>';
+
+                        if (row_menu['for_status'] == 2) {
+                            element += '<td>';
+                            element += '<p class="text-success">ผ่านการตรวจสอบ</p>';
+                            element += '</td>';
+                        } else {
+                            element += '<td>';
+                            element += '<p class="text-warning">รอตรวจสอบ</p>';
+                            element += '</td>';
+                        }
+                    });
+                }
+                element += '    </tbody>'
+                element += '  </table>'
+
+                $("#table_menu").html(element); //set ent_tel
+            }
+
+            function set_data_in_page(data) {
+
+                //set data in html
+                $("#res_title").html(data["data_res"][0].res_title); //set title
+                $("#res_description").html(data["data_res"][0].res_description); //set description
+                $("#res_cat_title").html(data["data_res"][0].res_cat_title); //set res title
+                $("#ent_tel").html(data["data_res"][0].ent_tel); //set ent_tel
+                $("#res_address").html(data["data_res"][0].res_address); //set ent_tel
+
+
+                console.log(data["data_formalin"][0]);
+                // set status
+                let status_for_html = '';
+                if (data["data_formalin"][0] == "Not Safe") {
+
+                    status_for_html += '<span class="badge badge-warning-fix text-size-24 text-white">กำลังรอตรวจสอบ</span>';
+                    status_for_html += ' <span> ร้านนี้กำลังรอตรวจสอบ</span>';
+
+                } else if (data["data_formalin"].length == 0) {
+                    status_for_html += '<span class="badge badge-warning-fix text-size-24 text-white">กำลังรอตรวจสอบ</span>';
+                    status_for_html += ' <span> ร้านนี้กำลังรอตรวจสอบ</span>';
+                } else if (data["data_formalin"][0] == "Safe") {
+                    status_for_html += '<span class="badge badge-success text-size-24 text-white">ปลอดภัยจากสารฟอมาลีน</span>';
+                    status_for_html += '<span> ร้านนี้ปลอดภัย ไร้สารฟอมาลีน</span>';
+                }
+
+                $("#display_formalin").html(status_for_html); //set display for status
+
+                //กรณีไม่มีล๊อก
+                // //button "นำทาง
+                res_location_lat = data["data_location"][0].lat; // set location data
+                res_location_lon = data["data_location"][0].lon; // set location data 
+
+            }
+
+
+
+            function set_picture_res(data) {
+                //set picture
+                let html = '';
+
+                //set image null
+                if (data[0] == null) {
+                    //defaul picture
+                    document.getElementById("res_img_path").src = "../assets/img/theme/detail-banner-default.jpg";
+                } else if (data[0] != null) {
+                    document.getElementById("res_img_path").src = "../admin-panel/php/uploads/img/" + data[0].res_img_path;
+                }
+                //modal_sfa_menu
+            }
+        </script>
+        <!-- Footer -->
+        <?php include("footer.php"); ?>

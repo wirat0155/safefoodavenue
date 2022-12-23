@@ -21,15 +21,14 @@
     $_SESSION["us_gov_id"] = $row["us_gov_id"];
     $_SESSION["us_gov_name"] = $row["gov_name"];
 
-    // echo $_SESSION["us_id"] . "<br/>";
-    // echo $_SESSION["us_fullname"] . "<br/>";
-    // echo $_SESSION["us_username"] . "<br/>";
-    // echo $_SESSION["us_role_id"] . "<br/>";
-    // echo $_SESSION["us_role_title"] . "<br/>";
-    // echo $_SESSION["us_gov_id"] . "<br/>";
-    // echo $_SESSION["us_gov_name"] . "<br/>";
-    
-    if($_SESSION["us_role_id"] ==1){
+    echo $_SESSION["us_id"] . "<br/>";
+    echo $_SESSION["us_fullname"] . "<br/>";
+    echo $_SESSION["us_username"] . "<br/>";
+    echo $_SESSION["us_role_id"] . "<br/>";
+    echo $_SESSION["us_role_title"] . "<br/>";
+    echo $_SESSION["us_gov_id"] . "<br/>";
+    echo $_SESSION["us_gov_name"] . "<br/>";
+    if($_SESSION["us_role_id"] == 1){
       //หน้าจอของผู้ดูแลระบบ
       echo("<script>location.href = '../admin-panel/';</script>");
     } else if($_SESSION["role"] == 2){
