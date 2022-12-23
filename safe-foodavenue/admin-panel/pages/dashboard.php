@@ -2,17 +2,13 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-
-
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
 <script>
     $(document).ready(function () {
         $('#datatable-basic').DataTable();
     });
 </script>
-
 <style>
     .odd {
         /* background-color: rgba(246, 249, 252, .3); */
@@ -24,12 +20,17 @@
     // จำนวนร้านอาหารทั้งหมด
     function get_allrestaurant($con)
     {
-        $sql = "SELECT count(res_id) as count_res FROM `sfa_restaurant`";
-        $entries = mysqli_query($con, $sql);
-        return $entries;
+        $sql = "SELECT COUNT(`res_id`) as `count_res` 
+        FROM `sfa_restaurant` 
+        WHERE `sfa_restaurant`.`res_active` = 1";
+        $arr_restaurant = mysqli_query($con, $sql);
+        return $arr_restaurant;
     }
-    $db_restaurant = get_allrestaurant($con);
-    $row_restaurant = mysqli_fetch_array($db_restaurant)["count_res"];
+    $arr_restaurant = get_allrestaurant($con);
+    $count_restaurant = mysqli_fetch_array($arr_restaurant)["count_res"];
+
+    echo "จำนวนร้านค้าที่เปิดกิจการ ณ ปัจจุบัน " . $count_restaurant;
+    exit;
 
     // จำนวนร้านอาหารที่เปิดกิจการอยู่
     function get_status_restaurant($con)

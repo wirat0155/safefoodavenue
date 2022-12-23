@@ -2,7 +2,7 @@
   session_start();
   ob_start();
   require("../php/config.php");
-  if(!isset($_SESSION["username"]) || empty($_SESSION["username"])) {
+  if(!isset($_SESSION["us_id"]) || empty($_SESSION["us_id"])) {
     echo("<script>location.href = '../login/login.php';</script>");
     exit();
   }

@@ -19,7 +19,7 @@ session_start();
             </button>
           </form>
 
-          <?php if(isset($_SESSION["username"])) { ?>
+          <?php if(isset($_SESSION["us_id"])) { ?>
             <!-- Navbar links -->
             <ul class="navbar-nav align-items-center ml-md-auto">
               <li class="nav-item d-xl-none">
@@ -41,14 +41,11 @@ session_start();
               <li class="nav-item dropdown">
                 <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <div class="media align-items-center">
-                    <!-- <span class="avatar avatar-sm rounded-circle">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-4.jpg">
-                    </span> -->
                     <i class="ni ni-circle-08" style="font-size: 36px;"></i>
                     <div class="media-body ml-2 d-none d-lg-block">
                       <span class="mb-0 text-sm  font-weight-bold">
                         <?php 
-                          $name_admin = isset($_SESSION["name"]) ? $_SESSION["name"] : "John Snow";
+                          $name_admin = isset($_SESSION["us_fullname"]) ? $_SESSION["us_fullname"] : "John Snow";
                           echo $name_admin;
                         ?>
                       </span>
