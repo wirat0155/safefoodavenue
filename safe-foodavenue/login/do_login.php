@@ -6,7 +6,7 @@
   $sql = "SELECT * FROM sfa_user
     LEFT JOIN `sfa_role` ON `sfa_user`.`us_role_id` = `sfa_role`.`role_id`
     LEFT JOIN `sfa_government` ON `sfa_user`.`us_gov_id` = `sfa_government`.`gov_id`
-    WHERE us_username	= '".trim($_POST["txtUsername"])."' AND us_password	= '".trim($_POST["txtPassword"])."'";
+    WHERE us_username	= '".trim($_POST["txtUsername"])."' AND us_password	= '".trim($_POST["txtPassword"])."' AND us_accept_password = 1";
   $result = mysqli_query($con, $sql);
 
   

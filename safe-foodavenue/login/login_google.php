@@ -1,20 +1,3 @@
-<!-- <?php
-require_once 'config.php';
-if (isset($_GET['code'])) {
-    $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
-    $client->setAccessToken($token['access_token']);
-  
-    // get profile info
-    $google_oauth = new Google_Service_Oauth2($client);
-    $google_account_info = $google_oauth->userinfo->get();
-    echo "<pre>";
-    printr($google_account_info);
-    // $email =  $google_account_info->email;
-    // $name =  $google_account_info->name;
-  
-    // now you can use this profile info to create account in your website and make user logged in.
-  } 
-?> -->
 <?php
 error_reporting(E_ALL & ~E_WARNING);
 require_once '../php/config.php';
@@ -36,78 +19,49 @@ if (isset($_GET['code'])) {
     'verifiedEmail' => $google_account_info['verifiedEmail'],
     'token' => $google_account_info['id'],
   ];
+   //print_r($userinfo['email']);
    $sql = "SELECT * FROM sfa_user WHERE us_username ='{$userinfo['email']}'";
    $result = mysqli_query($con, $sql);
    if (mysqli_num_rows($result) > 0) {
-    $row = mysqli_fetch_array($result);
-    $_SESSION["id_user"] = $row["us_id"];
-    $_SESSION["google_username"] = $row["us_fname"] . " " . $row["us_lname"];
-    $userinfo = mysqli_fetch_assoc($result);
-    // $token = $userinfo['token'];
-    //header("location: ../tourist/?content=list-restaurant ");
+    $row = mysqli_fetch_assoc($result);
+    $_SESSION["us_id"] = $row["us_id"];
+    $_SESSION["us_username"] = $row["us_username"];
+    $_SESSION["us_fullname"] = $row["us_fname"] . " " . $row["us_lname"];
+    $_SESSION["us_role_id"] = 3;
+    //$userinfo = mysqli_fetch_assoc($result);
+    //$token = $userinfo['token'];
+    //print_r($userinfo);
+    echo "<script>
+    window.location.href='../tourist/?content=disp-block-map';
+    </script>
+    ";
    }else {
     // user is not exists
-    $sql = "INSERT INTO sfa_user (us_username, us_fname, us_lname, us_role_id) VALUES ('{$userinfo['email']}', '{$userinfo['first_name']}', '{$userinfo['last_name']}', 3)";
-    $result = mysqli_query($con, $sql);
-    if ($result) {
-      $token = $userinfo['token'];
-    } else {
-      echo "User is not created";
-      die();
-    }
-    //header("location: ../tourist/?content=list-restaurant ");
-  }
-  header("location: ../tourist/?content=list-restaurant ");
-  //   // user is exists
-  //   $userinfo = mysqli_fetch_assoc($result);
-  //   $token = $userinfo['token'];
-  //   $_SESSION["id_user"] = $row["us_id"];
-  //   $_SESSION["username"] = $row["us_fname"] . " " . $row["us_lname"];
-// print_r($userinfo);
-//header("location: https://prepro.informatics.buu.ac.th/~manpower/safe-foodavenue/tourist/?content=disp-block-map");
-  // exit;
-  // checking if user is already exists in database
-  // $sql = "SELECT * FROM sfa_user_google_login WHERE us_username ='{$userinfo['email']}'";
-  // $result = mysqli_query($con, $sql);
-  // if (mysqli_num_rows($result) > 0) {
-  //   // user is exists
-  //   $userinfo = mysqli_fetch_assoc($result);
-  //   $token = $userinfo['token'];
-  // } else {
-  //   // user is not exists
-  //   $sql = "INSERT INTO sfa_user_google_login (email, first_name, last_name, gender, full_name, picture, verifiedEmail, token) VALUES ('{$userinfo['email']}', '{$userinfo['first_name']}', '{$userinfo['last_name']}', '{$userinfo['gender']}', '{$userinfo['full_name']}', '{$userinfo['picture']}', '{$userinfo['verifiedEmail']}', '{$userinfo['token']}')";
-  //   $result = mysqli_query($conn, $sql);
-  //   if ($result) {
-  //     $token = $userinfo['token'];
-  //   } else {
-  //     echo "User is not created";
-  //     die();
-  //   }
-  // }
+    $user_email=$userinfo['email'];
+    $user_fname=$userinfo['first_name'];
+    $user_lname=$userinfo['last_name'];
+    $sql = "INSERT INTO sfa_user (us_username, us_fname, us_lname, us_role_id, us_accept_password) VALUES ('$user_email', '$user_fname', '$user_lname'
+   , 3, 0)";
+  //  echo $sql;
+  //  exit();
+    $result = mysqli_query($con, $sql) or die('error');
 
-  // save user data into session
-  // $_SESSION['user_token'] = $token;
+    if ($result) {
+      //$token = $userinfo['token'];
+    } else {
+       echo "User is not created";
+    //   die();
+    }
+    echo "<script>
+    window.location.href='../tourist/?content=disp-block-map';
+    </script>
+    ";
+  }
 } else {
   if (!isset($_SESSION["google_username"])) {
     header("Location: login.php");
     die();
   }
-
-  // // checking if user is already exists in database
-  // $sql = "SELECT * FROM sfa_user_google_login WHERE token ='{$_SESSION['user_token']}'";
-  // $result = mysqli_query($conn, $sql);
-  // if (mysqli_num_rows($result) > 0) {
-  //   // user is exists
-  //   $userinfo = mysqli_fetch_assoc($result);
-  // }
-  // checking if user is already exists in database
-  // $sql = "SELECT * FROM sfa_user WHERE us_username ='{$_SESSION["username"]}'";
-  // $result = mysqli_query($con, $sql);
-  // if (mysqli_num_rows($result) > 0) {
-  //   // user is exists
-  //   $userinfo = mysqli_fetch_assoc($result);
-  // }
-//header("location: ../tourist/?content=list-restaurant ");
 exit;
 }
 ?>
