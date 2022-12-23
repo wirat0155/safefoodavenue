@@ -42,14 +42,11 @@
               <div class="collapse" id="navbar-examples">
                 <ul class="nav nav-sm flex-column">
                 <li class="nav-item">
-                    <a href="./?content=list-res-schedule" class="nav-link">กำหนดรอบการตรวจ</a>
+                    <a href="./?content=list-formalin-checklist" class="nav-link">กำหนดรอบการตรวจ</a>
                   </li>
                   <li class="nav-item">
                     <a href="./?content=list-res-result" class="nav-link">ผลการตรวจของร้านอาหาร</a>
                   </li>
-                  <!-- <li class="nav-item">
-                    <a href="./?content=disp-block-map" class="nav-link">ตำแหน่งร้านอาหาร</a>
-                  </li> -->
                 </ul>
               </div>
             </li>

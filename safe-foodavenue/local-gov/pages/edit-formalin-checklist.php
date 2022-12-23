@@ -1,13 +1,3 @@
-<!-- 
-/*
-* add-schedule
-* add-schedule
-* @input  prefix, firstname, lastname, role, username ,password
-* @output form add user
-* @author Nantasiri Saiwaew
-* @Create Date 2565-08-01
-*/ 
--->
 <style>
 .required:after {
     color: red;
@@ -15,6 +5,16 @@
     display: inline;
 }
 </style>
+
+<?php
+    $fcl_id = $_GET["fcl_id"];
+    $sql_fcl = "SELECT * FROM sfa_formalin_checklist WHERE fcl_id = " . $fcl_id;
+    $dbFCL = mysqli_query($con, $sql_fcl);
+    $fcl = mysqli_fetch_array($dbFCL);
+    $sql = " SELECT * FROM sfa_role ";
+    $dbRole = mysqli_query($con, $sql);
+    $date_now; 
+?>
 
 <!-- Header -->
 <div class="header bg-primary pb-6">
@@ -36,25 +36,11 @@
     </div>
 </div>
 
-<!-- Content -->
-
-<?php
-    $fcl_id = $_GET["fcl_id"];
-    $sql_fcl = "SELECT * FROM sfa_formalin_checklist WHERE fcl_id = " . $fcl_id;
-    $dbFCL = mysqli_query($con, $sql_fcl);
-    $fcl = mysqli_fetch_array($dbFCL);
-    $sql = " SELECT * FROM sfa_role ";
-    $dbRole = mysqli_query($con, $sql);
-    $date_now; 
-?>
-
-
 <div class="container-fluid mt--6">
     <div class="row">
         <div class="col">
             <div class="card border-0">
                 <div class="table-responsive py-4 px-4">
-
                     <form action="./php/action-edit-formalin-checklist.php" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <input type="hidden" id="fcl_id" name="fcl_id" class="form-control" value="<?php echo $fcl['fcl_id'] ?>">
@@ -84,18 +70,8 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
     $(document).ready(function() {
-
         change_min_end_date();
     });
-    /*
-     * change_min_end_date
-     * change min end date promotion
-     * @input pro_start_date
-     * @output -
-     * @author Kasama Donwong 62160074
-     * @Create Date 2564-12-12
-     * @Update 
-     */
     function change_min_end_date() {
         $('#fcl_startdate').on('blur', function() {
             var start_date = document.getElementById("fcl_startdate").value;
