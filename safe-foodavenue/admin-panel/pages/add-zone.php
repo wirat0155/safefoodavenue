@@ -67,17 +67,11 @@ function check_zone_name() {
     });
 }
 </script>
-<style>
-.required:after {
-    color: red;
-    content: ' *';
-    display: inline;
-}
 
-.required {
-    color: blue;
-}
-</style>
+<?php
+$sql = "SELECT * FROM sfa_government";
+$arr_government= mysqli_query($con, $sql);
+?>
 
 <!-- Header -->
 <div class="header bg-primary pb-6">
@@ -94,10 +88,6 @@ function check_zone_name() {
                         </ol>
                     </nav>
                 </div>
-                <!-- <div class="col-lg-6 col-5 text-right">
-          <a href="#" class="btn btn-sm btn-neutral">New</a>
-          <a href="#" class="btn btn-sm btn-neutral">Filters</a>
-        </div> -->
             </div>
         </div>
     </div>
@@ -122,7 +112,22 @@ function check_zone_name() {
                         <div class="row pb-4">
                             <div class="col-md">
                                 <label class="required">รายละเอียดโซนร้านอาหาร</label>
-                                <textarea id="zone_desc" name="zone_desc" class="form-control" rows="3" placeholder="ใส่รายละเอียดโซนร้านอาหาร" required></textarea>
+                                <textarea id="zone_description" name="zone_description" class="form-control" rows="3" placeholder="ใส่รายละเอียดโซนร้านอาหาร" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row pb-4">
+                            <div class="col-md-6">
+                                <label class="required" for="zone_gov_id">องค์กรปกครองส่วนท้องถิ่น</label>
+                                <select id="zone_gov_id" name="zone_gov_id" class="select2 form-control" required>
+                                    <option value="" selected disabled>เลือกองค์กรปกครองส่วนท้องถิ่น</option>
+                                    <?php 
+                                    while ($obj_government = mysqli_fetch_array($arr_government)) { ?>
+                                        <option value="<?= $obj_government["gov_id"] ?>">
+                                            <?= $obj_government["gov_name"] ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
                             </div>
                         </div>
 
@@ -150,21 +155,16 @@ function check_zone_name() {
                                     <input type="text" id="zone_lon" name="zone_lon" class="form-control" required>
                                     <span class="text-danger" id="error_zone_lon"></span>
                                 </div>
-                                <!-- <div class="col-md-4">
-                                    <label>&nbsp;</label><br>
-                                    <button type="button" class="btn btn-danger" onclick="return confirmDelete(0)">ลบ</button>
-                                </div> -->
                             </div>
 
                         </div>
 
                         <div class="row pb-4">
                             <div class="col-md-4">
-                                <input type="submit" class="btn btn-success" onclick="submit_zone()" value="บันทึก">
+                                <input type="submit" class="btn btn-success" value="บันทึก">
                                 <input type="reset" class="btn btn-secondary" onclick="location.href='./?content=list-zone'" value="ยกเลิก">
                             </div>
                         </div>
-
                     </form>
 
                 </div>
@@ -172,10 +172,15 @@ function check_zone_name() {
         </div>
     </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
     <!-- Footer -->
     <?php include("footer.php"); ?>
 </div>
+
 <style>
+    
 /* Set the size of the div element that contains the map */
 #map {
     height: 400px;
@@ -212,7 +217,7 @@ var infowindow = new google.maps.InfoWindow();
 
 var marker, i;
 
-for (i = 0; i < script.locations.length; i++) {
+for (i = 0; i < script locations.length; i++) {
     marker = new google.maps.Marker({
         position: new google.maps.LatLng(locations[i][1], locations[i][2]),
         map: map
@@ -241,11 +246,5 @@ function getLocation() {
 function showPosition(position) {
     lat_log.value = position.coords.latitude;
     lon_log.value = position.coords.longitude;
-}
-
-function submit_zone() {
-    if (confirm("ยืนยันการเพิ่มข้อมูล")) {
-        document.getElementById("add_zone").submit();
-    }
 }
 </script>

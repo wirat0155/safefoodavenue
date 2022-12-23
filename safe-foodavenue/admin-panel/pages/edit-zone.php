@@ -11,11 +11,14 @@
 <?php
 $zone_id = $_GET["zone_id"];
 
-$sql = " SELECT * FROM sfa_zone WHERE zone_id=".$zone_id;
-$dbZone = mysqli_query($con, $sql);
-$zone_data = mysqli_fetch_array($dbZone);
+// get zone data
+$sql = " SELECT * FROM sfa_zone WHERE zone_id = " . $zone_id;
+$arr_zone = mysqli_query($con, $sql);
+$obj_zone = mysqli_fetch_array($arr_zone);
 
-
+// get government dropdown
+$sql = "SELECT * FROM sfa_government";
+$arr_government= mysqli_query($con, $sql);
 ?>
 
 <script>
@@ -32,7 +35,6 @@ function confirmDelete(order) {
 }
 
 function addLocation() {
-
     $("#locationPanel").append('' +
         '<div id="location_' + location_order + '" class="row pb-4">' +
         '<div class="col-md-4">' +
@@ -49,7 +51,6 @@ function addLocation() {
         '</div>' +
         '</div>'
     )
-
     location_order += 1;
     // to add postion
 }
@@ -76,17 +77,6 @@ function check_zone_name() {
     });
 }
 </script>
-<style>
-.required:after {
-    color: red;
-    content: ' *';
-    display: inline;
-}
-
-.required {
-    color: blue;
-}
-</style>
 
 <!-- Header -->
 <div class="header bg-primary pb-6">
@@ -99,14 +89,10 @@ function check_zone_name() {
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                             <li class="breadcrumb-item"><a href="./"><i class="fas fa-home"></i></a></li>
                             <li class="breadcrumb-item"><a href="./">หน้าแรก</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">ฺเเก้ไขโซนร้านอาหาร</li>
+                            <li class="breadcrumb-item active" aria-current="page">แก้ไขโซนร้านอาหาร</li>
                         </ol>
                     </nav>
                 </div>
-                <!-- <div class="col-lg-6 col-5 text-right">
-          <a href="#" class="btn btn-sm btn-neutral">New</a>
-          <a href="#" class="btn btn-sm btn-neutral">Filters</a>
-        </div> -->
             </div>
         </div>
     </div>
@@ -120,19 +106,36 @@ function check_zone_name() {
                 <div class="table-responsive py-4 px-4">
 
                     <form action="./php/action-edit-zone.php" method="POST" enctype="multipart/form-data" id="update_zone">
-                        <input type="text" name="zone_id" value="<?php echo $zone_data["zone_id"] ?>" hidden>
+                        <input type="text" name="zone_id" value="<?php echo $obj_zone["zone_id"] ?>" hidden>
                         <div class="row pb-4">
                             <div class="col-md-6">
-                                <label class="required">ชื่อโซนร้านอาหาร</label>
-                                <input type="text" id="zone_title" name="zone_title" class="form-control" placeholder="ใส่ชื่อโซนร้านอาหาร" oninput="check_zone_name()" value="<?php echo $zone_data["zone_title"]?>" required>
+                                <label for="zone_title" class="required">ชื่อโซนร้านอาหาร</label>
+                                <input type="text" id="zone_title" name="zone_title" class="form-control" placeholder="ใส่ชื่อโซนร้านอาหาร" oninput="check_zone_name()" value="<?php echo $obj_zone["zone_title"]?>" required>
                                 <span id="status_zone_title"></span>
                             </div>
                         </div>
 
                         <div class="row pb-4">
                             <div class="col-md">
-                                <label class="required">รายละเอียดโซนร้านอาหาร</label>
-                                <textarea id="zone_desc" name="zone_desc" class="form-control" rows="3" placeholder="ใส่รายละเอียดโซนร้านอาหาร" required><?php echo $zone_data["zone_description"]?></textarea>
+                                <label for="zone_description" class="required">รายละเอียดโซนร้านอาหาร</label>
+                                <textarea id="zone_description" name="zone_description" class="form-control" rows="3" placeholder="ใส่รายละเอียดโซนร้านอาหาร" required><?php echo $obj_zone["zone_description"]?></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row pb-4">
+                            <div class="col-md-6">
+                                <label class="required" for="zone_gov_id">องค์กรปกครองส่วนท้องถิ่น</label>
+                                <select id="zone_gov_id" name="zone_gov_id" class="select2 form-control" required>
+                                    <option value="" selected disabled>เลือกองค์กรปกครองส่วนท้องถิ่น</option>
+                                    <?php 
+                                    while ($obj_government = mysqli_fetch_array($arr_government)) { 
+                                        $selected = $obj_government["gov_id"] == $obj_zone["zone_gov_id"] ? "selected" : "";
+                                        ?>
+                                        <option value="<?= $obj_government["gov_id"] ?>" <?= $selected ?>>
+                                            <?= $obj_government["gov_name"] ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
                             </div>
                         </div>
 
@@ -152,12 +155,12 @@ function check_zone_name() {
                             <div class="row pb-4">
                                 <div class="col-md-4">
                                     <label class="required">ละติจูด</label>
-                                    <input type="text" id="zone_lat" name="zone_lat" class="form-control" value="<?php echo $zone_data["zone_lat"]?>" required>
+                                    <input type="text" id="zone_lat" name="zone_lat" class="form-control" value="<?php echo $obj_zone["zone_lat"]?>" required>
                                     <span class="text-danger" id="error_zone_lat"></span>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="required">ลองจิจูด</label>
-                                    <input type="text" id="zone_lon" name="zone_lon" class="form-control" value="<?php echo $zone_data["zone_lon"]?>" required>
+                                    <input type="text" id="zone_lon" name="zone_lon" class="form-control" value="<?php echo $obj_zone["zone_lon"]?>" required>
                                     <span class="text-danger" id="error_zone_lon"></span>
                                 </div>
                                 <!-- <div class="col-md-4">
@@ -170,7 +173,7 @@ function check_zone_name() {
 
                         <div class="row pb-4">
                             <div class="col-md-4">
-                                <input type="submit" class="btn btn-success" value="บันทึก">
+                                <input type="submit" class="btn btn-warning" value="แก้ไขโซน">
                                 <input type="reset" class="btn btn-secondary" onclick="location.href='./?content=list-zone'" value="ยกเลิก">
                             </div>
                         </div>
@@ -182,8 +185,12 @@ function check_zone_name() {
         </div>
     </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
     <!-- Footer -->
     <?php include("footer.php"); ?>
+
 </div>
 <style>
 /* Set the size of the div element that contains the map */

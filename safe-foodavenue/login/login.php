@@ -1,16 +1,5 @@
-<!-- 
-  /*
-  * login
-  * login user
-  * @input -
-  * @output -
-  * @author Jutamas Thaptong 62160079
-  * @Create Date 2565-07-08
-  */ 
--->
-
 <?php
-//error_reporting(E_ALL & ~E_WARNING);
+error_reporting(E_ALL & ~E_WARNING);
 ?>
 <!DOCTYPE html>
 <html>
@@ -19,9 +8,7 @@
     <?php
     require("../php/config.php");
     ?>
-    <!-- <?php
-    require_once 'config.php';
-    ?> -->
+
    
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -106,9 +93,9 @@
                             <div class="justify-content-center row">
                               <div class="btn-wrapper text-center">
                       
-                                <a href="<?php //echo $client->createAuthUrl();?>">
+                                <a href="<?php // echo $client->createAuthUrl(); ?>">
                                   <img src="../assets/img/icons/common/google.svg">
-                                  <!-- <span class="btn-inner--text">Google</span>  -->
+                                  <span class="btn-inner--text">Google</span> 
                                 </a>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <a href="https://access.line.me/oauth2/v2.1/login?loginState=TP22j1CZI4sEhUQcKJhVPg&loginChannelId=1656920738&returnUri=%2Foauth2%2Fv2.1%2Fauthorize%2Fconsent%3Fscope%3Dprofile%2Bopenid%2Bemail%26response_type%3Dcode%26redirect_uri%3Dhttps%253A%252F%252Fprepro.informatics.buu.ac.th%252F%257Emanpower%252Fsafe-foodavenue%252Fportal%252Fcallback.php%26state%3D16072c83f086dd02705143bd9099afeee736285b877b8f65eb7b2b941822bc34%26client_id%3D1656920738#/" >

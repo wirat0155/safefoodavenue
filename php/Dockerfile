@@ -28,3 +28,4 @@ RUN docker-php-ext-install zip
 RUN apk add ldb-dev libldap openldap-dev
 RUN docker-php-ext-install ldap
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# RUN composer require google/apiclient
