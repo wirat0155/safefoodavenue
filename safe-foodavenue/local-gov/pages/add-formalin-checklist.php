@@ -1,13 +1,3 @@
-<!-- 
-/*
-* add-schedule
-* add-schedule
-* @input  prefix, firstname, lastname, role, username ,password
-* @output form add user
-* @author Nantasiri Saiwaew
-* @Create Date 2565-08-01
-*/ 
--->
 <style>
     .required:after {
         color: red;
@@ -15,6 +5,7 @@
         display: inline;
     }
 </style>
+
 
 <!-- Header -->
 <div class="header bg-primary pb-6">
@@ -36,17 +27,6 @@
     </div>
 </div>
 
-<!-- Content -->
-
-<?php
-$sql = " SELECT * FROM sfa_role ";
-$dbRole = mysqli_query($con, $sql);
-
-$sql_checklist = " SELECT * FROM `sfa_formalin_checklist`";
-$dbChecklist = mysqli_query($con, $sql);
-
-?>
-
 
 <div class="container-fluid mt--6">
     <div class="row">
@@ -54,17 +34,16 @@ $dbChecklist = mysqli_query($con, $sql);
             <div class="card border-0">
                 <div class="table-responsive py-4 px-4">
 
-                    <form action="./php/action-add-schedule.php" method="POST" enctype="multipart/form-data">
+                    <form action="./php/action-add-formalin-checklist.php" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-md-2">
                                 <label for="year" class="required">ปี</label>
-                                <select name="year" id="year" class="form-control" onchange="set_date_start()">
+                                <select id="year" class="form-control" onchange="set_date_start()">
                                     <?php
-                                    date_default_timezone_set("Asia/Bangkok");
                                     $year_now = date("Y");
                                     $count_year = $year_now;
                                     for ($i = 0; $i < 10; $i++) {
-                                        echo "<option value='" . $count_year . "'>" . $count_year . "</option>";
+                                        echo "<option value='" . $count_year . "'>" . ($count_year + 543) . "</option>";
                                         $count_year++;
                                     }
                                     ?>
@@ -78,17 +57,17 @@ $dbChecklist = mysqli_query($con, $sql);
                                 <label for="last_name" class="required">วันสิ้นสุดการตรวจ</label>
                                 <input type="date" id="fcl_enddate" name="fcl_enddate" class="form-control" required>
                             </div>
-
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="username">ผู้เพิ่มรอบการตรวจ</label>
-                                <input type="hidden" id="id_user" name="id_user" class="form-control" value="<?php if (isset($_SESSION["id_user"])) {
-                                                                                                                    echo $_SESSION["id_user"];
-                                                                                                                } ?>">
-                                <input type="text" id="us_username" name="us_username" class="form-control" value="<?php $fullname = isset($_SESSION["name"]) ? $_SESSION["name"] : "John Snow";
-                                                                                                                    echo $fullname; ?>" disabled>
+                                <input type="text" id="us_username" name="us_username" class="form-control" value="<?php $fullname = isset($_SESSION["us_fullname"]) ? $_SESSION["us_fullname"] : "John Snow"; echo $fullname; ?>" disabled>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="username">องค์กรปกครองส่วนท้องถิ่น</label>
+                                <input type="text" id="gov_name" class="form-control" value="<?php echo isset($_SESSION["us_gov_name"])? $_SESSION['us_gov_name'] : "" ?>" disabled>
                             </div>
                         </div>
                         <br>
@@ -98,7 +77,7 @@ $dbChecklist = mysqli_query($con, $sql);
                                 <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-res-schedule'">
                             </div>
                         </div>
-
+                        
                     </form>
 
                 </div>

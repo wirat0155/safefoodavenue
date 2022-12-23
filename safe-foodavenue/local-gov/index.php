@@ -1,33 +1,18 @@
-<?php
-session_start();
-  require("../php/config.php");
-  ob_start();
-if($_SESSION["username"] =="") {
-    echo("<script>location.href = '../login/login.php';</script>");
-    // header("location:./login/login.php");
- 
-    exit();
-  }
-  ?>
-<!-- =========================================================
-* Argon Dashboard PRO v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-pro
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- -->
- <!DOCTYPE html>
+<?ob_start();?>
+<?session_start();?>
+<!DOCTYPE html>
 <html>
 
 <head>
   <?php 
-    require ("../php/config.php"); 
+    require ("../php/config.php");
+    date_default_timezone_set("Asia/Bangkok");
+
+    // check if not signed in
+    if(!isset($_SESSION["username"])) {
+      // header("location: ../login/login.php");
+    }
+
   ?> 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -56,12 +41,11 @@ if($_SESSION["username"] =="") {
 </style>
 
 <body>
-  <!-- Sidenav -->
-  <?php include("sidebar.php"); ?> 
+  <?php include("./sidebar.php"); ?> 
   <!-- Main content -->
   <div class="main-content" id="panel">
     <!-- Topnav -->
-    <?php include("topbar.php"); ?>
+    <?php include("./topbar.php"); ?>
     <!-- convert date help  -->
     <?php include("./php/date_helper.php"); ?> 
     <!-- Header -->

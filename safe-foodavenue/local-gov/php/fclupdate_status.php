@@ -23,7 +23,7 @@ if($query){
   ?> 
     <script> 
       alert("ดำเนินการเปลี่ยนสภานะเสร็จสมบูรณ์");
-      window.location.href = '../?content=list-res-schedule';
+      window.location.href = '../?content=list-formalin-checklist';
     </script>
   <?php 
 }
@@ -31,7 +31,7 @@ else{
     ?> 
       <script> 
         alert("ไม่สามารถปิดการตรวจได้");
-        window.location.href = '../?content=list-res-schedule';
+        window.location.href = '../?content=list-formalin-checklist';
       </script>
     <?php 
   

@@ -1,18 +1,9 @@
-<!-- 
-  /*
-  * do_logout_admin
-  * do_logout_admin
-  * @input -
-  * @output -
-  * @author Jutamas Thaptong 62160079
-  * @Create Date 2565-07-08
-  */ 
--->
-
-<?php 
-
-  session_start();
+<?php
   session_destroy();
-  header("location: login.php");
-
+  
+  echo "<script>
+    alert('ออกจากระบบสำเร็จ');
+    window.location.href='../';
+    </script>
+    ";
 ?>

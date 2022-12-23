@@ -1,18 +1,35 @@
-<!-- 
-/*
-* list_restaurant
-* list_restaurant
-* @input -
-* @output -
-* @author Jutamas Thaptong 62160079
-* @Create Date 2565-06-20
-*/ 
--->
 <style>
   .odd {
     background-color: #f4f6f9 !important;
   }
 </style>
+
+<?php
+  function check_date_btw($date_start, $date_end)
+  {
+    $date_now = date('Y-m-d');
+    if (($date_now >= $date_start) && ($date_now <= $date_end)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function check_date_out($date_end)
+  {
+    $date_now = date('Y-m-d');
+    if ($date_now >= $date_end) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  $sql = "SELECT * FROM `sfa_formalin_checklist`
+          LEFT JOIN `sfa_user` ON `sfa_formalin_checklist`.`fcl_local_id` = `sfa_user`.`us_id`
+          ORDER BY `sfa_formalin_checklist`.`fcl_startdate` DESC";
+  $arr_formalin_checklist = mysqli_query($con, $sql);
+?>
 
 <!-- Header -->
 <div class="header bg-primary">
@@ -30,63 +47,23 @@
           </nav>
         </div>
         <div class="col-lg-6 col-5 text-right">
-          <a href="?content=add-schedule"><button id="add-schedule" class="btn btn-neutral"> เพิ่มรอบการตรวจ</button></a>
+          <a href="?content=add-formalin-checklist"><button id="add-formalin-checklist" class="btn btn-neutral"> เพิ่มรอบการตรวจ</button></a>
         </div>
       </div>
     </div>
   </div>
 </div>
-
 <div class="header">
   <div class="container-fluid">
     <div class="header-body">
       <div class="row align-items-center py-4">
         <div class="col-lg">
           <h6 class="h1 d-inline-block mb-0 pr-3">รอบการตรวจ</h6>
-
-
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<!-- Content -->
-<?php
-function check_date_btw($date_start, $date_end)
-{
-  $date_now = date('Y-m-d');
-  if (($date_now >= $date_start) && ($date_now <= $date_end)) {
-    return true;
-  } else {
-    return false;
-  }
-}
-?>
-<?php
-
-function check_date_out($date_end)
-{
-  $date_now = date('Y-m-d');
-  if (($date_now >= $date_end)) {
-    return true;
-  } else {
-    return false;
-  }
-}
-?>
-<?php
-
-$sql = "SELECT * FROM sfa_restaurant NATURAL JOIN sfa_entrepreneur NATURAL JOIN sfa_block  WHERE 1";
-$query = mysqli_query($con, $sql);
-
-
-$sql_checklist = "SELECT * FROM sfa_user INNER JOIN sfa_formalin_checklist  ON sfa_user.us_id =  sfa_formalin_checklist.local_id 
-                  ORDER BY sfa_formalin_checklist.fcl_startdate DESC";
-$query_check = mysqli_query($con, $sql_checklist);
-
-
-?>
 
 <!-- รอบการตรวจ -->
 <div class="container-fluid">
@@ -100,49 +77,49 @@ $query_check = mysqli_query($con, $sql_checklist);
                 <th>ลำดับที่</th>
                 <th>ปี</th>
                 <th>วันที่เริ่มการตรวจ</th>
-                <th>วันสิ้นสุดการตรวจ </th>
-                <th>ผู้เพิ่มการตรวจ </th>
-                <th> Action </th>
+                <th>วันสิ้นสุดการตรวจ</th>
+                <th>ผู้เพิ่มการตรวจ</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
               <?php
               $n = 1;
-              while ($row = mysqli_fetch_array($query_check)) {
+              while ($obj_formalin_checklist = mysqli_fetch_array($arr_formalin_checklist)) {
               ?>
                 <tr>
                   <!-- ลำดับที่ -->
                   <td><?php echo $n; ?></td>
                   <!-- ปี ใช้ฟังก์ชัน get_date_year จาก date_helper.php -->
-                  <td><?php echo get_date_year($row["fcl_startdate"]); ?></td>
+                  <td><?php echo get_date_year($obj_formalin_checklist["fcl_startdate"]); ?></td>
                   <!-- วันที่เริ่มการตรวจ ใช้ฟังก์ชัน to_format แปลงวันที่ใน sql จาก date_helper.php -->
-                  <td><?php echo to_format($row["fcl_startdate"]); ?></td>
+                  <td><?php echo to_format($obj_formalin_checklist["fcl_startdate"]); ?></td>
                   <!-- วันสิ้นสุดการตรวจ ใช้ฟังก์ชัน to_format แปลงวันที่ใน sql จาก date_helper.php-->
-                  <td><?php echo to_format($row["fcl_enddate"]); ?></td>
+                  <td><?php echo to_format($obj_formalin_checklist["fcl_enddate"]); ?></td>
                   <td>
-                    <?php $fullname = $row["us_fname"] . " " . $row["us_lname"];
+                    <?php $fullname = $obj_formalin_checklist["us_fname"] . " " . $obj_formalin_checklist["us_lname"];
                     echo $fullname; ?>
                   </td>
 
                   <!-- สถานะ 1=อยู่ในระหว่างการตรวจ -->
-                  <?php if ($row["fcl_status"] == 1) { ?>
+                  <?php if ($obj_formalin_checklist["fcl_status"] == 1) { ?>
                     <!-- เช็ควันที่ปัจจุบันกับวันที่เริ่มต้นและวันที่สิ้นสุด  -->
-                    <?php if (check_date_btw($row["fcl_startdate"], $row["fcl_enddate"])) { ?>
+                    <?php if (check_date_btw($obj_formalin_checklist["fcl_startdate"], $obj_formalin_checklist["fcl_enddate"])) { ?>
                       <td>
-                        <input type="hidden" id="fcl_status" value="<?php echo $row["fcl_status"] ?>">
+                        <input type="hidden" id="fcl_status" value="<?php echo $obj_formalin_checklist["fcl_status"] ?>">
 
-                        <a class="btn btn-danger" href="./php/fclupdate_status.php?fcl_id=<?= $row['fcl_id'] ?>&fcl_status=2&fcl_end_date=<?= $row['fcl_enddate'] ?>" id="cls_status" onclick="return confirm('เปลี่ยนสถานะเป็นปิดรอบการตรวจ?');" title="ปิดการตรวจ"><i class="fa fa-lock"></i></a>
+                        <a class="btn btn-danger" href="./php/fclupdate_status.php?fcl_id=<?= $obj_formalin_checklist['fcl_id'] ?>&fcl_status=2&fcl_end_date=<?= $obj_formalin_checklist['fcl_enddate'] ?>" id="cls_status" onclick="return confirm('เปลี่ยนสถานะเป็นปิดรอบการตรวจ?');" title="ปิดการตรวจ"><i class="fa fa-lock"></i></a>
 
-                        <a href="./?content=edit-schedule&fcl_id=<?= $row["fcl_id"] ?>" class="btn btn-warning" title="แก้ไขการตรวจ"><i class="fa fa-pencil"></i></a>
+                        <a href="./?content=edit-formalin-checklist&fcl_id=<?= $obj_formalin_checklist["fcl_id"] ?>" class="btn btn-warning" title="แก้ไขการตรวจ"><i class="fa fa-pencil"></i></a>
 
-                        <a href="./?content=do_delete_schedule&fcl_id=<?= $row["fcl_id"] ?>" onclick="return confirm('ต้องการลบรอบการตรวจ?');">
+                        <a href="./?content=do_delete_formalin_checklist&fcl_id=<?= $obj_formalin_checklist["fcl_id"] ?>" onclick="return confirm('ต้องการลบรอบการตรวจ?');">
                           <button class="btn btn-danger" style="font-size: 20px;line-height: 0.75;" title="ลบรอบการตรวจ">
                             <i class="ni ni-fat-remove"></i>
                           </button>
                         </a>
                       </td>
-                      <!-- เช็คว่ารอบการตรวจจบไปแล้วหรือยังมาไม่ถึง ค่าเป็น false คือยังมาไม่ถึง -->
-                    <?php } else if (check_date_out($row["fcl_enddate"]) == false) {  ?>
+                      <!-- เช็คว่ารอบการตรวจจบไปแล้วหรือยังมาไม่ถึง -->
+                    <?php } else if (check_date_out($obj_formalin_checklist["fcl_enddate"]) == false) {  ?>
                       <td>
                         <a href="#" onclick="alert('รอการตรวจสอบ');">
                           <button class="btn btn-success" style="font-size: 20px;line-height: 0.75;">
@@ -150,8 +127,8 @@ $query_check = mysqli_query($con, $sql_checklist);
                           </button>
                         </a>
 
-                        <a href="./?content=edit-schedule&fcl_id=<?= $row["fcl_id"] ?>" class="btn btn-warning" title="แก้ไขการตรวจ"> <i class="fa fa-pencil"></i></a>
-                        <a href="./?content=do_delete_schedule&fcl_id=<?= $row["fcl_id"] ?>" onclick="return confirm('ต้องการลบรอบการตรวจ?');">
+                        <a href="./?content=edit-formalin-checklist&fcl_id=<?= $obj_formalin_checklist["fcl_id"] ?>" class="btn btn-warning" title="แก้ไขการตรวจ"> <i class="fa fa-pencil"></i></a>
+                        <a href="./?content=do_delete_schedule&fcl_id=<?= $obj_formalin_checklist["fcl_id"] ?>" onclick="return confirm('ต้องการลบรอบการตรวจ?');">
                           <button class="btn btn-danger" style="font-size: 20px;line-height: 0.75;" title="ลบรอบการตรวจ">
                             <i class="ni ni-fat-remove"></i>
                           </button>
@@ -160,7 +137,7 @@ $query_check = mysqli_query($con, $sql_checklist);
                         <!-- รอบการตรวจที่จบไปแล้วแต่ยังไม่ได้ทำการเปลี่ยนสถานะ -->
                     <?php } else { ?>
                       <td>
-                        <a  href="./php/fclupdate_status.php?fcl_id=<?= $row['fcl_id'] ?>&fcl_status=2&fcl_end_date=<?= $row['fcl_enddate'] ?>" onclick="return confirm('รอบการตรวจนี้ยังไม่ได้ปิดรอบการตรวจ ปิดรอบการตรวจหรือไม่?'); " title="ตรวจสอบการปิดรอบการตรวจ">
+                        <a  href="./php/fclupdate_status.php?fcl_id=<?= $obj_formalin_checklist['fcl_id'] ?>&fcl_status=2&fcl_end_date=<?= $obj_formalin_checklist['fcl_enddate'] ?>" onclick="return confirm('รอบการตรวจนี้ยังไม่ได้ปิดรอบการตรวจ ปิดรอบการตรวจหรือไม่?'); " title="ตรวจสอบการปิดรอบการตรวจ">
                           <button class="btn btn-danger" style="font-size: 20px;line-height: 0.75;">
                             <span class="fa fa-exclamation "></span>
                           </button>
@@ -170,7 +147,7 @@ $query_check = mysqli_query($con, $sql_checklist);
 
                   <?php } else { ?>
                     <!-- สถานะ 2=จบแล้ว -->
-                    <td> <a href="./php/fclupdate_status.php?fcl_id=<?= $row['fcl_id'] ?>&fcl_status=1&fcl_end_date=<?= $row['fcl_enddate'] ?>" onclick="return confirm('เปลี่ยนสถานะเป็นเปิดรอบการตรวจ?');" class="btn btn-success" title="เปิดรอบการตรวจ"><i class="fa fa-unlock-alt"></i></a>
+                    <td> <a href="./php/fclupdate_status.php?fcl_id=<?= $obj_formalin_checklist['fcl_id'] ?>&fcl_status=1&fcl_end_date=<?= $obj_formalin_checklist['fcl_enddate'] ?>" onclick="return confirm('เปลี่ยนสถานะเป็นเปิดรอบการตรวจ?');" class="btn btn-success" title="เปิดรอบการตรวจ"><i class="fa fa-unlock-alt"></i></a>
                     </td>
                   <?php } ?>
                 </tr>
@@ -181,8 +158,6 @@ $query_check = mysqli_query($con, $sql_checklist);
             </tbody>
           </table>
         </div>
-
-        <!-- ตารางร้านอาหาร -->
       </div>
     </div>
   </div>
@@ -204,10 +179,10 @@ $query_check = mysqli_query($con, $sql_checklist);
   // เช็คสถานะรอบการตรวจ ถ้าเท่ากับ 1 (อยู่ในระหว่างดำเนินการ) จะไม่สามารถทำการเพิ่มรอบการตรวจได้อีก
   // function check_schedule() {
   //   if ($('#fcl_status').val() == 1) {
-  //     $('#add-schedule').prop('disabled', true);
+  //     $('#add-formalin-checklist').prop('disabled', true);
   //     alert("ยังอยู่ในระหว่างการตรวจสอบสารฟอร์มาลิน");
   //   } else {
-  //     $('#add-schedule').prop('disabled', false);
+  //     $('#add-formalin-checklist').prop('disabled', false);
   //   }
   // }
   function close_status(id) {

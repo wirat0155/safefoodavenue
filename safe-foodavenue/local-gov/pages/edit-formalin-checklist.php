@@ -39,13 +39,13 @@
 <!-- Content -->
 
 <?php
-$fcl_id = $_GET["fcl_id"];
-$sql_fcl = "SELECT * FROM sfa_formalin_checklist WHERE fcl_id = " . $fcl_id;
-$dbFCL = mysqli_query($con, $sql_fcl);
-$fcl = mysqli_fetch_array($dbFCL);
-$sql = " SELECT * FROM sfa_role ";
-$dbRole = mysqli_query($con, $sql);
-$date_now; 
+    $fcl_id = $_GET["fcl_id"];
+    $sql_fcl = "SELECT * FROM sfa_formalin_checklist WHERE fcl_id = " . $fcl_id;
+    $dbFCL = mysqli_query($con, $sql_fcl);
+    $fcl = mysqli_fetch_array($dbFCL);
+    $sql = " SELECT * FROM sfa_role ";
+    $dbRole = mysqli_query($con, $sql);
+    $date_now; 
 ?>
 
 
@@ -55,7 +55,7 @@ $date_now;
             <div class="card border-0">
                 <div class="table-responsive py-4 px-4">
 
-                    <form action="./php/action-edit-schedule.php" method="POST" enctype="multipart/form-data">
+                    <form action="./php/action-edit-formalin-checklist.php" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <input type="hidden" id="fcl_id" name="fcl_id" class="form-control" value="<?php echo $fcl['fcl_id'] ?>">
                             <div class="col-md-4">
@@ -66,18 +66,6 @@ $date_now;
                                 <label for="last_name" class="required">วันสิ้นสุดการตรวจ</label>
                                 <input type="date" id="fcl_enddate" name="fcl_enddate" class="form-control" min="<?php echo date('Y-m-d'); ?>" value="<?php echo $fcl['fcl_enddate']; ?>" required>
                             </div>
-
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label for="username">ผู้เเก้ไขรอบการตรวจ</label>
-                                <input type="hidden" id="id_user" name="id_user" class="form-control" value="<?php if (isset($_SESSION["id_user"])) {
-                                                                                                                    echo $_SESSION["id_user"];
-                                                                                                                } ?>">
-                                <input type="text" id="us_username" name="us_username" class="form-control" value="<?php $fullname = isset($_SESSION["username"]) ? $_SESSION["username"] : "John Snow";
-                                                                                                                    echo $fullname; ?>" disabled>
-                            </div>
                         </div>
                         <br>
                         <div class="row pb-4" style="position: relative;">
@@ -86,9 +74,7 @@ $date_now;
                                 <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-res-schedule'">
                             </div>
                         </div>
-
                     </form>
-
                 </div>
             </div>
         </div>
