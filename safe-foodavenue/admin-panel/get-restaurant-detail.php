@@ -72,9 +72,9 @@ if (isset($_POST["res_id"])) {
 
         //*** fix data */
     } else {
-        $row_test["lat"] = "13.2809816";
-        $row_test["lon"] = "100.9248775";
-        array_push($response["data_location"], $row_test);
+        $row_res_location["lat"] = 13.2809816;
+        $row_res_location["lon"] = 100.9248775;
+        array_push($response["data_location"], $row_res_location);
     }
 
 
