@@ -76,7 +76,7 @@ function setRate(index, score) {
                     <h6 class="h2 text-white d-inline-block mb-0">รายการร้านอาหาร</h6>
                     <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                            <li class="breadcrumb-item"><a href="../"><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="https://prepro.informatics.buu.ac.th/~manpower/safe-foodavenue"><i class="fas fa-home"></i></a></li>
                             <li class="breadcrumb-item"><a href="?content=disp-block-map">หน้าแรก</a></li>
                             <li class="breadcrumb-item active" aria-current="page">รายการร้านอาหาร</li>
                         </ol>
@@ -102,45 +102,50 @@ function setRate(index, score) {
   }
   $start = ($page - 1) * $perpage;
 
-  $bid = $_GET["bid"];
-  $q = $_GET["q"];
-  if(!$bid && !$q){
+  $bid = NULL;
+  $q = NULL;
+
+  if (isset($_GET["bid"]) && isset($_GET["q"])) {
+    $bid = $_GET["bid"];
+    $q = $_GET["q"];
+  }
+  if($bid == NULL && $q == NULL){
     $sql = "
     SELECT * 
     FROM sfa_restaurant 
-    LEFT JOIN sfa_block ON sfa_block.block_id = sfa_restaurant.block_id 
-    LIMIT {$start} , {$perpage} 
-  "; 
+    LEFT JOIN sfa_block ON sfa_block.block_id = sfa_restaurant.res_block_id 
+    LIMIT "  . $start .  "," . $perpage; 
   }
   else if ($bid != "" && $q == ""){ 
     $sql = "
     SELECT * 
     FROM sfa_restaurant 
-    LEFT JOIN sfa_block ON sfa_block.block_id = sfa_restaurant.block_id 
+    LEFT JOIN sfa_block ON sfa_block.block_id = sfa_restaurant.res_block_id 
     WHERE sfa_block.block_id = $bid
-    LIMIT {$start} , {$perpage} 
-  "; 
+    LIMIT " . $start .  "," . $perpage; 
   }
   else if ($bid == "" && $q != ""){ 
     $sql = "
     SELECT * 
     FROM sfa_restaurant 
-    LEFT JOIN sfa_block ON sfa_block.block_id = sfa_restaurant.block_id 
+    LEFT JOIN sfa_block ON sfa_block.block_id = sfa_restaurant.res_block_id 
     WHERE res_title LIKE '%$q%'
-    LIMIT {$start} , {$perpage} 
+    LIMIT  $start , $perpage
   "; 
   }
   else if ($bid != "" && $q != ""){ 
     $sql = "
     SELECT * 
     FROM sfa_restaurant 
-    LEFT JOIN sfa_block ON sfa_block.block_id = sfa_restaurant.block_id 
+    LEFT JOIN sfa_block ON sfa_block.block_id = sfa_restaurant.res_block_id 
     WHERE res_title LIKE '%$q%' AND sfa_block.block_id = $bid
-    LIMIT {$start} , {$perpage} 
+    LIMIT  $start , $perpage 
   "; 
   }
-  $tSql = $sql; //Temporary 
-  $dbRestaurant = mysqli_query($con, $sql);
+
+
+  $tSql = $sql; //Temporary
+$dbRestaurant = mysqli_query($con, $sql) or Die("Check");
   
   $sql = "
     SELECT * 
@@ -221,9 +226,9 @@ function setRate(index, score) {
                         <?php while($row = mysqli_fetch_array($dbRestaurant)){ ?>
                         <div class="col-md-4">
                             <?php
-                            $res_id=$row['res_id'];
+                            $res_img_id=$row['res_id'];
     
-                            $sql_image = " SELECT * FROM sfa_res_image WHERE res_id='$res_id'";
+                            $sql_image = " SELECT * FROM sfa_res_image WHERE res_img_id='$res_img_id'";
                             $dbRestaurantImg = mysqli_query($con, $sql_image);
                             $resImg = mysqli_fetch_array($dbRestaurantImg);
                             ?>

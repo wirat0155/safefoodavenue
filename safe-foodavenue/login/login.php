@@ -7,6 +7,7 @@ error_reporting(E_ALL & ~E_WARNING);
 <head>
     <?php
     require("../php/config.php");
+    // require("config.php");
     ?>
 
    
@@ -93,7 +94,7 @@ error_reporting(E_ALL & ~E_WARNING);
                             <div class="justify-content-center row">
                               <div class="btn-wrapper text-center">
                       
-                                <a href="<?php // echo $client->createAuthUrl(); ?>">
+                                <a href="<?php  echo $client->createAuthUrl(); ?>">
                                   <img src="../assets/img/icons/common/google.svg">
                                   <span class="btn-inner--text">Google</span> 
                                 </a>
