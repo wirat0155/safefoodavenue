@@ -2,13 +2,13 @@
 session_start();
   require("../php/config.php");
   ob_start();
-if($_SESSION["username"] =="") {
-    echo("<script>location.href = '../login/login.php';</script>");
-    // header("location:./login/login.php");
+// if($_SESSION["username"] =="") {
+//     echo("<script>location.href = '../login/login.php';</script>");
+//     // header("location:./login/login.php");
  
-    exit();
-  }
-  ?>
+//     exit();
+//   }
+//   ?>
 <!-- 
 /*
 * index
