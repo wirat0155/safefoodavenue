@@ -20,23 +20,27 @@
 <script>
 // Initialize and add the map 
 function getLocationData() {
-    var fetch_location = []
+    var fetch_location = [];
     $.ajax({
         url: "../admin-panel/get-formalin-detail.php",
         type: "POST",
         cache: false,
         async: false,
         success: function(dataResult) {
+            console.log(dataResult);
             for (let index = 0; index < dataResult.length; index++) {
-                fetch_location.push(dataResult[index])
+                fetch_location.push(dataResult[index]);
             }
+        },
+        error: function() {
+            console.log("เกิด error");
         }
     });
-    return fetch_location
+    return fetch_location;
 }
 
-function getRestuarantData(block_id) {
-    var returnData = []
+function getRestaurantData(block_id) {
+    var returnData = [];
     $.ajax({
         url: "../admin-panel/get-restaurant-detail.php",
         type: "POST",
@@ -52,14 +56,16 @@ function getRestuarantData(block_id) {
                     result: dataResult[index][1]
                 })
             }
+        },
+        error: function() {
+            console.log("เกิด error");
         }
     });
-
     return returnData
 }
 
-var locations = getLocationData()
-// console.log(locations)
+var locations = getLocationData();
+
 var myStyles = [{
     featureType: "poi",
     elementType: "labels",
@@ -79,8 +85,9 @@ var infowindow = new google.maps.InfoWindow();
 var marker, i;
 
 for (i = 0; i < locations.length; i++) {
-
-    var restStatus = getRestuarantData(locations[i][0])
+    console.log(locations[i][0]);
+    var restStatus = getRestaurantData(locations[i][0]);
+    exit;
     var checkStatus = true;
     for (let index = 0; index < restStatus.length; index++) {
         const element = restStatus[index];
@@ -106,15 +113,14 @@ for (i = 0; i < locations.length; i++) {
     });
 
 
-
     google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
 
             // get restuarant list
-            var restuarantContent = getRestuarantData(locations[i][0])
+            var restuarantContent = getRestaurantData(locations[i][0]);
 
             // set window content
-            var makerContent = ""
+            var makerContent = "";
             // title
             makerContent += "<div class='maker-title'>" + locations[i][1] + "</div>";
             // restuarant content
@@ -169,7 +175,7 @@ function getLocationData() {
     return fetch_location
 }
 
-function getRestuarantData(block_id) {
+function getRestaurantData(block_id) {
     var returnData = []
     $.ajax({
         url: "https://prepro.informatics.buu.ac.th/~manpower/safe-foodavenue/tourist/get-restuarant-data.php",
@@ -214,7 +220,7 @@ var marker, i;
 
 for (i = 0; i < locations.length; i++) {
 
-    var restStatus = getRestuarantData(locations[i][0])
+    var restStatus = getRestaurantData(locations[i][0])
     var checkStatus = true;
     for (let index = 0; index < restStatus.length; index++) {
         const element = restStatus[index];
@@ -245,7 +251,7 @@ for (i = 0; i < locations.length; i++) {
         return function() {
 
             // get restuarant list
-            var restuarantContent = getRestuarantData(locations[i][0])
+            var restuarantContent = getRestaurantData(locations[i][0])
 
             // set window content
             var makerContent = ""

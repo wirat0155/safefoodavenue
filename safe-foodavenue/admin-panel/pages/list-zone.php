@@ -52,8 +52,6 @@
                                    <th>รายละเอียด</th>
                                    <!-- <th>Longitude </th> -->
                                    <th> Action </th>
-
-
                                </tr>
                            </thead>
 

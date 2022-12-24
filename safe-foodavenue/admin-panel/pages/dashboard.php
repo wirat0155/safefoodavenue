@@ -18,8 +18,8 @@
         return $count_restaurant;
     }
     $all_restaurant = get_all_restaurant($con);
-    echo "จำนวนร้านค้าที่เปิดกิจการ ณ ปัจจุบัน " . $all_restaurant;
-    echo "<br/>";
+    // echo "จำนวนร้านค้าที่เปิดกิจการ ณ ปัจจุบัน " . $all_restaurant;
+    // echo "<br/>";
 
     function get_number_formalin_pass_restaurant($con) {
         $sql = "SELECT COUNT(`res_for_id`) as `count_res` 
@@ -32,12 +32,12 @@
         return $count_restaurant;
     }
     $pass_restaurant = get_number_formalin_pass_restaurant($con);
-    echo "ร้านค้าที่ผ่านการตรวจสอบ " . $pass_restaurant;
-    echo "<br/>";
+    // echo "ร้านค้าที่ผ่านการตรวจสอบ " . $pass_restaurant;
+    // echo "<br/>";
    
     $all_restaurant = $all_restaurant == 0? 1 : $all_restaurant;
-    echo "ร้อยละที่ผ่าน " . ($pass_restaurant / $all_restaurant) * 100;
-    echo "<br/>";
+    // echo "ร้อยละที่ผ่าน " . ($pass_restaurant / $all_restaurant) * 100;
+    // echo "<br/>";
     
 
     function get_year_dropdown($con) {
@@ -67,17 +67,27 @@
     while ($obj_fcl_id = mysqli_fetch_assoc($arr_formalin_checklist)["fcl_id"]) {
         array_push($arr_fcl_id, $obj_fcl_id);
     }
-    print_r($arr_fcl_id);
+    // print_r($arr_fcl_id);
 
 
-    $arr_fcl_data = array (
-        array(22,18),
-        array(15,13),
-        array(5,2),
-        array(17,15),
-        array(5,2),
-        array(17,15)
-      );
+    function get_pie_chart_data_by_fcl_id($con, $fcl_id) {
+        $sql = "SELECT COUNT(`res_for_id`) AS `count` FROM `sfa_res_formalin_status` AS `resul1` 
+        WHERE `resul1`.`res_for_last_fcl_id` = $fcl_id AND `resul1`.`res_for_status` = 0 
+        UNION ALL SELECT COUNT(`res_for_id`) FROM `sfa_res_formalin_status` AS `resul2` 
+        WHERE `resul2`.`res_for_last_fcl_id` = $fcl_id AND `resul2`.`res_for_status` = 1";
+        $arr_data = mysqli_query($con, $sql);
+        return $arr_data;
+    }
+
+    $arr_fcl_data = array();
+    for ($i = 0; $i < count($arr_fcl_id); $i++) {
+        $arr_row = array();
+        $arr_pie_chart_data = get_pie_chart_data_by_fcl_id($con, $arr_fcl_id[$i]);
+        while($obj_pie_chart_data = mysqli_fetch_array($arr_pie_chart_data)) {
+            array_push($arr_row, $obj_pie_chart_data['count']);
+        }
+        array_push($arr_fcl_data, $arr_row);
+    }
 
     function get_all_restaurant_by_year($con, $fcl_year) {
         $sql = "SELECT COUNT(`res_for_res_id`) AS `count_res` FROM `sfa_res_formalin_status`
@@ -88,9 +98,9 @@
         return $count_restaurant;
     }
     $all_restaurant_by_year = get_all_restaurant_by_year($con, $fcl_year);
-    echo "<br/>";
-    echo "ร้านค้าที่ตรวจสอบในปีนี้ " . $all_restaurant_by_year;
-    echo "<br/>";
+    // echo "<br/>";
+    // echo "ร้านค้าที่ตรวจสอบในปีนี้ " . $all_restaurant_by_year;
+    // echo "<br/>";
     // $all_restaurant_by_year = $all_restaurant_by_year == 0? 1 : $all_restaurant_by_year;
 
     function get_pass_restaurant_by_year($con, $fcl_year) {
@@ -102,11 +112,69 @@
         return $count_restaurant;
     }
     $pass_restaurant_by_year = get_pass_restaurant_by_year($con, $fcl_year);
-    echo "ร้านค้าที่ผ่านในปีนี้ " . $pass_restaurant_by_year;
-    echo "<br/>";
+    // echo "ร้านค้าที่ผ่านในปีนี้ " . $pass_restaurant_by_year;
+    // echo "<br/>";
 
     // echo "ร้อยละที่ผ่าน " . ($pass_restaurant_by_year / $all_restaurant_by_year) * 100;
-    echo "<br/>";
+    // echo "<br/>";
+
+
+    // ผลตรวจการใช้ฟอร์มาลีนจำแนกตามประเภทของร้านอาหาร
+    function get_res_category($con) {
+        $sql = "SELECT * FROM `sfa_res_category`";
+        $arr_res_category = mysqli_query($con, $sql);
+        return $arr_res_category;
+    }
+
+    $arr_res_category = get_res_category($con);
+    $arr_category_id = array();
+    $arr_category_title = array();
+    while ($obj_res_category = mysqli_fetch_array($arr_res_category)) {
+        array_push($arr_category_id, $obj_res_category["res_cat_id"]);
+        array_push($arr_category_title, $obj_res_category["res_cat_title"]);
+    }
+    // echo "<pre>";
+    // print_r($arr_category_id);
+    // echo "</pre>";
+    // exit;
+
+    $arr_res_category_pass_data = array();
+    function get_res_category_pass($con, $res_cat_id) {
+        $sql = "SELECT COUNT(`res_for_id`) as `pass` FROM `sfa_res_formalin_status`
+        LEFT JOIN `sfa_restaurant` ON `sfa_res_formalin_status`.`res_for_res_id` = `sfa_restaurant`.`res_id`
+        WHERE `sfa_res_formalin_status`.`res_for_status` = 0 AND `sfa_restaurant`.`res_cat_id` = " . $res_cat_id;
+        $arr_res_category = mysqli_query($con, $sql);
+        $obj_res_category = mysqli_fetch_array($arr_res_category);
+        return $obj_res_category["pass"];
+    }
+    echo "pass" . "<br>";
+    for ($i = 0; $i < count($arr_category_id); $i++) {
+        array_push($arr_res_category_pass_data, get_res_category_pass($con, $arr_category_id[$i]));
+    }
+
+    $arr_res_category_fail_data = array();
+    function get_res_category_fail($con, $res_cat_id) {
+        $sql = "SELECT COUNT(`res_for_id`) as `fail` FROM `sfa_res_formalin_status`
+        LEFT JOIN `sfa_restaurant` ON `sfa_res_formalin_status`.`res_for_res_id` = `sfa_restaurant`.`res_id`
+        WHERE `sfa_res_formalin_status`.`res_for_status` = 1 AND `sfa_restaurant`.`res_cat_id` = " . $res_cat_id;
+        $arr_res_category = mysqli_query($con, $sql);
+        $obj_res_category = mysqli_fetch_array($arr_res_category);
+        return $obj_res_category["fail"];
+    }
+    echo "fail" . "<br>";
+    for ($i = 0; $i < count($arr_category_id); $i++) {
+        array_push($arr_res_category_fail_data, get_res_category_fail($con, $arr_category_id[$i]));
+    }
+
+
+    $sql = "SELECT * FROM `sfa_restaurant`
+        LEFT JOIN `sfa_res_category` ON `sfa_restaurant`.`res_cat_id` = `sfa_res_category`.`res_cat_id`
+        LEFT JOIN `sfa_entrepreneur` ON `sfa_restaurant`.`res_ent_id` = `sfa_entrepreneur`.`ent_id`
+        LEFT JOIN `sfa_zone` ON `sfa_restaurant`.`res_zone_id` = `sfa_zone`.`zone_id`
+        LEFT JOIN `sfa_block` ON `sfa_restaurant`.`res_block_id` = `sfa_block`.`block_id`
+        LEFT JOIN `sfa_res_formalin_status` ON `sfa_restaurant`.`res_id` = `sfa_res_formalin_status`.`res_for_res_id`
+        WHERE `sfa_restaurant`.`res_gov_id` = " . $_SESSION["us_gov_id"]; 
+    $arr_restaurant = mysqli_query($con, $sql);
 ?>
 
 <div class="header pb-2">
@@ -242,10 +310,71 @@
                 </div>
             <?php } ?>
         </div>
+        
+        <div class="row justify-content-sm-center pb-5">
+            <div class="col-sm-10">
+                <div class="card">
+                    <div class="card-header bg-primary text-white text-start" style="font-size: 1.25rem;">
+                    ผลตรวจฟอร์มาลินของร้านจำแนกตามประเภทของร้านอาหาร
+                    </div>
+                    <div class="card-body">
+                        <div id="ColumnChart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-sm-center pb-5">
+            <div class="col-sm-10">
+                <div class="card">
+                    <div class="card-header bg-primary text-white text-start" style="font-size: 1.25rem;">
+                        รายการข้อมูลร้านอาหารทั้งหมด
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive py-4">
+                            <table class="table table-striped stripe" id="datatable-basic">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>ชื่อร้านอาหาร</th>
+                                        <th>โซนร้านอาหาร</th> 
+                                        <th>บล็อกร้านอาหาร</th>
+                                        <th>ประเภท</th>  
+                                        <th>ชื่อผู้ประกอบการ</th>  
+                                        <th>เบอร์โทร</th>  
+                                        <th>ผลการตรวจ</th>  
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php while($obj_restaurant = mysqli_fetch_array($arr_restaurant)){ ?> 
+                                        <tr>
+                                            <td><?php echo $obj_restaurant["res_title"] ?></td> 
+                                            <td><?php echo $obj_restaurant["zone_title"] ?></td> 
+                                            <td><?php echo $obj_restaurant["block_title"] ?></td> 
+                                            <td><?php echo $obj_restaurant["res_cat_title"] ?></td> 
+                                            <td><?php echo $obj_restaurant["ent_firstname"] . " " . $obj_restaurant["ent_lastname"] ?></td> 
+                                            <td><?php echo $obj_restaurant["ent_tel"] ?></td> 
+                                            <td><?php 
+                                                if ($obj_restaurant["res_for_status"] == "1") {
+                                                    echo "ปลอดภัย";
+                                                } else {
+                                                    echo "รอตรวจสอบ";
+                                                }
+                                            ?>
+                                        </tr>
+                                    <?php } ?> 
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+<?php include("./pages/block-map.php"); ?>
 
 <script>
+    getColumnChart();
     <?php for ($i = 0; $i < count($arr_fcl_id); $i++) { ?>
         get_pie_chart(
             '<?php echo ($i + 1) ?>', 
@@ -302,6 +431,79 @@
                 }
             }
         });
+    }
+    function getColumnChart() {
+        Highcharts.chart('ColumnChart', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: "ผลตรวจฟอร์มาลินของร้านจำแนกตามประเภทของร้านอาหาร"
+            },
+            xAxis: {
+                categories: [
+                    <?php for ($i = 0; $i < count($arr_category_title); $i++) {
+                        echo "'" . $arr_category_title[$i] . "'";
+                        if ($i != count($arr_category_title) - 1) {
+                            echo ",";
+                        }
+                    }?>
+                ],
+                title: {
+                    text: null
+                },
+                accessibility: {
+                    description: "ผลการตรวจ"
+                },
+                labels: {
+                    style: {
+                        fontSize: "18px",
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                text: 'จำนวนร้านค้า'
+                }
+            },
+            tooltip: {
+                valueSuffix: "",
+                stickOnContact: true,
+                backgroundColor: "rgba(255, 255, 255, 0.93)"
+            },
+            plotOptions: {
+                column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'ปลอดภัย',
+                data: [
+                    <?php
+                        for ($i = 0; $i < count($arr_res_category_pass_data); $i++) {
+                            echo $arr_res_category_pass_data[$i];
+                            if ($i != count($arr_res_category_pass_data) - 1) {
+                                echo ",";
+                            }
+                        }
+                        ?>
+                ]
+            }, {
+                name: 'รอตรวจสอบ',
+                data: [
+                    <?php
+                        for ($i = 0; $i < count($arr_res_category_fail_data); $i++) {
+                            echo $arr_res_category_fail_data[$i];
+                            if ($i != count($arr_res_category_fail_data) - 1) {
+                                echo ",";
+                            }
+                        }
+                        ?>
+                ]
+            }]
+            });
     }
 </script>
 

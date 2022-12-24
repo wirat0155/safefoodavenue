@@ -92,6 +92,7 @@
     <script>
       $(document).ready(function() {
         $('.select2').select2();
+        $('#datatable-basic').DataTable();
       });
     </script>
     </div>
