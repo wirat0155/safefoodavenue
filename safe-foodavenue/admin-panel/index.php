@@ -37,32 +37,32 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <style>
+      body {
+        font-family: 'Prompt';
+      }
+      .required:after {
+          color: red;
+          content: ' *';
+          display: inline;
+      }
+      .required {
+          color: blue;
+      }
+      .form-control {
+        color: black;
+      }
+      .select2-container .select2-selection--single {
+        height: 47px !important;
+        font-size: 0.85rem;
+        border-color: #DDD;
+      }
+      .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+        background-color: #5e72e4;
+      }
+    </style>
   </head>
 
-  <style>
-    body {
-      font-family: 'Prompt';
-    }
-    .required:after {
-        color: red;
-        content: ' *';
-        display: inline;
-    }
-    .required {
-        color: blue;
-    }
-    .form-control {
-      color: black;
-    }
-    .select2-container .select2-selection--single {
-      height: 47px !important;
-      font-size: 0.85rem;
-      border-color: #DDD;
-    }
-    .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
-      background-color: #5e72e4;
-    }
-  </style>
 
   <body>
     <!-- Sidenav -->

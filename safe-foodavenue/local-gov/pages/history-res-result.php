@@ -1,14 +1,3 @@
-<!-- 
-/*
-* history-formalin
-* history-formalin
-* @input -
-* @output -
-* @author Jutamas Thaptong 62160079
-* @Create Date 2565-08-21
-*/ 
--->
-
 <style>
   .odd {
     background-color: #f4f6f9 !important;
@@ -16,20 +5,39 @@
 </style>
 
 <?php
+  // get year dropdown
+  $sql = "SELECT DISTINCT `fcl_year` AS `fcl_year` 
+  FROM `sfa_formalin_checklist` WHERE `fcl_gov_id` = " . $_SESSION['us_gov_id'] . "
+  ORDER BY `fcl_year` DESC";
+
+  $arr_year = mysqli_query($con, $sql);
+  if (mysqli_num_rows($arr_year) == 0) {
+    $obj_year = date("Y");
+  } else {
+    $obj_year = mysqli_fetch_assoc($arr_year);
+  }
+  $fcl_id = $obj_year["fcl_year"];
+  $arr_year = mysqli_query($con, $sql);
+        
+  // get first fcl_id
   $res_id = $_GET["res_id"];
 
-  $sql = "
-    SELECT * 
-    FROM sfa_formalin 
-    LEFT JOIN sfa_menu ON sfa_formalin.menu_id = sfa_menu.menu_id
-    WHERE sfa_menu.menu_id IS NOT NULL 
-    AND sfa_formalin.res_id = ".$res_id." 
-  ";
+  $sql = "SELECT * FROM `sfa_formalin`
+  LEFT JOIN `sfa_menu` ON `sfa_formalin`.`for_menu_id` = `sfa_menu`.`menu_id` 
+  WHERE `sfa_menu`.`menu_id` IS NOT NULL 
+  AND `sfa_formalin`.`for_fcl_id` = " . $fcl_id . "
+  AND `sfa_formalin`.`for_res_id` = " . $res_id;
   $dbFormalin = mysqli_query($con, $sql);
 
-  $sql_res = "SELECT * FROM `sfa_restaurant` WHERE res_id = ".$res_id." ";
+  $sql = "SELECT * FROM `sfa_formalin`
+  LEFT JOIN `sfa_menu` ON `sfa_formalin`.`for_menu_id` = `sfa_menu`.`menu_id` 
+  WHERE `sfa_menu`.`menu_id` IS NOT NULL 
+  AND `sfa_formalin`.`for_res_id` = " . $res_id;
+  $dbFormalin = mysqli_query($con, $sql);
+
+  $sql_res = "SELECT * FROM `sfa_restaurant` WHERE `res_id` = " . $res_id;
   $dbRestaurant = mysqli_query($con, $sql_res);
-  $rowRestaurant = mysqli_fetch_array($dbRestaurant);
+  $rowRestaurant = mysqli_fetch_assoc($dbRestaurant);
 ?>
 
 <!-- Header -->
@@ -43,7 +51,6 @@
             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
               <li class="breadcrumb-item"><a href="./"><i class="fas fa-home"></i></a></li>
               <li class="breadcrumb-item"><a href="./">หน้าแรก</a></li>
-              <!-- <li class="breadcrumb-item"><a href="./">รายการเมนู</a></li> -->
               <li class="breadcrumb-item active" aria-current="page">ผลการตรวจของร้านอาหาร</li>
             </ol>
           </nav>
@@ -64,14 +71,28 @@
             <h5 class="h1 d-inline-block mb-0 pr-3">ผลการตรวจสารฟอร์มาลินของร้านอาหาร <?= $rowRestaurant["res_title"] ?></h5>
           </div>
         </div>
-
-        <div class="row">
-          <div class="col-md px-5 pt-4">
-            <h6 class="h1 d-inline-block mb-0 pr-3">รอบการตรวจ</h6>
-            <a href="#" class="btn btn-primary">ครั้งที่ 1</a>
-            <a href="#" class="btn btn-secondary">ครั้งที่ 2</a>
+        <!-- <div class="row">
+          <div class="col-md-1 px-5 pt-4">
+            <h6 class="h1 d-inline-block mb-0">ปีปฏิทิน</h6>
           </div>
-        </div>
+          <div class="col-md-2 pt-4">
+            <select name="fcl_year" id="fcl_year" class="select2 form-control">
+                <?php
+                while($obj_fcl_year = mysqli_fetch_assoc($arr_year)["fcl_year"]) {
+                    $selected = $fcl_year == $obj_fcl_year? "selected" : "" ?>
+                    <option value="<?php echo $obj_fcl_year ?>" <?php echo $selected ?>><?php echo $obj_fcl_year ?></option>
+                <?php } ?>
+            </select>
+          </div>
+
+          <div class="col-md-2 pt-4">
+            <select name="fcl_id" id="fcl_id" class="select2 form-control">
+            </select>
+          </div>
+          <div class="col-md-2 pt-4">
+            <a href="" class="btn btn-primary">ค้นหา</a>
+          </div>
+        </div> -->
 
         <div class="table-responsive py-4">
           <table class="table table-striped stripe" id="datatable-basic">
@@ -86,7 +107,7 @@
 
             <tbody>
               <?php $n = 1; ?>
-              <?php while ($row = mysqli_fetch_array($dbFormalin)) { ?>
+              <?php while ($row = mysqli_fetch_assoc($dbFormalin)) { ?>
                 <tr>
                   <td><?= $n; ?></td>
                   <td><?= $row["menu_name"]; ?></td>

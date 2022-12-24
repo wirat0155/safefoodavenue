@@ -147,7 +147,6 @@
         $obj_res_category = mysqli_fetch_array($arr_res_category);
         return $obj_res_category["pass"];
     }
-    echo "pass" . "<br>";
     for ($i = 0; $i < count($arr_category_id); $i++) {
         array_push($arr_res_category_pass_data, get_res_category_pass($con, $arr_category_id[$i]));
     }
@@ -161,7 +160,6 @@
         $obj_res_category = mysqli_fetch_array($arr_res_category);
         return $obj_res_category["fail"];
     }
-    echo "fail" . "<br>";
     for ($i = 0; $i < count($arr_category_id); $i++) {
         array_push($arr_res_category_fail_data, get_res_category_fail($con, $arr_category_id[$i]));
     }
