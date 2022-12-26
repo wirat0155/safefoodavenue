@@ -27,6 +27,7 @@
 
   $sql = "SELECT * FROM `sfa_formalin_checklist`
           LEFT JOIN `sfa_user` ON `sfa_formalin_checklist`.`fcl_local_id` = `sfa_user`.`us_id`
+          WHERE `sfa_formalin_checklist`.`fcl_gov_id` = " . $_SESSION['us_gov_id'] . "
           ORDER BY `sfa_formalin_checklist`.`fcl_startdate` DESC";
   $arr_formalin_checklist = mysqli_query($con, $sql);
 ?>

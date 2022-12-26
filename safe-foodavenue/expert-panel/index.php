@@ -1,116 +1,124 @@
 <?php
-session_start();
-  require("../php/config.php");
+  session_start();
   ob_start();
-  if($_SESSION["username"] =="") {
+  require("../php/config.php");
+  if(!isset($_SESSION["us_id"]) || empty($_SESSION["us_id"])) {
     echo("<script>location.href = '../login/login.php';</script>");
-    // header("location:./login/login.php");
- 
     exit();
   }
-  ?>
-<!-- =========================================================
-* Argon Dashboard PRO v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-pro
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- -->
- <!DOCTYPE html>
-<html>
-
-<head>
-  <?php 
-    // require ("../php/config.php"); 
-    // session_start();
-
-    // // check if not signed in
-    // if(!isset($_SESSION["username"])) {
-    //   header("location: ../login/login.php");
-    // }
-
-  ?> 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
-  <meta name="author" content="Creative Tim">
-  <title>Expert || Safe Food Avenue</title>
-  <!-- Favicon -->
-  <link rel="icon" href="../assets/img/brand/buu.png" type="image/png">
-  <!-- Fonts -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
-  <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
-  <!-- Icons -->
-  <link rel="stylesheet" href="../assets/vendor/nucleo/css/nucleo.css" type="text/css">
-  <link rel="stylesheet" href="../assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
-  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-  <!-- Page plugins -->
-  <!-- Argon CSS -->
-  <link rel="stylesheet" href="../assets/css/argon.css?v=1.1.0" type="text/css">
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADQJLBR2n_WOLPbxOmLLSvR6XN0AibN-0&callback=initMap"></script>
-</head>
-
-<style>
-  body {
-    font-family: 'Prompt';
-  }
-</style>
-<?php
-$getloc = "";
-if ($_GET["content"] == "restuarant-gateway") {
-    $getloc = "onload='getLocation()'";
-}
 ?>
-<body <?php echo $getloc; ?> >
-  <!-- Sidenav -->
-  <?php include("sidebar.php"); ?> 
-  <!-- Main content -->
-  <div class="main-content" id="panel">
-    <!-- Topnav -->
-    <?php include("topbar.php"); ?> 
-    <!-- Header -->
-    <!-- Header -->
-    <?php 
-        //Page content wil be included here... 
-        $content = $_GET["content"];
-        $path = "./pages/". $content . ".php";
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
+    <meta name="author" content="Creative Tim">
+    <title>Expert || Safe Food Avenue</title>
+    <!-- Favicon -->
+    <link rel="icon" href="../assets/img/brand/buu.png" type="image/png">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="../assets/vendor/nucleo/css/nucleo.css" type="text/css">
+    <link rel="stylesheet" href="../assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Page plugins -->
+    <!-- Argon CSS -->
+    <link rel="stylesheet" href="../assets/css/argon.css?v=1.1.0" type="text/css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsQsJq6QLsJRyETeDLBLyc6Wx73snZPIo&callback=initMap"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+      body {
+        font-family: 'Prompt';
+      }
+      .required:after {
+          color: red;
+          content: ' *';
+          display: inline;
+      }
+      .required {
+          color: blue;
+      }
+      .form-control {
+        color: black;
+      }
+      .select2-container .select2-selection--single {
+        height: 47px !important;
+        font-size: 0.85rem;
+        border-color: #DDD;
+      }
+      .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+        background-color: #5e72e4;
+      }
+    </style>
+  </head>
+
+
+  <body>
+    <!-- Sidenav -->
+    <?php include("sidebar.php"); ?>
+    <!-- Main content -->
+    <div class="main-content" id="panel">
+        <!-- Topnav -->
+        <?php include("topbar.php"); ?>
+        <!-- Header -->
+        <!-- Header -->
+        <?php
+    //Page content wil be included here... 
+    if (isset($_GET["content"])) {
+      $content = $_GET["content"];
+      $path = "./pages/" . $content . ".php";
+
+      if (file_exists($path)) {
+        include($path);
+      } else {
+        include("./pages/dashboard.php");
+      }
+    } else {
+      include("./pages/dashboard.php");
+    }
+
+    ?>
+    <script>
+      $(document).ready(function() {
+        $('.select2').select2();
+        $('#datatable-basic').DataTable();
+      });
+    </script>
+    </div>
+    <!-- Argon Scripts -->
+    <!-- Core -->
+    <script src="../assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/vendor/js-cookie/js.cookie.js"></script>
+    <script src="../assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
+    <!-- Optional JS -->
+    <script src="../assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../assets/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../assets/vendor/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="../assets/vendor/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="../assets/vendor/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="../assets/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="../assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     
-        if(file_exists($path)){
-          include($path);  
-        }
-        else{
-          include("./pages/dashboard.php"); 
-        }
-        
-    ?> 
-  </div>
-  <!-- Argon Scripts -->
-  <!-- Core -->
-  <script src="../assets/vendor/jquery/dist/jquery.min.js"></script>
-  <script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../assets/vendor/js-cookie/js.cookie.js"></script>
-  <script src="../assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
-  <script src="../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
-  <!-- Optional JS -->
-  
- 
-  <script src="../assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
-  <script src="../assets/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-  <script src="../assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-  <script src="../assets/vendor/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-  <script src="../assets/vendor/datatables.net-buttons/js/buttons.html5.min.js"></script>
-  <script src="../assets/vendor/datatables.net-buttons/js/buttons.flash.min.js"></script>
-  <script src="../assets/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
-  <script src="../assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
-  <!-- Argon JS -->
-  <script src="../assets/js/argon.js?v=1.1.0"></script>
-  <!-- Datatable --> 
-</body>
+    <!-- Argon JS -->
+    <script src="../assets/js/argon.js?v=1.1.0"></script>
+    <!-- Datatable -->
+  </body>
 
 </html>

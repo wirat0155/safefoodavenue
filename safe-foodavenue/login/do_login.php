@@ -28,19 +28,20 @@
     // echo $_SESSION["us_role_title"] . "<br/>";
     // echo $_SESSION["us_gov_id"] . "<br/>";
     // echo $_SESSION["us_gov_name"] . "<br/>";
+    // exit;
     if($_SESSION["us_role_id"] == 1){
       //หน้าจอของผู้ดูแลระบบ
       echo("<script>location.href = '../admin-panel/';</script>");
-    } else if($_SESSION["role"] == 2){
-       //หน้าจอของผู้เชี่ยวชาญ
-       echo("<script>location.href = '../admin-panel/';</script>");
+    } else if ($_SESSION["us_role_id"] == 2){
+      //หน้าจอของผู้เชี่ยวชาญ
+      echo("<script>location.href = '../expert-panel/';</script>");
       // header("location: ../expert-panel/");
-    } else if($_SESSION["us_role_id"] == 4){
+    } else if ($_SESSION["us_role_id"] == 4){
       // หน้าจอของผู้ประกอบการ
-    }elseif ($_SESSION["us_role_id"] == 5){
+    } else if ($_SESSION["us_role_id"] == 5){
       // หน้าจอของเทศบาล
       echo("<script>location.href = '../local-gov/';</script>");
-    } 
+    }
     else {
       //กรณีไม่ใช่ role หลักที่มีส่วนสำคัญในระบบ (ผู้ดูแลระบบ ผู้เชี่ยวชาญ เทศบาล(อยู่ในระหว่างการพัฒนา) ผู้ประกอบการ(ถ้ามี อยู่ในระหว่างการพัฒนา)) จะถูกส่งไปหน้านักท่องเที่ยวทั้งหมด
       header("location: ../tourist/?content=disp-block-map");

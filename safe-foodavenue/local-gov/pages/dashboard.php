@@ -192,7 +192,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">จำนวนร้านค้าที่เปิดกิจการ ณ ปัจจุบัน</h5>
-                                    <span class="h2 font-weight-bold mb-0"><?php echo $all_restaurant ?></span>
+                                    <span class="h2 font-weight-bold mb-0"><?php echo number_format($all_restaurant) ?></span>
                                 </div>
                                 <div class="col-auto">
                                 </div>
@@ -207,7 +207,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">จำนวนร้านค้าที่ผ่านการตรวจ</h5>
-                                    <span class="h2 font-weight-bold mb-0"> <?php echo $pass_restaurant ?></span>
+                                    <span class="h2 font-weight-bold mb-0"> <?php echo number_format($pass_restaurant) ?></span>
                                 </div>
                             </div>
                         </div>
@@ -220,7 +220,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">ร้อยละของร้านค้าที่ผ่านการตรวจ</h5>
-                                    <span class="h2 font-weight-bold mb-0"><?php echo ($pass_restaurant / $all_restaurant) * 100 ?></span>
+                                    <span class="h2 font-weight-bold mb-0"><?php echo round(($pass_restaurant / $all_restaurant) * 100, 2) ?></span>
                                 </div>
                             </div>
                         </div>
@@ -251,7 +251,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">จำนวนร้านค้าที่เข้ารับการตรวจในปีปฏิทิน</h5>
-                                    <span class="h2 font-weight-bold mb-0"><?php echo $all_restaurant_by_year ?></span>
+                                    <span class="h2 font-weight-bold mb-0"><?php echo number_format($all_restaurant_by_year) ?></span>
                                 </div>
                                 <div class="col-auto">
                                 </div>
@@ -265,8 +265,8 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">จำนวนร้านอาหารที่เปิดกิจการอยู่</h5>
-                                    <span class="h2 font-weight-bold mb-0"> <?php echo $pass_restaurant_by_year ?></span>
+                                    <h5 class="card-title text-uppercase text-muted mb-0">จำนวนร้านค้าที่ผ่านการตรวจ</h5>
+                                    <span class="h2 font-weight-bold mb-0"> <?php echo number_format($pass_restaurant_by_year) ?></span>
                                 </div>
                             </div>
                         </div>
@@ -281,8 +281,8 @@
                                     <?php
                                     $all_restaurant_by_year = $all_restaurant_by_year == 0? 1 : $all_restaurant_by_year;
                                     ?>
-                                    <h5 class="card-title text-uppercase text-muted mb-0">ประเภทร้านอาหาร</h5>
-                                    <span class="h2 font-weight-bold mb-0"><?php echo ($pass_restaurant_by_year / $all_restaurant_by_year) * 100 ?></span>
+                                    <h5 class="card-title text-uppercase text-muted mb-0">ร้อยละของร้านค้าที่ผ่านการตรวจ</h5>
+                                    <span class="h2 font-weight-bold mb-0"><?php echo round(($pass_restaurant_by_year / $all_restaurant_by_year) * 100, 2) ?></span>
                                 </div>
                             </div>
                         </div>

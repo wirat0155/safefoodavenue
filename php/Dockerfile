@@ -1,8 +1,10 @@
 FROM php:7.4-fpm-alpine
 
 RUN apk add --update --no-cache libgd libpng-dev libjpeg-turbo-dev freetype-dev libxml2-dev
-RUN docker-php-ext-install -j$(nproc) gd 
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+RUN docker-php-ext-install gd
 
+RUN docker-php-ext-install -j$(nproc) gd 
 RUN docker-php-ext-install xml mysqli bcmath opcache xml pdo_mysql 
 
 #RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu
@@ -27,5 +29,8 @@ RUN docker-php-ext-install zip
 
 RUN apk add ldb-dev libldap openldap-dev
 RUN docker-php-ext-install ldap
+
+RUN echo "extension=gd.so" > /usr/local/etc/php/conf.d/gd.ini
+
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 # RUN composer require google/apiclient
