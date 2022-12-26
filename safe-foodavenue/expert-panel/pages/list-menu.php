@@ -72,7 +72,14 @@
                   <td><?php echo $n; ?></td>
                   <td><?php echo $obj_menu["menu_name"]; ?></td>
                   <td>
-                    <?php echo $obj_menu["for_status"] ?>
+                    <?php 
+                    if ($obj_menu["for_status"] == 2) {
+                      echo "<span class='text-success'>ปลอดภัย</span>";
+                    }
+                    else {
+                      echo "รอตรวจสอบ";
+                    }
+                    ?>
                   </td>
                   <td>
                     <div class="mx-2">

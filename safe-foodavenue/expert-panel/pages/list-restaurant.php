@@ -9,6 +9,7 @@
   LEFT JOIN `sfa_entrepreneur` ON `sfa_restaurant`.`res_ent_id` = `sfa_entrepreneur`.`ent_id`
   LEFT JOIN `sfa_prefix` ON `sfa_entrepreneur`.`ent_pref_id` = `sfa_prefix`.`pref_id`
   LEFT JOIN `sfa_block` ON `sfa_restaurant`.`res_block_id` = `sfa_block`.`block_id`
+  LEFT JOIN `sfa_res_formalin_status` ON `sfa_restaurant`.`res_id` = `sfa_res_formalin_status`.`res_for_res_id`
   WHERE `sfa_restaurant`.`res_gov_id` = " . $_SESSION['us_gov_id'];
   $arr_restaurant = mysqli_query($con, $sql);
 
@@ -154,7 +155,14 @@
                     ?>
                   </td>
                   <td>
-                    รอตรวจสอบ
+                  <?php 
+                    if ($obj_restaurant["res_for_status"] == 1) {
+                      echo "<span class='text-success'>ปลอดภัย</span>";
+                    }
+                    else {
+                      echo "รอตรวจสอบ";
+                    }
+                    ?>
                   </td>
                   <td>
                     <a href="./?content=list-menu&res_id=<?= $obj_restaurant['res_id'] ?>">
