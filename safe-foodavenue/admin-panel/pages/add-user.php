@@ -1,24 +1,12 @@
-<!-- 
-/*
-* add-user
-* add-user
-* @input  prefix, firstname, lastname, role, username ,password
-* @output form add user
-* @author Nantasiri Saiwaew
-* @Create Date 2565-08-01
-*/ 
--->
-<style>
-.required:after {
-    color: red;
-    content: ' *';
-    display: inline;
-}
+<?php
+    // get array of prefix
+    $sql = "SELECT * FROM sfa_prefix";
+    $arrPrefix = mysqli_query($con, $sql);
 
-.required {
-    color: blue;
-}
-</style>
+    // get all role
+    $sql = "SELECT * FROM sfa_role";
+    $arrRole = mysqli_query($con, $sql);
+?>
 
 <!-- Header -->
 <div class="header bg-primary pb-6">
@@ -40,29 +28,22 @@
     </div>
 </div>
 
-<!-- Content -->
-<?php
-$sql = " SELECT * FROM sfa_role ";
-$dbRole = mysqli_query($con, $sql);
-
-?>
-
-
 <div class="container-fluid mt--6">
     <div class="row">
         <div class="col">
             <div class="card border-0">
                 <div class="table-responsive py-4 px-4">
-
                     <form action="./php/action-add-user.php" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-md-2 pb-4">
-                                <label for="prefix">คำนำหน้า</label>
-                                <select name="us_pre_id" class="form-control" aria-label="Default select example">
+                                <label for="prefix" class="required">คำนำหน้า</label>
+                                <select name="us_pref_id" class="select2 form-control" required>
                                     <option value="" disabled selected>คำนำหน้า</option>
-                                    <option value="1">นาย</option>
-                                    <option value="2">นาง</option>
-                                    <option value="3">นางสาว</option>
+                                    <?php
+                                    while ($objPrefix = mysqli_fetch_array($arrPrefix)) {
+                                        echo '<option value="' . $objPrefix['pref_id'] . '">' . $objPrefix['pref_title'] . '</option>';
+                                    }
+                                    ?>
                                 </select>
                             </div>
                             <div class="col-md-4" class="required">
@@ -80,44 +61,39 @@ $dbRole = mysqli_query($con, $sql);
                             <!-- ประเภทผู้ใช้งาน -->
                             <div class="col-md-3">
                                 <label for="role_id" class="required">ประเภทผู้ใช้งาน</label>
-                                <select name="role_id" id="role_id" class="form-control" required>
+                                <select name="role_id" id="role_id" class="select2 form-control" required>
                                     <option value="" selected disabled>เลือกประเภทผู้ใช้งาน</option>
-                                    <?php while ($row = mysqli_fetch_array($dbRole)) { ?>
-                                    <option value="<?= $row["role_id"] ?>">
-                                        <?= $row["role_title"] ?>
-                                    </option>
-                                    <?php } ?>
+                                    <?php
+                                    while ($objRole = mysqli_fetch_array($arrRole)) {
+                                        echo '<option value="' . $objRole['role_id'] . '">' . $objRole['role_title'] . '</option>';
+                                    }
+                                    ?>
                                 </select>
-                            </div>
-                            <div class="col-md-3">
-
                             </div>
                         </div>
                         <hr>
                         <b style="font-size: 20px;">สร้างบัญชีผู้ใช้</b>
                         <br>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4 mt-3">
                                 <label for="username" class="required">ชื่อผู้ใช้งาน</label>
                                 <input type="text" id="us_username" name="us_username" class="form-control" placeholder="ชื่อผู้ใช้งาน" oninput="check_name_username()" required>
                                 <span style='color:red' id="status_username"></span>
                             </div>
                         </div>
                         <div class="row">
-
-                            <div class="col-md-4">
+                            <div class="col-md-4 mt-3">
                                 <label for="password" class="required">รหัสผ่าน</label>
                                 <input type="password" id="us_password" name="us_password" minlength="8" class="form-control" placeholder="รหัสผ่านอย่างน้อย 8 ตัวอักษร" onkeyup="confirm_pass()" required>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 mt-3">
                                 <label for="confirm_password" class="required">ยืนยันรหัสผ่าน</label>
                                 <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="ยืนยันรหัสผ่าน" onkeyup="confirm_pass()" required>
                                 <span style='color:red' id="invalid_password"></span>
                             </div>
 
                         </div>
-                        <br>
-                        <div class="row pb-4" style="position: relative;">
+                        <div class="row pb-4  mt-3" style="position: relative;">
                             <div class="col-md-4">
                                 <input type="submit" class="btn btn-success" id="cf_btn" value="สร้างบัญชี">
                                 <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-user'">
@@ -132,17 +108,9 @@ $dbRole = mysqli_query($con, $sql);
     </div>
 
     <script>
-    var chk_pass = 0;
-    var chk_name_user = 0;
-    /*
-     * check_name_restaurant
-     * check name restaurant that have in database
-     * @input 
-     * @output 
-     * @author Nantasiri Saiwaew
-     * @Create Date 2565-06-29
-     */
-    // เช็คชือ่ร้านอาหารซ้ำ
+    var chk_password = 0;
+    var chk_name = 0;
+    var chk_username = 0;
     function check_name_username() {
         jQuery.ajax({
             url: "<?php echo "check_name.php" ?>",
@@ -150,53 +118,21 @@ $dbRole = mysqli_query($con, $sql);
             type: "POST",
             success: function(data) {
                 $("#status_username").html(data);
-                var chk_name_user = 0;
+                if (data.trim() == "ok") {
+                    var chk_username = 0;
+                    $("#status_username").html("<span style='color:green'>ชื่อผู้ใช้งานสามารถใช้ได้</span>");
+                } else if (data.trim() == "duplicate") {
+                    var chk_username = 1;
+                    $("#status_username").html("<span style='color:red'>ชื่อผู้ใช้งานซ้ำ</span>");
+                } else {
+                    var chk_username = 0;
+                    $("#status_username").html("");
+                }
                 check_btn_submit();
             },
             error: function() {}
         });
     }
-
-    // function check_fname_lname() {
-    //     var fl_name = {
-    //         "us_fname": "$('#us_fname').val()",
-    //         "us_lname": "$('#us_lname').val()"
-    //     }
-    //     jQuery.ajax({
-    //         url: "<?php echo "check_name.php" ?>",
-    //         data: fl_name,
-    //         type: "POST",
-    //         success: function(data) {
-    //             $("#status_fname_lname").html(data);
-    //       
-    //         },
-    //         error: function() {}
-    //     });
-    // }
-
-    // function check_fname() {
-    //     jQuery.ajax({
-    //         url: "<?php echo "check_name.php" ?>",
-    //         data: 'us_fname=' + $("#us_fname").val(),
-    //         type: "POST",
-    //         success: function(data) {
-    //             $("#status_fname").html(data);
-    //         },
-    //         error: function() {}
-    //     });
-    // }
-
-    // function check_lname() {
-    //     jQuery.ajax({
-    //         url: "<?php echo "check_name.php" ?>",
-    //         data: 'us_lname=' + $("#us_lname").val(),
-    //         type: "POST",
-    //         success: function(data) {
-    //             $("#status_lname").html(data);
-    //         },
-    //         error: function() {}
-    //     });
-    // }
 
     function check_name() {
         jQuery.ajax({
@@ -207,22 +143,22 @@ $dbRole = mysqli_query($con, $sql);
             },
             type: "POST",
             success: function(data) {
-                $("#status_fname").html(data);
+                if (data.trim() == "ok") {
+                    var chk_name = 0;
+                    $("#status_fname").html("<span style='color:green'>ชื่อและนามสกุลนี้ไม่เคยใช้มาก่อน สามารถใช้งานได้</span>");
+                } else if (data.trim() == "duplicate") {
+                    var chk_name = 1;
+                    $("#status_fname").html("<span style='color:red'>ชื่อและนามสกุลของผู้ใช้นี้มีในระบบแล้ว</span>");
+                } else {
+                    var chk_name = 1;
+                    $("#status_fname").html("");
+                }
+                check_btn_submit();
             },
             error: function() {}
         });
     }
-    /*
-     * 
-     * confirm_password
-     * alert confirm_password not match passwords
-     *@input password
-     *@parameter -
-     *output  checkconfirm_password
-     *@author Thanisorn thumsawanit 62160088
-     *@Create Date 2564-07-31
-     *@update Date 2564-09-20
-     */
+
     function confirm_pass() {
         if ($('#us_password').val() != $('#confirm_password').val() && $('#confirm_password').val() == null || $('#confirm_password').val() == "") {
             $('#invalid_password').text('');
@@ -240,7 +176,7 @@ $dbRole = mysqli_query($con, $sql);
     }
 
     function check_btn_submit() {
-        if (chk_password == 1 || chk_name_user == 1) {
+        if (chk_password == 1 || chk_username == 1 || chk_name == 1) {
             $('#cf_btn').prop('disabled', true);
         } else {
             $('#cf_btn').prop('disabled', false);

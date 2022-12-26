@@ -37,8 +37,8 @@
                     <form action="./php/action-add-formalin-checklist.php" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-md-2">
-                                <label for="year" class="required">ปี</label>
-                                <select id="year" class="form-control" onchange="set_date_start()">
+                                <label for="fcl_year" class="required">ปี</label>
+                                <select id="fcl_year" class="form-control" onchange="set_date_start();">
                                     <?php
                                     $year_now = date("Y");
                                     $count_year = $year_now;
@@ -97,9 +97,29 @@
             // change_min_end_date();
         });
 
+        // function check_date() {
+        //     let fcl_startdate = $("#fcl_startdate").val();
+        //     let fcl_enddate = $("#fcl_enddate").val();
+        //     if (fcl_startdate != "" && fcl_enddate != "") {
+        //         $.ajax({
+        //             dataType: "json",
+        //             url: "check_date.php",
+        //             type: "POST",
+        //             data: {
+        //                 fcl_startdate: fcl_startdate,
+        //                 fcl_enddate: fcl_enddate 
+        //             },
+        //             success: function(status) {
+        //                 console.log(status);
+        //             }
+        //         });
+        //     }
+        // }
+
         function set_date_start() {
-            var year = document.getElementById('year').value;
-            console.log(year);
+            var year = document.getElementById('fcl_year').value;
+            document.getElementById('fcl_startdate').value = '';
+            document.getElementById('fcl_enddate').value = '';
             $.ajax({
                 url: "get_date.php",
                 type: "POST",
@@ -108,8 +128,8 @@
                 },
                 cache: false,
                 success: function(dataResult) {
-                    start_day = new Date(dataResult);
                     console.log(dataResult);
+                    start_day = new Date(dataResult);
                     if (year == start_day.getFullYear()) {
                         start_day = new Date(dataResult);
                         start_day.setDate(start_day.getDate() + 1)
@@ -118,21 +138,15 @@
                             month = '0' + month;
                         }
                         day = start_day.getDate();
-                        // console.log(day);
                         if (day.toString().length == 1) {
                             day = '0' + day;
                         }
                         start_day = start_day.getFullYear() + "-" + month + "-" + day;
-                        // console.log(start_day + " in if ");
-
-                        // console.log(start_day + " in if");
 
                     } else {
                         start_day = year + '-01-01';
                         console.log(start_day + " in else");
                     }
-
-
                     end_day = year + '-12-31';
                     document.getElementById('fcl_startdate').setAttribute("min", start_day);
                     document.getElementById('fcl_startdate').setAttribute("max", end_day);
@@ -162,8 +176,10 @@
 
         function set_date_end() {
             var start_date_new = document.getElementById('fcl_startdate').value;
+            var end_date_new = $("#fcl_year").val() + '-12-31';
             document.getElementById('fcl_enddate').value = '';
             document.getElementById('fcl_enddate').setAttribute("min", start_date_new);
+            document.getElementById('fcl_enddate').setAttribute("max", end_date_new);
         }
 
         // function change_min_end_date() {

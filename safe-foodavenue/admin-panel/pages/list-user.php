@@ -9,7 +9,7 @@
                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                <li class="breadcrumb-item"><a href="./"><i class="fas fa-home"></i></a></li>
                                <li class="breadcrumb-item"><a href="./">หน้าแรก</a></li>
-                               <li class="breadcrumb-item active" aria-current="page">ฺรายการบัญชีผู้ใช้งาน</li>
+                               <li class="breadcrumb-item active" aria-current="page">รายการบัญชีผู้ใช้งาน</li>
                            </ol>
                        </nav>
                    </div>
@@ -29,8 +29,11 @@
    <!-- Content -->
    <?php
     $sql = "SELECT * 
-    FROM  sfa_user INNER JOIN sfa_role 
-       ON  sfa_user.us_role_id = sfa_role.role_id";
+    FROM  sfa_user 
+    LEFT JOIN sfa_role ON  sfa_user.us_role_id = sfa_role.role_id
+    LEFT JOIN sfa_prefix ON us_pref_id = pref_id
+    WHERE `sfa_user`.`us_accept_password` = 1
+    ORDER BY sfa_user.us_id DESC";
     $query = mysqli_query($con, $sql);
     ?>
 
@@ -45,9 +48,7 @@
                                    <th>ลำดับที่</th>
                                    <th>ชื่อ-นามสกุล</th>
                                    <th>ประเภทผู้ใช้งาน</th>
-                                   <th> Action </th>
-
-
+                                   <th>Action</th>
                                </tr>
                            </thead>
 
@@ -58,14 +59,10 @@
                                 ?>
                                <tr>
                                    <td><?php echo $n; ?></td>
-                                   <td><?php if ($row["us_pre_id"] == 1) {
-                                                echo "นาย";
-                                            } else if ($row["us_pre_id"] == 2) {
-                                                echo "นาง";
-                                            } else {
-                                                echo "นางสาว";
-                                            }
-                                            echo $row["us_fname"] . " " . $row["us_lname"]; ?></td>
+                                   <td><?php
+                                            echo $row["pref_title"];
+                                            echo $row["us_fname"] . " " . $row["us_lname"]; 
+                                            ?></td>
                                    <td><?php
                                             echo $row["role_title"];
                                             ?></td>
@@ -76,13 +73,11 @@
                                            <button class="btn btn-danger" style="font-size: 20px;line-height: 0.75;">
                                                <i class="ni ni-fat-remove"></i>
                                            </button>
-
-                                           <!-- <button class="btn alert-warning">แก้ไขข้อมูล</button> -->
                                    </td>
                                </tr>
                                <?php
                                     $n++;
-                                } // Wnd while 
+                                } // End while 
                                 ?>
 
                            </tbody>

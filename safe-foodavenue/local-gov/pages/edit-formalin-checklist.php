@@ -44,20 +44,34 @@
                     <form action="./php/action-edit-formalin-checklist.php" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <input type="hidden" id="fcl_id" name="fcl_id" class="form-control" value="<?php echo $fcl['fcl_id'] ?>">
+                            <div class="col-md-2">
+                                <label for="fcl_year" class="required">ปี</label>
+                                <select id="fcl_year" class="form-control" onchange="set_date_start();">
+                                    <?php
+                                    $year_now = date("Y");
+                                    $count_year = $year_now;
+                                    for ($i = 0; $i < 10; $i++) {
+                                        $selected = $fcl["fcl_year"] == $count_year? "selected" : "";
+                                        echo "<option value='" . $count_year . "' " . $selected . ">" . ($count_year + 543) . "</option>";
+                                        $count_year++;
+                                    }
+                                    ?>
+                                </select>
+                            </div>
                             <div class="col-md-4">
                                 <label for="first_name" class="required">วันที่เริ่มการตรวจ</label>
-                                <input type="date" id="fcl_startdate" name="fcl_startdate" class="form-control" min="<?php echo date('Y-m-d'); ?>" value="<?php  echo $fcl['fcl_startdate'];  ?>" required>
+                                <input type="date" id="fcl_startdate" name="fcl_startdate" class="form-control" value="<?php echo $fcl['fcl_startdate']?>" onchange="set_date_end()" required>
                             </div>
                             <div class="col-md-4">
                                 <label for="last_name" class="required">วันสิ้นสุดการตรวจ</label>
-                                <input type="date" id="fcl_enddate" name="fcl_enddate" class="form-control" min="<?php echo date('Y-m-d'); ?>" value="<?php echo $fcl['fcl_enddate']; ?>" required>
+                                <input type="date" id="fcl_enddate" name="fcl_enddate" class="form-control" value="<?php echo $fcl['fcl_enddate']?>" required>
                             </div>
                         </div>
-                        <br>
+                        <br />
                         <div class="row pb-4" style="position: relative;">
                             <div class="col-md-4">
-                                <input type="submit" class="btn btn-success" value="เเก้ไขรอบการตรวจ">
-                                <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-res-schedule'">
+                                <input type="submit" class="btn btn-warning" value="เเก้ไขรอบการตรวจ">
+                                <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-formalin-checklist'">
                             </div>
                         </div>
                     </form>
@@ -69,17 +83,59 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-    $(document).ready(function() {
-        change_min_end_date();
-    });
-    function change_min_end_date() {
-        $('#fcl_startdate').on('blur', function() {
-            var start_date = document.getElementById("fcl_startdate").value;
-            document.getElementById("fcl_enddate").value = '';
-            document.getElementById("fcl_enddate").min = start_date;
-            console.log(start_date);
+        var start_day = '';
+        var end_day = '';
+
+        $(document).ready(function() {
+            set_date_start();
         });
-    }
+
+        function set_date_start() {
+            var year = document.getElementById('fcl_year').value;
+            var fcl_id = $("#fcl_id").val();
+            document.getElementById('fcl_startdate').value = '';
+            document.getElementById('fcl_enddate').value = '';
+            $.ajax({
+                url: "get_date_for_edit.php",
+                type: "POST",
+                data: {
+                    year: year,
+                    fcl_id: fcl_id
+                },
+                cache: false,
+                success: function(dataResult) {
+                    start_day = new Date(dataResult);
+                    if (year == start_day.getFullYear()) {
+                        start_day = new Date(dataResult);
+                        start_day.setDate(start_day.getDate() + 1)
+                        month = start_day.getMonth() + 1;
+                        if (month.toString().length == 1) {
+                            month = '0' + month;
+                        }
+                        day = start_day.getDate();
+                        if (day.toString().length == 1) {
+                            day = '0' + day;
+                        }
+                        start_day = start_day.getFullYear() + "-" + month + "-" + day;
+
+                    } else {
+                        start_day = year + '-01-01';
+                        console.log(start_day + " in else");
+                    }
+                    end_day = year + '-12-31';
+                    document.getElementById('fcl_startdate').setAttribute("min", start_day);
+                    document.getElementById('fcl_startdate').setAttribute("max", end_day);
+                }
+            });
+        }
+
+        function set_date_end() {
+            var start_date_new = document.getElementById('fcl_startdate').value;
+            var end_date_new = $("#fcl_year").val() + '-12-31';
+            document.getElementById('fcl_enddate').value = '';
+            document.getElementById('fcl_enddate').setAttribute("min", start_date_new);
+            document.getElementById('fcl_enddate').setAttribute("max", end_date_new);
+        }
     </script>
 
     <!-- Footer -->

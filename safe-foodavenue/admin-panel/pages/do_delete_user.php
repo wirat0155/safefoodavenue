@@ -9,11 +9,10 @@
   ";
   mysqli_query($con, $sql);
 
-  echo "
-    <script>
-      alert('ลบข้อมูลเรียบร้อย');
-      window.location = './?content=list-user';
-    </script>
-  ";
+  echo "<script>
+     alert('เพิ่มผู้ใช้งานสำเร็จ');
+     window.location.href='../?content=list-user';
+     </script>
+     ";
 
 ?>

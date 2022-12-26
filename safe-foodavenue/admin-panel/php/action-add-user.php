@@ -1,21 +1,19 @@
 <?php 
      require '../../php/config.php'; 
-    //  $bid = $_POST["block_id"]; 
-     $prefix = $_POST["us_pre_id"];
-     $fname = $_POST["us_fname"];
-     $lname = $_POST["us_lname"];
-     $role = $_POST["role_id"]; 
-     $username = $_POST["us_username"]; 
-     $password = $_POST["us_password"];
-     
-     $sql = "INSERT INTO `sfa_user`(`us_fname`, `us_lname`, `us_username`, `us_password`, `us_role_id`, `us_pre_id`) 
-            VALUES ('$fname' ,'$lname','$username','$password','$role','$prefix')"; 
-     $query = mysqli_query($con, $sql); 
+     $us_pref_id = $_POST["us_pref_id"];
+     $us_fname = $_POST["us_fname"];
+     $us_lname = $_POST["us_lname"];
+     $us_role_id = $_POST["role_id"]; 
+     $us_username = $_POST["us_username"]; 
+     $us_password = $_POST["us_password"];
+     $us_gov_id = NULL;
 
+     $sql = "INSERT INTO `sfa_user`(`us_fname`, `us_lname`, `us_username`, `us_password`, `us_gov_id`, `us_role_id`, `us_pref_id`) 
+              VALUES ('$us_fname', '$us_lname', '$us_username', '$us_password', '$us_gov_id', '$us_role_id', '$us_pref_id')";
+     $query = mysqli_query($con, $sql); 
      echo "<script>
      alert('เพิ่มผู้ใช้งานสำเร็จ');
      window.location.href='../?content=list-user';
      </script>
      ";
-     // header("location:../?content=list-user");
 ?>

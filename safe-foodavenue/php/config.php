@@ -1,7 +1,6 @@
 <?php
   // session_start();
-   require_once '../vendor/autoload.php';
-
+  is_file('../vendor/autoload.php') ? require_once('../vendor/autoload.php') : require_once('../../vendor/autoload.php');
   // init configuration
   $clientID = '867635099034-0amvr55dhcpdokjap2dg86gdnqf4ugvr.apps.googleusercontent.com';
   $clientSecret = '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';

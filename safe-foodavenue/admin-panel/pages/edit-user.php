@@ -41,24 +41,23 @@
     </div>
 </div>
 
-<!-- Content -->
 <?php
-$sql = " SELECT * FROM sfa_role ";
-$dbRole = mysqli_query($con, $sql);
+    // user id to be edited
+    $user_id = $_GET["us_id"];
 
+    // get array of prefix
+    $sql = "SELECT * FROM sfa_prefix";
+    $arrPrefix = mysqli_query($con, $sql);
+
+    // get array of role
+    $sql = "SELECT * FROM sfa_role";
+    $arrRole = mysqli_query($con, $sql);
+
+    // get user object
+    $sql = "SELECT * FROM sfa_user WHERE us_id = " . $user_id;
+    $dbUser = mysqli_query($con, $sql);
+    $user_data = mysqli_fetch_array($dbUser);
 ?>
-<?php
-$user_id = $_GET["us_id"];
-
-$sql = " SELECT * FROM sfa_user WHERE us_id=".$user_id;
-$dbUser = mysqli_query($con, $sql);
-$user_data = mysqli_fetch_array($dbUser);
-
-$sql = " SELECT * FROM sfa_prefix ";
-$dbPrefix = mysqli_query($con, $sql);
-
-?>
-
 
 <div class="container-fluid mt--6">
     <div class="row">
@@ -70,17 +69,15 @@ $dbPrefix = mysqli_query($con, $sql);
                         <input type="text" name="us_id" value="<?php echo $user_data["us_id"] ?>" hidden>
                         <div class="row">
                             <div class="col-md-2 pb-4">
-                                <label for="prefix">คำนำหน้า</label>
-                                <select name="us_pre_id" class="form-control" aria-label="Default select example" value="<?php echo $user_data["us_pre_id"] ?>">
+                                <label for="prefix" class="required">คำนำหน้า</label>
+                                <select name="us_pref_id" class="form-control" value="<?php echo $user_data["us_pref_id"] ?>">
                                     <option value="" disabled selected>คำนำหน้า</option>
-                                    <?php while ($row = mysqli_fetch_array($dbPrefix)) { ?>
-                                    <?php $selected = $user_data["us_pre_id"] == $row["pref_id"] ? "selected" : ""; ?>
-                                    <option value="<?= $row["pref_id"] ?>" <?= $selected ?>>
-                                        <?= $row["pref_title"] ?>
+                                    <?php 
+                                    while ($objPrefix = mysqli_fetch_array($arrPrefix)) { ?>
+                                    <?php $selected = $user_data["us_pref_id"] == $objPrefix["pref_id"] ? "selected" : ""; ?>
+                                    <option value="<?= $objPrefix["pref_id"] ?>" <?= $selected ?>>
+                                        <?= $objPrefix["pref_title"] ?>
                                     </option>
-                                    <!-- <option value="1">นาย</option>
-                                    <option value="2">นาง</option>
-                                    <option value="3">นางสาว</option> -->
                                     <?php } ?>
                                 </select>
                             </div>
@@ -95,22 +92,19 @@ $dbPrefix = mysqli_query($con, $sql);
                                 <span style='color:red' id=" status_lname"></span>
                             </div>
 
-
                             <!-- ประเภทผู้ใช้งาน -->
                             <div class="col-md-3">
                                 <label for="role_id" class="required">ประเภทผู้ใช้งาน</label>
                                 <select name="role_id" id="role_id" class="form-control" required>
                                     <option value="" selected disabled>เลือกประเภทผู้ใช้งาน</option>
-                                    <?php while ($row = mysqli_fetch_array($dbRole)) { ?>
-                                    <?php $selected = $user_data["us_role_id"] == $row["role_id"] ? "selected" : ""; ?>
-                                    <option value="<?= $row["role_id"] ?>" <?= $selected ?>>
-                                        <?= $row["role_title"] ?>
+                                    <?php 
+                                    while ($objRole = mysqli_fetch_array($arrRole)) { ?>
+                                    <?php $selected = $user_data["us_role_id"] == $objRole["role_id"] ? "selected" : ""; ?>
+                                    <option value="<?= $objRole["role_id"] ?>" <?= $selected ?>>
+                                        <?= $objRole["role_title"] ?>
                                     </option>
                                     <?php } ?>
                                 </select>
-                            </div>
-                            <div class="col-md-3">
-
                             </div>
                         </div>
                         <hr>
@@ -123,15 +117,17 @@ $dbPrefix = mysqli_query($con, $sql);
                                 <span style='color:red' id="status_username"></span>
                             </div>
                         </div>
+                        
+                        <br />
+                        <p>ถ้าไม่กรอกรหัส ระบบจะใช้รหัสผ่านเดิม</p>
                         <div class="row">
-
                             <div class="col-md-4">
-                                <label for="password" class="required">รหัสผ่าน</label>
-                                <input type="password" id="us_password" name="us_password" minlength="8" class="form-control" placeholder="รหัสผ่านอย่างน้อย 8 ตัวอักษร" onkeyup="confirm_pass()" value="<?php echo $user_data["us_password"] ?>" required>
+                                <label for="password">รหัสผ่าน</label>
+                                <input type="password" id="us_password" name="us_password" minlength="8" class="form-control" placeholder="รหัสผ่านอย่างน้อย 8 ตัวอักษร" onkeyup="confirm_pass()">
                             </div>
                             <div class=" col-md-4">
-                                <label for="confirm_password" class="required">ยืนยันรหัสผ่าน</label>
-                                <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="ยืนยันรหัสผ่าน" onkeyup="confirm_pass()" value="<?php echo $user_data["us_password"] ?>" required>
+                                <label for="confirm_password">ยืนยันรหัสผ่าน</label>
+                                <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="ยืนยันรหัสผ่าน" onkeyup="confirm_pass()">
                                 <span style='color:red' id="invalid_password"></span>
                             </div>
 
@@ -139,11 +135,10 @@ $dbPrefix = mysqli_query($con, $sql);
                         <br>
                         <div class="row pb-4" style="position: relative;">
                             <div class="col-md-4">
-                                <input type="submit" class="btn btn-success" id="cf_btn" value="สร้างบัญชี">
+                                <input type="submit" class="btn btn-warning" id="cf_btn" value="แก้ไขบัญชี">
                                 <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-user'">
                             </div>
                         </div>
-
                     </form>
 
                 </div>
@@ -152,8 +147,9 @@ $dbPrefix = mysqli_query($con, $sql);
     </div>
 
     <script>
-    var chk_pass = 0;
-    var chk_name_user = 0;
+    var chk_password = 0;
+    var chk_name = 0;
+    var chk_username = 0;
     /*
      * check_name_restaurant
      * check name restaurant that have in database
@@ -162,7 +158,7 @@ $dbPrefix = mysqli_query($con, $sql);
      * @author Nantasiri Saiwaew
      * @Create Date 2565-06-29
      */
-    // เช็คชือ่ร้านอาหารซ้ำ
+    // เช็คชื่อผู้ใช้งานซ้ำหรือไม่
     function check_name_username() {
         jQuery.ajax({
             url: "<?php echo "check_name.php" ?>",
@@ -170,7 +166,16 @@ $dbPrefix = mysqli_query($con, $sql);
             type: "POST",
             success: function(data) {
                 $("#status_username").html(data);
-                var chk_name_user = 0;
+                if (data.trim() == "ok") {
+                    var chk_username = 0;
+                    $("#status_username").html("<span style='color:green'>ชื่อผู้ใช้งานสามารถใช้ได้</span>");
+                } else if (data.trim() == "duplicate") {
+                    var chk_username = 1;
+                    $("#status_username").html("<span style='color:red'>ชื่อผู้ใช้งานซ้ำ</span>");
+                } else {
+                    var chk_username = 0;
+                    $("#status_username").html("");
+                }
                 check_btn_submit();
             },
             error: function() {}
@@ -227,7 +232,17 @@ $dbPrefix = mysqli_query($con, $sql);
             },
             type: "POST",
             success: function(data) {
-                $("#status_fname").html(data);
+                if (data.trim() == "ok") {
+                    var chk_name = 0;
+                    $("#status_fname").html("<span style='color:green'>ชื่อและนามสกุลนี้ไม่เคยใช้มาก่อน สามารถใช้งานได้</span>");
+                } else if (data.trim() == "duplicate") {
+                    var chk_name = 1;
+                    $("#status_fname").html("<span style='color:red'>ชื่อและนามสกุลของผู้ใช้นี้มีในระบบแล้ว</span>");
+                } else {
+                    var chk_name = 1;
+                    $("#status_fname").html("");
+                }
+                check_btn_submit();
             },
             error: function() {}
         });
@@ -260,7 +275,7 @@ $dbPrefix = mysqli_query($con, $sql);
     }
 
     function check_btn_submit() {
-        if (chk_password == 1 || chk_name_user == 1) {
+        if (chk_password == 1 || chk_username == 1 || chk_name == 1) {
             $('#cf_btn').prop('disabled', true);
         } else {
             $('#cf_btn').prop('disabled', false);

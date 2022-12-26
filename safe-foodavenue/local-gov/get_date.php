@@ -9,5 +9,5 @@ $result = mysqli_query($con, $sql);
 
 $data = mysqli_fetch_array($result);
 
-  echo json_encode($data[0]);
+echo json_encode($data[0]);
 ?>
