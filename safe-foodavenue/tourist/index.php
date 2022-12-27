@@ -43,6 +43,7 @@ session_start();
   <!-- Argon CSS -->
   <link rel="stylesheet" href="../assets/css/argon.css?v=1.1.0" type="text/css">
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsQsJq6QLsJRyETeDLBLyc6Wx73snZPIo&callback=initMap"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <style>

@@ -10,27 +10,12 @@ body {
 <nav class="navbar navbar-top navbar-expand navbar-dark border-bottom">
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- Search form -->
-            <!-- <form class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
-            <div class="form-group mb-0">
-              <div class="input-group input-group-alternative input-group-merge">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fas fa-search"></i></span>
-                </div>
-                <input class="form-control" placeholder="Search" type="text">
-              </div>
-            </div>
-            <button type="button" class="close" data-action="search-close" data-target="#navbar-search-main" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </form> -->
-
             <a class="navbar-nav " href="index.php?content=list-restaurant">
                 <div style="width: 200px; padding: 0px 10px;">
                     <img src="../assets/img/brand/plogo.png" style="width: 100%;">
                 </div>
             </a>
-            <?php if(isset($_SESSION["username"])) { ?>
+            <?php if(isset($_SESSION["us_username"])) { ?>
             <!-- Navbar links -->
             <ul class="navbar-nav align-items-center ml-md-auto">
                 <li class="nav-item d-xl-none">
@@ -215,7 +200,7 @@ body {
                             <i class="ni ni-circle-08" style="color:black; font-size:36px;"></i>
                             <div class="media-body ml-2 d-none d-lg-block" style="color:black">
                                 <?php 
-                          $username_tourist = isset($_SESSION["name"]) ? $_SESSION["name"] : "John Snow";
+                          $username_tourist = isset($_SESSION["us_fullname"]) ? $_SESSION["us_fullname"] : "Unknow User";
                           echo $username_tourist;
                         ?>
                             </div>

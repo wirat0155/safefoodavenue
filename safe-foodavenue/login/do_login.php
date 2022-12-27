@@ -44,7 +44,11 @@
     }
     else {
       //กรณีไม่ใช่ role หลักที่มีส่วนสำคัญในระบบ (ผู้ดูแลระบบ ผู้เชี่ยวชาญ เทศบาล(อยู่ในระหว่างการพัฒนา) ผู้ประกอบการ(ถ้ามี อยู่ในระหว่างการพัฒนา)) จะถูกส่งไปหน้านักท่องเที่ยวทั้งหมด
-      header("location: ../tourist/?content=disp-block-map");
+      if($_SESSION["res_id"]){
+        header('location: ../tourist/?content=detail-restaurant&id=' . urlencode($_SESSION["res_id"]) );
+      }else{
+         header("location: ../tourist/?content=disp-block-map");
+      }
     }
 
   } else {

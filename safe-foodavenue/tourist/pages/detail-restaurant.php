@@ -1,4 +1,5 @@
 <?php
+session_start();
 $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
 ?>
 
@@ -7,8 +8,8 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
 
 <style>
     .card-fix {
-        max-height: 400px !important;
-        height: 400px !important;
+        max-height: 500px !important;
+        height: 500px !important;
 
     }
 
@@ -49,45 +50,41 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
     .badge-warning-fix {
         background-color: #FFB600;
     }
-    .pic_fix{
+
+    .pic_fix {
         object-fit: cover;
     }
+
+    @media only screen and (max-width: 600px) {}
 </style>
 
 <!-- Header -->
 <div class="header bg-primary pb-6">
     <div class="container-fluid">
-        <div class="header-body">
-            <div class="row align-items-center py-4">
-                <div class="col-lg-6 col-7">
+        <div class="header-body ">
+            <div class="row align-items-center py-4 py-config">
+                <div class="col-lg-16 col-sm-16">
                     <h6 class="h2 text-white d-inline-block mb-0">รายละเอียดร้านอาหาร</h6>
-                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                    <nav aria-label="breadcrumb" class=" d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                            <li class="breadcrumb-item"><a href="https://prepro.informatics.buu.ac.th/~manpower/safe-foodavenue"><i class="fas fa-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="./index.php?content=list-restaurant">หน้าแรก</a></li>
+                            <li class="breadcrumb-item"><a href=""><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="?content=disp-block-map">หน้าแรก</a></li>
+                            <li class="breadcrumb-item"><a href="?content=list-restaurant">รายการร้านอาหาร</a></li>
                             <li class="breadcrumb-item active" aria-current="page">รายละเอียดร้านอาหาร</li>
                         </ol>
                     </nav>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
 
-<div class="container-fluid mt--6">
+<div class="container-fluid container-config mt--6">
     <div class="row">
         <div class="col">
             <div class="card border-0">
                 <div class="table-responsive py-4 px-4">
-
-                    <div class="row pb-4">
-                        <div class="col-md h2">
-                            <label>รายละเอียดร้านอาหาร</label>
-                        </div>
-                    </div>
-
-                    <hr style="margin-top: -1rem; margin-bottom: 1rem;">
-
                     <div class="container" id="container">
                         <div class="row">
                             <div class="col">
@@ -122,7 +119,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                             <div class="col-lg-4 col-md-16">
                                 <div class="card card-fix">
                                     <div class="card-body text-center bg-gray-fix">
-                                     
+
                                         <div class="" id="google_map_app"></div>
 
                                         <p class="text mt-4 text-size-16" id="res_address">ตัวอย่าง ที่อยู่</p>
@@ -140,49 +137,72 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
 
                         <div class="row">
                             <div class="col">
-                                <div class="card d-flex justify-content-center">
-                                    <div class="card bg-gray-fix">
-                                        <div class="card-body text-center">
-                                            <div class="row">
-                                                <div class="col text-center">
-                                                    <span class="text-dark mt-4 mb-4 text-size-24">
-                                                        <b><span class="text-size-24" id="average_rating">0</span> / 5</b>
-                                                    </span>
+                                <div class="card d-flex justify-content-center bg-gray-fix">
+                                    <div class="card-body text-center">
+                                        <div class="row">
+                                            <div class="col text-center">
+                                                <span class="text-dark mt-4 mb-4 text-size-24">
+                                                    <b><span class="text-size-24" id="average_rating">0</span></b>
+                                                </span>
 
-                                                    <i class="fas fa-star star-light mr-1 main_star text-size-24"></i>
-                                                    <i class="fas fa-star star-light mr-1 main_star text-size-24"></i>
-                                                    <i class="fas fa-star star-light mr-1 main_star text-size-24"></i>
-                                                    <i class="fas fa-star star-light mr-1 main_star text-size-24"></i>
-                                                    <i class="fas fa-star star-light mr-1 main_star text-size-24"></i>
+                                                <i class="fas fa-star star-light mr-1 main_star text-size-24"></i>
+                                                <i class="fas fa-star star-light mr-1 main_star text-size-24"></i>
+                                                <i class="fas fa-star star-light mr-1 main_star text-size-24"></i>
+                                                <i class="fas fa-star star-light mr-1 main_star text-size-24"></i>
+                                                <i class="fas fa-star star-light mr-1 main_star text-size-24"></i>
 
-                                                    <h3 class="text-size-16"><span id="total_review"></span> ยังไม่มีการรีวิว</h3>
-                                                </div>
+                                                <h3 class="text-size-16"><span id="total_review"></span></h3>
                                             </div>
-                                            <div class="row mt-4">
-                                                <div class="col">
-                                                    <span class="text-size-24">ให้คะแนนร้านนี้</span>
-                                                    <span class="text-center mt-2 mb-4 m-2 text-size-36">
-                                                        <i class="fas fa-star star-light submit_star mr-1" id="submit_star_1" data-rating="1"></i>
-                                                        <i class="fas fa-star star-light submit_star mr-1" id="submit_star_2" data-rating="2"></i>
-                                                        <i class="fas fa-star star-light submit_star mr-1" id="submit_star_3" data-rating="3"></i>
-                                                        <i class="fas fa-star star-light submit_star mr-1" id="submit_star_4" data-rating="4"></i>
-                                                        <i class="fas fa-star star-light submit_star mr-1" id="submit_star_5" data-rating="5"></i>
-                                                    </span>
-                                                </div>
+                                        </div>
+                                        <div class="row mt-4">
+                                            <div class="col">
+                                                <span class="text-size-24">ให้คะแนนร้านนี้</span> <br>
+                                                <h4 class="text-center mt-2 mb-4 text-size-24">
+                                                    <i class="fas fa-star star-light submit_star mr-1" id="submit_star_1" data-rating="1"></i>
+                                                    <i class="fas fa-star star-light submit_star mr-1" id="submit_star_2" data-rating="2"></i>
+                                                    <i class="fas fa-star star-light submit_star mr-1" id="submit_star_3" data-rating="3"></i>
+                                                    <i class="fas fa-star star-light submit_star mr-1" id="submit_star_4" data-rating="4"></i>
+                                                    <i class="fas fa-star star-light submit_star mr-1" id="submit_star_5" data-rating="5"></i>
+                                                </h4>
                                             </div>
-                                            <div class="row mt-4">
-                                                <div class="col">
-                                                    <div class="form-group justify-content-center">
-                                                        <textarea name="user_review" id="user_review" rows="7" class="form-control text-size-16" placeholder="รีวิวของคุณ"></textarea>
-                                                    </div>
-                                                    <div class="form-group text-center mt-4">
-                                                        <button type="button" class="btn btn-info text-size-16" id="save_review">โพสต์</button>
-                                                    </div>
+                                        </div>
+                                        <div class="row mt-4">
+                                            <div class="col">
+                                                <div class="form-group justify-content-center">
+                                                    <textarea name="rev_comment" id="rev_comment" rows="7" class="form-control text-size-16" placeholder="รีวิวของคุณ"></textarea>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row mt-3 mr-3 text-right justify-content-end">
+                                            <button type="button" class="btn btn-info text-size-16" id="save_review">โพสต์</button>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-4 col-sm-8">
+                                                <div class="form-inline m-3">
+                                                    <label for="">ตัวกรอง : </label>
+                                                    <select class="form-control m-2 bg-info text-white" id="star_search">
+                                                        <option value="0">ทั้งหมด</option>
+                                                        <option value="5">5 ดาว</option>
+                                                        <option value="4">4 ดาว</option>
+                                                        <option value="3">3 ดาว</option>
+                                                        <option value="2">2 ดาว</option>
+                                                        <option value="1">1 ดาว</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
+
+
+                                        <div class="mt-5" id="review_content"></div>
+
+
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -190,27 +210,28 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
             </div>
         </div>
     </div>
+</div>
 
 
-    <div class="modal bd-example-modal-lg" id="sfa_menu_modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">วัตถุดิบที่ได้รับการตรวจสารฟอร์มาลีน</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="table_menu"></div>
+<div class="modal bd-example-modal-lg" id="sfa_menu_modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">วัตถุดิบที่ได้รับการตรวจสารฟอร์มาลีน</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="table_menu"></div>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
             </div>
         </div>
     </div>
+</div>
 
 
 </div>
@@ -220,8 +241,10 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
     var res_id = <?php echo $res_id;  ?>;
     var res_location_lat = '';
     var res_location_lon = '';
+    star = 0; 
 
     $(document).ready(function() {
+        
         //set data in ajax
         jQuery.ajax({
             url: "./get-restuarant-detail-data.php",
@@ -247,9 +270,22 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
             get_data_menu();
         });
 
+        if (localStorage.getItem("rev_rating")) {
+
+            save_review(localStorage.getItem("rev_rating"), localStorage.getItem("rev_comment"));
+
+            localStorage.removeItem("rev_rating");
+            localStorage.removeItem("rev_comment");
+
+            <?php
+            $_SESSION["res_id"] = $res_id;
+            ?>
+        }
+
+        load_rating_data(star);
     });
 
-    
+
     function get_data_menu() {
         jQuery.ajax({
             url: "./get-data-menu-detail-res-page.php",
@@ -344,13 +380,13 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
         res_location_lon = data["data_location"][0].lon; // set location data 
 
         html_map = '';
-        if(res_location_lat == null && res_location_lon == null){
+        if (res_location_lat == null && res_location_lon == null) {
             // lat lon res = null ---> no button
             html_map += '<img src="./../assets/img/icons/common/googlemap.PNG" class="set-pic text-center" alt="test"> <br>';
             html_map += '<button class="btn btn-light mt-2" id="button_geolocation" ><span class="text-size-16">';
-            html_map +=  '<i class="fas fa-map-marker"></i> ไม่มีข้อมูลตำแหน่ง</span></button>';
+            html_map += '<i class="fas fa-map-marker"></i> ไม่มีข้อมูลตำแหน่ง</span></button>';
             $("#google_map_app").html(html_map);
-        }else{
+        } else {
             // create button
             html_map += '<img src="./../assets/img/icons/common/googlemap.PNG" class="set-pic text-center" alt="test"> <br>';
             html_map += '<button class="btn btn-info mt-2" id="button_geolocation" onclick="click_go_google_map()" ><span class="text-size-16"> <i class="fas fa-map-marker"></i> นำทาง</span></button>';
@@ -359,40 +395,38 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
 
     }
 
-    function click_go_google_map(){
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(on_geo_success, on_geo_error);
-            } else {
-                //  x.innerHTML = "Geolocation is not supported by this browser.";
-                alert("Geolocation is not supported by this browser.");
-            }
+    function click_go_google_map() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(on_geo_success, on_geo_error);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
     }
 
-       // If we have a successful location update
-       function on_geo_success(event) {
-            lat = event.coords.latitude;
-            lon = event.coords.longitude;
+    // If we have a successful location update
+    function on_geo_success(event) {
+        lat = event.coords.latitude;
+        lon = event.coords.longitude;
 
-            if (!lat && !lon) {
+        if (!lat && !lon) {
 
-                window.open(
-                    "https://maps.google.com/?daddr=" + res_location_lat + ',' + res_location_lon,
-                    '_blank'
-                );
-            } else {
-                window.open(
-                    "https://maps.google.com/?saddr=" + lat + "," + lon + "&daddr=" + res_location_lat + ',' + res_location_lon,
-                    '_blank'
-                );
-            }
+            window.open(
+                "https://maps.google.com/?daddr=" + res_location_lat + ',' + res_location_lon,
+                '_blank'
+            );
+        } else {
+            window.open(
+                "https://maps.google.com/?saddr=" + lat + "," + lon + "&daddr=" + res_location_lat + ',' + res_location_lon,
+                '_blank'
+            );
         }
+    }
 
 
-        // If something has gone wrong with the geolocation request
-        function on_geo_error(event) {
-            alert("Error code " + event.code + ". " + event.message);
-        }
-
+    // If something has gone wrong with the geolocation request
+    function on_geo_error(event) {
+        alert("Error code " + event.code + ". " + event.message);
+    }
 
     function set_picture_res(data) {
         //set picture
@@ -406,5 +440,241 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
             document.getElementById("res_img_path").src = "../admin-panel/php/uploads/img/" + data[0].res_img_path;
         }
         //modal_sfa_menu
+    }
+
+    // rating module
+    var us_id = <?php if ($_SESSION["us_id"]) {
+                    echo $_SESSION["us_id"];
+                } else {
+                    echo "'no session'";
+                } ?>;
+    var rev_rating = 0;
+
+
+    $("#star_search").change(function() {
+       // $(this).css("background-color", "#D6D6FF");
+     
+        console.log("check")
+  
+        console.log($(this).val());
+
+        star = $(this).val();
+
+        load_rating_data(star) 
+
+    });
+
+    function load_rating_data(star) {
+        $.ajax({
+            url: "./get_rating.php",
+            method: "POST",
+            data: {
+                action: 'load_data',
+                res_id: res_id,
+                star : star
+            },
+            dataType: "JSON",
+            success: function(data) {
+
+                console.log(data);
+                var html = '';
+                if (data.review_data.length > 0) {
+
+                    avg_rating = parseFloat(data.review_avg[0].avg_rev_rating);
+
+                    $('#average_rating').text(Number(avg_rating.toFixed(1)));
+
+                    $('#total_review').text(data.review_data.length + " " + "รีวิว");
+
+                    var count_star = 0;
+
+                    $('.main_star').each(function() {
+                        count_star++;
+                        if (Math.ceil(avg_rating) >= count_star) {
+                            $(this).addClass('text-warning');
+                            $(this).addClass('star-light');
+                        }
+                    });
+
+
+                    for (var i = 0; i < data.review_data.length; i++) {
+                        html += '<div class="row mb-3">';
+
+                        html += '<div class="col-sm-1"><i class="fas fa-user text-size-36"></i>';
+                        html += '</div>';
+
+                        html += '<div class="col-sm-11">';
+
+                        html += '<div class="card">';
+
+                        html += '<div class="card-header"><b>' + data.review_data[i].us_fname + ' ' + data.review_data[i].us_lname + '</b></div>';
+
+                        html += '<div class="card-body">';
+
+                        for (var star = 1; star <= 5; star++) {
+                            var class_name = '';
+
+                            if (data.review_data[i].rev_rating >= star) {
+                                class_name = 'text-warning';
+                            } else {
+                                class_name = 'star-light';
+                            }
+
+                            html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
+                        }
+
+                        html += '<br />';
+                        html += '<br />';
+
+                        html += data.review_data[i].rev_comment;
+
+                        html += '</div>';
+
+                        html += '</div>';
+
+                        html += '</div>';
+
+                        html += '</div>';
+                    }
+                    $('#review_content').html(html);
+                } else {
+
+                    $('#total_review').text("ยังไม่มีการรีวิว");
+
+                    html += '<div class="row mb-3">';
+                    html += '<div class="col-sm-12">';
+                    html += 'ร้านนี้ยังไม่มีรีวิว';
+                    html += '</div>';
+                    html += '</div>';
+
+                    $('#review_content').html(html);
+                }
+            },
+            error: function(error) {
+                Swal.fire(
+                    'Error',
+                    'ขออภัย มีข้อผิดพลาดเกิดขึ้น',
+                    'error'
+                )
+            }
+        })
+    }
+
+    $(document).on('mouseenter', '.submit_star', function() {
+
+        var rating = $(this).data('rating');
+
+        reset_background();
+
+        for (var i = 1; i <= rating; i++) {
+
+            $('#submit_star_' + i).addClass('text-warning');
+
+        }
+
+    });
+
+    function reset_background() {
+        for (var i = 1; i <= 5; i++) {
+
+            $('#submit_star_' + i).addClass('star-light');
+
+            $('#submit_star_' + i).removeClass('text-warning');
+
+        }
+    }
+
+    $(document).on('mouseleave', '.submit_star', function() {
+
+        reset_background();
+
+        for (var count = 1; count <= rev_rating; count++) {
+
+            $('#submit_star_' + count).removeClass('star-light');
+
+            $('#submit_star_' + count).addClass('text-warning');
+        }
+
+    });
+
+    $(document).on('click', '.submit_star', function() {
+
+        rev_rating = $(this).data('rating');
+
+    });
+
+
+    $('#save_review').click(function() {
+
+        var rev_comment = $('#rev_comment').val();
+
+        if (us_id == "no session") {
+            localStorage.setItem("rev_rating", rev_rating);
+            localStorage.setItem("rev_comment", rev_comment);
+
+            <?php
+            $_SESSION["res_id"] = $res_id;
+            ?>
+
+            window.location.href = '../../login/login.php';
+
+        } else {
+            console.log(rev_comment);
+
+            if (rev_comment.length == 0 && rev_rating == 0) {
+                Swal.fire(
+                    'แจ้งเตือน',
+                    'กรุณากรอกการรีวิว',
+                    'warning'
+                );
+
+                return false;
+            } else {
+                save_review(rev_rating, rev_comment);
+            }
+        }
+
+    });
+
+
+
+    function save_review(rev_rating, rev_comment) {
+        $.ajax({
+            url: "./add_rating.php",
+            method: "POST",
+            data: {
+                rev_rating: rev_rating,
+                rev_comment: rev_comment,
+                us_id: us_id,
+                res_id: res_id
+            },
+            success: function(data) {
+
+                console.log(data);
+
+                    Swal.fire(
+                        'รีวิวเสร็จสิ้น',
+                        'ขอบคุณลูกค้าสำหรับการรีวิว',
+                        'success'
+                    );
+
+                    load_rating_data(star);
+                
+
+
+                $('#rev_comment').val('');
+
+                reset_background();
+
+
+            },
+            error: function(error) {
+                Swal.fire(
+                    'Error',
+                    'ขออภัย มีข้อผิดพลาดเกิดขึ้น',
+                    'error'
+                )
+            }
+        })
     }
 </script>

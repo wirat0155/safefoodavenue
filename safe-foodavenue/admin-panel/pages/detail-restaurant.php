@@ -190,13 +190,9 @@ $res_id = isset($_GET["res_id"]) ? $_GET["res_id"] : "1";
             success: function(data) {
                 set_data_in_page(data);
                 set_picture_res(data['data_pic']);
-
-
-                console.log(data);
             },
             error: function() {
                 console.log("ERROR");
-                //location.href = "./index.php?content=404_page";
             }
         });
 
