@@ -32,8 +32,8 @@
           </nav>
         </div>
         <div class="col-lg-6 col-5 text-right">
-          <a href="?content=add-menu&res_id=<?= $res_id ?>&fcl_id=<?= $row_formalin["fcl_id"] ?>" class="btn btn-sm btn-neutral">เพิ่มเมนูอาหาร</a>
-          <a href="?content=history-formalin&res_id=<?= $res_id ?>" class="btn btn-sm btn-neutral">ดูผลตรวจ</a>
+          <a href="?content=add-menu&res_id=<?= $res_id ?>" class="btn btn-sm btn-neutral">เพิ่มเมนูอาหาร</a>
+          <a href="?content=history-res-result&res_id=<?= $res_id ?>" class="btn btn-sm btn-neutral">ดูผลตรวจ</a>
         </div>
       </div>
     </div>
@@ -84,10 +84,10 @@
                   <td>
                     <div class="mx-2">
                       <?php
-                        $x1 = $obj_menu['x_center_1'];
-                        $x2 = $obj_menu['x_center_2'];
-                        $y1 = $obj_menu['y_center_1'];
-                        $y2 = $obj_menu['y_center_2'];
+                        $x1 = $obj_menu['for_x_center_1'];
+                        $x2 = $obj_menu['for_x_center_2'];
+                        $y1 = $obj_menu['for_y_center_1'];
+                        $y2 = $obj_menu['for_y_center_2'];
                         $r1 = $obj_menu['for_radius_1'];
                         $r2 = $obj_menu['for_radius_2'];
                         $fn = $obj_menu['for_img_path'];
@@ -96,8 +96,10 @@
                         // $imagePath = "./pages/circle_img.php?x1=" . $x1 . "&y1=" . $y1 . "&r1=" . $r1 . "&x2=" . $x2 . "&y2=" . $y2 . "&r2=" . $r2 . "&fn=" . $fn;
 
                         // echo '<img src="' . $imagePath . '">';
-                        $imagePath = "../assets/img/uploads/" . $obj_menu["for_img_path"];
-                        echo '<img src="' . $imagePath . '">';
+                        if ($fn != "") {
+                          $imagePath = "../assets/img/uploads/" . $obj_menu["for_img_path"];
+                          echo '<img src="' . $imagePath . '">';
+                        }
                       ?>
 
                   </td>
@@ -133,7 +135,6 @@
                 $n++;
               } // End while 
               ?>
-
             </tbody>
           </table>
         </div>

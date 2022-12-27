@@ -1,67 +1,63 @@
 <?php 
-
 session_start();
+$res_id = $_POST["menu_res_id"];
+$menu_id = $_POST["menu_id"];
+$us_id = $_SESSION["us_id"];
+$for_img_path = $_POST["for_img_path"];
+$for_test_date = date("Y-m-d");
+$for_fcl_id = $_POST["for_fcl_id"];
+$for_status = $_POST["for_status"];
+$for_value = $_POST["for_value"];
+$for_centroid_1 = explode(",", $_POST["Centroid1"]);
+$for_centroid_2 = explode(",", $_POST["Centroid2"]);
+$for_x_center_1 = $for_centroid_1[0];
+$for_y_center_1 = $for_centroid_1[1];
+$for_x_center_2 = $for_centroid_2[0];
+$for_y_center_2 = $for_centroid_2[1];
+$for_radius_1 = $_POST["for_radius_1"];
+$for_radius_2 = $_POST["for_radius_2"];
 
-// Array
-// (
-//     [id_user] => 2
-//     [username] => จุฑามาศ ทับทอง
-//     [password] => expert_1234
-//     [role] => 2
-// )
+$sql = "INSERT INTO `sfa_formalin`(`for_res_id`, `for_menu_id`, `for_expe_id`, `for_img_path`, `for_fcl_id`, `for_test_date`, `for_status`, `for_value`, `for_x_center_1`, `for_y_center_1`, `for_radius_1`, `for_x_center_2`, `for_y_center_2`, `for_radius_2`) 
+VALUES ($res_id, $menu_id, $us_id, '$for_img_path', $for_fcl_id, '$for_test_date', $for_status, $for_value, $for_x_center_1, $for_x_center_2, $for_radius_1, $for_x_center_2, $for_y_center_2, $for_radius_2)";
+mysqli_query($con, $sql);
 
-// Array
-// (
-//     [txtResId] => 1
-//     [txtMenuId] => 1
-//     [txtImageName] => 1659451317formalin400.png
-//     [txtDate] => 2022-08-02
-//     [txtCentroid1] => 84,58
-//     [txtCentroid2] => 178,64
-//     [txtRadius1] => 21
-//     [txtRadius2] => 22
-//     [txtFormalin] => 0.16
-//     [txtFormalinStatus] => 2
-// )
 
-$sql = "
-  SELECT * 
-  FROM sfa_formalin_checklist 
-  WHERE ('".$_POST["txtDate"]."' BETWEEN fcl_startdate AND fcl_enddate)
-";
-$result = mysqli_query($con, $sql);
-$checklist = mysqli_fetch_array($result);
-
-$txtFormalinChecklist = mysqli_num_rows($result) > 0 ? $checklist["fcl_id"] : "0";
-$txtCentroid1 = explode(",", $_POST["txtCentroid1"]);
-$txtCentroid2 = explode(",", $_POST["txtCentroid2"]);
-
-$sql = "
-  INSERT INTO sfa_formalin (
-    res_id, menu_id, expe_id, for_img_path, 
-    fcl_id, for_test_date, for_status, for_value, 
-    x_center_1, y_center_1, for_radius_1, 
-    x_center_2, y_center_2, for_radius_2
-  ) VALUES (
-    '".$_POST["txtResId"]."', '".$_POST["txtMenuId"]."', '".$_SESSION["id_user"]."', '".$_POST["txtImageName"]."',
-    '".$txtFormalinChecklist."', '".$_POST["txtDate"]."', '".$_POST["txtFormalinStatus"]."', '".$_POST["txtFormalin"]."', 
-    '".$txtCentroid1[0]."', '".$txtCentroid1[1]."', '".$_POST["txtRadius1"]."', 
-    '".$txtCentroid2[0]."', '".$txtCentroid2[1]."', '".$_POST["txtRadius2"]."'
-  )
-";
-
-if(mysqli_query($con, $sql)) {
-  echo "
-    <script>
-      alert('บันทึกข้อมูลเรียบร้อย');
-      window.location = 'index.php?content=list-menu&res_id=".$_POST["txtResId"]."';
-    </script>
-  ";
+// update restaurant formalin status
+// 1 = not pass
+$sql = "SELECT * FROM `sfa_res_formalin_status` WHERE `res_for_res_id` = " . $res_id;
+$arr_res_for = mysqli_query($con, $sql);
+$res_for_status = $for_status == 1? 1 : 0;
+if (mysqli_num_rows($arr_res_for) == 0) {
+  $sql = "INSERT INTO `sfa_res_formalin_status`(`res_for_res_id`, `res_for_status`, `res_for_last_fcl_id`, `res_for_created_by`, `res_for_updated_by`) VALUES ($res_id, $res_for_status, $for_fcl_id, $us_id, $us_id)";
+  mysqli_query($con, $sql);
 } else {
-  echo "Insert Error with<br>";
-  echo "<pre>";
-  print_r($sql);
-  echo "</pre>";
+  $obj_res_for = mysqli_fetch_assoc($arr_res_for);
+  $now = new DateTime(date('Y-m-d'));
+  $db_date = new DateTime(substr($obj_res_for["res_for_updated_date"], 0, 10));
+
+  if ($db_date == $now) {
+    if ($obj_res_for["res_for_status"] == 0) {
+      $now = date("Y-m-d H:i:s");
+      $sql = "UPDATE `sfa_res_formalin_status` SET `res_for_updated_by` = $us_id, 
+      `res_for_status` = $res_for_status, `res_for_last_fcl_id` = $for_fcl_id,
+      `res_for_updated_date` = '$now'
+      WHERE `res_for_id` = " . $obj_res_for["res_for_id"];
+      mysqli_query($con, $sql);
+    }
+  } else {
+    $now = date("Y-m-d H:i:s");
+    $sql = "UPDATE `sfa_res_formalin_status` SET `res_for_updated_by` = $us_id, 
+    `res_for_status` = $res_for_status, `res_for_last_fcl_id` = $for_fcl_id, 
+    `res_for_updated_date` = '$now'
+    WHERE `res_for_id` = " . $obj_res_for["res_for_id"];
+    mysqli_query($con, $sql);
+  }
 }
 
+echo "
+  <script>
+    alert('บันทึกข้อมูลเรียบร้อย');
+    window.location = 'index.php?content=list-menu&res_id=" . $res_id . "';
+  </script>
+";
 ?>

@@ -27,7 +27,6 @@
     }
     $i++;
   }
-
   $file_data = "../assets/img/uploads/" . $obj_formalin["for_img_path"];
 ?>
 
@@ -74,7 +73,7 @@
               <div class="col-md" style="text-align: center;">
                 <?php 
                   if($obj_formalin["for_status"] == 1) {
-                    echo "<div class='h1 py-4 text-danger'>รอตรวจสอบ</div>";
+                    echo "<div class='h1 py-4 text-danger'>พบฟอร์มาลีนในระดับที่อันตราย</div>";
                   } else {
                     echo "<div class='h1 py-4 text-success'>พบฟอร์มาลินในปริมาณที่ปลอดภัย</div>";
                   }

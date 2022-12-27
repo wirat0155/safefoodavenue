@@ -5,7 +5,7 @@
      $zone_description = $_POST["zone_description"];
      $zone_lat = $_POST["zone_lat"];
      $zone_lon = $_POST["zone_lon"];
-     $us_id = $_SESSION['id_user'];
+     $us_id = $_SESSION['us_id'];
      $zone_gov_id = $_POST["zone_gov_id"];
 
      $sql = "INSERT INTO `sfa_zone`(

@@ -85,10 +85,7 @@ function addMenuForm() {
                 <div class="table-responsive py-4 px-4">
 
                     <form action="index.php?content=do_add_menu" method="POST" enctype="multipart/form-data">
-
-                        <input type="hidden" name="res_id" value="<?= $row["res_id"] ?>">
-                        <input type="hidden" name="fcl_id" value="<?= $_GET["fcl_id"] ?>">
-                        
+                        <input name="res_id" value="<?= $row["res_id"] ?>" hidden>           
                         <div class="row pb-4">
                             <div class="col-md-6">
                                 <label class="text-primary font-weight-bold">ชื่อร้านอาหาร</label>
@@ -119,7 +116,7 @@ function addMenuForm() {
                         <div class="row pb-4">
                             <div class="col-md-4">
                                 <input type="submit" class="btn btn-success" value="บันทึก">
-                                <a href="index.php?content=list-menu&res_id=<?= $_GET["res_id"] ?>&fcl_id=<?= $_GET["fcl_id"] ?>">
+                                <a href="index.php?content=list-menu&res_id=<?= $_GET["res_id"] ?>">
                                     <button type="button" class="btn btn-secondary">ย้อนกลับ</button>
                                 </a>
                             </div>

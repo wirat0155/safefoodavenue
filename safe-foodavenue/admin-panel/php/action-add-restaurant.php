@@ -14,7 +14,7 @@
     $res_gov_id = $_POST['res_gov_id'];
     $res_zone_id = $_POST['res_zone_id'];
     $res_block_id = $_POST['res_block_id'] != ""? $_POST['res_block_id'] : 0 ;
-    $us_id = $_SESSION['id_user'];
+    $us_id = $_SESSION['us_id'];
     $doc_loc_address = $_POST['res_address'];
     $doc_loc_district_id = $_POST['res_district_id'];
     
@@ -64,6 +64,9 @@
         $target_dir = "./uploads/img/";
         $target_file = $target_dir . $t . $_FILES["file_input"]["name"];
         $file_name = $t . $_FILES["file_input"]["name"];
+
+        echo $target_file . "<br>";
+        echo $file_name . "<br>";
         if (move_uploaded_file($_FILES["file_input"]["tmp_name"], $target_file)) {
             echo "เพิ่มรูปภาพสำเร็จ";
         } else {
@@ -80,8 +83,8 @@
             VALUES ($res_id,'$doc_loc_address',$doc_loc_district_id)";
     $query = mysqli_query($con, $sql);
 
-    echo "<script>
-     window.location.href='../?content=list-restaurant';
-     </script>
-     ";
+    // echo "<script>
+    //  window.location.href='../?content=list-restaurant';
+    //  </script>
+    //  ";
 ?>

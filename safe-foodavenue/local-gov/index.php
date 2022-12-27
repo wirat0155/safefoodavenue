@@ -1,6 +1,7 @@
 <?php
   session_start();
   ob_start();
+  date_default_timezone_set('Asia/Bangkok');
   require("../php/config.php");
   if(!isset($_SESSION["us_id"]) || empty($_SESSION["us_id"])) {
     echo("<script>location.href = '../login/login.php';</script>");

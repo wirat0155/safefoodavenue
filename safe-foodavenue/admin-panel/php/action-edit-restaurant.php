@@ -12,7 +12,7 @@
     $res_gov_id = $_POST['res_gov_id'];
     $res_zone_id = $_POST['res_zone_id'];
     $res_block_id = $_POST['res_block_id'] != ""? $_POST['res_block_id'] : 0 ;
-    $us_id = $_SESSION['id_user'];
+    $us_id = $_SESSION['us_id'];
     $doc_loc_address = $_POST['res_address'];
     $doc_loc_district_id = $_POST['res_district_id'];
 
