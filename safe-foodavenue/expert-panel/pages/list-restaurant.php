@@ -155,12 +155,15 @@
                     ?>
                   </td>
                   <td>
-                  <?php 
-                    if ($obj_restaurant["res_for_status"] == 1) {
-                      echo "<span class='text-success'>ปลอดภัย</span>";
-                    }
-                    else {
+                    <?php
+                    if ($obj_restaurant["res_for_status"] == "") {
                       echo "รอตรวจสอบ";
+                    }
+                    else if ($obj_restaurant["res_for_status"] == 1) {
+                      echo "<span class='text-danger'>ไม่ปลอดภัย</span>";
+                    }
+                    else if ($obj_restaurant["res_for_status"] == 0) {
+                      echo "<span class='text-success'>ปลอดภัย</span>";
                     }
                     ?>
                   </td>

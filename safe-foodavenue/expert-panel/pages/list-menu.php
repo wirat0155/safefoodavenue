@@ -73,10 +73,13 @@
                   <td><?php echo $obj_menu["menu_name"]; ?></td>
                   <td>
                     <?php 
-                    if ($obj_menu["for_status"] == 2) {
+                    if ($obj_menu["for_status"] == 1) {
+                      echo "<span class='text-danger'>ไม่ปลอดภัย</span>";
+                    }
+                    else if ($obj_menu["for_status"] == 2) {
                       echo "<span class='text-success'>ปลอดภัย</span>";
                     }
-                    else {
+                    else if ($obj_menu["for_status"] == "") {
                       echo "รอตรวจสอบ";
                     }
                     ?>
