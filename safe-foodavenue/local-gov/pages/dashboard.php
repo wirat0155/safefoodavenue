@@ -67,7 +67,6 @@
     while ($obj_fcl_id = mysqli_fetch_assoc($arr_formalin_checklist)["fcl_id"]) {
         array_push($arr_fcl_id, $obj_fcl_id);
     }
-    // print_r($arr_fcl_id);
 
 
     function get_pie_chart_data_by_fcl_id($con, $fcl_id) {
@@ -168,8 +167,8 @@
     $sql = "SELECT * FROM `sfa_restaurant`
         LEFT JOIN `sfa_res_category` ON `sfa_restaurant`.`res_cat_id` = `sfa_res_category`.`res_cat_id`
         LEFT JOIN `sfa_entrepreneur` ON `sfa_restaurant`.`res_ent_id` = `sfa_entrepreneur`.`ent_id`
-        LEFT JOIN `sfa_zone` ON `sfa_restaurant`.`res_zone_id` = `sfa_zone`.`zone_id`
         LEFT JOIN `sfa_block` ON `sfa_restaurant`.`res_block_id` = `sfa_block`.`block_id`
+        LEFT JOIN `sfa_zone` ON `sfa_block`.`block_zone_id` = `sfa_zone`.`zone_id`
         LEFT JOIN `sfa_res_formalin_status` ON `sfa_restaurant`.`res_id` = `sfa_res_formalin_status`.`res_for_res_id`
         WHERE `sfa_restaurant`.`res_gov_id` = " . $_SESSION["us_gov_id"]; 
     $arr_restaurant = mysqli_query($con, $sql);
@@ -333,6 +332,7 @@
                             <table class="table table-striped stripe" id="datatable-basic">
                                 <thead class="thead-light">
                                     <tr>
+                                        <th>ลำดับ</th>
                                         <th>ชื่อร้านอาหาร</th>
                                         <th>โซนร้านอาหาร</th> 
                                         <th>บล็อกร้านอาหาร</th>
@@ -343,8 +343,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php while($obj_restaurant = mysqli_fetch_array($arr_restaurant)){ ?> 
+
+                                    <?php 
+                                    $i = 1;
+                                    while($obj_restaurant = mysqli_fetch_array($arr_restaurant)){ ?> 
                                         <tr>
+                                            <td><?php echo $i++ ?></td>
                                             <td><?php echo $obj_restaurant["res_title"] ?></td> 
                                             <td><?php echo $obj_restaurant["zone_title"] ?></td> 
                                             <td><?php echo $obj_restaurant["block_title"] ?></td> 
@@ -352,10 +356,14 @@
                                             <td><?php echo $obj_restaurant["ent_firstname"] . " " . $obj_restaurant["ent_lastname"] ?></td> 
                                             <td><?php echo $obj_restaurant["ent_tel"] ?></td> 
                                             <td><?php 
-                                                if ($obj_restaurant["res_for_status"] == "1") {
-                                                    echo "ปลอดภัย";
-                                                } else {
-                                                    echo "รอตรวจสอบ";
+                                                if ($obj_restaurant["res_for_status"] == "") {
+                                                    echo "<span>รอตรวจสอบ</span>";
+                                                }
+                                                else if ($obj_restaurant["res_for_status"] == "0") {
+                                                    echo "<span class='text-success'>ปลอดภัย</span>";
+                                                } 
+                                                else if ($obj_restaurant["res_for_status"] == "1") {
+                                                    echo "<span class='text-danger'>อันตราย</span>";
                                                 }
                                             ?>
                                         </tr>
@@ -369,7 +377,6 @@
         </div>
     </div>
 </div>
-<?php // include("./pages/block-map.php"); ?>
 
 <script>
     getColumnChart();
@@ -402,8 +409,8 @@
                 label: 'อัตราส่วนร้านที่ใช้ฟอร์มาลิน',
                 data: value,
                 backgroundColor: [
-                    'rgb(54, 162, 235)',
-                    'rgb(255, 205, 86)'
+                    'rgb(14, 201, 67)',
+                    'rgb(201, 27, 14)'
                 ],
                 hoverOffset: 4
             }]
@@ -487,7 +494,8 @@
                             }
                         }
                         ?>
-                ]
+                ],
+                color: 'rgb(14, 201, 67)'
             }, {
                 name: 'รอตรวจสอบ',
                 data: [
@@ -499,7 +507,8 @@
                             }
                         }
                         ?>
-                ]
+                ],
+                color: 'rgb(201, 27, 14)'
             }]
             });
     }

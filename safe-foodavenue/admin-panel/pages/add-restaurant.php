@@ -87,7 +87,7 @@
                         <!-- เลขที่ -->
                         <div class="col-md-4">
                             <label for="res_block_id">เลขที่</label>
-                            <input class="form-control" id="res_address" type="text" placeholder="เลขที่ หมูบ้าน (ถ้ามี)" name="res_address" oninput="enable_same_as_address()">
+                            <input class="form-control" id="res_address" type="text" placeholder="เลขที่ หมูบ้าน (ถ้ามี)" name="res_address" oninput="enable_same_as_address(); not_require_zone_block();">
                         </div>
                     </div>
 
@@ -134,17 +134,17 @@
                                     
                         <!-- โซนร้านอาหาร -->
                         <div class="col-md-3">
-                            <label for="res_zone_id" class="required">โซนร้านอาหาร</label>
+                            <label for="res_zone_id" id="res_zone_id_label" class="required">โซนร้านอาหาร</label>
                             <select class="select2 form-control" id="res_zone_id" name="res_zone_id" oninput="get_block(); check_name_restaurant();" required>
-                                <option value="" disabled selected>โซนร้านอาหาร</option>
+                                <option value="" disabled selected>โซน (จำเป็น ถ้าไม่มีเลขที่ร้าน)</option>
                             </select>
                         </div>
                         
                         <!-- ล็อก -->
                         <div class="col-md-3">
-                            <label for="res_block_id">ล็อก</label>
-                            <select class="select2 form-control" id="res_block_id" name="res_block_id">
-                                <option value="" selected>ล็อก (ถ้ามี)</option>
+                            <label for="res_block_id" id="res_block_id_label" class="required">ล็อก</label>
+                            <select class="select2 form-control" id="res_block_id" name="res_block_id" required>
+                                <option value="" disabled selected>ล็อก (จำเป็น ถ้าไม่มีเลขที่ร้าน)</option>
                             </select>
                         </div>  
                     </div>
@@ -237,7 +237,13 @@
                         clear_province_dropdown(res_province_id, res_province_id);
                         if (zip_code_id == 'zip_code') {
                             clear_government_dropdown(res_gov_id, res_gov_id);
-                            clear_zone_dropdown();
+                            if ($("#res_address").val() != "") {
+                                clear_zone_dropdown_not_require();
+                                clear_block_dropdown_not_require();
+                            } else {
+                                clear_zone_dropdown();
+                                clear_block_dropdown();
+                            }
                         }
                     }
                 },
@@ -297,10 +303,22 @@
                 type: "POST",
                 success: function(arr_zone) {
                     if (arr_zone != "no output") {
-                        clear_zone_dropdown();
+                        if ($("#res_address").val() != "") {
+                            clear_zone_dropdown_not_require();
+                            clear_block_dropdown_not_require();
+                        } else {
+                            clear_zone_dropdown();
+                            clear_block_dropdown();
+                        }
                         show_zone_dropdown(arr_zone);
                     } else {
-                        clear_zone_dropdown();
+                        if ($("#res_address").val() != "") {
+                            clear_zone_dropdown_not_require();
+                            clear_block_dropdown_not_require();
+                        } else {
+                            clear_zone_dropdown();
+                            clear_block_dropdown();
+                        }
                     }
                 },
                 error: function() {}
@@ -315,10 +333,18 @@
                 type: "POST",
                 success: function(arr_block) {
                     if (arr_block != "no output") {
-                        clear_block_dropdown();
+                        if ($("#res_address").val() != "") {
+                            clear_block_dropdown_not_require();
+                        } else {
+                            clear_block_dropdown();
+                        }
                         show_block_dropdown(arr_block);
                     } else {
-                        clear_block_dropdown();
+                        if ($("#res_address").val() != "") {
+                            clear_block_dropdown_not_require();
+                        } else {
+                            clear_block_dropdown();
+                        }
                     }
                 },
                 error: function() {}
@@ -340,18 +366,27 @@
         }
 
         function clear_zone_dropdown() {
-            var option = '<option value="" disabled selected>โซนร้านอาหาร</option>';
+            var option = '<option value="" disabled selected>โซน (จำเป็น ถ้าไม่มีเลขที่ร้าน)</option>';
             $("#res_zone_id").html(option);
         }
 
         function clear_block_dropdown() {
+            var option = '<option value="" disabled selected>ล็อก (จำเป็น ถ้าไม่มีเลขที่ร้าน)</option>';
+            $("#res_block_id").html(option);
+        }
+
+        function clear_zone_dropdown_not_require() {
+            var option = '<option value="" selected>โซน (ถ้ามี)</option>';
+            $("#res_zone_id").html(option);
+        }
+
+        function clear_block_dropdown_not_require() {
             var option = '<option value="" selected>ล็อก (ถ้ามี)</option>';
             $("#res_block_id").html(option);
         }
 
         function check_same_as_address() {
             var is_check = $("#same_as_address")[0].checked;
-            console.log(is_check);
             if (is_check) {
                 $("#address_2_div").slideUp();
                 $("#res_address_2").prop("required", false);
@@ -372,6 +407,37 @@
                 $('#same_as_address').prop('disabled', true);
             }
             check_same_as_address();
+        }
+
+        function not_require_zone_block() {
+            if ($("#res_address").val() != "") {
+                console.log("not required zone block");
+                console.log("zone_id : " + $("#res_zone_id").val());
+                if ($("#res_zone_id").val() == null) {
+                    clear_zone_dropdown_not_require();
+                }
+                if ($("#res_block_id").val() == null) {
+                    clear_block_dropdown_not_require();
+                }
+
+                $("#res_zone_id_label").removeClass("required");
+                $("#res_block_id_label").removeClass("required");
+                $("#res_zone_id").prop("required", false);
+                $("#res_block_id").prop("required", false);
+            } else {
+                console.log("required zone block");
+                if ($("#res_zone_id").val() == null) {
+                    clear_zone_dropdown();
+                }
+                if ($("#res_block_id").val() == null) {
+                    clear_block_dropdown();
+                }
+
+                $("#res_zone_id_label").addClass("required");
+                $("#res_block_id_label").addClass("required");
+                $("#res_zone_id").prop("required", true);
+                $("#res_block_id").prop("required", true);
+            }
         }
         
         function check_name_restaurant() {

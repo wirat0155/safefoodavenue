@@ -8,8 +8,8 @@
 <?php
 $sql = "SELECT * FROM `sfa_restaurant` 
         LEFT JOIN `sfa_entrepreneur` ON `sfa_restaurant`.`res_ent_id` = `sfa_entrepreneur`.`ent_id`
-        LEFT JOIN `sfa_zone` ON `sfa_restaurant`.`res_zone_id` = `sfa_zone`.`zone_id`
         LEFT JOIN `sfa_block` ON `sfa_restaurant`.`res_block_id` = `sfa_block`.`block_id`
+        LEFT JOIN `sfa_zone` ON `sfa_block`.`block_zone_id` = `sfa_zone`.`zone_id`
         ORDER BY `sfa_restaurant`.`res_id` DESC";
 $query = mysqli_query($con, $sql);
 ?>
