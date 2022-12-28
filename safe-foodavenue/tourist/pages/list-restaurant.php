@@ -55,12 +55,12 @@
     .text-size-11 {
         font-size: 11px;
     }
+
     .card-fix {
         max-height: 400px !important;
         height: 400px !important;
 
     }
-
 </style>
 
 <!-- Header -->
@@ -153,14 +153,14 @@
                     </div>
                     <div class="row justify-content-md-center" style="padding: 0px 75px;">
                         <div class="container">
-                         
-
-                                <div class="list_res" id="list_res"></div>
-
-                             
 
 
-                           
+                            <div class="list_res" id="list_res"></div>
+
+
+
+
+
                         </div>
                     </div>
                 </div>
@@ -172,12 +172,11 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
+    var page_number = 0;
 
-var page_number = 0;
+    $(document).ready(function() {
 
-$(document).ready(function() {
-    
-    get_res_list_data(page_number);
+        get_res_list_data(page_number);
 
     });
 
@@ -193,90 +192,95 @@ $(document).ready(function() {
                 console.log(data);
                 set_data_in_page(data)
 
-            },error: function(){
+            },
+            error: function() {
                 console.log("error")
             }
         });
     }
 
     // show data restaurant in page
-    function set_data_in_page(data){
-     
+    function set_data_in_page(data) {
+
         let html = '';
-    
-                if (data.data_res.length > 0) {
 
-                    html += '  <div class="row py-3">';
-                    //loop show data 
-                    data.data_res.forEach((row_res, index_res) => {
-                    
-                        console.log(row_res);
+        if (data.data_res.length > 0) {
 
-                       html += '<div class="col-12 col-sm-6 col-md-6 col-lg-4 py-2">';
-                       html += ' <div class="card card-fix">';
-                       if(row_res.res_img_path == null){
-                        //html += '<div class="" style="height: 200px;">';
-                        html += '    <img class="card-img-top" style="height: 200px; object-fit: cover;" src="../assets/img/theme/detail-banner-default.jpg" alt="Card image cap">';
-                        //html += '/div';
-                       }else{
-                       // html += '<div class="" style="height: 200px;">';
-                        html += ' <img class="card-img-top w-100" style="height: 200px; object-fit: cover;" src="'+ '../admin-panel/php/uploads/img/' +  row_res.res_img_path  +'" alt="Card image cap">';
-                        //html += '/div';
-                       }
-                       html += '<div class="card-body">';
-                       html += '<div class="row">';
-                       html += ' <div class="col col-sm-12 col-md-12 col-lg-6">';
-                       html += ' <span class="badge badge-success text-size-12  text-white">ปลอดภัยจากสารฟอมาลีน</span>';
-                       html += ' </div>';
-                       html += '<div class="col col-sm-12 col-md-12 col-lg-6">';
-                       html += '<h4 class="text-center text-size-11">';
-                       for (var star = 1; star <= 5; star++) {
-                            var class_name = '';
+            html += '  <div class="row py-3">';
+            //loop show data 
+            data.data_res.forEach((row_res, index_res) => {
 
-                            if (row_res.rev_rating >= star) {
-                                class_name = 'text-warning';
-                            } else {
-                                class_name = 'star-light';
-                            }
-                            html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
-                        }
+                // console.log(row_res);
 
-                       html += '        </h4>';
-                       html += '     </div>';
-                       html += '</div>';
-                       html += '<div class="row">';
-                       html +=  '<div class="col col-sm-12 col-md-12 col-lg-12">';
-                       html +=      '<h2 class="ml-2">' +   row_res.res_title +  '</h2>';
-                       html +=  '</div> ';
-                       html += '</div>';
-                       html += ' <div class="row">';
-                       html += '     <div class="col">';
-                       html += '        <span class="ml-2">' +  row_res.res_cat_title  + '</span>';
-                       html += '      </div>     ';
-                       html += '    </div>     ';
-                       html += '   </div>     ';
-                       html += '  </div>     ';
-                       html += ' </div>     ';
-                    
-                    })
-                    html += ' </div>     ';
-                                 
-                    $('#list_res').html(html);
+
+                html += '<div class="col-12 col-sm-6 col-md-6 col-lg-4 py-2">';
+                html += ' <a href="?content=detail-restaurant&id=' + row_res.res_id + '">';
+                html += ' <div class="card card-fix rounded-4">';
+
+                if (row_res.res_img_path == null) {
+
+                    html += '<img class="card-img-top" style="height: 200px; object-fit: cover;" src="../assets/img/theme/detail-banner-default.jpg" alt="Card image cap">';
 
                 } else {
 
-                    $('#total_review').text("ยังไม่มีการรีวิว");
+                    html += ' <img class="card-img-top w-100" style="height: 200px; object-fit: cover;" src="' + '../admin-panel/php/uploads/img/' + row_res.res_img_path + '" alt="Card image cap">';
 
-                    html += '<div class="row mb-3">';
-                    html += '<div class="col-sm-12">';
-                    html += 'ร้านนี้ยังไม่มีรีวิว';
-                    html += '</div>';
-                    html += '</div>';
+                }
+                html += '<div class="card-body">';
+                html += '<div class="row">';
+                html += ' <div class="col col-sm-12 col-md-12 col-lg-6">';
+                html += '   <span class="badge badge-success text-size-12  text-white">ปลอดภัยจากสารฟอมาลีน</span>';
+                html += ' </div>';
+                html += '<div class="col col-sm-12 col-md-12 col-lg-6">';
+                html += '   <h4 class="text-center text-size-11">';
 
-                    $('#review_content').html(html);
+
+                for (var star = 1; star <= 5; star++) {
+                    var class_name = '';
+
+                    if (row_res.rev_rating >= star) {
+                        class_name = 'text-warning';
+                    } else {
+                        class_name = 'star-light';
+                    }
+                    html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
                 }
 
+                html += '   </h4>';
+                html += '</div>';
+                html += '</div>';
+                html += '<div class="row">';
+                html += '   <div class="col col-sm-12 col-md-12 col-lg-12">';
+                html += '       <h2 class="ml-2">' + row_res.res_title + '</h2>';
+                html += '    </div> ';
+                html += '</div>';
+                html += ' <div class="row">';
+                html += '     <div class="col">';
+                html += '        <p class="ml-2 text-dark">' + row_res.res_cat_title + '</p>';
+                html += '      </div>     ';
+                html += '</div>     ';
+                html += '</div>     ';
+                html += '</div>     ';
+                html += '</div>     ';
+
+            });
+            html += ' </a>';
+            html += ' </div>     ';
+
+            $('#list_res').html(html);
+
+        } else {
+
+            $('#total_review').text("ยังไม่มีการรีวิว");
+
+            html += '<div class="row mb-3">';
+            html += '<div class="col-sm-12">';
+            html += 'ร้านนี้ยังไม่มีรีวิว';
+            html += '</div>';
+            html += '</div>';
+
+            $('#review_content').html(html);
+        }
+
     }
-
-
 </script>

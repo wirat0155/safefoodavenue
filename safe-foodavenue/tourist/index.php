@@ -44,6 +44,7 @@ session_start();
   <link rel="stylesheet" href="../assets/css/argon.css?v=1.1.0" type="text/css">
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsQsJq6QLsJRyETeDLBLyc6Wx73snZPIo&callback=initMap"></script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 
 <style>
@@ -95,6 +96,7 @@ session_start();
   <script src="../assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
   <!-- Argon JS -->
   <script src="../assets/js/argon.js?v=1.1.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <!-- Datatable --> 
 </body>
 
