@@ -12,7 +12,7 @@ if (isset($_POST["res_id"])) {
     LEFT JOIN sfa_formalin 
     ON  sfa_menu.menu_id = sfa_formalin.for_menu_id
     
-    WHERE menu_res_id = " . $res_id . " AND sfa_formalin.for_test_date = (SELECT MAX(sfa_formalin.for_test_date) FROM sfa_formalin  WHERE menu_res_id = " . $res_id . " )";
+    WHERE menu_res_id = " . $res_id . " AND sfa_formalin.for_test_date = (SELECT MAX(sfa_formalin.for_test_date) FROM sfa_formalin  WHERE for_res_id = " . $res_id . " )";
     $query = mysqli_query($con, $sql);
 
     while ($row_menu = $query->fetch_assoc()) {

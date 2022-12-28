@@ -26,7 +26,7 @@ if (isset($_POST["res_id"])) {
     ON  sfa_menu.menu_id = sfa_formalin.for_menu_id
     
     WHERE menu_res_id = " . $_POST["res_id"] . " AND sfa_formalin.for_test_date = 
-    (SELECT MAX(sfa_formalin.for_test_date) FROM sfa_formalin  WHERE menu_res_id = " . $_POST["res_id"] . " )";
+    (SELECT MAX(sfa_formalin.for_test_date) FROM sfa_formalin  WHERE for_res_id = " . $_POST["res_id"] . " )";
 
     $query_formalin = mysqli_query($con, $sql_formalin);
     //เช็คว่าในรายการตรวจล่าสุดมีไม่ผ่านไหม
