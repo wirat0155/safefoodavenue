@@ -20,6 +20,7 @@
     $_SESSION["us_role_title"] = $row["role_title"];
     $_SESSION["us_gov_id"] = $row["us_gov_id"];
     $_SESSION["us_gov_name"] = $row["gov_name"];
+    $_SESSION["login-status"] = "0";
 
     // echo $_SESSION["us_id"] . "<br/>";
     // echo $_SESSION["us_fullname"] . "<br/>";

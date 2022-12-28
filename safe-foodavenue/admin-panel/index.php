@@ -39,6 +39,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <style>
       body {
         font-family: 'Prompt';
@@ -98,14 +99,11 @@
       });
     </script>
     </div>
-    <!-- Argon Scripts -->
-    <!-- Core -->
     <script src="../assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/vendor/js-cookie/js.cookie.js"></script>
     <script src="../assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
     <script src="../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
-    <!-- Optional JS -->
     <script src="../assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../assets/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="../assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
@@ -116,10 +114,7 @@
     <script src="../assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    
-    <!-- Argon JS -->
     <script src="../assets/js/argon.js?v=1.1.0"></script>
-    <!-- Datatable -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   </body>
-
 </html>

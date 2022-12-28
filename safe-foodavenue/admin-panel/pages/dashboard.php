@@ -377,9 +377,16 @@
         </div>
     </div>
 </div>
-<?php include("./pages/block-map.php"); ?>
+<!-- <?php include("./pages/block-map.php"); ?> -->
 
 <script>
+    $(document).ready(function() {
+        if ("<?php echo $_SESSION['login-status']?>" == "0") {
+            toastify_success();
+        }
+        <?php unset($_SESSION['login-status']) ?>
+    });
+
     getColumnChart();
     <?php for ($i = 0; $i < count($arr_fcl_id); $i++) { ?>
         get_pie_chart(
@@ -392,6 +399,19 @@
                 }
             }?>]);
     <?php } ?>
+
+    function toastify_success() {
+        Toastify({
+            text: "Login success",
+            duration: 5000,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            style: {
+                background: "#12a63a",
+            }
+        }).showToast();
+    }
 
     function change_year() {
         let fcl_year = $("#fcl_year").val();
