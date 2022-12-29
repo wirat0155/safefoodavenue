@@ -60,11 +60,11 @@
                             </div>
                             <div class="col-md-4">
                                 <label for="first_name" class="required">วันที่เริ่มการตรวจ</label>
-                                <input type="date" id="fcl_startdate" name="fcl_startdate" class="form-control" value="<?php echo $fcl['fcl_startdate']?>" onchange="set_date_end()" required>
+                                <input type="date" pattern="dd/mm/yyyy" id="fcl_startdate" name="fcl_startdate" class="form-control" value="<?php echo $fcl['fcl_startdate']?>" onchange="set_date_end()" required>
                             </div>
                             <div class="col-md-4">
                                 <label for="last_name" class="required">วันสิ้นสุดการตรวจ</label>
-                                <input type="date" id="fcl_enddate" name="fcl_enddate" class="form-control" value="<?php echo $fcl['fcl_enddate']?>" required>
+                                <input type="date" pattern="dd/mm/yyyy" id="fcl_enddate" name="fcl_enddate" class="form-control" value="<?php echo $fcl['fcl_enddate']?>" required>
                             </div>
                         </div>
                         <br />

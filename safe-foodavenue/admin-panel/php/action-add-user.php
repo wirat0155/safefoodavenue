@@ -10,7 +10,7 @@
      $us_gov_id = 0;
 
      $sql = "INSERT INTO `sfa_user`(`us_fname`, `us_lname`, `us_username`, `us_password`, `us_gov_id`, `us_role_id`, `us_pref_id`) 
-              VALUES ('$us_fname', '$us_lname', '$us_username', '$us_password', '$us_gov_id', '$us_role_id', '$us_pref_id')";
-     $_SESSION["crud-status"] = mysqli_query($con, $sql) ? 0 : 1;
+     VALUES ('$us_fname', '$us_lname', '$us_username', '$us_password', '$us_gov_id', '$us_role_id', '$us_pref_id')";
+     mysqli_query($con, $sql);
      echo "<script>window.location.href='../?content=list-user'</script>";
 ?>

@@ -1,9 +1,8 @@
 <style>
-.odd {
-background-color: #f4f6f9 !important;
-}
+    .odd {
+        background-color: #f4f6f9 !important;
+    }
 </style>
-
 
 <?php
     $sql = "SELECT * FROM `sfa_block` 
@@ -11,7 +10,6 @@ background-color: #f4f6f9 !important;
             ORDER BY `sfa_block`.`block_id` DESC";
     $arr_block = mysqli_query($con, $sql);
 ?>
-
 
 <!-- Header -->
 <div class="header bg-primary pb-6">
@@ -65,19 +63,23 @@ background-color: #f4f6f9 !important;
                                 <td><?php echo $obj_block["block_lat"]? $obj_block["block_lat"] : "-"; ?></td>
                                 <td><?php echo $obj_block["block_lon"]? $obj_block["block_lon"] : "-"; ?></td>
                                 <td>
-                                    <a href="./?content=list-res-by-block&block_id=<?php echo $obj_block["block_id"]; ?>"><button class="btn btn-primary" title="แสดงร้านค้า"><i class="fa fa-search"></i></button> </a>
-                                    <a href="./?content=edit-block&block_id=<?php echo $obj_block["block_id"]; ?>" title="แก้ไขบล๊อก" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
+                                    <a href="./?content=list-res-by-block&block_id=<?php echo $obj_block["block_id"]; ?>" class="btn btn-primary" title="แสดงร้านค้า">
+                                        <i class="fa fa-search"></i>
+                                    </a>
+                                    <a href="./?content=edit-block&block_id=<?php echo $obj_block["block_id"]; ?>" title="แก้ไขบล๊อก" class="btn btn-warning">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
                                     <a href="./?content=do_delete_block&block_id=<?php echo $obj_block['block_id'] ?> " title="ลบบล๊อก" onclick="return confirm('ต้องการลบบล๊อกที่เลือก?');">
                                         <button class="btn btn-danger" style="font-size: 20px;line-height: 0.75;">
                                             <i class="ni ni-fat-remove"></i>
                                         </button>
+                                    </a>
                                 </td>
                             </tr>
                             <?php
                             $n++;
                             } // End while 
                             ?>
-
                         </tbody>
                     </table>
                 </div>
@@ -88,3 +90,39 @@ background-color: #f4f6f9 !important;
     <!-- Footer -->
     <?php include("footer.php"); ?>
 </div>
+
+<script>
+    $(document).ready(function() {
+        if ("<?php echo $_SESSION['crud-status']?>" == "0") {
+            toastify_success();
+        } else if ("<?php echo $_SESSION['crud-status']?>" == "1"){
+            toastify_fail();
+        }
+        <?php unset($_SESSION['crud-status']) ?>
+    });
+
+    function toastify_success() {
+        Toastify({
+            text: "ดำเนินการสำเร็จ",
+            duration: 5000,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            style: {
+                background: "#12a63a",
+            }
+        }).showToast();
+    }
+    function toastify_fail() {
+        Toastify({
+            text: "เกิดข้อผิดพลาด กรุณาลองอีกครั้ง",
+            duration: 5000,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            style: {
+                background: "#a61212",
+            }
+        }).showToast();
+    }
+</script>

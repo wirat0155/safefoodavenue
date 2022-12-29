@@ -15,11 +15,7 @@
           `block_lon`='$block_lon',
           `block_updated_by`='$us_id'
           WHERE `block_id` = '" . $block_id . "'";
-     $query = mysqli_query($con, $sql);
-
-     echo "<script>
-     alert('แก้ไขบล็อกสำเร็จ');
-     window.location.href='../?content=list-block';
-     </script>
-     ";
+     
+     $_SESSION["crud-status"] = mysqli_query($con, $sql) ? 0 : 1;
+     echo "<script>window.location.href='../?content=list-block';</script>";
 ?> 

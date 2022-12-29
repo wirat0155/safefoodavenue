@@ -25,11 +25,7 @@
           '$us_id',
           '$zone_gov_id'
      )";
-     $query = mysqli_query($con, $sql);
 
-     echo "<script>
-     alert('เพิ่มโซนสำเร็จ');
-     window.location.href='../?content=list-zone';
-     </script>
-     ";
+     $_SESSION["crud-status"] = mysqli_query($con, $sql) ? 0 : 1;
+     echo "<script>window.location.href='../?content=list-zone';</script>";
 ?>

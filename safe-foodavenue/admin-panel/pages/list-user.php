@@ -28,13 +28,13 @@
 </style>
 <!-- Content -->
 <?php
-$sql = "SELECT * 
-FROM  sfa_user 
-LEFT JOIN sfa_role ON  sfa_user.us_role_id = sfa_role.role_id
-LEFT JOIN sfa_prefix ON us_pref_id = pref_id
-WHERE `sfa_user`.`us_accept_password` = 1
-ORDER BY sfa_user.us_id DESC";
-$query = mysqli_query($con, $sql);
+    $sql = "SELECT * 
+    FROM  sfa_user 
+    LEFT JOIN sfa_role ON  sfa_user.us_role_id = sfa_role.role_id
+    LEFT JOIN sfa_prefix ON us_pref_id = pref_id
+    WHERE `sfa_user`.`us_accept_password` = 1
+    ORDER BY sfa_user.us_id DESC";
+    $query = mysqli_query($con, $sql);
 ?>
 
 <div class="container-fluid mt--6">
@@ -90,39 +90,3 @@ $query = mysqli_query($con, $sql);
     <!-- Footer -->
     <?php include("footer.php"); ?>
 </div>
-
-<script>
-    $(document).ready(function() {
-        if ("<?php echo $_SESSION['crud-status']?>" == "0") {
-            toastify_success();
-        } else if ("<?php echo $_SESSION['crud-status']?>" == "1"){
-            toastify_fail();
-        }
-        <?php unset($_SESSION['crud-status']) ?>
-    });
-
-    function toastify_success() {
-        Toastify({
-            text: "Action success",
-            duration: 5000,
-            close: true,
-            gravity: "top", // `top` or `bottom`
-            position: "right", // `left`, `center` or `right`
-            style: {
-                background: "#12a63a",
-            }
-        }).showToast();
-    }
-    function toastify_fail() {
-        Toastify({
-            text: "Action failed",
-            duration: 5000,
-            close: true,
-            gravity: "top", // `top` or `bottom`
-            position: "right", // `left`, `center` or `right`
-            style: {
-                background: "#a61212",
-            }
-        }).showToast();
-    }
-</script>

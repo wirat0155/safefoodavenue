@@ -26,11 +26,7 @@
                '$us_id',
                '$us_id'
                )";
-     $query = mysqli_query($con, $sql); 
-
-     echo "<script>
-     alert('เพิ่มบล็อกสำเร็จ');
-     window.location.href='../?content=list-block';
-     </script>
-     ";
+               
+     $_SESSION["crud-status"] = mysqli_query($con, $sql) ? 0 : 1;
+     echo "<script>window.location.href='../?content=list-block';</script>";
 ?> 

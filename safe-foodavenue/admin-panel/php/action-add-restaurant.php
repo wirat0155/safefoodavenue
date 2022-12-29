@@ -1,10 +1,9 @@
 <?php
     session_start();
     require '../../php/config.php';
-    echo "<pre>";
-    print_r($_POST);
-    echo "</pre>";
 
+    mysqli_query($con, "BEGIN");
+    $is_pass = true;
     $res_ent_id = $_POST['res_ent_id'];
     $res_title = $_POST['res_title'];
     $res_cat_id = $_POST['res_cat_id'];
@@ -50,7 +49,9 @@
         $us_id,
         $us_id
     )";
-    $query = mysqli_query($con, $sql);
+    $insert_restautant = mysqli_query($con, $sql);
+    $is_pass = $is_pass == true? $insert_restautant : $is_pass;
+
     // get inserted res_id
     $sql = "SELECT MAX(res_id) AS `res_id` FROM `sfa_restaurant` WHERE `sfa_restaurant`.`res_created_by` = $us_id";
     $result = mysqli_query($con, $sql);
@@ -64,27 +65,26 @@
         $target_dir = "./uploads/img/";
         $target_file = $target_dir . $t . $_FILES["file_input"]["name"];
         $file_name = $t . $_FILES["file_input"]["name"];
-
-        echo $target_file . "<br>";
-        echo $file_name . "<br>";
-        if (move_uploaded_file($_FILES["file_input"]["tmp_name"], $target_file)) {
-            echo "เพิ่มรูปภาพสำเร็จ";
-        } else {
-            echo "เพิ่มรูปภาพไม่สำเร็จ กรุณาลองใหม่";
-        }
     
         // insert into sfa_res_img
         $sql = "INSERT INTO `sfa_res_image`(`res_img_path`, `res_img_res_id`) VALUES ('$file_name', $res_id)";
-        $query = mysqli_query($con, $sql);
+        $insert_res_img = mysqli_query($con, $sql);
+        $is_pass = $is_pass == true? $insert_res_img : $is_pass;
     }
 
     // insert document location
     $sql = "INSERT INTO `sfa_document_location`(`doc_loc_res_id`, `doc_loc_address`, `doc_loc_district_id`) 
             VALUES ($res_id,'$doc_loc_address',$doc_loc_district_id)";
-    $query = mysqli_query($con, $sql);
+    $insert_document_location = mysqli_query($con, $sql);
+    $is_pass = $is_pass == true? $insert_document_location : $is_pass;
 
-    // echo "<script>
-    //  window.location.href='../?content=list-restaurant';
-    //  </script>
-    //  ";
+    if ($is_pass) {
+        mysqli_query($con, "COMMIT");
+        $_SESSION["crud-status"] = "0";
+    } else {
+        mysqli_query($con, "ROLLBACK");
+        $_SESSION["crud-status"] = "1";
+    }
+
+    echo "<script>window.location.href='../?content=list-restaurant';</script>";
 ?>

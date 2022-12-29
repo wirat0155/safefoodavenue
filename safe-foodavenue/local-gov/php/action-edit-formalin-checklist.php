@@ -9,12 +9,8 @@
      $sql = "UPDATE `sfa_formalin_checklist` 
      SET `fcl_year` = '$fcl_year', `fcl_startdate` = '$fcl_startdate', `fcl_enddate` = '$fcl_enddate' 
      WHERE fcl_id = $fcl_id;
-     "; 
-     $query = mysqli_query($con, $sql);
-
-     echo "<script>
-     alert('แก้ไขรอบสำเร็จ');
-     window.location.href='../?content=list-formalin-checklist';
-     </script>
      ";
+     
+     $_SESSION["crud-status"] = mysqli_query($con, $sql) ? 0 : 1;
+     echo "<script>window.location.href='../?content=list-formalin-checklist';</script>";
 ?>

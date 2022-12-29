@@ -51,11 +51,11 @@
                             </div>
                             <div class="col-md-4">
                                 <label for="first_name" class="required">วันที่เริ่มการตรวจ</label>
-                                <input type="date" id="fcl_startdate" name="fcl_startdate" class="form-control" onchange="set_date_end()" required>
+                                <input type="date" pattern="dd/mm/yyyy" id="fcl_startdate" name="fcl_startdate" class="form-control" onchange="set_date_end()" required>
                             </div>
                             <div class="col-md-4">
                                 <label for="last_name" class="required">วันสิ้นสุดการตรวจ</label>
-                                <input type="date" id="fcl_enddate" name="fcl_enddate" class="form-control" required>
+                                <input type="date" pattern="dd/mm/yyyy" id="fcl_enddate" name="fcl_enddate" class="form-control" required>
                             </div>
                         </div>
                         <br>
@@ -74,124 +74,74 @@
                         <div class="row pb-4" style="position: relative;">
                             <div class="col-md-4">
                                 <input type="submit" class="btn btn-success" value="สร้างรอบการตรวจ">
-                                <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-res-schedule'">
+                                <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-formalin-checklist'">
                             </div>
                         </div>
-                        
                     </form>
-
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
-    <script>
-        var start_day = '';
-        var end_day = '';
-
-        $(document).ready(function() {
-            set_date_start();
-            // change_min_end_date();
-        });
-
-        // function check_date() {
-        //     let fcl_startdate = $("#fcl_startdate").val();
-        //     let fcl_enddate = $("#fcl_enddate").val();
-        //     if (fcl_startdate != "" && fcl_enddate != "") {
-        //         $.ajax({
-        //             dataType: "json",
-        //             url: "check_date.php",
-        //             type: "POST",
-        //             data: {
-        //                 fcl_startdate: fcl_startdate,
-        //                 fcl_enddate: fcl_enddate 
-        //             },
-        //             success: function(status) {
-        //                 console.log(status);
-        //             }
-        //         });
-        //     }
-        // }
-
-        function set_date_start() {
-            var year = document.getElementById('fcl_year').value;
-            document.getElementById('fcl_startdate').value = '';
-            document.getElementById('fcl_enddate').value = '';
-            $.ajax({
-                url: "get_date.php",
-                type: "POST",
-                data: {
-                    year: year
-                },
-                cache: false,
-                success: function(dataResult) {
-                    console.log(dataResult);
-                    start_day = new Date(dataResult);
-                    if (year == start_day.getFullYear()) {
-                        start_day = new Date(dataResult);
-                        start_day.setDate(start_day.getDate() + 1)
-                        month = start_day.getMonth() + 1;
-                        if (month.toString().length == 1) {
-                            month = '0' + month;
-                        }
-                        day = start_day.getDate();
-                        if (day.toString().length == 1) {
-                            day = '0' + day;
-                        }
-                        start_day = start_day.getFullYear() + "-" + month + "-" + day;
-
-                    } else {
-                        start_day = year + '-01-01';
-                        console.log(start_day + " in else");
-                    }
-                    end_day = year + '-12-31';
-                    document.getElementById('fcl_startdate').setAttribute("min", start_day);
-                    document.getElementById('fcl_startdate').setAttribute("max", end_day);
-                }
-            });
-        }
-
-        // function set_date_next_year() {
-        //     var year = document.getElementById('year').value;
-        //     console.log(year);
-        //     $.ajax({
-        //         url: "get_date.php",
-        //         type: "POST",
-        //         data: {
-        //             year: year
-        //         },
-        //         cache: false,
-        //         success: function(dataResult) {
-        //             console.log(dataResult);
-        //             start_day = year + '-01-01';
-        //             end_day = year + '-12-31';
-        //             document.getElementById('fcl_startdate').setAttribute("min", start_day);
-        //             document.getElementById('fcl_startdate').setAttribute("max", end_day);
-        //         }
-        //     });
-        // }
-
-        function set_date_end() {
-            var start_date_new = document.getElementById('fcl_startdate').value;
-            var end_date_new = $("#fcl_year").val() + '-12-31';
-            document.getElementById('fcl_enddate').value = '';
-            document.getElementById('fcl_enddate').setAttribute("min", start_date_new);
-            document.getElementById('fcl_enddate').setAttribute("max", end_date_new);
-        }
-
-        // function change_min_end_date() {
-        //     $('#fcl_startdate').on('blur', function() {
-        //         var start_date = document.getElementById("fcl_startdate").value;
-        //         document.getElementById("fcl_enddate").value = '';
-        //         document.getElementById("fcl_enddate").min = start_date;
-        //         console.log(start_date);
-        //     });
-        // }
-    </script>
 
     <!-- Footer -->
     <?php include("footer.php"); ?>
 </div>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script>
+    var start_day = '';
+    var end_day = '';
+
+    $(document).ready(function() {
+        set_date_start();
+    });
+
+    function set_date_start() {
+        var year = document.getElementById('fcl_year').value;
+        document.getElementById('fcl_startdate').value = '';
+        document.getElementById('fcl_enddate').value = '';
+        $.ajax({
+            url: "get_date.php",
+            type: "POST",
+            data: {
+                year: year
+            },
+            cache: false,
+            success: function(dataResult) {
+                console.log(dataResult);
+                start_day = new Date(dataResult);
+                if (year == start_day.getFullYear()) {
+                    start_day = new Date(dataResult);
+                    start_day.setDate(start_day.getDate() + 1)
+                    month = start_day.getMonth() + 1;
+                    if (month.toString().length == 1) {
+                        month = '0' + month;
+                    }
+                    day = start_day.getDate();
+                    if (day.toString().length == 1) {
+                        day = '0' + day;
+                    }
+                    start_day = start_day.getFullYear() + "-" + month + "-" + day;
+
+                } else {
+                    start_day = year + '-01-01';
+                    console.log(start_day + " in else");
+                }
+                end_day = year + '-12-31';
+                document.getElementById('fcl_startdate').setAttribute("min", start_day);
+                document.getElementById('fcl_startdate').setAttribute("max", end_day);
+            }
+        });
+    }
+
+    function set_date_end() {
+        var start_date_new = document.getElementById('fcl_startdate').value;
+        var end_date_new = $("#fcl_year").val() + '-12-31';
+        document.getElementById('fcl_enddate').value = '';
+        document.getElementById('fcl_enddate').setAttribute("min", start_date_new);
+        document.getElementById('fcl_enddate').setAttribute("max", end_date_new);
+    }
+</script>

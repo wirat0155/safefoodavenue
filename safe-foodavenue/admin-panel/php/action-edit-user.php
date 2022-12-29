@@ -14,7 +14,6 @@
         $sql .= "`us_password` = '$password', ";
     }
     $sql .= "`us_role_id`='$role', `us_pref_id`= '$prefix' WHERE `us_id` = $user_id";
-    $query = mysqli_query($con, $sql);
-    $_SESSION["crud-status"] = mysqli_query($con, $sql) ? 0 : 1;
+    mysqli_query($con, $sql);
     echo "<script>window.location.href='../?content=list-user'</script>";
 ?>

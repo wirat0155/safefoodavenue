@@ -155,12 +155,12 @@ function check_zone_name() {
                             <div class="row pb-4">
                                 <div class="col-md-4">
                                     <label class="required">ละติจูด</label>
-                                    <input type="text" id="zone_lat" name="zone_lat" class="form-control" value="<?php echo $obj_zone["zone_lat"]?>" required>
+                                    <input type="number" id="zone_lat" name="zone_lat" class="form-control" value="<?php echo $obj_zone["zone_lat"]?>" required>
                                     <span class="text-danger" id="error_zone_lat"></span>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="required">ลองจิจูด</label>
-                                    <input type="text" id="zone_lon" name="zone_lon" class="form-control" value="<?php echo $obj_zone["zone_lon"]?>" required>
+                                    <input type="number" id="zone_lon" name="zone_lon" class="form-control" value="<?php echo $obj_zone["zone_lon"]?>" required>
                                     <span class="text-danger" id="error_zone_lon"></span>
                                 </div>
                                 <!-- <div class="col-md-4">
@@ -168,7 +168,6 @@ function check_zone_name() {
                                     <button type="button" class="btn btn-danger" onclick="return confirmDelete(0)">ลบ</button>
                                 </div> -->
                             </div>
-
                         </div>
 
                         <div class="row pb-4">
@@ -177,9 +176,7 @@ function check_zone_name() {
                                 <input type="reset" class="btn btn-secondary" onclick="location.href='./?content=list-zone'" value="ยกเลิก">
                             </div>
                         </div>
-
                     </form>
-
                 </div>
             </div>
         </div>

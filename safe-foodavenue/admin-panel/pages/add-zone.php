@@ -147,12 +147,12 @@ $arr_government= mysqli_query($con, $sql);
                             <div class="row pb-4">
                                 <div class="col-md-4">
                                     <label class="required">ละติจูด</label>
-                                    <input type="text" id="zone_lat" name="zone_lat" class="form-control" required>
+                                    <input type="number" id="zone_lat" name="zone_lat" class="form-control" required>
                                     <span class="text-danger" id="error_zone_lat"></span>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="required">ลองจิจูด</label>
-                                    <input type="text" id="zone_lon" name="zone_lon" class="form-control" required>
+                                    <input type="number" id="zone_lon" name="zone_lon" class="form-control" required>
                                     <span class="text-danger" id="error_zone_lon"></span>
                                 </div>
                             </div>

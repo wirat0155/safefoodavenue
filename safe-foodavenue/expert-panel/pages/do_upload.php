@@ -89,7 +89,7 @@
   }
 ?>
 
-<form action="index.php?content=save_formaline" method="post">
+<form action="index.php?content=save_formalin" method="post">
   <input type="hidden" name="menu_res_id" value="<?= $_POST["menu_res_id"] ?>">
   <input type="hidden" name="menu_id" value="<?= $_POST["menu_id"] ?>">
   <input type="hidden" name="for_fcl_id" value="<?= $_POST["for_fcl_id"] ?>">

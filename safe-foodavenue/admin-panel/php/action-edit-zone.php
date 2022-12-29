@@ -1,32 +1,22 @@
 <?php
+    session_start();
     require '../../php/config.php'; 
-    $us_id = $_POST["us_id"];
-    $us_pref_id = $_POST["us_pref_id"];
-    $us_fname = $_POST["us_fname"];
-    $us_lname = $_POST["us_lname"];
-    $us_role_id = $_POST["role_id"]; 
-    $us_username = $_POST["us_username"]; 
-    $us_password = $_POST["us_password"];
-    $us_gov_id = 0;
-    
-    $sql = "UPDATE `sfa_user` 
-            SET 
-            `us_fname`='$us_fname',
-            `us_lname`='$us_lname',
-            `us_username`='$us_username',
-            `us_gov_id`='$us_gov_id',
-            `us_role_id`='$us_role_id',
-            `us_pref_id`='$us_pref_id'";
-    if (trim($us_password) != "") {
-        $sql .= ", `us_password` = '$us_password'";
-    }
-    $sql .= " WHERE us_id = $us_id";
-    $query = mysqli_query($con, $sql); 
+    $zone_id = $_POST["zone_id"];
+    $zone_title = $_POST["zone_title"];
+    $zone_description = $_POST["zone_description"];
+    $zone_lat = $_POST["zone_lat"];
+    $zone_lon = $_POST["zone_lon"];
+    $us_id = $_SESSION['us_id'];
+    $zone_gov_id = $_POST["zone_gov_id"];
 
-
-    echo "<script>
-    alert('เเก้ไขผู้ใช้งานสำเร็จ');
-    window.location.href='../?content=list-user';
-    </script>
-    ";
+    $sql = "UPDATE `sfa_zone` 
+    SET `zone_title` = '$zone_title',
+    `zone_description` = '$zone_description',
+    `zone_lat` = $zone_lat,
+    `zone_lon` = $zone_lon,
+    `zone_updated_by` = $us_id,
+    `zone_gov_id` = $zone_gov_id
+    WHERE `zone_id` = " . $zone_id;
+    $_SESSION["crud-status"] = mysqli_query($con, $sql) ? 0 : 1;
+    echo "<script>window.location.href='../?content=list-zone';</script>";
 ?>

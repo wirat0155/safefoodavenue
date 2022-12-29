@@ -50,11 +50,10 @@ function addMenuForm() {
 </script>
 
 <?php
-
-  // ร้านอาหาร
-  $sql = "SELECT * FROM sfa_restaurant WHERE res_id = ".$_GET["res_id"].""; 
-  $query = mysqli_query($con, $sql);  
-  $row = mysqli_fetch_array($query);
+    // ร้านอาหาร
+    $sql = "SELECT * FROM sfa_restaurant WHERE res_id = ".$_GET["res_id"].""; 
+    $query = mysqli_query($con, $sql);  
+    $row = mysqli_fetch_array($query);
 ?>
 
 <!-- Header -->

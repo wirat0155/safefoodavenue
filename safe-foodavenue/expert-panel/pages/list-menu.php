@@ -148,3 +148,39 @@
   <!-- Footer -->
   <?php include("footer.php"); ?>
 </div>
+
+<script>
+  $(document).ready(function() {
+    if ("<?php echo $_SESSION['crud-status']?>" == "0") {
+      toastify_success();
+    } else if ("<?php echo $_SESSION['crud-status']?>" == "1"){
+      toastify_fail();
+    }
+    <?php unset($_SESSION['crud-status']) ?>
+  });
+
+  function toastify_success() {
+    Toastify({
+      text: "ดำเนินการสำเร็จ",
+      duration: 5000,
+      close: true,
+      gravity: "top", // `top` or `bottom`
+      position: "right", // `left`, `center` or `right`
+      style: {
+        background: "#12a63a",
+      }
+    }).showToast();
+  }
+  function toastify_fail() {
+    Toastify({
+      text: "เกิดข้อผิดพลาด กรุณาลองอีกครั้ง",
+      duration: 5000,
+      close: true,
+      gravity: "top", // `top` or `bottom`
+      position: "right", // `left`, `center` or `right`
+      style: {
+        background: "#a61212",
+      }
+    }).showToast();
+  }
+</script>
