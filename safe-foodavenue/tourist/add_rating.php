@@ -28,7 +28,7 @@ if (isset($_POST["rev_rating"])) {
 
         $result_update = mysqli_query($con, $sql_update) OR Die("ERROR");
 
-        echo 3333;
+        echo "add complete";
     } else {
         $sql = "INSERT INTO sfa_review 
 	(rev_us_id, rev_rating, rev_comment, sfa_res_id) 

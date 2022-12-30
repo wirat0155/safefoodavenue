@@ -45,7 +45,7 @@ if (isset($_POST["res_id"])) {
 
 
     //get data sfa_res_image
-    $sql_res_pic = "SELECT * FROM sfa_res_image WHERE res_img_id = '" . $_POST["res_id"] . "'";
+    $sql_res_pic = "SELECT * FROM sfa_res_image WHERE res_img_res_id = '" . $_POST["res_id"] . "'";
     $query_pic = mysqli_query($con, $sql_res_pic);
 
 

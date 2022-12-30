@@ -241,10 +241,10 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
     var res_id = <?php echo $res_id;  ?>;
     var res_location_lat = '';
     var res_location_lon = '';
-    star = 0; 
+    star = 0;
 
     $(document).ready(function() {
-        
+
         //set data in ajax
         jQuery.ajax({
             url: "./get-restuarant-detail-data.php",
@@ -270,7 +270,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
             get_data_menu();
         });
 
-        if (localStorage.getItem("rev_rating")) {
+        if (localStorage.getItem("rev_rating") && us_id != "no session") {
 
             save_review(localStorage.getItem("rev_rating"), localStorage.getItem("rev_comment"));
 
@@ -452,15 +452,15 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
 
 
     $("#star_search").change(function() {
-       // $(this).css("background-color", "#D6D6FF");
-     
+        // $(this).css("background-color", "#D6D6FF");
+
         console.log("check")
-  
+
         console.log($(this).val());
 
         star = $(this).val();
 
-        load_rating_data(star) 
+        load_rating_data(star)
 
     });
 
@@ -471,7 +471,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
             data: {
                 action: 'load_data',
                 res_id: res_id,
-                star : star
+                star: star
             },
             dataType: "JSON",
             success: function(data) {
@@ -489,7 +489,9 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                     var count_star = 0;
 
                     $('.main_star').each(function() {
+
                         count_star++;
+                        
                         if (Math.ceil(avg_rating) >= count_star) {
                             $(this).addClass('text-warning');
                             $(this).addClass('star-light');
@@ -608,30 +610,27 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
 
         var rev_comment = $('#rev_comment').val();
 
-        if (us_id == "no session") {
-            localStorage.setItem("rev_rating", rev_rating);
-            localStorage.setItem("rev_comment", rev_comment);
-
-            <?php
-            $_SESSION["res_id"] = $res_id;
-            ?>
-
-            window.location.href = '../../login/login.php';
-
+        if (rev_comment.length == 0 && rev_rating == 0) {
+            Swal.fire(
+                'แจ้งเตือน',
+                'กรุณากรอกการรีวิว',
+                'warning'
+            );
+            return false;
         } else {
-            console.log(rev_comment);
+            if (us_id == "no session") {
+                localStorage.setItem("rev_rating", rev_rating);
+                localStorage.setItem("rev_comment", rev_comment);
 
-            if (rev_comment.length == 0 && rev_rating == 0) {
-                Swal.fire(
-                    'แจ้งเตือน',
-                    'กรุณากรอกการรีวิว',
-                    'warning'
-                );
+                <?php
+                $_SESSION["res_id"] = $res_id;
+                ?>
 
-                return false;
+                window.location.href = '../../login/login.php';
+
             } else {
                 save_review(rev_rating, rev_comment);
-            }
+            }  
         }
 
     });
@@ -649,23 +648,14 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                 res_id: res_id
             },
             success: function(data) {
-
-                console.log(data);
-
-                    Swal.fire(
-                        'รีวิวเสร็จสิ้น',
-                        'ขอบคุณลูกค้าสำหรับการรีวิว',
-                        'success'
-                    );
+             
+                    toastify_success();
 
                     load_rating_data(star);
-                
 
+                    $('#rev_comment').val('');
 
-                $('#rev_comment').val('');
-
-                reset_background();
-
+                    reset_background();
 
             },
             error: function(error) {
@@ -676,5 +666,18 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                 )
             }
         })
+    }
+
+    function toastify_success() {
+        Toastify({
+            text: "ขอบคุณลูกค้าสำหรับการรีวิว",
+            duration: 5000,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            style: {
+                background: "#12a63a",
+            }
+        }).showToast();
     }
 </script>

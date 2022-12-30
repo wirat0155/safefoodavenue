@@ -52,6 +52,10 @@
         font-size: 14px;
     }
 
+    .text-size-18 {
+        font-size: 18px;
+    }
+
     .text-size-11 {
         font-size: 11px;
     }
@@ -60,6 +64,10 @@
         max-height: 400px !important;
         height: 400px !important;
 
+    }
+
+    .badge-warning-fix {
+        background-color: #FFB600;
     }
 </style>
 
@@ -95,73 +103,84 @@
 
                 <div class="table-responsive py-4 px-4">
 
-                    <div class="row pb-4 justify-content-md-center">
-                        <div class="col-md-11 h2">
-                            <label>รายการร้านอาหาร</label>
+                    <div class="container">
+                        <div class="row pb-4 justify-content-center">
+                            <div class="col-md-11 h2">
+                                <label>รายการร้านอาหาร</label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row pb-4 justify-content-md-center">
-                        <div class="col-md-11 h2">
-                            <form action="" method="post" id="search_res">
+                        <div class="row pb-4 justify-content-center">
+                            <div class="col-md-11 h2">
 
-                                <input type="hidden" name="content" value="list-restaurant">
+                                <form action="" method="post" id="search_res">
 
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <select class="form-control" name="s_block" id="s_block" onchange="">
-                                            <option value="" selected disabled>เลือกจังหวัด</option>
-                                        </select>
+                                    <input type="hidden" name="content" value="list-restaurant">
+
+                                    <div class="row justify-content-center">
+                                        <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
+                                            <select class="select2 form-control" id="div_provinces">
+                                                <option value="" disabled selected>เลือกจังหวัด</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
+                                            <select class="select2 form-control" name="s_block" id="div_amphures" onchange="">
+                                                <option value="" selected disabled>เลือกอำเภอ</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
+                                            <select class="select2 form-control" name="s_block" id="div_districts" onchange="">
+                                                <option value="" selected disabled>เลือกตำบล</option>
+                                            </select>
+                                        </div>
                                     </div>
 
-                                    <div class="col-md-3">
-                                        <select class="form-control" name="s_block" id="s_block" onchange="">
-                                            <option value="" selected disabled>เลือกอำเภอ</option>
-                                        </select>
+                                    <div class="row mt-2 justify-content-center">
+                                        <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
+                                            <select class="form-control" name="s_block" id="s_block" onchange="">
+                                                <option value="" selected disabled>เลือกโซน</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
+                                            <div class="">
+                                                <select class="form-control" id="star_search">
+                                                    <option value="0">เลือกคะแนน</option>
+                                                    <option value="5">5 ดาว</option>
+                                                    <option value="4">4 ดาว</option>
+                                                    <option value="3">3 ดาว</option>
+                                                    <option value="2">2 ดาว</option>
+                                                    <option value="1">1 ดาว</option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
+
+                                            <input type="text" class="form-control" name="s_restaurant" id="search_restaurant" placeholder="ชื่อร้านอาหาร" aria-describedby="button-addon2" value="">
+
+                                        </div>
                                     </div>
 
-                                    <div class="col-md-3">
-                                        <select class="form-control" name="s_block" id="s_block" onchange="">
-                                            <option value="" selected disabled>เลือกตำบล</option>
-                                        </select>
-                                    </div>
-                                </div>
 
-                                <div class="row mt-2">
-                                    <div class="col-md-3">
-                                        <select class="form-control" name="s_block" id="s_block" onchange="">
-                                            <option value="" selected disabled>เลือกโซน</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <select class="form-control" name="s_block" id="s_block" onchange="">
-                                            <option value="" selected disabled>เลือกล๊อก</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" name="s_restaurant" id="s_restaurant" placeholder="ชื่อร้านอาหาร" aria-describedby="button-addon2" onchange="get_keyword_search()" value="<?php echo $q; ?>">
-                                            <button class="btn btn-primary ml-2" type="button" id="button-addon2" onclick="get_keyword_search()">
-                                                <i class="fa fa-search" aria-hidden="true"></i>
+                                    <div class="row mt-2">
+                                        <div class="col d-flex flex-row-reverse">
+                                            <button class="btn btn-primary ml-2" type="button" id="button_search">
+                                                <i class="fa fa-search" aria-hidden="true"></i> ค้นหา
                                             </button>
                                         </div>
                                     </div>
-                                </div>
-
-
-                            </form>
+                                </form>
+                            </div>
                         </div>
+
+                        <div class="list_res" id="list_res"></div>
+
                     </div>
-                    <div class="row justify-content-md-center" style="padding: 0px 75px;">
-                        <div class="container">
 
-
-                            <div class="list_res" id="list_res"></div>
-
-
-
-
-
-                        </div>
+                    <div align="center" id="page_next">
+                        <button type="button" name="previous" class="btn btn-warning btn-sm previous" id="pre">ก่อนหน้า</button>
+                        <button type="button" name="next" class="btn btn-warning btn-sm next" id="next">ถัดไป</button>
                     </div>
                 </div>
             </div>
@@ -171,25 +190,105 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 <script>
-    var page_number = 0;
+    var page_number = 1;
+    var query = '';
+    var provinces = '';
+    var districts = '';
+    var amphures = '';
+
 
     $(document).ready(function() {
 
-        get_res_list_data(page_number);
+        get_res_list_data('', page_number);
+
+        get_provinces();
+
+        $('#button_search').click(function() {
+
+            //alert("test");
+            query = $('#search_restaurant').val();
+
+            get_res_list_data(query, page_number);
+
+        });
+
+        $('#div_provinces').on('change', function() {
+            //alert(this.value);
+            get_amphures(this.value);
+        });
+
+        $('#div_amphures').on('change', function() {
+            //alert(this.value);
+            get_districts(this.value);
+        });
+
 
     });
 
+    function get_provinces() {
+        $.ajax({
+            url: "./get_provinces_amphure_dis.php",
+            method: "POST",
+            dataType: "JSON",
+            data: {
+                provinces: "province"
+            },
+            success: function(data) {
 
-    function get_res_list_data(page_number) {
+                show_province_dropdown(data);
+
+            }
+        })
+    }
+
+    function get_amphures(pro_id) {
+        $.ajax({
+            url: "./get_provinces_amphure_dis.php",
+            method: "POST",
+            dataType: "JSON",
+            data: {
+                amphures: "amphures",
+                provinces_id: pro_id
+            },
+            success: function(data) {
+
+                show_amphures_dropdown(data);
+
+            }
+        })
+    }
+
+
+    function get_districts(amp_id) {
+        $.ajax({
+            url: "./get_provinces_amphure_dis.php",
+            method: "POST",
+            dataType: "JSON",
+            data: {
+                districts: "districts",
+                amphures_id: amp_id,
+            },
+            success: function(data) {
+
+                show_districts_dropdown(data)
+
+            }
+        })
+    }
+
+    function get_res_list_data(query = '', page_number, provinces) {
+        // alert(page_number);
         $.ajax({
             url: "./get-restaurant-list.php",
             method: "POST",
             data: {
-                page: page_number
+                page: page_number,
+                query: query
             },
             success: function(data) {
-                console.log(data);
+
                 set_data_in_page(data)
 
             },
@@ -198,6 +297,7 @@
             }
         });
     }
+
 
     // show data restaurant in page
     function set_data_in_page(data) {
@@ -209,9 +309,6 @@
             html += '  <div class="row py-3">';
             //loop show data 
             data.data_res.forEach((row_res, index_res) => {
-
-                // console.log(row_res);
-
 
                 html += '<div class="col-12 col-sm-6 col-md-6 col-lg-4 py-2">';
                 html += ' <a href="?content=detail-restaurant&id=' + row_res.res_id + '">';
@@ -228,17 +325,24 @@
                 }
                 html += '<div class="card-body">';
                 html += '<div class="row">';
-                html += ' <div class="col col-sm-12 col-md-12 col-lg-6">';
-                html += '   <span class="badge badge-success text-size-12  text-white">ปลอดภัยจากสารฟอมาลีน</span>';
+                html += ' <div class="col col-sm-8 col-md-8 col-lg-6">';
+
+                if (row_res.res_for_status == 0) {
+                    html += '   <span class="badge badge-success text-size-12  text-white">ปลอดภัยจากสารฟอมาลีน</span>';
+                } else {
+                    html += '   <span class="badge badge-warning badge-warning-fix text-size-12  text-white">กำลังรอตรวจสอบ</span>';
+                }
+
                 html += ' </div>';
-                html += '<div class="col col-sm-12 col-md-12 col-lg-6">';
+                html += '<div class="col col-sm-8 col-md-8 col-lg-6">';
                 html += '   <h4 class="text-center text-size-11">';
 
+                let avg_rating = parseFloat(row_res.review[0]); // set float data review star
 
                 for (var star = 1; star <= 5; star++) {
                     var class_name = '';
 
-                    if (row_res.rev_rating >= star) {
+                    if (Math.ceil(avg_rating) >= star) {
                         class_name = 'text-warning';
                     } else {
                         class_name = 'star-light';
@@ -249,14 +353,19 @@
                 html += '   </h4>';
                 html += '</div>';
                 html += '</div>';
-                html += '<div class="row">';
+                html += '<div class="row mt-2">';
                 html += '   <div class="col col-sm-12 col-md-12 col-lg-12">';
                 html += '       <h2 class="ml-2">' + row_res.res_title + '</h2>';
                 html += '    </div> ';
                 html += '</div>';
                 html += ' <div class="row">';
                 html += '     <div class="col">';
-                html += '        <p class="ml-2 text-dark">' + row_res.res_cat_title + '</p>';
+                if (row_res.res_cat_title != null) {
+                    html += '        <p class="ml-2 text-dark">' + row_res.res_cat_title + '</p>';
+                } else {
+                    html += '        <p class="ml-2 text-dark">อื่น ๆ</p>';
+                }
+
                 html += '      </div>     ';
                 html += '</div>     ';
                 html += '</div>     ';
@@ -273,14 +382,56 @@
 
             $('#total_review').text("ยังไม่มีการรีวิว");
 
-            html += '<div class="row mb-3">';
-            html += '<div class="col-sm-12">';
-            html += 'ร้านนี้ยังไม่มีรีวิว';
+            html += '<div class="container text-center">';
+            html += '<div class="row">';
+            html += '<h1>ไม่พบร้านค้า จากการค้นหานี้';
             html += '</div>';
             html += '</div>';
 
             $('#review_content').html(html);
         }
+
+        $('#page_next').html(data.page);
+
+    }
+
+
+    function show_province_dropdown(data) {
+
+        let html_code = "";
+
+        for (let i = 0; i < data['data'].length; i++) {
+
+            html_code += '<option value="' + data['data'][i].id + '">' + data['data'][i].name_th + '</option>';
+        }
+
+        $('#div_provinces').append(html_code);
+
+    }
+
+    function show_amphures_dropdown(data) {
+
+        let html_code = "";
+
+        for (let i = 0; i < data['data'].length; i++) {
+
+            html_code += '<option value="' + data['data'][i].id + '">' + data['data'][i].name_th + '</option>';
+        }
+
+        $('#div_amphures').append(html_code);
+
+    }
+
+    function show_districts_dropdown(data) {
+
+        let html_code = "";
+
+        for (let i = 0; i < data['data'].length; i++) {
+
+            html_code += '<option value="' + data['data'][i].id + '">' + data['data'][i].name_th + '</option>';
+        }
+
+        $('#div_districts').append(html_code);
 
     }
 </script>
