@@ -53,10 +53,18 @@
     $sql = "SELECT * FROM sfa_role";
     $arrRole = mysqli_query($con, $sql);
 
+    $sql = "SELECT * FROM sfa_government";
+    $arrGov = mysqli_query($con, $sql);
+
+    $sql = "SELECT * FROM th_provinces";
+    $arrProvince = mysqli_query($con, $sql);
+
     // get user object
     $sql = "SELECT * FROM sfa_user WHERE us_id = " . $user_id;
     $dbUser = mysqli_query($con, $sql);
     $user_data = mysqli_fetch_array($dbUser);
+
+
 ?>
 
 <div class="container-fluid mt--6">
@@ -106,6 +114,40 @@
                                     <?php } ?>
                                 </select>
                             </div>
+                        </div>
+                        <hr>
+                        <b style="font-size: 20px;">ตั้งค่าพื้นที่การตรวจ</b>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-4 mt-3">
+                                <label for="province" class="required">จังหวัด</label>
+                                <select name="us_province" id="us_province" class="select2 form-control" onchange="SelectGovernment()">
+                                <option value="" selected disabled>เลือกจังหวัด</option>
+                                <?php while ($obj_province = mysqli_fetch_array($arrProvince)) { ?>
+                                <?php $selected = $user_data["us_province_id"] == $obj_province["id"] ? "selected" : ""; ?>
+                                <option value="<?= $obj_province["id"] ?>" <?= $selected ?>>
+                                    <?= $obj_province["name_th"]?>
+                                </option>
+                                <?php } ?>
+                            </select>
+                            </div>
+                            <div class="col-md-4 mt-3">
+                                <label for="us_gov_id" class="required">องค์กรปกครองส่วนท้องถิ่น</label>
+                                <select name="us_gov_id" id="us_gov_id" class="select2 form-control" >
+                                <!-- <option value="" selected disabled>เลือกองค์กรปกครองส่วนท้องถิ่น</option>
+                                <?php while ($obj_government = mysqli_fetch_array($arrGov)) { ?>
+                                <?php $selected = $user_data["us_gov_id"] == $obj_government["gov_id"] ? "selected" : ""; ?>
+                                <option value="<?= $obj_government["gov_id"] ?>"<?= $selected ?>>
+                                    <?= $obj_government["gov_name"]?>
+                                </option>
+                                <?php } ?> -->
+                                <option value="" selected disabled>เลือกองค์กรปกครองส่วนท้องถิ่น</option>
+                            </select>
+                            </div>
+                            </div>
+                            <!-- <div class="col-md-4 mt-5">
+                                <button type="button" class="btn btn-info">เพิ่มองค์กรปกครองส่วนท้องถิ่น</button>
+                            </div> -->
                         </div>
                         <hr>
                         <b style="font-size: 20px;">สร้างบัญชีผู้ใช้</b>
@@ -247,6 +289,8 @@
             error: function() {}
         });
     }
+
+    
     /*
      * 
      * confirm_password
@@ -280,6 +324,26 @@
         } else {
             $('#cf_btn').prop('disabled', false);
         }
+        if (chk_gov_name == 1) {
+                $('#cf_btn').prop('disabled', true);
+            } else {
+                $('#cf_btn').prop('disabled', false);
+            }
+    }
+    $(document).ready(function() {
+    SelectGovernment()
+});
+    function SelectGovernment() {
+  $.ajax({
+        url: "pages/select_gov.php",
+        type: "post",
+        data: {
+            'txtProvinceId': $("#us_province").val(),
+            'us_id': <?= $_GET["us_id"] ?>
+        }
+    }).done(function(response) {
+        $("#us_gov_id").html(response)
+    });
     }
     </script>
 

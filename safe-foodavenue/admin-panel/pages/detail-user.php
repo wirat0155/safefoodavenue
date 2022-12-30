@@ -42,27 +42,53 @@
 
 <!-- Content -->
 <?php
+require("../php/config.php"); 
 $us_id = $_GET['us_id'];
+//$us_id = isset($_GET["us_id"]) ? $_GET["us_id"] : "1";
+
 // $sql = " SELECT * FROM sfa_restaurant WHERE res_id = '".$res_id."' "; 
 // $dbRestaurant = mysqli_query($con, $sql);
 // $resInfo = mysqli_fetch_array($dbRestaurant);
 
 // // $sql = " SELECT * FROM food_database WHERE res_id = '".$res_id."' "; 
 // // $dbFood = mysqli_query($con, $sql);
-function getUserInfo($con, $us_id)
-{
-    $sql = "SELECT * 
-    FROM  sfa_user INNER JOIN sfa_role 
-       ON  sfa_user.us_role_id = sfa_role.role_id
-       INNER JOIN sfa_prefix
-       ON  sfa_user.us_pre_id = sfa_prefix.pref_id
-       WHERE us_id=  $us_id";
-    $dbUser = mysqli_query($con, $sql);
-    $usInfo = mysqli_fetch_assoc($dbUser);
-    return $usInfo;
-}
+// function getUserInfo($con, $us_id)
+// {
+//     $sql = "SELECT * 
+//     FROM  sfa_user INNER JOIN sfa_role 
+//        ON  sfa_user.us_role_id = sfa_role.role_id
+//        INNER JOIN sfa_prefix
+//        ON  sfa_user.us_pre_id = sfa_prefix.pref_id
+//        WHERE us_id=  $us_id";
+//     $dbUser = mysqli_query($con, $sql);
+//     $usInfo = mysqli_fetch_assoc($dbUser);
+//     return $usInfo;
+// }
 
-$usInfo = getUserInfo($con, $us_id);
+// $usInfo = getUserInfo($con, $us_id);
+// $sql = "SELECT * 
+//         FROM  sfa_user INNER JOIN sfa_role 
+//         ON  sfa_user.us_role_id = sfa_role.role_id
+//         INNER JOIN sfa_prefix
+//         ON  sfa_user.us_pre_id = sfa_prefix.pref_id
+//         WHERE us_id=  $us_id";
+$sql = "SELECT * 
+        FROM  sfa_user INNER JOIN sfa_role 
+         ON  sfa_user.us_role_id = sfa_role.role_id
+         INNER JOIN sfa_prefix
+         ON  sfa_user.us_pref_id = sfa_prefix.pref_id
+         WHERE us_id=  $us_id" ;
+$dbUser = mysqli_query($con, $sql);
+$usInfo = mysqli_fetch_assoc($dbUser);
+// print_r($usInfo);
+// if($dbUser === FALSE) { 
+//     die(mysqli_error($con)); // better error handling
+// }
+$usInfo_pre_id = $usInfo["us_pref_id"];
+$usInfo_fname = $usInfo["us_fname"];
+$usInfo_lname = $usInfo["us_lname"];
+$usInfo_role_title = $usInfo["role_title"];
+
 ?>
 
 <div class="container-fluid mt--6">
@@ -78,14 +104,14 @@ $usInfo = getUserInfo($con, $us_id);
                                 <label>รายละเอียดของผู้ใช้งาน</label>
                             </div>
                             <div class="col-md">
-                                <?php if ($usInfo["us_pre_id"] == 1) {
-                                    $fullname = "นาย" . $usInfo["us_fname"] . " " . $usInfo["us_lname"];
-                                } elseif ($usInfo["us_pre_id"] == 1) {
-                                    $fullname = "นาง" . $usInfo["us_fname"] . " " . $usInfo["us_lname"];
+                                <?php if ($usInfo_pre_id == 1) {
+                                    $fullname = "นาย" . $usInfo_fname  . " " . $usInfo_lname;
+                                } elseif ($usInfo_pre_id  == 2) {
+                                    $fullname = "นาง" . $usInfo_fname . " " . $usInfo_lname;
                                 } else {
-                                    $fullname = "นางสาว" . $usInfo["us_fname"] . " " . $usInfo["us_lname"];
+                                    $fullname = "นางสาว" . $usInfo_fname . " " . $usInfo_lname;
                                 } ?>
-                                <?= $fullname ?>
+                                <?php echo $fullname; ?>
                             </div>
                         </div>
                         <hr style="margin-top: -1rem; margin-bottom: 1rem;">
@@ -95,7 +121,7 @@ $usInfo = getUserInfo($con, $us_id);
                             </div>
                             <div class="col-md">
                                 <div class="col-md">
-                                    <?= $usInfo["role_title"] ?>
+                                    <?php echo $usInfo_role_title; ?>
                                 </div>
                             </div>
                         </div>

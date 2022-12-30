@@ -70,6 +70,18 @@ if (!empty($_POST["us_username"])) {
   }
 }
 
+//Code check us_government_name
+if (!empty($_POST["us_government_name"])) {
+  $result = mysqli_query($con, "SELECT * FROM sfa_government WHERE gov_name ='" . $_POST["us_government_name"] . "'");
+  $result = mysqli_query($con, $sql);
+
+  if(mysqli_num_rows($result) > 0){
+    echo json_encode("duplicate");
+  } else {
+    echo json_encode("ok");
+  }
+}
+
 // Code check us_fname and lname
 if (!empty($_POST["us_fname"]) && !empty($_POST["us_lname"])) {
   $us_fname = trim($_POST["us_fname"]);

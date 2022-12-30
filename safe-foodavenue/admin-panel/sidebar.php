@@ -50,6 +50,9 @@
                                 <li class="nav-item">
                                     <a href="./?content=list-user-role" class="nav-link">ประเภทผู้ใช้งาน</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="./?content=list-government" class="nav-link">องค์กรปกครองส่วนท้องถิ่น</a>
+                                </li>
                             </ul>
                         </div>
                     </li>
