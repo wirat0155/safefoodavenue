@@ -3,32 +3,57 @@ header('Content-Type: application/json');
 require("../php/config.php");
 $limit = '12'; // limit 12 tablew in table
 
-$query_and = '';
+$response["data_res"] = array();
+
 
 if (isset($_POST['page'])) {
   $page = $_POST['page'];
 } else {
   $page = 1;
 }
+$start = ($page - 1) * $limit;
 
+
+//search
+$query_and = '';
 if (isset($_POST['query'])) {
   $query_search = $_POST['query'];
 
-  $query_and .=  " res_title LIKE '%$query_search%'";
+  $query_and .=  "res_title LIKE  '%$query_search%'";
 } else {
-  $query_and = '';
+  $query_and .= '';
 }
-
 
 $start = ($page - 1) * $limit;
 
 
-$response["data_res"] = array();
+$join = '';
+
+
+if ($_POST['zone'] != '') {
+  $query_and .= "AND res_zone_id =  '" .  $_POST['zone'] . "'";
+
+}else if ($_POST['districts'] != '') {
+
+  $query_and .= "AND sfa_restaurant.res_district_id =  '" .  $_POST['districts'] . "'";
+
+}else if ($_POST['amphures'] != '') {
+
+  $join .= 'LEFT JOIN th_districts ON th_districts.id =  sfa_restaurant.res_district_id';
+  $query_and .= "AND th_districts.amphure_id =  '" .  $_POST['amphures'] . "'";
+
+}else if ($_POST['provinces'] != '') {
+
+  $join .= 'LEFT JOIN th_districts ON th_districts.id =  sfa_restaurant.res_district_id LEFT JOIN th_amphures ON th_districts.amphure_id = th_amphures.id';
+
+  $query_and .= "AND th_amphures.province_id =  '" .  $_POST['provinces'] . "'";
+
+}
 
 
 $sql = "
 SELECT sfa_restaurant.res_id, sfa_restaurant.res_title, sfa_res_category.res_cat_title, 
-sfa_res_image.res_img_path, sfa_res_formalin_status.res_for_status
+sfa_res_image.res_img_path, sfa_res_formalin_status.res_for_status, sfa_restaurant.res_zone_id
 FROM sfa_restaurant 
 LEFT JOIN sfa_res_formalin_status
 ON sfa_restaurant.res_id = sfa_res_formalin_status.res_for_res_id
@@ -36,58 +61,75 @@ LEFT JOIN sfa_res_category
 ON sfa_restaurant.res_id = sfa_res_category.res_cat_id
 LEFT JOIN sfa_res_image 
 ON 
-sfa_res_image.res_img_res_id = sfa_restaurant.res_id
-WHERE " . $query_and . "LIMIT "  . $start .  "," . $limit;
+sfa_res_image.res_img_res_id = sfa_restaurant.res_id $join WHERE res_status = 1 AND sfa_res_formalin_status.res_for_status = 0 AND $query_and ORDER BY RAND() LIMIT "  . $start .  "," . $limit;
+$query = mysqli_query($con, $sql) or die("Error get res");
+
+// echo json_encode($sql);
+// exit();
+
+if (mysqli_num_rows($query) > 0) {
+  
+
+  while ($row_list_rs = $query->fetch_assoc()) {
+
+    $sql_review = "SELECT AVG(rev_rating) AS avg_rating FROM `sfa_review` WHERE sfa_res_id =" . $row_list_rs['res_id'];
+    $query_review = mysqli_query($con, $sql_review) or die("Cannot ERROR sql_review");
+
+    $row_list_review = $query_review->fetch_assoc();
 
 
+    $row_list_rs["review"] = array();
 
-$query = mysqli_query($con, $sql);
+    array_push($row_list_rs["review"], $row_list_review['avg_rating']);
 
-
-while ($row_list_rs = $query->fetch_assoc()) {
-
-  //print_r($row_list_rs);
-
-  $sql_review = "SELECT AVG(rev_rating) AS avg_rating FROM `sfa_review` WHERE sfa_res_id =" . $row_list_rs['res_id'];
-  $query_review = mysqli_query($con, $sql_review) or die("Cannot ERROR sql_review");
-
-  $row_list_review = $query_review->fetch_assoc();
-
-  $row_list_rs["review"] = array();
-
-  array_push($row_list_rs["review"], $row_list_review['avg_rating']);
-
-  array_push($response["data_res"], $row_list_rs);
+    array_push($response["data_res"], $row_list_rs);
+  }
+ 
+} else {
+  echo json_encode("No data");
+  exit();
 }
 
-//var_dump($response["data_res"]);
 
+$sql_no_lmit = "
+SELECT sfa_restaurant.res_id, sfa_restaurant.res_title, sfa_res_category.res_cat_title, 
+sfa_res_image.res_img_path, sfa_res_formalin_status.res_for_status, sfa_restaurant.res_zone_id
+FROM sfa_restaurant 
+LEFT JOIN sfa_res_formalin_status
+ON sfa_restaurant.res_id = sfa_res_formalin_status.res_for_res_id
+LEFT JOIN sfa_res_category
+ON sfa_restaurant.res_id = sfa_res_category.res_cat_id
+LEFT JOIN sfa_res_image 
+ON 
+sfa_res_image.res_img_res_id = sfa_restaurant.res_id $join WHERE res_status = 1 AND sfa_res_formalin_status.res_for_status = 0 AND $query_and";
+
+
+$query_no_lmit = mysqli_query($con, $sql_no_lmit) or die("Error get res");
 
 
 $response['page'] = array();
-$response['page'] = get_page_next_pre($query_and, $con, $limit, $page); // set to respone send to view page
+$response['page'] = get_page_next_pre(mysqli_num_rows($query_no_lmit), $con, $limit, $page); // set to respone send to view page
 
 
 echo json_encode($response);
 
 
-function get_page_next_pre($query_and, $con, $limit, $page)
+function get_page_next_pre($num_row, $con, $limit, $page)
 {
-  $sql2 = "select * from sfa_restaurant WHERE " .  $query_and;
-  $query2 = mysqli_query($con, $sql2);
-  $all_count = mysqli_num_rows($query2);
+  $all_count = $num_row;
 
-  //$all_count =  count($response["data_res"]);
+  
   //create next previous button
 
-  $total_links = ceil($all_count / $limit);  // จำนวนแถว หารด้วย จำนวน limit  (ปัดเศษขึ้น)
+  $total_links = ceil($all_count / $limit);  // 1
   $previous_link = ''; // ตัวแปร
   $next_link = ''; //ตัวแปร
 
   for ($count = 1; $count <= $total_links; $count++) {
-    $page_array[] = $count;
+    $page_array[] = $count; 
   }
 
+ // 1
   for ($count = 0; $count < count($page_array); $count++) {
 
     if ($page == $page_array[$count]) {

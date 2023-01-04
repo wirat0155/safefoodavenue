@@ -34,6 +34,18 @@ function get_districts($con, $amphures_id = 0)
 
 }
 
+function get_zone($con, $provinces_id = 0){
+    $sql_zone = "SELECT zone_id, zone_title FROM `sfa_zone` 
+    LEFT JOIN sfa_government 
+    ON sfa_zone.zone_gov_id = sfa_government.gov_id
+    LEFT JOIN th_provinces 
+    ON sfa_government.gov_province_id = th_provinces.id
+    WHERE th_provinces.id =" . $provinces_id;
+    $query_zone = mysqli_query($con, $sql_zone);
+
+    return  $query_zone;
+}
+
 
 
 if (isset($_POST['provinces'])) {
@@ -52,6 +64,12 @@ if (isset($_POST['provinces'])) {
         $query = get_districts($con, $_POST['amphures_id']);
     }else{
         $query = get_districts($con);
+    }
+}else if (isset($_POST['zone'])) {
+    if(isset($_POST['provinces_id'])){
+        $query = get_zone($con, $_POST['provinces_id']);
+    }else{
+        $query = get_zone($con);
     }
 }
 

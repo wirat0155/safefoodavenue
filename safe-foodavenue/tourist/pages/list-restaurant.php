@@ -119,27 +119,27 @@
                                     <div class="row justify-content-center">
                                         <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
                                             <select class="select2 form-control" id="div_provinces">
-                                                <option value="" disabled selected>เลือกจังหวัด</option>
+                                                <option value=""  selected>เลือกจังหวัด</option>
                                             </select>
                                         </div>
 
                                         <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
                                             <select class="select2 form-control" name="s_block" id="div_amphures" onchange="">
-                                                <option value="" selected disabled>เลือกอำเภอ</option>
+                                                <option value="" selected >เลือกอำเภอ</option>
                                             </select>
                                         </div>
 
                                         <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
-                                            <select class="select2 form-control" name="s_block" id="div_districts" onchange="">
-                                                <option value="" selected disabled>เลือกตำบล</option>
+                                            <select class="select2 form-control" name="" id="div_districts" onchange="">
+                                                <option value="" selected >เลือกตำบล</option>
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="row mt-2 justify-content-center">
                                         <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
-                                            <select class="form-control" name="s_block" id="s_block" onchange="">
-                                                <option value="" selected disabled>เลือกโซน</option>
+                                        <select class="select2 form-control" name="" id="div_zone" onchange="">
+                                                <option value="" selected >เลือกโซน</option>
                                             </select>
                                         </div>
                                         <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
@@ -197,6 +197,7 @@
     var provinces = '';
     var districts = '';
     var amphures = '';
+    var zone = '';
 
 
     $(document).ready(function() {
@@ -209,21 +210,31 @@
 
             //alert("test");
             query = $('#search_restaurant').val();
+            provinces = $('#div_provinces').val();
+            amphures = $('#div_amphures').val();
+            districts = $('#div_districts').val();
+            zone = $('#div_zone').val();
 
-            get_res_list_data(query, page_number);
+          //  console.log("result = " + provinces + amphures + districts + zone);
+
+
+            //query = '', page_number, provinces = null, amphures = null, districts = null,  zone = null
+            get_res_list_data(query, page_number, provinces, amphures, districts, zone);
 
         });
+
+
 
         $('#div_provinces').on('change', function() {
             //alert(this.value);
             get_amphures(this.value);
+            get_zone(this.value);
         });
 
         $('#div_amphures').on('change', function() {
             //alert(this.value);
             get_districts(this.value);
         });
-
 
     });
 
@@ -244,6 +255,7 @@
     }
 
     function get_amphures(pro_id) {
+
         $.ajax({
             url: "./get_provinces_amphure_dis.php",
             method: "POST",
@@ -254,6 +266,7 @@
             },
             success: function(data) {
 
+                console.log(data)
                 show_amphures_dropdown(data);
 
             }
@@ -278,16 +291,39 @@
         })
     }
 
-    function get_res_list_data(query = '', page_number, provinces) {
+    function get_zone(provinces_id) {
+        $.ajax({
+            url: "./get_provinces_amphure_dis.php",
+            method: "POST",
+            dataType: "JSON",
+            data: {
+                zone: "zone",
+                provinces_id: provinces_id,
+            },
+            success: function(data) {
+
+                show_zone_dropdown(data)
+
+            }
+        })
+    }
+
+    function get_res_list_data(query = '', page_number, provinces = '', amphures = '', districts = '',  zone = '') {
         // alert(page_number);
         $.ajax({
             url: "./get-restaurant-list.php",
             method: "POST",
             data: {
                 page: page_number,
-                query: query
+                query: query,
+                provinces: provinces,
+                amphures: amphures,
+                districts: districts,
+                zone: zone
             },
             success: function(data) {
+
+                console.log(data);
 
                 set_data_in_page(data)
 
@@ -304,7 +340,7 @@
 
         let html = '';
 
-        if (data.data_res.length > 0) {
+        if (data != "No data" ) {
 
             html += '  <div class="row py-3">';
             //loop show data 
@@ -377,10 +413,11 @@
             html += ' </div>     ';
 
             $('#list_res').html(html);
+            $('#page_next').html(data.page);
 
         } else {
 
-            $('#total_review').text("ยังไม่มีการรีวิว");
+        console.log("check ");
 
             html += '<div class="container text-center">';
             html += '<div class="row">';
@@ -388,10 +425,9 @@
             html += '</div>';
             html += '</div>';
 
-            $('#review_content').html(html);
+            $('#list_res').html(html);
+            $('#page_next').html(" ");
         }
-
-        $('#page_next').html(data.page);
 
     }
 
@@ -410,7 +446,7 @@
     }
 
     function show_amphures_dropdown(data) {
-
+        clear_amphures_dropdown()
         let html_code = "";
 
         for (let i = 0; i < data['data'].length; i++) {
@@ -424,6 +460,7 @@
 
     function show_districts_dropdown(data) {
 
+        clear_districts_dropdown()
         let html_code = "";
 
         for (let i = 0; i < data['data'].length; i++) {
@@ -433,5 +470,35 @@
 
         $('#div_districts').append(html_code);
 
+    }
+
+    function show_zone_dropdown(data) {
+
+        clear_zone_dropdown()
+        let html_code = "";
+
+        for (let i = 0; i < data['data'].length; i++) {
+
+            html_code += '<option value="' + data['data'][i].zone_id + '">' + data['data'][i].zone_title + '</option>';
+        }
+
+        $('#div_zone').append(html_code);
+
+    }
+
+    function clear_amphures_dropdown() {
+        var option = '<option value=""  selected>เลือกอำเภอ</option>';
+        $("#div_amphures").html(option);
+    }
+
+
+    function clear_districts_dropdown() {
+        var option = '<option value=""  selected>เลือกตำบล</option>';
+        $("#div_districts").html(option);
+    }
+
+    function clear_zone_dropdown() {
+        var option = '<option value=""  selected>เลือกโซน</option>';
+        $("#div_zone").html(option);
     }
 </script>
