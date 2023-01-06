@@ -123,6 +123,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                                         <div class="" id="google_map_app"></div>
 
                                         <p class="text mt-4 text-size-16" id="res_address">ตัวอย่าง ที่อยู่</p>
+                                        <p class="text mt-2 text-size-16" id="res_provinces" ></p>
                                         <hr>
                                         <p>เบอร์โทร : <span id="ent_tel"></span></p>
 
@@ -253,6 +254,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
             },
             type: "POST",
             success: function(data) {
+                console.log(data)
                 set_data_in_page(data);
                 set_picture_res(data['data_pic']);
 
@@ -352,9 +354,10 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
         $("#res_title").html(data["data_res"][0].res_title); //set title
         $("#res_description").html(data["data_res"][0].res_description); //set description
         $("#res_cat_title").html(data["data_res"][0].res_cat_title); //set res title
-        $("#ent_tel").html(data["data_res"][0].ent_tel); //set ent_tel
-        $("#res_address").html(data["data_res"][0].res_address); //set ent_tel
-
+        $("#ent_tel").html(data["data_res"][0].ent_tel); //set 
+        $("#res_address").html(data["data_res"][0].res_address); //set 
+        $("#res_provinces").html( "อำเภอ" + data["data_res"][0].name_amp + " " + "จังหวัด" + data["data_res"][0].name_pro + " " + data["data_res"][0].zip_code); //set 
+      
 
         console.log(data["data_formalin"][0]);
         // set status

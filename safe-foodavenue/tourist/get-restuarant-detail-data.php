@@ -10,11 +10,15 @@ if (isset($_POST["res_id"])) {
     $response["data_location"] = array(); //Array ที่อยู่ (lat lon)
 
     //get data sfa_restaurant
-    $sql = "SELECT * FROM  `sfa_restaurant` 
+    $sql = "SELECT *, th_amphures.name_th As name_amp, th_provinces.name_th AS name_pro, 
+    th_districts.name_th AS name_dis  FROM  `sfa_restaurant` 
     LEFT JOIN sfa_res_category
     ON sfa_restaurant.res_cat_id = sfa_res_category.res_cat_id
     LEFT JOIN sfa_entrepreneur
     ON sfa_restaurant.res_ent_id = sfa_entrepreneur.ent_id
+    LEFT JOIN th_districts ON th_districts.id =  sfa_restaurant.res_district_id 
+    LEFT JOIN th_amphures ON th_districts.amphure_id = th_amphures.id
+    LEFT JOIN th_provinces ON th_amphures.province_id = th_provinces.id
     WHERE res_id = " . $_POST["res_id"] . " ";
 
     $query = mysqli_query($con, $sql);
