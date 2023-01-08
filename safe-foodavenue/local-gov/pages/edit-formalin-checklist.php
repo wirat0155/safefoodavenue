@@ -44,7 +44,7 @@
                     <form action="./php/action-edit-formalin-checklist.php" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <input type="hidden" id="fcl_id" name="fcl_id" class="form-control" value="<?php echo $fcl['fcl_id'] ?>">
-                            <div class="col-md-2">
+                            <div class="col-md-2 mt-3">
                                 <label for="fcl_year" class="required">ปี</label>
                                 <select id="fcl_year" class="form-control" onchange="set_date_start();">
                                     <?php
@@ -58,17 +58,17 @@
                                     ?>
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 mt-3">
                                 <label for="first_name" class="required">วันที่เริ่มการตรวจ</label>
                                 <input type="date" pattern="dd/mm/yyyy" id="fcl_startdate" name="fcl_startdate" class="form-control" value="<?php echo $fcl['fcl_startdate']?>" onchange="set_date_end()" required>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 mt-3">
                                 <label for="last_name" class="required">วันสิ้นสุดการตรวจ</label>
                                 <input type="date" pattern="dd/mm/yyyy" id="fcl_enddate" name="fcl_enddate" class="form-control" value="<?php echo $fcl['fcl_enddate']?>" required>
                             </div>
                         </div>
                         <br />
-                        <div class="row pb-4" style="position: relative;">
+                        <div class="row" style="position: relative;">
                             <div class="col-md-4">
                                 <input type="submit" class="btn btn-warning" value="เเก้ไขรอบการตรวจ">
                                 <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-formalin-checklist'">

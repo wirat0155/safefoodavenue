@@ -59,12 +59,20 @@
     }
 
     // update document location
-    $sql = "UPDATE `sfa_document_location` 
-            SET `doc_loc_address`='$doc_loc_address',
-            `doc_loc_district_id`=$doc_loc_district_id 
-            WHERE `sfa_document_location`.`doc_loc_res_id` = $res_id";
-    $update_document_location = mysqli_query($con, $sql);
-    $is_pass = $is_pass == true? $update_document_location : $is_pass;
+    $sql = "SELECT `doc_loc_id` FROM `sfa_document_location` WHERE `doc_loc_res_id` = " . $res_id;
+    $arr_doc_loc = mysqli_query($con, $sql);
+    if (mysqli_num_rows($arr_doc_loc) == 0) {
+        $sql = "INSERT INTO `sfa_document_location`(`doc_loc_res_id`, `doc_loc_address`, `doc_loc_district_id`) VALUES ($res_id, '$doc_loc_address', $doc_loc_district_id)";
+        $inserted_document_location = mysqli_query($con, $sql);
+        $is_pass = $is_pass == true? $inserted_document_location : $is_pass;
+    } else {
+        $sql = "UPDATE `sfa_document_location` 
+                SET `doc_loc_address`='$doc_loc_address',
+                `doc_loc_district_id`=$doc_loc_district_id 
+                WHERE `sfa_document_location`.`doc_loc_res_id` = $res_id";
+        $update_document_location = mysqli_query($con, $sql);
+        $is_pass = $is_pass == true? $update_document_location : $is_pass;
+    }
 
     if ($is_pass) {
         mysqli_query($con, "COMMIT");

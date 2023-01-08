@@ -46,9 +46,9 @@
             <div class="card border-0">
                 <div class="table-responsive py-4 px-4">
                     <form action="./php/action-edit-block.php" method="POST" enctype="multipart/form-data">
-                        <div class="row pb-4">
+                        <div class="row">
                                 <!-- องค์กรปกครองส่วนท้องถิ่น -->
-                                <div class="col-md-6">
+                                <div class="col-md-6 mt-3">
                                     <label class="required" for="gov_id">องค์กรปกครองส่วนท้องถิ่น</label>
                                     <select id="gov_id" name="gov_id" class="select2 form-control" onchange="get_zone()" required>
                                         <option value="" selected disabled>เลือกองค์กรปกครองส่วนท้องถิ่น</option>
@@ -64,7 +64,7 @@
                                 </div>
 
                                 <!-- เลือกโซน -->
-                                <div class="col-md-6">
+                                <div class="col-md-6 mt-3">
                                     <label for="block_zone_id" class="required">โซน</label>
                                     <select name="block_zone_id" id="block_zone_id" class="select2 form-control" onchange="check_name_block()" required>
                                         <option value="" selected disabled>เลือกโซน</option>
@@ -80,38 +80,35 @@
                                 </div>
                             </div>
 
-                        <div class="row pb-4">
+                        <div class="row">
                             <!-- ชื่อบล๊อก -->
-                            <div class="col-md-6">
+                            <div class="col-md-6 mt-3">
                                 <label class="required">ชื่อบล๊อก</label>
                                 <input type="text" id="block_title" name="block_title" class="form-control" placeholder="ใส่ชื่อบล๊อก" oninput="check_name_block();" value="<?php echo $obj_block['block_title']; ?>" required>
                                 <span id="status_block_title"></span>
                             </div>
                         </div>
 
-
-                        <div class="row pb-4">
-                            <div class="col">
-                                <h3 class="mb-0">ตำเเหน่งที่ตั้ง </h3> 
-                                <button type="button" class="btn btn-primary" onclick="getLocation()"> <i class="ni ni-pin-3"></i> &nbsp ตำแหน่งปัจจุบัน</button>
-                            </div>
+                        <!-- ตำแหน่งที่ตั้ง -->
+                        <div class="row px-2 mt-3">
+                            <h3 class="mt-2 mb-0">ตำเเหน่งที่ตั้ง</h3> &nbsp&nbsp <button type="button" class="btn btn-primary" onclick="getLocation()"> <i class="ni ni-pin-3"></i> &nbsp ตำแหน่งปัจจุบัน</button>
                         </div>
 
-                        <div class="row pb-4">
+                        <div class="row">
                             <!-- ละติจูด -->
-                            <div class="col-md-4">
+                            <div class="col-md-4 mt-3">
                                 <label class="required">ละติจูด</label>
                                 <input type="text" id="block_lat" name="block_lat" class="form-control" placeholder="ใส่ละติจูด" value="<?php echo $obj_block['block_lat']; ?>" required>
                                 <span class="text-danger" id="error_block_lat"></span>
                             </div>
                             <!-- ลองติจูด -->
-                            <div class="col-md-4">
+                            <div class="col-md-4 mt-3">
                                 <label class="required">ลองติจูด</label>
                                 <input type="text" id="block_lon" name="block_lon" class="form-control" placeholder="ใส่ลองติจูด" value="<?php echo $obj_block['block_lon']; ?>" required>
                                 <span class="text-danger" id="error_block_lon"></span>
                             </div>
-
                         </div>
+                        <br />
                         <div class="row pb-4">
                             <div class="col">
                                 <input type="submit" id="cf_btn" class="btn btn-warning" value="แก้ไขบล็อก">

@@ -42,7 +42,7 @@
 
     function get_year_dropdown($con) {
         $sql = "SELECT DISTINCT `fcl_year` AS `fcl_year` 
-                FROM `sfa_formalin_checklist` WHERE `fcl_gov_id` = " . $_SESSION['us_gov_id'];
+                FROM `sfa_formalin_checklist` WHERE `fcl_gov_id` = " . $_SESSION['us_gov_id'] . " ORDER BY fcl_year DESC";
         $arr_restaurant = mysqli_query($con, $sql);
         return $arr_restaurant;
     }

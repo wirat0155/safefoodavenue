@@ -104,26 +104,25 @@ function check_zone_name() {
         <div class="col">
             <div class="card border-0">
                 <div class="table-responsive py-4 px-4">
-
                     <form action="./php/action-edit-zone.php" method="POST" enctype="multipart/form-data" id="update_zone">
                         <input type="text" name="zone_id" value="<?php echo $obj_zone["zone_id"] ?>" hidden>
-                        <div class="row pb-4">
-                            <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6 mt-3">
                                 <label for="zone_title" class="required">ชื่อโซนร้านอาหาร</label>
                                 <input type="text" id="zone_title" name="zone_title" class="form-control" placeholder="ใส่ชื่อโซนร้านอาหาร" oninput="check_zone_name()" value="<?php echo $obj_zone["zone_title"]?>" required>
                                 <span id="status_zone_title"></span>
                             </div>
                         </div>
 
-                        <div class="row pb-4">
-                            <div class="col-md">
+                        <div class="row">
+                            <div class="col-md mt-3">
                                 <label for="zone_description" class="required">รายละเอียดโซนร้านอาหาร</label>
                                 <textarea id="zone_description" name="zone_description" class="form-control" rows="3" placeholder="ใส่รายละเอียดโซนร้านอาหาร" required><?php echo $obj_zone["zone_description"]?></textarea>
                             </div>
                         </div>
 
-                        <div class="row pb-4">
-                            <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6 mt-3">
                                 <label class="required" for="zone_gov_id">องค์กรปกครองส่วนท้องถิ่น</label>
                                 <select id="zone_gov_id" name="zone_gov_id" class="select2 form-control" required>
                                     <option value="" selected disabled>เลือกองค์กรปกครองส่วนท้องถิ่น</option>
@@ -139,8 +138,8 @@ function check_zone_name() {
                             </div>
                         </div>
 
-                        <div class="row pb-4">
-                            <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-8 mt-3">
                                 <label>ตำแหน่งที่ตั้ง
                                     <!-- <span class="text-danger">(Dynamic form)</span> -->
                                 </label> &nbsp&nbsp <button type="button" class="btn btn-primary" onclick="getLocation()"> <i class="ni ni-pin-3"></i> &nbsp ตำแหน่งปัจจุบัน</button>
@@ -151,14 +150,13 @@ function check_zone_name() {
                         </div>
 
                         <div id="locationPanel">
-
-                            <div class="row pb-4">
-                                <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-4 mt-3">
                                     <label class="required">ละติจูด</label>
                                     <input type="number" id="zone_lat" name="zone_lat" class="form-control" value="<?php echo $obj_zone["zone_lat"]?>" required>
                                     <span class="text-danger" id="error_zone_lat"></span>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 mt-3">
                                     <label class="required">ลองจิจูด</label>
                                     <input type="number" id="zone_lon" name="zone_lon" class="form-control" value="<?php echo $obj_zone["zone_lon"]?>" required>
                                     <span class="text-danger" id="error_zone_lon"></span>
@@ -169,6 +167,7 @@ function check_zone_name() {
                                 </div> -->
                             </div>
                         </div>
+                        <br />
 
                         <div class="row pb-4">
                             <div class="col-md-4">

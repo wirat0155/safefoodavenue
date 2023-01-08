@@ -33,10 +33,9 @@
         <div class="col">
             <div class="card border-0">
                 <div class="table-responsive py-4 px-4">
-
                     <form action="./php/action-add-formalin-checklist.php" method="POST" enctype="multipart/form-data">
                         <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-2 mt-3">
                                 <label for="fcl_year" class="required">ปี</label>
                                 <select id="fcl_year" class="form-control" onchange="set_date_start();">
                                     <?php
@@ -49,31 +48,30 @@
                                     ?>
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 mt-3">
                                 <label for="first_name" class="required">วันที่เริ่มการตรวจ</label>
                                 <input type="date" pattern="dd/mm/yyyy" id="fcl_startdate" name="fcl_startdate" class="form-control" onchange="set_date_end()" required>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 mt-3">
                                 <label for="last_name" class="required">วันสิ้นสุดการตรวจ</label>
                                 <input type="date" pattern="dd/mm/yyyy" id="fcl_enddate" name="fcl_enddate" class="form-control" required>
                             </div>
                         </div>
-                        <br>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-6 mt-3">
                                 <label for="username">ผู้เพิ่มรอบการตรวจ</label>
                                 <input type="text" id="us_username" name="us_username" class="form-control" value="<?php $fullname = isset($_SESSION["us_fullname"]) ? $_SESSION["us_fullname"] : "John Snow"; echo $fullname; ?>" disabled>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6 mt-3">
                                 <label for="username">องค์กรปกครองส่วนท้องถิ่น</label>
                                 <input type="text" id="gov_name" class="form-control" value="<?php echo isset($_SESSION["us_gov_name"])? $_SESSION['us_gov_name'] : "" ?>" disabled>
                             </div>
                         </div>
-                        <br>
+                        <br />
                         <div class="row pb-4" style="position: relative;">
                             <div class="col-md-4">
-                                <input type="submit" class="btn btn-success" value="สร้างรอบการตรวจ">
+                                <input type="submit" class="btn btn-success" value="บันทึก">
                                 <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-formalin-checklist'">
                             </div>
                         </div>

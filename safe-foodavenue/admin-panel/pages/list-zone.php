@@ -36,7 +36,7 @@
         <div class="col">
             <div class="card border-0">
                 <div class="py-4">
-                    <?php if (mysqli_num_rows($arr_block) > 0) : ?>
+                    <?php if (mysqli_num_rows($query) > 0) : ?>
                     <table class="table table-striped display nowrap" id="datatable-basic" style="max-width: 100%">
                         <thead class="thead-light">
                             <tr>
