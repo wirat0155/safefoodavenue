@@ -68,7 +68,7 @@ $user_role_data = mysqli_fetch_array($dbRole);
                         <br>
                         <div class="row pb-4" style="position: relative;">
                             <div class="col-md-4">
-                                <input type="submit" class="btn btn-success" value="บันทึก">
+                                <input type="submit" class="btn btn-warning" value="แก้ไขประเภทผู้ใช้">
                                 <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-user-role'">
                             </div>
                         </div>

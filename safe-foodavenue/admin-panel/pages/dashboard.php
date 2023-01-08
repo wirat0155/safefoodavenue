@@ -42,7 +42,7 @@
 
     function get_year_dropdown($con) {
         $sql = "SELECT DISTINCT `fcl_year` AS `fcl_year` 
-                FROM `sfa_formalin_checklist` WHERE `fcl_gov_id` = " . $_SESSION['us_gov_id'];
+                FROM `sfa_formalin_checklist` WHERE `fcl_gov_id` = " . $_SESSION['us_gov_id'] . " ORDER BY fcl_year DESC";
         $arr_restaurant = mysqli_query($con, $sql);
         return $arr_restaurant;
     }
@@ -174,7 +174,7 @@
     $arr_restaurant = mysqli_query($con, $sql);
 ?>
 
-<div class="header pb-2">
+<div class="header">
     <div class="container-fluid">
         <div class="header-body">
             <div class="row align-items-center py-4">
@@ -191,9 +191,14 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">จำนวนร้านค้าที่เปิดกิจการ ณ ปัจจุบัน</h5>
-                                    <span class="h2 font-weight-bold mb-0"><?php echo number_format($all_restaurant) ?></span>
-                                </div>
-                                <div class="col-auto">
+                                    <div class="d-flex justify-content-between pt-2">
+                                        <div>
+                                            <h1><i class="bi bi-shop"></i></h1>
+                                        </div>
+                                        <div>
+                                            <span class="h1 font-weight-bold mb-0"><?php echo number_format($all_restaurant) ?></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -206,7 +211,14 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">จำนวนร้านค้าที่ผ่านการตรวจ</h5>
-                                    <span class="h2 font-weight-bold mb-0"> <?php echo number_format($pass_restaurant) ?></span>
+                                    <div class="d-flex justify-content-between pt-2">
+                                        <div>
+                                            <h1 class="text-success"><i class="bi bi-shield-fill-check"></i></h1>
+                                        </div>
+                                        <div>
+                                            <h1 class="font-weight-bold mb-0"> <?php echo number_format($pass_restaurant) ?></h1>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -219,7 +231,14 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">ร้อยละของร้านค้าที่ผ่านการตรวจ</h5>
-                                    <span class="h2 font-weight-bold mb-0"><?php echo round(($pass_restaurant / $all_restaurant) * 100, 2) ?></span>
+                                    <div class="d-flex justify-content-between pt-2">
+                                        <div>
+                                            <h1 class="text-success"><i class="bi bi-shield-fill-check"></i></h1>
+                                        </div>
+                                        <div>
+                                            <h1 class="font-weight-bold mb-0"><?php echo round(($pass_restaurant / $all_restaurant) * 100, 2) ?></h1>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -228,10 +247,10 @@
             </div>
 
             <div class="row align-items-center py-4">
-                <div class="col-lg-1 col-7">
+                <div class="col col-lg-2">
                     <h6 class="h1 d-inline-block mb-0">ปีปฏิทิน</h6>
                 </div>
-                <div class="col-2">
+                <div class="col col-lg-2">
                     <select name="fcl_year" id="fcl_year" class="select2 form-control" oninput="change_year()">
                         <?php
                         while($obj_fcl_year = mysqli_fetch_assoc($arr_fcl_year)["fcl_year"]) {
@@ -250,9 +269,14 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">จำนวนร้านค้าที่เข้ารับการตรวจในปีปฏิทิน</h5>
-                                    <span class="h2 font-weight-bold mb-0"><?php echo number_format($all_restaurant_by_year) ?></span>
-                                </div>
-                                <div class="col-auto">
+                                    <div class="d-flex justify-content-between pt-2">
+                                        <div>
+                                            <h1><i class="bi bi-shop"></i></h1>
+                                        </div>
+                                        <div>
+                                            <h1 class="font-weight-bold mb-0"><?php echo number_format($all_restaurant_by_year) ?></h1>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -265,7 +289,14 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">จำนวนร้านค้าที่ผ่านการตรวจ</h5>
-                                    <span class="h2 font-weight-bold mb-0"> <?php echo number_format($pass_restaurant_by_year) ?></span>
+                                    <div class="d-flex justify-content-between pt-2">
+                                        <div>
+                                            <h1 class="text-success"><i class="bi bi-shield-fill-check"></i></h1>
+                                        </div>
+                                        <div>
+                                            <h1 class="font-weight-bold mb-0"> <?php echo number_format($pass_restaurant_by_year) ?></h1>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -281,7 +312,14 @@
                                     $all_restaurant_by_year = $all_restaurant_by_year == 0? 1 : $all_restaurant_by_year;
                                     ?>
                                     <h5 class="card-title text-uppercase text-muted mb-0">ร้อยละของร้านค้าที่ผ่านการตรวจ</h5>
-                                    <span class="h2 font-weight-bold mb-0"><?php echo round(($pass_restaurant_by_year / $all_restaurant_by_year) * 100, 2) ?></span>
+                                    <div class="d-flex justify-content-between pt-2">
+                                        <div>
+                                            <h1 class="text-success"><i class="bi bi-shield-fill-check"></i></h1>
+                                        </div>
+                                        <div>
+                                            <h1 class="font-weight-bold mb-0"><?php echo round(($pass_restaurant_by_year / $all_restaurant_by_year) * 100, 2) ?></h1>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -291,16 +329,16 @@
         </div>
     </div>
 
-    <div class="container-fluid">
-        <div class="row justify-content-sm-center py-5">
+    <div class="container-fluid" style="max-width: 1600px">
+        <div class="row justify-content-sm-center pb-2">
             <?php
             for ($i = 0; $i < count($arr_fcl_id); $i++) { ?>
-                <div class="col-sm-5">
+                <div class="col-6 col-lg-3">
                     <div class="card">
                         <div class="card-header bg-primary text-white text-center" style="font-size: 1.25rem;">
                             อัตราส่วนร้านที่พบฟอร์มาลิน <?php echo ($i+1) ?>/<?php echo ($fcl_year + 543) ?>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" id="<?php echo "pie_chart_card_" . ($i+1) ?>">
                             <canvas id="<?php echo "pie_chart_" . ($i+1) ?>" width="200" height="200"></canvas>
                         </div>
                     </div>
@@ -308,8 +346,8 @@
             <?php } ?>
         </div>
         
-        <div class="row justify-content-sm-center pb-5">
-            <div class="col-sm-10">
+        <div class="row justify-content-sm-center pb-2">
+            <div class="col">
                 <div class="card">
                     <div class="card-header bg-primary text-white text-start" style="font-size: 1.25rem;">
                     ผลตรวจฟอร์มาลินของร้านจำแนกตามประเภทของร้านอาหาร
@@ -321,40 +359,35 @@
             </div>
         </div>
 
-        <div class="row justify-content-sm-center pb-5">
-            <div class="col-sm-10">
+        <div class="row justify-content-sm-center pb-2">
+            <div class="col">
                 <div class="card">
                     <div class="card-header bg-primary text-white text-start" style="font-size: 1.25rem;">
                         รายการข้อมูลร้านอาหารทั้งหมด
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive py-4">
-                            <table class="table table-striped stripe" id="datatable-basic">
+                    <div class="card-body p-0">
+                        <div class="py-2">
+                            <?php if (mysqli_num_rows($arr_restaurant) > 0) : ?>
+                            <table class="table table-striped display nowrap" id="datatable-basic" style="max-width: 100%">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th>ลำดับ</th>
+                                        <th style="width: 5%">ลำดับ</th>
                                         <th>ชื่อร้านอาหาร</th>
+                                        <th>ผลการตรวจ</th>  
                                         <th>โซนร้านอาหาร</th> 
                                         <th>บล็อกร้านอาหาร</th>
                                         <th>ประเภท</th>  
                                         <th>ชื่อผู้ประกอบการ</th>  
                                         <th>เบอร์โทร</th>  
-                                        <th>ผลการตรวจ</th>  
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     <?php 
                                     $i = 1;
                                     while($obj_restaurant = mysqli_fetch_array($arr_restaurant)){ ?> 
                                         <tr>
                                             <td><?php echo $i++ ?></td>
                                             <td><?php echo $obj_restaurant["res_title"] ?></td> 
-                                            <td><?php echo $obj_restaurant["zone_title"] ?></td> 
-                                            <td><?php echo $obj_restaurant["block_title"] ?></td> 
-                                            <td><?php echo $obj_restaurant["res_cat_title"] ?></td> 
-                                            <td><?php echo $obj_restaurant["ent_firstname"] . " " . $obj_restaurant["ent_lastname"] ?></td> 
-                                            <td><?php echo $obj_restaurant["ent_tel"] ?></td> 
                                             <td><?php 
                                                 if ($obj_restaurant["res_for_status"] == "") {
                                                     echo "<span>รอตรวจสอบ</span>";
@@ -365,11 +398,23 @@
                                                 else if ($obj_restaurant["res_for_status"] == "1") {
                                                     echo "<span class='text-danger'>อันตราย</span>";
                                                 }
-                                            ?>
+                                            ?></td>
+                                            <td><?php echo $obj_restaurant["zone_title"] ?></td> 
+                                            <td><?php echo $obj_restaurant["block_title"] ?></td> 
+                                            <td><?php echo $obj_restaurant["res_cat_title"] ?></td> 
+                                            <td><?php echo $obj_restaurant["ent_firstname"] . " " . $obj_restaurant["ent_lastname"] ?></td> 
+                                            <td><?php echo $obj_restaurant["ent_tel"] ?></td> 
                                         </tr>
                                     <?php } ?> 
                                 </tbody>
                             </table>
+                            <?php else : ?>
+                                <div class="py-5">
+                                    <center>
+                                        <h3>ไม่พบข้อมูลร้านอาหาร</h3>
+                                    </center>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -378,6 +423,8 @@
     </div>
 </div>
 <!-- <?php include("./pages/block-map.php"); ?> -->
+
+
 
 <script>
     $(document).ready(function() {
@@ -419,6 +466,12 @@
     }
 
     function get_pie_chart(fcl_id, fcl_year, value) {
+        console.log(value);
+        if (JSON.stringify(value) === JSON.stringify([0, 0])) {
+            console.log('The arrays are equal');
+            $("#pie_chart_card_" + fcl_id).html("ไม่พบข้อมูลการตรวจ");
+            return 0;
+        }
         let title = "อัตราส่วนร้านที่พบฟอร์มาลิน " + fcl_id + "/" + fcl_year;
         const ctx = $("#pie_chart_" + fcl_id);
         const data = {
@@ -430,7 +483,7 @@
                 label: 'อัตราส่วนร้านที่ใช้ฟอร์มาลิน',
                 data: value,
                 backgroundColor: [
-                    'rgb(14, 201, 67)',
+                    'rgb(45, 206, 137)',
                     'rgb(201, 27, 14)'
                 ],
                 hoverOffset: 4
@@ -516,7 +569,7 @@
                         }
                         ?>
                 ],
-                color: 'rgb(14, 201, 67)'
+                color: 'rgb(45, 206, 137)'
             }, {
                 name: 'รอตรวจสอบ',
                 data: [

@@ -15,7 +15,6 @@
                 </div>
                 <div class="col-lg-6 col-5 text-right">
                     <a href="?content=add-user" class="btn btn-sm btn-neutral">เพิ่มบัญชีผู้ใช้งาน</a>
-                    <!-- <a href="?content=add-role-user" class="btn btn-sm btn-neutral">เพิ่มประเภทผู้ใช้งาน</a> -->
                 </div>
             </div>
         </div>
@@ -41,11 +40,12 @@
     <div class="row">
         <div class="col">
             <div class="card border-0">
-                <div class="table-responsive py-4">
-                    <table class="table table-flush" id="datatable-basic">
+                <div class="py-4">
+                    <?php if (mysqli_num_rows($query) > 0) : ?>
+                    <table class="table table-striped display nowrap" id="datatable-basic" style="max-width: 100%">
                         <thead class="thead-light">
                             <tr>
-                                <th>ลำดับที่</th>
+                                <th style="width: 5%">ลำดับที่</th>
                                 <th>ชื่อ-นามสกุล</th>
                                 <th>ประเภทผู้ใช้งาน</th>
                                 <th>Action</th>
@@ -79,9 +79,15 @@
                                 $n++;
                             } // End while 
                             ?>
-
                         </tbody>
                     </table>
+                    <?php else : ?>
+                        <div class="py-5">
+                            <center>
+                                <h3>ไม่พบข้อมูลผู้ใช้งาน</h3>
+                            </center>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

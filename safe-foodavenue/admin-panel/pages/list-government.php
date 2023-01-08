@@ -38,8 +38,9 @@ $querygov = mysqli_query($con, $sql);
     <div class="row">
         <div class="col">
             <div class="card border-0">
-                <div class="table-responsive py-4">
-                    <table class="table table-flush" id="datatable-basic">
+                <div class="py-4">
+                    <?php if (mysqli_num_rows($querygov) > 0) : ?>
+                    <table class="table table-striped display nowrap" id="datatable-basic" style="max-width: 100%">
                         <thead class="thead-light">
                             <tr>
                                 <th>ลำดับที่</th>
@@ -76,6 +77,13 @@ $querygov = mysqli_query($con, $sql);
                             ?>
                         </tbody>
                     </table>
+                    <?php else : ?>
+                        <div class="py-5">
+                            <center>
+                                <h3>ไม่พบข้อมูลองค์กรปกครองส่วนท้องถิ่น</h3>
+                            </center>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

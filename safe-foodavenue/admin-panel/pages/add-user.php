@@ -42,7 +42,7 @@
                 <div class="table-responsive py-4 px-4">
                     <form action="./php/action-add-user.php" method="POST" enctype="multipart/form-data">
                         <div class="row">
-                            <div class="col-md-2 pb-4">
+                            <div class="col-md-2 mt-3">
                                 <label for="prefix" class="required">คำนำหน้า</label>
                                 <select name="us_pref_id" class="select2 form-control" required>
                                     <option value="" disabled selected>คำนำหน้า</option>
@@ -53,12 +53,12 @@
                                     ?>
                                 </select>
                             </div>
-                            <div class="col-md-4" class="required">
+                            <div class="col-md-4 mt-3" class="required">
                                 <label for="first_name" class="required">ชื่อจริง</label>
                                 <input type="text" id="us_fname" name="us_fname" class="form-control" placeholder="ใส่ชื่อจริง" oninput="check_name()" required>
                                 <span style='color:red' id="status_fname"></span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 mt-3">
                                 <label for="last_name" class="required">นามสกุล</label>
                                 <input type="text" id="us_lname" name="us_lname" class="form-control" placeholder="ใส่นามสกุล" oninput="check_name()" required>
                                 <span style='color:red' id="status_lname"></span>
@@ -66,7 +66,7 @@
 
 
                             <!-- ประเภทผู้ใช้งาน -->
-                            <div class="col-md-3">
+                            <div class="col-md-3 mt-3">
                                 <label for="role_id" class="required">ประเภทผู้ใช้งาน</label>
                                 <select name="role_id" id="role_id" class="select2 form-control" required>
                                     <option value="" selected disabled>เลือกประเภทผู้ใช้งาน</option>
@@ -105,14 +105,6 @@
                                 <option value="" selected disabled>เลือกองค์กรปกครองส่วนท้องถิ่น</option>
                             </select>
                             </div>
-                            <!-- <div class="col-md-4 mt-3" class="required">
-                                <label for="government" class="required">องค์กรปกครองส่วนท้องถิ่น</label>
-                            <input type="text" id="us_government_name" name="us_government_name" class="form-control" placeholder="องค์กรปกครองส่วนท้องถิ่น" oninput="check_government_name()">
-                            <span id="status_gov_name"></span>
-                            </div> -->
-                            <!-- <div class="col-md-4 mt-5">
-                                <button type="button" class="btn btn-info">เพิ่มองค์กรปกครองส่วนท้องถิ่น</button>
-                            </div> -->
                         </div>
                         <hr>
                         <b style="font-size: 20px;">สร้างบัญชีผู้ใช้</b>
@@ -142,9 +134,7 @@
                                 <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-user'">
                             </div>
                         </div>
-
                     </form>
-
                 </div>
             </div>
         </div>

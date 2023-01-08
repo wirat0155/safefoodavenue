@@ -56,10 +56,9 @@ $arrProvince = mysqli_query($con, $sql);
         <div class="col">
             <div class="card border-0">
                 <div class="table-responsive py-4 px-4">
-
                     <form action="./php/action-add-gov.php" method="POST" enctype="multipart/form-data">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4 mt-3">
                                 <label for="gov_province_id" class="required">จังหวัด</label>
                                 <select name="gov_province_id" id="gov_province_id" class="select2 form-control" require>
                                 <option value="" selected disabled>เลือกจังหวัด</option>
@@ -70,7 +69,7 @@ $arrProvince = mysqli_query($con, $sql);
                                 <?php } ?>
                             </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 mt-3">
                                 <label for="gov_name" class="required">องค์กรปกครองส่วนท้องถิ่นที่ต้องการเพิ่ม</label>
                                 <input type="text" id="gov_name" name="gov_name" class="form-control" placeholder="ใส่ชื่อองค์กรปกครองส่วนท้องถิ่น" oninput="check_government_name()" required>
                                 <span id="status_government_name"></span>

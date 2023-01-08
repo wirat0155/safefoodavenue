@@ -94,8 +94,9 @@
           </div>
         </div> -->
 
-        <div class="table-responsive py-4">
-          <table class="table table-striped stripe" id="datatable-basic">
+        <?php if (mysqli_num_rows($dbFormalin) > 0) : ?>
+        <div class="py-4">
+          <table class="table table-striped display nowrap" id="datatable-basic" style="max-width: 100%">
             <thead class="thead-light">
               <tr>
                 <th style="width: 20%;">ลำดับที่</th>
@@ -126,6 +127,12 @@
             </tbody>
           </table>
         </div>
+        <?php else : ?>
+          <div class="py-5">
+            <center><h2>ไม่พบข้อมูลการตรวจสอบสารฟอร์มาลีน</h2></center>
+          </div>
+        <?php endif; ?>
+
       </div>
     </div>
   </div>

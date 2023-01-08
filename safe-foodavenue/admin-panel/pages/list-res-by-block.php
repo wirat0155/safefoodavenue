@@ -36,8 +36,9 @@
     <div class="row">
         <div class="col">
             <div class="card border-0">
-                <div class="table-responsive py-4">
-                    <table class="table table-flush" id="datatable-basic">
+                <div class="py-4">
+                    <?php if (mysqli_num_rows($query) > 0) : ?>
+                    <table class="table table-striped display nowrap" id="datatable-basic">
                         <thead class="thead-light">
                             <tr>
                                 <th>ลำดับที่</th>
@@ -77,6 +78,13 @@
                             ?>
                         </tbody>
                     </table>
+                    <?php else : ?>
+                        <div class="py-5">
+                            <center>
+                                <h3>ไม่พบข้อมูลร้านอาหาร</h3>
+                            </center>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

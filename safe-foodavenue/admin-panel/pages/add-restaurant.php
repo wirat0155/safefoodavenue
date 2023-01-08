@@ -32,9 +32,9 @@
         <div class="col">
             <div class="card border-0 p-3">
                 <form action="./php/action-add-restaurant.php" method="POST" enctype="multipart/form-data">
-                    <div class="row pb-4">
+                    <div class="row">
                         <!-- ชื่อเข้าของร้านอาหาร -->
-                        <div class="col-md-4">
+                        <div class="col-md-4 mt-3">
                             <label for="res_ent_id" class="required">ชื่อเจ้าของร้านอาหาร</label>
                             <select name="res_ent_id" id="res_ent_id" class="select2 form-control" required>
                                 <option value="" selected disabled>เลือกเจ้าของร้านอาหาร</option>
@@ -47,14 +47,14 @@
                         </div>
 
                         <!-- ชื่อร้านอาหาร -->
-                        <div class="col-md-4">
+                        <div class="col-md-4 mt-3">
                             <label class="required" for="res_title">ชื่อร้านอาหาร</label>
                             <input type="text" id="res_title" name="res_title" class="form-control" placeholder="ใส่ชื่อร้านอาหาร" oninput="check_name_restaurant()" required>
                             <span id="status_res_title"></span>
                         </div>
 
                         <!-- หมวดหมู่ร้านอาหาร -->
-                        <div class="col-md-4">
+                        <div class="col-md-4 mt-3">
                             <label for="res_cat_id" class="required">หมวดหมู่</label>
                             <select name="res_cat_id" id="res_cat_id" class="select2 form-control" required>
                                 <option value="" selected disabled>เลือกหมวดหมู่</option>
@@ -68,12 +68,12 @@
                     </div>
 
                     <div class="row pb-4">
-                        <div class="col-md">
+                        <div class="col-md mt-3">
                             <label for="res_description" class="required">รายละเอียดร้านอาหาร</label>
                             <textarea id="res_description" name="res_description" class="form-control" rows="3" placeholder="ใส่รายละเอียดร้านอาหาร" required></textarea>
                         </div>
 
-                        <div class="col-md">
+                        <div class="col-md mt-3">
                             <div class="mb-2">
                                 <label for="file_input" class="form-label">รูปภาพประกอบสถานที่</label>
                                 <input class="form-control" type="file" id="file_input" name="file_input" onchange="preview()">
@@ -83,7 +83,7 @@
                     </div>
 
                     <h3>ที่ตั้งร้าน</h3>
-                    <div class="row pb-4">
+                    <div class="row">
                         <!-- เลขที่ -->
                         <div class="col-md-4">
                             <label for="res_block_id">เลขที่</label>
@@ -91,15 +91,15 @@
                         </div>
                     </div>
 
-                    <div class="row pb-4">
+                    <div class="row">
                         <!-- รหัสไปรษณีย์ -->
-                        <div class="col-md-3">
+                        <div class="col-md-3 mt-3">
                             <label for="zip_code" class="required">รหัสไปรษณีย์</label>
                             <input class="form-control" id="zip_code" type="number" required placeholder="รหัสไปรษณีย์" oninput="get_districts('zip_code')">
                         </div>
 
                         <!-- ตำบล -->
-                        <div class="col-md-3">
+                        <div class="col-md-3 mt-3">
                             <label for="res_district_id" class="required">ตำบล</label>
                             <select class="select2 form-control" id="res_district_id" required name="res_district_id">
                                 <option value="" disabled selected>ตำบล</option>
@@ -107,7 +107,7 @@
                         </div>
 
                         <!-- อำเภอ -->
-                        <div class="col-md-3">
+                        <div class="col-md-3 mt-3">
                             <label for="res_amphure_id" class="required">อำเภอ</label>
                             <select class="select2 form-control" id="res_amphure_id">
                                 <option value="" disabled selected>อำเภอ</option>
@@ -115,7 +115,7 @@
                         </div>
 
                         <!-- จังหวัด -->
-                        <div class="col-md-3">
+                        <div class="col-md-3 mt-3">
                             <label for="res_province_id" class="required">จังหวัด</label>
                             <select class="select2 form-control" id="res_province_id">
                                 <option value="" disabled selected>จังหวัด</option>
@@ -125,7 +125,7 @@
 
                     <div class="row pb-4">
                         <!-- องค์กรปกครองส่วนท้องถิ่น -->
-                        <div class="col-md-3">
+                        <div class="col-md-3 mt-3">
                             <label for="res_gov_id" class="required">องค์กรปกครองส่วนท้องถิ่น</label>
                             <select class="select2 form-control" id="res_gov_id" name="res_gov_id" oninput="get_zone()" required>
                                 <option value="" disabled selected>องค์กรปกครองส่วนท้องถิ่น</option>
@@ -133,7 +133,7 @@
                         </div>
                                     
                         <!-- โซนร้านอาหาร -->
-                        <div class="col-md-3">
+                        <div class="col-md-3 mt-3">
                             <label for="res_zone_id" id="res_zone_id_label" class="required">โซนร้านอาหาร</label>
                             <select class="select2 form-control" id="res_zone_id" name="res_zone_id" oninput="get_block(); check_name_restaurant();" required>
                                 <option value="" disabled selected>โซน (จำเป็น ถ้าไม่มีเลขที่ร้าน)</option>
@@ -141,7 +141,7 @@
                         </div>
                         
                         <!-- ล็อก -->
-                        <div class="col-md-3">
+                        <div class="col-md-3 mt-3">
                             <label for="res_block_id" id="res_block_id_label" class="required">ล็อก</label>
                             <select class="select2 form-control" id="res_block_id" name="res_block_id" required>
                                 <option value="" disabled selected>ล็อก (จำเป็น ถ้าไม่มีเลขที่ร้าน)</option>
@@ -150,27 +150,27 @@
                     </div>
 
                     <h3>ที่อยู่รับเอกสาร</h3>
-                    <div class="form-check form-check-inline mb-3">
+                    <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" id="same_as_address" name="same_as_address" onclick="check_same_as_address()" disabled>
                         <label class="form-check-label" for="same_as_address">ที่เดียวกับที่ตั้งร้าน (ต้องกรอกเลขที่ร้าน)</label>
                     </div>
                     <div id="address_2_div">
-                        <div class="row pb-4">
+                        <div class="row">
                             <!-- เลขที่ -->
-                            <div class="col-md-4">
+                            <div class="col-md-4 mt-3">
                                 <label for="res_block_id" class="required">เลขที่</label>
                                 <input class="form-control" id="res_address_2" type="text" name="res_address_2" placeholder="เลขที่ หมูบ้าน" required>
                             </div>
                         </div>
-                        <div class="row pb-4">
+                        <div class="row">
                             <!-- รหัสไปรษณีย์ -->
-                            <div class="col-md-3">
+                            <div class="col-md-3 mt-3">
                                 <label for="zip_code" class="required">รหัสไปรษณีย์</label>
                                 <input class="form-control" id="zip_code_2" type="number" placeholder="รหัสไปรษณีย์" required oninput="get_districts('zip_code_2')">
                             </div>
 
                             <!-- ตำบล -->
-                            <div class="col-md-3">
+                            <div class="col-md-3 mt-3">
                                 <label for="res_district_id" class="required">ตำบล</label>
                                 <select class="select2 form-control" id="res_district_id_2" name="res_district_id_2" required>
                                     <option value="" disabled selected>ตำบล</option>
@@ -178,7 +178,7 @@
                             </div>
 
                             <!-- อำเภอ -->
-                            <div class="col-md-3">
+                            <div class="col-md-3 mt-3">
                                 <label for="res_amphure_id" class="required">อำเภอ</label>
                                 <select class="select2 form-control" id="res_amphure_id_2">
                                     <option value="" disabled selected>อำเภอ</option>
@@ -186,7 +186,7 @@
                             </div>
 
                             <!-- จังหวัด -->
-                            <div class="col-md-3">
+                            <div class="col-md-3 mt-3">
                                 <label for="res_province_id" class="required">จังหวัด</label>
                                 <select class="select2 form-control" id="res_province_id_2">
                                     <option value="" disabled selected>จังหวัด</option>
@@ -194,7 +194,7 @@
                             </div>
                         </div>
                     </div>
-
+                    <br />
                     <!-- ปุ่มบันทึกและปุ่มยกเลิก -->
                     <div class="row pb-4" style="position: relative;">
                         <div class="col-md-4">

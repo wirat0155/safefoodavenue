@@ -126,15 +126,16 @@
   <div class="row">
     <div class="col">
       <div class="card border-0">
-        <div class="table-responsive py-4">
-          <table class="table table-flush" id="datatable-basic">
+        <div class="py-2">
+          <?php if (mysqli_num_rows($arr_restaurant) > 0) : ?>
+          <table class="table table-striped display nowrap" id="datatable-basic" style="max-width: 100%">
             <thead class="thead-light">
               <tr>
                 <th>ลำดับที่</th>
                 <th>ชื่อร้าน</th>
+                <th>สถานะ</th>
                 <th>สถานที่ตั้งร้าน</th>
                 <th>เจ้าของร้าน</th>
-                <th>สถานะ</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -147,13 +148,6 @@
                 <tr>
                   <td><?php echo $n; ?></td>
                   <td><?php echo $obj_restaurant["res_title"]; ?></td>
-                  <td><?php echo $obj_restaurant["block_title"]; ?></td>
-                  <td>
-                    <?php
-                    $fullname = $obj_restaurant["pref_title"] . " " . $obj_restaurant["ent_firstname"] . " " . $obj_restaurant["ent_lastname"];
-                    echo $fullname;
-                    ?>
-                  </td>
                   <td>
                     <?php
                     if ($obj_restaurant["res_for_status"] == "") {
@@ -167,6 +161,13 @@
                     }
                     ?>
                   </td>
+                  <td><?php echo $obj_restaurant["block_title"]; ?></td>
+                  <td>
+                    <?php
+                    $fullname = $obj_restaurant["pref_title"] . " " . $obj_restaurant["ent_firstname"] . " " . $obj_restaurant["ent_lastname"];
+                    echo $fullname;
+                    ?>
+                  </td>
                   <td>
                     <a href="./?content=list-menu&res_id=<?= $obj_restaurant['res_id'] ?>">
                       <button class="btn btn-primary" style="font-size: 20px;line-height: 0.75;" title="ดูรายการเมนู"><i class="fa fa-search"></i></button>
@@ -177,9 +178,15 @@
                 $n++;
               } // End while 
               ?>
-
             </tbody>
           </table>
+          <?php else : ?>
+            <div class="py-5">
+              <center>
+                <h3>ไม่พบข้อมูลร้านอาหาร</h3>
+              </center>
+            </div>
+          <?php endif; ?>
         </div>
       </div>
     </div>

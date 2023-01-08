@@ -52,8 +52,9 @@
           </div>
         </div>
 
-        <div class="table-responsive py-4">
-          <table class="table table-striped stripe" id="datatable-basic">
+        <div class="py-4">
+          <?php if (mysqli_num_rows($arr_menu) > 0) : ?>
+          <table class="table table-striped stripe" id="datatable-basic" style="max-width: 100%">
             <thead class="thead-light">
               <tr>
                 <th style="width: 20%;">ลำดับที่</th>
@@ -140,6 +141,13 @@
               ?>
             </tbody>
           </table>
+          <?php else : ?>
+            <div class="py-5">
+              <center>
+                <h3>ไม่พบข้อมูลเมนู</h3>
+              </center>
+            </div>
+          <?php endif; ?>
         </div>
       </div>
     </div>

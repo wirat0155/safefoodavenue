@@ -63,8 +63,6 @@
     $sql = "SELECT * FROM sfa_user WHERE us_id = " . $user_id;
     $dbUser = mysqli_query($con, $sql);
     $user_data = mysqli_fetch_array($dbUser);
-
-
 ?>
 
 <div class="container-fluid mt--6">
@@ -76,7 +74,7 @@
                     <form action="./php/action-edit-user.php" method="POST" enctype="multipart/form-data">
                         <input type="text" name="us_id" value="<?php echo $user_data["us_id"] ?>" hidden>
                         <div class="row">
-                            <div class="col-md-2 pb-4">
+                            <div class="col-md-2 mt-3">
                                 <label for="prefix" class="required">คำนำหน้า</label>
                                 <select name="us_pref_id" class="form-control" value="<?php echo $user_data["us_pref_id"] ?>">
                                     <option value="" disabled selected>คำนำหน้า</option>
@@ -89,19 +87,19 @@
                                     <?php } ?>
                                 </select>
                             </div>
-                            <div class="col-md-4" class="required">
+                            <div class="col-md-4 mt-3" class="required">
                                 <label for="first_name" class="required">ชื่อจริง</label>
                                 <input type="text" id="us_fname" name="us_fname" class="form-control" placeholder="ใส่ชื่อจริง" oninput="check_name()" value="<?php echo $user_data["us_fname"] ?>" required>
                                 <span style='color:red' id="status_fname"></span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 mt-3">
                                 <label for="last_name" class="required">นามสกุล</label>
                                 <input type="text" id="us_lname" name="us_lname" class="form-control" placeholder="ใส่นามสกุล" oninput="check_name()" value="<?php echo $user_data["us_lname"] ?>" required>
                                 <span style='color:red' id=" status_lname"></span>
                             </div>
 
                             <!-- ประเภทผู้ใช้งาน -->
-                            <div class="col-md-3">
+                            <div class="col-md-3 mt-3">
                                 <label for="role_id" class="required">ประเภทผู้ใช้งาน</label>
                                 <select name="role_id" id="role_id" class="form-control" required>
                                     <option value="" selected disabled>เลือกประเภทผู้ใช้งาน</option>
@@ -145,40 +143,35 @@
                             </select>
                             </div>
                             </div>
-                            <!-- <div class="col-md-4 mt-5">
-                                <button type="button" class="btn btn-info">เพิ่มองค์กรปกครองส่วนท้องถิ่น</button>
-                            </div> -->
-                        </div>
-                        <hr>
-                        <b style="font-size: 20px;">สร้างบัญชีผู้ใช้</b>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label for="username" class="required">ชื่อผู้ใช้งาน</label>
-                                <input type="text" id="us_username" name="us_username" class="form-control" placeholder="ชื่อผู้ใช้งาน" oninput="check_name_username()" value="<?php echo $user_data["us_username"] ?>" required>
-                                <span style='color:red' id="status_username"></span>
-                            </div>
-                        </div>
-                        
-                        <br />
-                        <p>ถ้าไม่กรอกรหัส ระบบจะใช้รหัสผ่านเดิม</p>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label for="password">รหัสผ่าน</label>
-                                <input type="password" id="us_password" name="us_password" minlength="8" class="form-control" placeholder="รหัสผ่านอย่างน้อย 8 ตัวอักษร" onkeyup="confirm_pass()">
-                            </div>
-                            <div class=" col-md-4">
-                                <label for="confirm_password">ยืนยันรหัสผ่าน</label>
-                                <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="ยืนยันรหัสผ่าน" onkeyup="confirm_pass()">
-                                <span style='color:red' id="invalid_password"></span>
-                            </div>
+                            <hr>
 
-                        </div>
-                        <br>
-                        <div class="row pb-4" style="position: relative;">
-                            <div class="col-md-4">
-                                <input type="submit" class="btn btn-warning" id="cf_btn" value="แก้ไขบัญชี">
-                                <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-user'">
+                            <b style="font-size: 20px;">สร้างบัญชีผู้ใช้</b>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-4 mt-3">
+                                    <label for="username" class="required">ชื่อผู้ใช้งาน</label>
+                                    <input type="text" id="us_username" name="us_username" class="form-control" placeholder="ชื่อผู้ใช้งาน" oninput="check_name_username()" value="<?php echo $user_data["us_username"] ?>" required>
+                                    <span style='color:red' id="status_username"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 mt-3">
+                                    <label for="password">รหัสผ่าน</label>
+                                    <input type="password" id="us_password" name="us_password" minlength="8" class="form-control" placeholder="รหัสผ่านอย่างน้อย 8 ตัวอักษร" onkeyup="confirm_pass()">
+                                    <p>ถ้าไม่กรอกรหัส ระบบจะใช้รหัสผ่านเดิม</p>
+                                </div>
+                                <div class=" col-md-4 mt-3">
+                                    <label for="confirm_password">ยืนยันรหัสผ่าน</label>
+                                    <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="ยืนยันรหัสผ่าน" onkeyup="confirm_pass()">
+                                    <span style='color:red' id="invalid_password"></span>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row pb-4" style="position: relative;">
+                                <div class="col-md-4">
+                                    <input type="submit" class="btn btn-warning" id="cf_btn" value="แก้ไขบัญชี">
+                                    <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-user'">
+                                </div>
                             </div>
                         </div>
                     </form>
