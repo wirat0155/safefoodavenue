@@ -110,7 +110,7 @@
               <?php while ($row = mysqli_fetch_assoc($dbFormalin)) { ?>
                 <tr>
                   <td><?= $n; ?></td>
-                  <td><?= $row["menu_name"]; ?></td>
+                  <td class="limit-char"><?= $row["menu_name"]; ?></td>
                   <td><?= $row["for_test_date"]; ?></td>
                   <td>
                     <?php if($row["for_status"] == 1){ ?>

@@ -147,7 +147,7 @@
               ?>
                 <tr>
                   <td><?php echo $n; ?></td>
-                  <td><?php echo $obj_restaurant["res_title"]; ?></td>
+                  <td class="limit-char"><?php echo $obj_restaurant["res_title"]; ?></td>
                   <td>
                     <?php
                     if ($obj_restaurant["res_for_status"] == "") {

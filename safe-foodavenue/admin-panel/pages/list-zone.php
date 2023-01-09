@@ -53,7 +53,7 @@
                             ?>
                             <tr>
                                 <td><?php echo $n; ?></td>
-                                <td><?php echo $row["zone_title"]; ?></td>
+                                <td class="limit-char"><?php echo $row["zone_title"]; ?></td>
                                 <td><?php echo $row["zone_description"]; ?></td>
                                 <td>
                                     <a href="./?content=edit-zone&zone_id=<?php echo $row['zone_id'] ?>" class="btn btn-warning" title="เเก้ไขโซน"><i class="fa fa-pencil"></i></a>

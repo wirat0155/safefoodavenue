@@ -59,7 +59,7 @@
                             ?>
                             <tr>
                                 <td><?php echo $n; ?></td>
-                                <td><?php echo $obj_block["block_title"]? $obj_block["block_title"] : "-"; ?></td>
+                                <td class="limit-char"><?php echo $obj_block["block_title"]? $obj_block["block_title"] : "-"; ?></td>
                                 <td><?php echo $obj_block["zone_title"]? $obj_block["zone_title"] : "-"; ?></td>
                                 <td><?php echo $obj_block["block_lat"]? $obj_block["block_lat"] : "-"; ?></td>
                                 <td><?php echo $obj_block["block_lon"]? $obj_block["block_lon"] : "-"; ?></td>

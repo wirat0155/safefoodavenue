@@ -1,8 +1,5 @@
 <style>
-    .odd {
-        /* background-color: rgba(246, 249, 252, .3); */
-        background-color: #f4f6f9 !important;
-    }
+    
 </style>
 
 <?php
@@ -43,15 +40,22 @@
     function get_year_dropdown($con) {
         $sql = "SELECT DISTINCT `fcl_year` AS `fcl_year` 
                 FROM `sfa_formalin_checklist` WHERE `fcl_gov_id` = " . $_SESSION['us_gov_id'] . " ORDER BY fcl_year DESC";
-        $arr_restaurant = mysqli_query($con, $sql);
-        return $arr_restaurant;
+        $arr_year = mysqli_query($con, $sql);
+        return $arr_year;
     }
     $arr_fcl_year = get_year_dropdown($con);
     // while($year = mysqli_fetch_assoc($arr_fcl_year)["fcl_year"]) {
     //     echo $year . "<br/>";
     // }
+    function get_max_year($con) {
+        $sql = "SELECT MAX(`fcl_year`) AS `fcl_year` FROM `sfa_formalin_checklist`";
+        $arr_year = mysqli_query($con, $sql);
+        return $arr_year;
+    }
     
-    $fcl_year = date('Y');
+    $fcl_year = get_max_year($con);
+    $fcl_year = mysqli_fetch_assoc($fcl_year);
+    $fcl_year = $fcl_year["fcl_year"];
     if (!empty($_GET['fcl_year'])) {
         $fcl_year = $_GET['fcl_year'];
     }
@@ -111,12 +115,6 @@
         return $count_restaurant;
     }
     $pass_restaurant_by_year = get_pass_restaurant_by_year($con, $fcl_year);
-    // echo "ร้านค้าที่ผ่านในปีนี้ " . $pass_restaurant_by_year;
-    // echo "<br/>";
-
-    // echo "ร้อยละที่ผ่าน " . ($pass_restaurant_by_year / $all_restaurant_by_year) * 100;
-    // echo "<br/>";
-
 
     // ผลตรวจการใช้ฟอร์มาลีนจำแนกตามประเภทของร้านอาหาร
     function get_res_category($con) {
@@ -132,10 +130,6 @@
         array_push($arr_category_id, $obj_res_category["res_cat_id"]);
         array_push($arr_category_title, $obj_res_category["res_cat_title"]);
     }
-    // echo "<pre>";
-    // print_r($arr_category_id);
-    // echo "</pre>";
-    // exit;
 
     $arr_res_category_pass_data = array();
     function get_res_category_pass($con, $res_cat_id) {
@@ -163,6 +157,34 @@
         array_push($arr_res_category_fail_data, get_res_category_fail($con, $arr_category_id[$i]));
     }
 
+    $column_chart_data = array_map(function($arr_category_title, $arr_res_category_pass_data, $arr_res_category_fail_data) {
+        return (object) array(
+            'category_title' => $arr_category_title,
+            'pass' => intval($arr_res_category_pass_data),
+            'fail' => intval($arr_res_category_fail_data)
+        );
+    }, $arr_category_title, $arr_res_category_pass_data, $arr_res_category_fail_data);
+
+
+    function sort_pass_value_desc($a, $b) {
+        if ($a->pass < $b->pass) {
+            return 1;
+        } elseif ($a->pass > $b->pass) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
+    usort($column_chart_data, "sort_pass_value_desc");
+
+    $other_category_title = "อื่น ๆ";
+    $number_top_category = 3;
+    $other_pass_data = 0;
+    $other_fail_data = 0;
+    for ($i = $number_top_category; $i < count($arr_category_title); $i++) {
+        $other_pass_data += intval($column_chart_data[$i]->pass);
+        $other_fail_data += intval($column_chart_data[$i]->fail);
+    }
 
     $sql = "SELECT * FROM `sfa_restaurant`
         LEFT JOIN `sfa_res_category` ON `sfa_restaurant`.`res_cat_id` = `sfa_res_category`.`res_cat_id`
@@ -333,7 +355,7 @@
         <div class="row justify-content-sm-center pb-2">
             <?php
             for ($i = 0; $i < count($arr_fcl_id); $i++) { ?>
-                <div class="col-6 col-lg-3">
+                <div class="col col-lg-3">
                     <div class="card">
                         <div class="card-header bg-primary text-white text-center" style="font-size: 1.25rem;">
                             อัตราส่วนร้านที่พบฟอร์มาลิน <?php echo ($i+1) ?>/<?php echo ($fcl_year + 543) ?>
@@ -348,11 +370,11 @@
         
         <div class="row justify-content-sm-center pb-2">
             <div class="col">
-                <div class="card">
+                <div class="card p-0">
                     <div class="card-header bg-primary text-white text-start" style="font-size: 1.25rem;">
                     ผลตรวจฟอร์มาลินของร้านจำแนกตามประเภทของร้านอาหาร
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-0">
                         <div id="ColumnChart"></div>
                     </div>
                 </div>
@@ -371,8 +393,8 @@
                             <table class="table table-striped display nowrap" id="datatable-basic" style="max-width: 100%">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th style="width: 5%">ลำดับ</th>
-                                        <th style="width: 10%">ชื่อร้านอาหาร</th>
+                                        <th>ลำดับ</th>
+                                        <th>ชื่อร้านอาหาร</th>
                                         <th>ผลการตรวจ</th>  
                                         <th>โซนร้านอาหาร</th> 
                                         <th>บล็อกร้านอาหาร</th>
@@ -387,7 +409,7 @@
                                     while($obj_restaurant = mysqli_fetch_array($arr_restaurant)){ ?> 
                                         <tr>
                                             <td><?php echo $i++ ?></td>
-                                            <td><?php echo $obj_restaurant["res_title"] ?></td> 
+                                            <td class="limit-char"><?php echo $obj_restaurant["res_title"] ?></td> 
                                             <td><?php 
                                                 if ($obj_restaurant["res_for_status"] == "") {
                                                     echo "<span>รอตรวจสอบ</span>";
@@ -422,7 +444,7 @@
         </div>
     </div>
 </div>
-<!-- <?php include("./pages/block-map.php"); ?> -->
+<?php // include("./pages/block-map.php"); ?>
 
 
 
@@ -499,8 +521,8 @@
                         display: true,
                         text: title,
                         font: {
-                            size: '24px',
-                            weight: 'bold',
+                            size: '14px',
+                            weight: 'bold'
                         },
                     },
                     legend: {
@@ -517,17 +539,21 @@
                 type: 'column'
             },
             title: {
-                text: "ผลตรวจฟอร์มาลินของร้านจำแนกตามประเภทของร้านอาหาร"
+                text: "<b>ผลตรวจฟอร์มาลิน<br>ตามประเภทของร้านอาหาร</b>",
+                style: {
+                    fontSize: '14px',
+                    fontFamily: 'Prompt, sans-serif'
+                }
             },
             xAxis: {
                 categories: [
-                    <?php for ($i = 0; $i < count($arr_category_title); $i++) {
-                        echo "'" . $arr_category_title[$i] . "'";
-                        if ($i != count($arr_category_title) - 1) {
+                    <?php for ($i = 0; $i < $number_top_category; $i++) {
+                        echo "'" . $column_chart_data[$i]->category_title . "'";
+                        if ($i != $number_top_category - 1) {
                             echo ",";
                         }
                     }?>
-                ],
+                , "อื่น ๆ" ],
                 title: {
                     text: null
                 },
@@ -536,14 +562,18 @@
                 },
                 labels: {
                     style: {
-                        fontSize: "18px",
+                        fontSize: "14px",
+                        fontFamily: 'Prompt, sans-serif'
                     }
                 }
             },
             yAxis: {
                 min: 0,
                 title: {
-                text: 'จำนวนร้านค้า'
+                    text: 'จำนวนร้านค้า',
+                    style: {
+                        fontFamily: 'Prompt, sans-serif'
+                    }
                 }
             },
             tooltip: {
@@ -553,37 +583,43 @@
             },
             plotOptions: {
                 column: {
-                pointPadding: 0.2,
-                borderWidth: 0
+                    pointPadding: 0.2,
+                    borderWidth: 0
                 }
             },
             series: [{
                 name: 'ปลอดภัย',
                 data: [
                     <?php
-                        for ($i = 0; $i < count($arr_res_category_pass_data); $i++) {
-                            echo $arr_res_category_pass_data[$i];
-                            if ($i != count($arr_res_category_pass_data) - 1) {
+                        for ($i = 0; $i < $number_top_category; $i++) {
+                            echo $column_chart_data[$i]->pass;
+                            if ($i != $number_top_category - 1) {
                                 echo ",";
                             }
                         }
                         ?>
-                ],
+                , <?php echo $other_pass_data ?>],
                 color: 'rgb(45, 206, 137)'
             }, {
                 name: 'รอตรวจสอบ',
                 data: [
                     <?php
-                        for ($i = 0; $i < count($arr_res_category_fail_data); $i++) {
-                            echo $arr_res_category_fail_data[$i];
-                            if ($i != count($arr_res_category_fail_data) - 1) {
+                        for ($i = 0; $i < $number_top_category; $i++) {
+                            echo $column_chart_data[$i]->fail;
+                            if ($i != $number_top_category - 1) {
                                 echo ",";
                             }
                         }
                         ?>
-                ],
+                , <?php echo $other_fail_data ?>],
                 color: 'rgb(201, 27, 14)'
-            }]
+            }],
+            legend: {
+                layout: 'vertical',
+                style: {
+                    fontFamily: 'Prompt, sans-serif'
+                }
+            },
             });
     }
 </script>

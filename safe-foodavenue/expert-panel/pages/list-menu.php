@@ -71,7 +71,7 @@
               while ($obj_menu = mysqli_fetch_array($arr_menu)) { ?>
                 <tr>
                   <td><?php echo $n; ?></td>
-                  <td><?php echo $obj_menu["menu_name"]; ?></td>
+                  <td class="limit-char"><?php echo $obj_menu["menu_name"]; ?></td>
                   <td>
                     <?php 
                     if ($obj_menu["for_status"] == 1) {

@@ -86,7 +86,7 @@
                     <div class="row">
                         <!-- เลขที่ -->
                         <div class="col-md-4">
-                            <label for="res_block_id">เลขที่</label>
+                            <label for="res_address">เลขที่</label>
                             <input class="form-control" id="res_address" type="text" placeholder="เลขที่ หมูบ้าน (ถ้ามี)" name="res_address" oninput="enable_same_as_address(); not_require_zone_block();">
                         </div>
                     </div>

@@ -54,7 +54,7 @@ $query = mysqli_query($con, $sql);
                             ?>
                             <tr>
                                 <td><?php echo $n; ?></td>
-                                <td><?php
+                                <td class="limit-char"><?php
                                     echo $row["role_title"];
                                     ?></td>
                                 <td>

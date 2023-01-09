@@ -57,7 +57,7 @@ $querygov = mysqli_query($con, $sql);
                             ?>
                             <tr>
                                 <td><?php echo $n; ?></td>
-                                <td><?php
+                                <td class="limit-char"><?php
                                     echo $row["gov_name"];
                                     ?></td>
                                 <td><?php

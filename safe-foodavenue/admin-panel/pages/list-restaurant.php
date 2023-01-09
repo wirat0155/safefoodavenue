@@ -60,7 +60,7 @@ $query = mysqli_query($con, $sql);
                             ?>
                             <tr>
                                 <td><?php echo $n; ?></td>
-                                <td><?php echo $row["res_title"]; ?></td>
+                                <td class="limit-char"><?php echo $row["res_title"]; ?></td>
                                 <td><?php 
                                 if ($row["zone_title"])
                                     echo $row["zone_title"] . "<br />";

@@ -59,7 +59,7 @@
                             ?>
                             <tr>
                                 <td><?php echo $n; ?></td>
-                                <td><?php
+                                <td class="limit-char"><?php
                                         echo $row["pref_title"];
                                         echo $row["us_fname"] . " " . $row["us_lname"]; 
                                         ?></td>

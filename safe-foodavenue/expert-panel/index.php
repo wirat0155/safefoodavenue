@@ -67,6 +67,21 @@
       .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
         background-color: #5e72e4;
       }
+      .limit-char {
+        max-width: 40ch;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      @media only screen and (max-width: 720px) {
+        .limit-char {
+          max-width: 16ch;
+        }
+      }
+      @media only screen and (max-width: 360px) {
+        .limit-char {
+          max-width: 16ch;
+        }
+      }
     </style>
   </head>
 
