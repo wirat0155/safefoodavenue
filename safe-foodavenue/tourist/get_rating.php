@@ -47,7 +47,7 @@ if (isset($_POST["action"])) {
 
 
     $sql_rating = "
-	SELECT AVG(rev_rating) AS avg_rev_rating FROM  sfa_review  WHERE sfa_res_id =  " . $res_id;
+    SELECT srs_sum_review/srs_count AS avg_rev_rating FROM `sfa_review_summary` WHERE srs_res_id = " . $res_id;
     $result_rating = mysqli_query($con, $sql_rating);
 
     $row_rating = mysqli_fetch_assoc($result_rating);

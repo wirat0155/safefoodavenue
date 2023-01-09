@@ -17,6 +17,10 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
         font-size: 24px;
     }
 
+    .text-size-28 {
+        font-size: 28px;
+    }
+
     .text-size-16 {
         font-size: 16px;
     }
@@ -53,6 +57,16 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
 
     .pic_fix {
         object-fit: cover;
+    }
+
+
+    .card-custom {
+        border-radius: 20px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .card-custom:hover {
+        transform: scale(1.05);
     }
 
     @media only screen and (max-width: 600px) {}
@@ -99,7 +113,16 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                                 <div class="card card-fix bg-gray-fix">
                                     <div class="card-body">
 
-                                        <div class="" id="display_formalin"></div>
+                                        <div class="row justify-content-between">
+
+                                            <div class="" id="display_formalin"></div>
+
+
+                                            <button class="btn btn-secondary mr-2" type="button" id="modal_infomation">
+                                                <i class="fa fa-info"></i>
+                                            </button>
+
+                                        </div>
 
                                         <h1 class="mt-2 text-size-42" id="res_title"></h1>
                                         <p class="mt-2" id="res_cat_title"></p>
@@ -123,7 +146,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                                         <div class="" id="google_map_app"></div>
 
                                         <p class="text mt-4 text-size-16" id="res_address">ตัวอย่าง ที่อยู่</p>
-                                        <p class="text mt-2 text-size-16" id="res_provinces" ></p>
+                                        <p class="text mt-2 text-size-16" id="res_provinces"></p>
                                         <hr>
                                         <p>เบอร์โทร : <span id="ent_tel"></span></p>
 
@@ -134,25 +157,19 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                             </div>
                         </div>
 
-
-
                         <div class="row">
                             <div class="col">
                                 <div class="card d-flex justify-content-center bg-gray-fix">
                                     <div class="card-body text-center">
                                         <div class="row">
-                                            <div class="col text-center">
-                                                <span class="text-dark mt-4 mb-4 text-size-24">
-                                                    <b><span class="text-size-24" id="average_rating">0</span></b>
-                                                </span>
+                                            <div class="col text-center ">
 
-                                                <i class="fas fa-star star-light mr-1 main_star text-size-24"></i>
-                                                <i class="fas fa-star star-light mr-1 main_star text-size-24"></i>
-                                                <i class="fas fa-star star-light mr-1 main_star text-size-24"></i>
-                                                <i class="fas fa-star star-light mr-1 main_star text-size-24"></i>
-                                                <i class="fas fa-star star-light mr-1 main_star text-size-24"></i>
+                                                <b><span class="text-size-28 text-dark" id="average_rating"></span></b>
+                                                <div class="main_star" id="main_star">
+                                                </div>
 
-                                                <h3 class="text-size-16"><span id="total_review"></span></h3>
+                                                <h3 class="text-size-16 mt-2"><span id="total_review"></span></h3>
+
                                             </div>
                                         </div>
                                         <div class="row mt-4">
@@ -235,6 +252,48 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
 </div>
 
 
+
+<div class="modal bd-example-modal-lg" id="sfa_information_modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">สัญลักษณ์ที่ใช้ในระบบ</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">สัญลักษณ์</th>
+                            <th scope="col">คำอธิบาย</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td><img src="./../assets/img/icons/common/formalin.PNG" class=" text-center" alt="test"> </td>
+                            <td>ปลอดภัยจากสารฟอร์มาลีน</td>
+                          
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td><img src="./../assets/img/icons/common/formalin_not.PNG" class=" text-center" alt="test"> </td>
+                            <td>รอตรวจสอบสารฟอร์มาลีน</td>     
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -254,7 +313,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
             },
             type: "POST",
             success: function(data) {
-                console.log(data)
+                //console.log(data)
                 set_data_in_page(data);
                 set_picture_res(data['data_pic']);
 
@@ -270,6 +329,11 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
         $("#modal_sfa_menu").click(function() {
             $('#sfa_menu_modal').modal('show');
             get_data_menu();
+        });
+
+        //show information
+        $("#modal_infomation").click(function() {
+            $('#sfa_information_modal').modal('show');
         });
 
         if (localStorage.getItem("rev_rating") && us_id != "no session") {
@@ -296,7 +360,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
             },
             type: "POST",
             success: function(data) {
-                console.log(data);
+                //console.log(data);
                 show_data_menu(data);
             },
             error: function() {
@@ -354,12 +418,10 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
         $("#res_title").html(data["data_res"][0].res_title); //set title
         $("#res_description").html(data["data_res"][0].res_description); //set description
         $("#res_cat_title").html(data["data_res"][0].res_cat_title); //set res title
-        $("#ent_tel").html(data["data_res"][0].ent_tel); //set 
-        $("#res_address").html(data["data_res"][0].res_address); //set 
-        $("#res_provinces").html( "อำเภอ" + data["data_res"][0].name_amp + " " + "จังหวัด" + data["data_res"][0].name_pro + " " + data["data_res"][0].zip_code); //set 
-      
+        $("#ent_tel").html(data["data_res"][0].ent_tel); //set  tel
+        $("#res_address").html(data["data_res"][0].res_address); //set address
+        $("#res_provinces").html("อำเภอ" + data["data_res"][0].name_amp + " " + "จังหวัด" + data["data_res"][0].name_pro + " " + data["data_res"][0].zip_code); //set 
 
-        console.log(data["data_formalin"][0]);
         // set status
         let status_for_html = '';
         if (data["data_formalin"][0] == "Not Safe") {
@@ -371,8 +433,8 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
             status_for_html += '<span class="badge badge-warning-fix text-size-24 text-white">กำลังรอตรวจสอบ</span>';
             status_for_html += ' <span> ร้านนี้กำลังรอตรวจสอบ</span>';
         } else if (data["data_formalin"][0] == "Safe") {
-            status_for_html += '<span class="badge badge-success text-size-24 text-white">ปลอดภัยจากสารฟอมาลีน</span>';
-            status_for_html += '<span> ร้านนี้ปลอดภัย ไร้สารฟอมาลีน</span>';
+            status_for_html += '<img src="./../assets/img/icons/common/formalin.PNG" class=" text-center" alt="test">';
+            status_for_html += ' <span> ร้านนี้ปลอดภัย ไร้สารฟอมาลีน</span>';
         }
 
         $("#display_formalin").html(status_for_html); //set display for status
@@ -457,9 +519,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
     $("#star_search").change(function() {
         // $(this).css("background-color", "#D6D6FF");
 
-        console.log("check")
 
-        console.log($(this).val());
 
         star = $(this).val();
 
@@ -467,7 +527,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
 
     });
 
-    function load_rating_data(star) {
+    function load_rating_data(star = '') {
         $.ajax({
             url: "./get_rating.php",
             method: "POST",
@@ -479,7 +539,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
             dataType: "JSON",
             success: function(data) {
 
-                console.log(data);
+                // console.log(data);
                 var html = '';
                 if (data.review_data.length > 0) {
 
@@ -489,18 +549,18 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
 
                     $('#total_review').text(data.review_data.length + " " + "รีวิว");
 
-                    var count_star = 0;
 
-                    $('.main_star').each(function() {
+                    for (var i = 0; i < Math.ceil(avg_rating); i++) {
+                        html += '<i class="fas fa-star text-warning mr-1 main_star text-size-36"></i>';
+                    }
+                    for (var i = 0; i < 5 - Math.ceil(avg_rating); i++) {
+                        html += '<i class="fas fa-star star-light mr-1 main_star text-size-36"></i>';
+                    }
 
-                        count_star++;
-                        
-                        if (Math.ceil(avg_rating) >= count_star) {
-                            $(this).addClass('text-warning');
-                            $(this).addClass('star-light');
-                        }
-                    });
+                    $("#main_star").html(html);
 
+
+                    html = '';
 
                     for (var i = 0; i < data.review_data.length; i++) {
                         html += '<div class="row mb-3">';
@@ -546,9 +606,9 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
 
                     $('#total_review').text("ยังไม่มีการรีวิว");
 
-                    html += '<div class="row mb-3">';
+                    html += '<div class="row mb-3 mt-4 p-5 ">';
                     html += '<div class="col-sm-12">';
-                    html += 'ร้านนี้ยังไม่มีรีวิว';
+                    html += 'ร้านนี้ยังไม่มีรีวิว เป็นคนแรกที่รีวิวเลยสิ';
                     html += '</div>';
                     html += '</div>';
 
@@ -609,11 +669,11 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
     });
 
 
+
     $('#save_review').click(function() {
 
         var rev_comment = $('#rev_comment').val();
-
-        if (rev_comment.length == 0 && rev_rating == 0) {
+        if (rev_comment.trim() == "" && rev_rating == 0) {
             Swal.fire(
                 'แจ้งเตือน',
                 'กรุณากรอกการรีวิว',
@@ -633,7 +693,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
 
             } else {
                 save_review(rev_rating, rev_comment);
-            }  
+            }
         }
 
     });
@@ -651,14 +711,14 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                 res_id: res_id
             },
             success: function(data) {
-             
-                    toastify_success();
 
-                    load_rating_data(star);
+                toastify_success();
 
-                    $('#rev_comment').val('');
+                $('#rev_comment').val('');
 
-                    reset_background();
+                reset_background();
+
+                load_rating_data();
 
             },
             error: function(error) {

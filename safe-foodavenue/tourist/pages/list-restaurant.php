@@ -69,6 +69,25 @@
     .badge-warning-fix {
         background-color: #FFB600;
     }
+
+    .set-pic {
+        width: 25%;
+
+    }
+
+    .card-custom {
+        border-radius: 20px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .card-custom:hover {
+        transform: scale(1.05);
+    }
+
+    .fixul {
+        display: inline-block;
+        text-align: left;
+    }
 </style>
 
 <!-- Header -->
@@ -109,84 +128,133 @@
                                 <label>รายการร้านอาหาร</label>
                             </div>
                         </div>
+
                         <div class="row pb-4 justify-content-center">
                             <div class="col-md-11 h2">
 
-                                <form action="" method="post" id="search_res">
 
-                                    <input type="hidden" name="content" value="list-restaurant">
 
-                                    <div class="row justify-content-center">
-                                        <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
-                                            <select class="select2 form-control" id="div_provinces">
-                                                <option value=""  selected>เลือกจังหวัด</option>
-                                            </select>
-                                        </div>
+                                <input type="hidden" name="content" value="list-restaurant">
 
-                                        <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
-                                            <select class="select2 form-control" name="s_block" id="div_amphures" onchange="">
-                                                <option value="" selected >เลือกอำเภอ</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
-                                            <select class="select2 form-control" name="" id="div_districts" onchange="">
-                                                <option value="" selected >เลือกตำบล</option>
-                                            </select>
-                                        </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
+                                        <select class="select2 form-control" id="div_provinces">
+                                            <option value="" selected>เลือกจังหวัด</option>
+                                        </select>
                                     </div>
 
-                                    <div class="row mt-2 justify-content-center">
-                                        <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
+                                    <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
+                                        <select class="select2 form-control" name="s_block" id="div_amphures" onchange="">
+                                            <option value="" selected>เลือกอำเภอ</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
+                                        <select class="select2 form-control" name="" id="div_districts" onchange="">
+                                            <option value="" selected>เลือกตำบล</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2 justify-content-center">
+                                    <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
                                         <select class="select2 form-control" name="" id="div_zone" onchange="">
-                                                <option value="" selected >เลือกโซน</option>
+                                            <option value="" selected>เลือกโซน</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
+                                        <div class="">
+                                            <select class="form-control" id="star_search">
+                                                <option value="">เลือกคะแนน</option>
+                                                <option value="5">5 ดาว</option>
+                                                <option value="4">4 ดาว</option>
+                                                <option value="3">3 ดาว</option>
+                                                <option value="2">2 ดาว</option>
+                                                <option value="1">1 ดาว</option>
                                             </select>
-                                        </div>
-                                        <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
-                                            <div class="">
-                                                <select class="form-control" id="star_search">
-                                                    <option value="0">เลือกคะแนน</option>
-                                                    <option value="5">5 ดาว</option>
-                                                    <option value="4">4 ดาว</option>
-                                                    <option value="3">3 ดาว</option>
-                                                    <option value="2">2 ดาว</option>
-                                                    <option value="1">1 ดาว</option>
-                                                </select>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
-
-                                            <input type="text" class="form-control" name="s_restaurant" id="search_restaurant" placeholder="ชื่อร้านอาหาร" aria-describedby="button-addon2" value="">
 
                                         </div>
                                     </div>
+                                    <div class="col-12 col-sm-8 col-md-8 col-lg-4 py-2">
 
+                                        <input type="text" class="form-control" name="s_restaurant" id="search_restaurant" placeholder="ชื่อร้านอาหาร" aria-describedby="button-addon2" value="">
 
-                                    <div class="row mt-2">
-                                        <div class="col d-flex flex-row-reverse">
-                                            <button class="btn btn-primary ml-2" type="button" id="button_search">
-                                                <i class="fa fa-search" aria-hidden="true"></i> ค้นหา
-                                            </button>
-                                        </div>
                                     </div>
-                                </form>
+                                </div>
+
+
+                                <div class="row mt-2">
+                                    <div class="col d-flex flex-row-reverse">
+                                        <button class="btn btn-primary ml-2 p-2 " type="button" id="button_search">
+                                            <i class="fa fa-search" aria-hidden="true"></i> ค้นหา
+                                        </button>
+                                        <button class="btn btn-secondary" type="button" id="button_reset">
+                                            รีเซ็ต
+                                        </button>
+                                        <button class="btn btn-secondary mr-2" type="button" id="modal_infomation">
+                                            <i class="fa fa-info"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
+
 
                         <div class="list_res" id="list_res"></div>
 
                     </div>
 
                     <div align="center" id="page_next">
-                        <button type="button" name="previous" class="btn btn-warning btn-sm previous" id="pre">ก่อนหน้า</button>
-                        <button type="button" name="next" class="btn btn-warning btn-sm next" id="next">ถัดไป</button>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+<div class="modal bd-example-modal-lg" id="sfa_information_modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">สัญลักษณ์ที่ใช้ในระบบ</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">สัญลักษณ์</th>
+                            <th scope="col">คำอธิบาย</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td><img src="./../assets/img/icons/common/formalin.PNG" class="set-pic text-center" alt="test"> </td>
+                            <td>ปลอดภัยจากสารฟอร์มาลีน</td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td><img src="./../assets/img/icons/common/formalin_not.PNG" class="set-pic text-center" alt="test"> </td>
+                            <td>รอตรวจสอบสารฟอร์มาลีน</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -198,33 +266,51 @@
     var districts = '';
     var amphures = '';
     var zone = '';
+    var star = '';
 
 
     $(document).ready(function() {
+
+        //show information
+        $("#modal_infomation").click(function() {
+            $('#sfa_information_modal').modal('show');
+        });
+
 
         get_res_list_data('', page_number);
 
         get_provinces();
 
         $('#button_search').click(function() {
-
-            //alert("test");
-            query = $('#search_restaurant').val();
+            //get data
+            query = $('#search_restaurant').val(); //search
             provinces = $('#div_provinces').val();
             amphures = $('#div_amphures').val();
             districts = $('#div_districts').val();
             zone = $('#div_zone').val();
-
-          //  console.log("result = " + provinces + amphures + districts + zone);
-
-
-            //query = '', page_number, provinces = null, amphures = null, districts = null,  zone = null
-            get_res_list_data(query, page_number, provinces, amphures, districts, zone);
+            star = $('#star_search').val();
+            get_res_list_data(query, page_number, provinces, amphures, districts, zone, star);
 
         });
 
 
+        //event click button reset
+        $('#button_reset').click(function() {
 
+            $('#search_restaurant').val('');
+
+            clear_districts_dropdown(); //clear dropdown 
+            clear_amphures_dropdown();
+            clear_provinces_dropdown();
+            clear_zone_dropdown();
+            clear_star_dropdown();
+
+            get_res_list_data();
+
+        });
+
+
+        //event change provinces
         $('#div_provinces').on('change', function() {
             //alert(this.value);
             get_amphures(this.value);
@@ -308,7 +394,7 @@
         })
     }
 
-    function get_res_list_data(query = '', page_number, provinces = '', amphures = '', districts = '',  zone = '') {
+    function get_res_list_data(query = '', page_number, provinces = '', amphures = '', districts = '', zone = '', star = '') {
         // alert(page_number);
         $.ajax({
             url: "./get-restaurant-list.php",
@@ -319,7 +405,8 @@
                 provinces: provinces,
                 amphures: amphures,
                 districts: districts,
-                zone: zone
+                zone: zone,
+                star: star
             },
             success: function(data) {
 
@@ -340,7 +427,7 @@
 
         let html = '';
 
-        if (data != "No data" ) {
+        if (data != "No data") {
 
             html += '  <div class="row py-3">';
             //loop show data 
@@ -348,7 +435,7 @@
 
                 html += '<div class="col-12 col-sm-6 col-md-6 col-lg-4 py-2">';
                 html += ' <a href="?content=detail-restaurant&id=' + row_res.res_id + '">';
-                html += ' <div class="card card-fix rounded-4">';
+                html += ' <div class="card card-fix card-custom rounded-4 hover-zoom">';
 
                 if (row_res.res_img_path == null) {
 
@@ -364,27 +451,37 @@
                 html += ' <div class="col col-sm-8 col-md-8 col-lg-6">';
 
                 if (row_res.res_for_status == 0) {
-                    html += '   <span class="badge badge-success text-size-12  text-white">ปลอดภัยจากสารฟอมาลีน</span>';
+                    //   html += '   <span class="badge badge-success text-size-12  text-white">ปลอดภัยจากสารฟอมาลีน</span>';
+                    html += '<img src="./../assets/img/icons/common/formalin.PNG" class="set-pic text-center" alt="test"> <br>';
                 } else {
                     html += '   <span class="badge badge-warning badge-warning-fix text-size-12  text-white">กำลังรอตรวจสอบ</span>';
                 }
 
                 html += ' </div>';
                 html += '<div class="col col-sm-8 col-md-8 col-lg-6">';
-                html += '   <h4 class="text-center text-size-11">';
+                html += '   <h4 class="text-center mt-2 text-size-11">';
 
-                let avg_rating = parseFloat(row_res.review[0]); // set float data review star
 
-                for (var star = 1; star <= 5; star++) {
-                    var class_name = '';
 
-                    if (Math.ceil(avg_rating) >= star) {
-                        class_name = 'text-warning';
-                    } else {
-                        class_name = 'star-light';
+                if (row_res.srs_count != null && row_res.srs_sum_review != null) {
+
+                    let avg_rating = parseFloat(row_res.srs_sum_review / row_res.srs_count); // set float data review star
+
+                    for (var star = 1; star <= 5; star++) {
+                        var class_name = '';
+
+                        if (Math.ceil(avg_rating) >= star) {
+                            class_name = 'text-warning';
+                        } else {
+                            class_name = 'star-light';
+                        }
+                        html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
                     }
-                    html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
+
+                } else {
+                    html += '<span>ไม่มีรีวิว</span>';
                 }
+
 
                 html += '   </h4>';
                 html += '</div>';
@@ -417,13 +514,24 @@
 
         } else {
 
-        console.log("check ");
+            html += '<div class="container p-9">';
+            html += '<div class="row text-center">';
+            html += '<div class="col text-center">';
+            html += '<h1>ไม่พบร้านค้า จากการค้นหานี้</h1>';
+            html += '</div>';
+            html += '</div>';
+            html += '<div class="row mt-4 text-center">';
+            html += '<div class="col text-center">';
+            html += '<h3>ฉันควรทำอย่างไรต่อไป : </h3>';
 
-            html += '<div class="container text-center">';
-            html += '<div class="row">';
-            html += '<h1>ไม่พบร้านค้า จากการค้นหานี้';
+            html += '<ul class = "list-group border-0 fixul" > ';
+            html += '<li class = "list-group-item border-0" >1. ใช้คำค้นหาที่ไม่เจาะจงเกินไป </li>';
+            html += '<li class = "list-group-item border-0" >2. เปลี่ยนตัวเลือกพื้นที่ </li>';
+            html += '</ul>';
             html += '</div>';
             html += '</div>';
+            html += '</div>';
+
 
             $('#list_res').html(html);
             $('#page_next').html(" ");
@@ -500,5 +608,20 @@
     function clear_zone_dropdown() {
         var option = '<option value=""  selected>เลือกโซน</option>';
         $("#div_zone").html(option);
+    }
+
+    function clear_provinces_dropdown() {
+        var option = '<option value=""  selected>เลือกจังหวัด</option>';
+        $("#div_province").html(option);
+    }
+
+    function clear_star_dropdown() {
+        var option = '<option value=""  selected>เลือกคะแนน</option>';
+        option += '<option value="5">5 ดาว</option>';
+        option += ' <option value="4">4 ดาว</option>';
+        option += ' <option value="3">3 ดาว</option>';
+        option += '   <option value="2">2 ดาว</option>';
+        option += '   <option value="1">1 ดาว</option>';
+        $("#star_search").html(option);
     }
 </script>
