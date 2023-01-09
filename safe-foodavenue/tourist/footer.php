@@ -1,25 +1,34 @@
-<footer class="footer pt-0">
-        <div class="row align-items-center justify-content-lg-between">
-          <div class="col-lg-6">
-            <div class="copyright text-center text-lg-left text-muted">
-              &copy; 2019 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Creative Tim</a>
+<footer>
+    <div class="footer-top ">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4" data-aos="fade-up">
+                    <h3>Safe Food Avenue</h3>
+                   
+                    <p>©Informatics Barapha University</p>
+                </div>
+                <div class="col-md-4" data-aos="fade-up">
+             
+                </div>
+                <div class="col-md-4" data-aos="fade-up">
+                    <div class="row">
+                        <div class="col">
+                            <h3>ทางลัด</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><a href="">เข้าสู่ระบบ</a></p>
+                            <p><a href="">ร้านอาหาร</a></p>
+                      
+                        </div>
+                        <div class="col-md-6">
+                            <p><a href="">Facebook</a></p>
+                            <p><a href="">Line</a></p>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-lg-6">
-            <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-              <li class="nav-item">
-                <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Creative Tim</a>
-              </li>
-              <li class="nav-item">
-                <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">About Us</a>
-              </li>
-              <li class="nav-item">
-                <a href="http://blog.creative-tim.com" class="nav-link" target="_blank">Blog</a>
-              </li>
-              <li class="nav-item">
-                <a href="https://www.creative-tim.com/license" class="nav-link" target="_blank">License</a>
-              </li>
-            </ul>
-          </div>
         </div>
-      </footer>
+    </div>
+</footer>

@@ -296,6 +296,8 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
 
 </div>
 
+<?php require('../tourist/footer.php');   ?>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
     var res_id = <?php echo $res_id;  ?>;
