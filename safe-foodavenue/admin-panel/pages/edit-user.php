@@ -101,7 +101,7 @@
                             <!-- ประเภทผู้ใช้งาน -->
                             <div class="col-md-3 mt-3">
                                 <label for="role_id" class="required">ประเภทผู้ใช้งาน</label>
-                                <select name="role_id" id="role_id" class="form-control" required>
+                                <select name="role_id" id="role_id" class="form-control" onchange="showGovernment()" required>
                                     <option value="" selected disabled>เลือกประเภทผู้ใช้งาน</option>
                                     <?php 
                                     while ($objRole = mysqli_fetch_array($arrRole)) { ?>
@@ -113,6 +113,7 @@
                                 </select>
                             </div>
                         </div>
+                        <div id="government">
                         <hr>
                         <b style="font-size: 20px;">ตั้งค่าพื้นที่การตรวจ</b>
                         <br>
@@ -143,6 +144,7 @@
                             </select>
                             </div>
                             </div>
+                        </div>
                             <hr>
 
                             <b style="font-size: 20px;">สร้างบัญชีผู้ใช้</b>
@@ -337,6 +339,13 @@
     }).done(function(response) {
         $("#us_gov_id").html(response)
     });
+    }
+    function showGovernment() {
+        if ($('#role_id').val()==3) {
+           $("#government").hide();
+        }else{
+            $("#government").show();
+        }
     }
     </script>
 
