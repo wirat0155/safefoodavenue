@@ -471,7 +471,7 @@
 
     function toastify_success() {
         Toastify({
-            text: "Login success",
+            text: "เข้าสู่ระบบสำเร็จ",
             duration: 5000,
             close: true,
             gravity: "top", // `top` or `bottom`

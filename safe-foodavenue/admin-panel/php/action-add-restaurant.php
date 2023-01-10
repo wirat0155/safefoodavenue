@@ -11,8 +11,8 @@
     $res_address = $_POST['res_address'];
     $res_district_id = $_POST['res_district_id'];
     $res_gov_id = $_POST['res_gov_id'];
-    $res_zone_id = $_POST['res_zone_id'];
-    $res_block_id = $_POST['res_block_id'] != ""? $_POST['res_block_id'] : 0 ;
+    $res_zone_id = $_POST['res_zone_id'] != ""? $_POST['res_zone_id'] : 0;
+    $res_block_id = $_POST['res_block_id'] != ""? $_POST['res_block_id'] : 0;
     $us_id = $_SESSION['us_id'];
     $doc_loc_address = $_POST['res_address'];
     $doc_loc_district_id = $_POST['res_district_id'];
@@ -65,7 +65,12 @@
         $target_dir = "./uploads/img/";
         $target_file = $target_dir . $t . $_FILES["file_input"]["name"];
         $file_name = $t . $_FILES["file_input"]["name"];
-    
+
+        if (!move_uploaded_file($_FILES["file_input"]["tmp_name"], $target_file)) {
+            echo "เพิ่มรูปภาพไม่สำเร็จ กรุณาลองใหม่";
+            exit; 
+        }
+
         // insert into sfa_res_img
         $sql = "INSERT INTO `sfa_res_image`(`res_img_path`, `res_img_res_id`) VALUES ('$file_name', $res_id)";
         $insert_res_img = mysqli_query($con, $sql);

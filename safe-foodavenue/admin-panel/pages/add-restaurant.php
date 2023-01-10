@@ -326,29 +326,38 @@
         }
 
         function get_block() {
-            jQuery.ajax({
-                dataType: "json",
-                url: "<?php echo "get_location.php" ?>",
-                data: 'zone_id=' + $("#res_zone_id").val(),
-                type: "POST",
-                success: function(arr_block) {
-                    if (arr_block != "no output") {
-                        if ($("#res_address").val() != "") {
-                            clear_block_dropdown_not_require();
+            if ($("#res_zone_id").val() == "") {
+                if ($("#res_address").val() != "") {
+                    clear_block_dropdown_not_require();
+                } else {
+                    clear_block_dropdown();
+                }
+            } else {
+                jQuery.ajax({
+                    dataType: "json",
+                    url: "<?php echo "get_location.php" ?>",
+                    data: 'zone_id=' + $("#res_zone_id").val(),
+                    type: "POST",
+                    success: function(arr_block) {
+                        console.log(arr_block);
+                        if (arr_block != "no output") {
+                            if ($("#res_address").val() != "") {
+                                clear_block_dropdown_not_require();
+                            } else {
+                                clear_block_dropdown();
+                            }
+                            show_block_dropdown(arr_block);
                         } else {
-                            clear_block_dropdown();
+                            if ($("#res_address").val() != "") {
+                                clear_block_dropdown_not_require();
+                            } else {
+                                clear_block_dropdown();
+                            }
                         }
-                        show_block_dropdown(arr_block);
-                    } else {
-                        if ($("#res_address").val() != "") {
-                            clear_block_dropdown_not_require();
-                        } else {
-                            clear_block_dropdown();
-                        }
-                    }
-                },
-                error: function() {}
-            });
+                    },
+                    error: function() {}
+                });
+            }
         }
 
         function show_zone_dropdown(arr_zone) {
@@ -450,6 +459,7 @@
                 },
                 type: "POST",
                 success: function(status) {
+                    console.log(status);
                     if (status != "duplicate") {
                         $("#status_res_title").html("<span style='color:green'>ชื่อร้านอาหารนี้สามารถใช้งานได้</span>");
                         chk_res_title = 0;

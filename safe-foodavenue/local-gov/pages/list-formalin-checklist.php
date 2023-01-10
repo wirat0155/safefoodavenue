@@ -109,8 +109,7 @@
                               <?php if (check_date_btw($obj_formalin_checklist["fcl_startdate"], $obj_formalin_checklist["fcl_enddate"])) { ?>
                                 <td>
                                   <input type="hidden" id="fcl_status" value="<?php echo $obj_formalin_checklist["fcl_status"] ?>">
-
-                                  <a class="btn btn-danger" href="./php/fclupdate_status.php?fcl_id=<?= $obj_formalin_checklist['fcl_id'] ?>&fcl_status=2&fcl_end_date=<?= $obj_formalin_checklist['fcl_enddate'] ?>" id="cls_status" onclick="return confirm('เปลี่ยนสถานะเป็นปิดรอบการตรวจ?');" title="ปิดการตรวจ"><i class="fa fa-lock"></i></a>
+                                  <a class="btn btn-danger" href="./php/action-update-fcl-status.php?fcl_id=<?= $obj_formalin_checklist['fcl_id'] ?>&fcl_status=2" id="cls_status" onclick="return confirm('เปลี่ยนสถานะเป็นปิดรอบการตรวจ?');" title="ปิดการตรวจ"><i class="fa fa-lock"></i></a>
 
                                   <a href="./?content=edit-formalin-checklist&fcl_id=<?= $obj_formalin_checklist["fcl_id"] ?>" class="btn btn-warning" title="แก้ไขการตรวจ"><i class="fa fa-pencil"></i></a>
 

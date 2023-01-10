@@ -55,13 +55,19 @@ function addLocation() {
  */
 // เช็คชื่อโซนซ้ำ
 function check_zone_name() {
-
     jQuery.ajax({
+        dataType: "json",
         url: "<?php echo "check_name.php" ?>",
         data: 'zone_title=' + $("#zone_title").val(),
         type: "POST",
         success: function(data) {
-            $("#status_zone_title").html(data);
+            if (data == "duplicate") {
+                $("#status_zone_title").html("<span style='color: red'>ชื่อโซนนี้มีผู้ใช้งานแล้ว</span>");
+                $('#submit').prop('disabled', true);
+            } else {
+                $("#status_zone_title").html("<span style='color: green'>ชื่อโซนนี้สามารถใช้งานได้</span>");
+                $('#submit').prop('disabled', false);
+            }
         },
         error: function() {}
     });
@@ -84,7 +90,7 @@ $arr_government= mysqli_query($con, $sql);
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                             <li class="breadcrumb-item"><a href="./"><i class="fas fa-home"></i></a></li>
                             <li class="breadcrumb-item"><a href="./">หน้าแรก</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">ฺเพิ่มโซนร้านอาหาร</li>
+                            <li class="breadcrumb-item active" aria-current="page">เพิ่มโซนร้านอาหาร</li>
                         </ol>
                     </nav>
                 </div>
@@ -99,7 +105,6 @@ $arr_government= mysqli_query($con, $sql);
         <div class="col">
             <div class="card border-0">
                 <div class="table-responsive py-4 px-4">
-
                     <form action="./php/action-add-zone.php" method="POST" enctype="multipart/form-data" id="add_zone">
                         <div class="row">
                             <div class="col-md-6 mt-3">
@@ -146,12 +151,12 @@ $arr_government= mysqli_query($con, $sql);
                             <div class="row">
                                 <div class="col-md-4 mt-3">
                                     <label class="required">ละติจูด</label>
-                                    <input type="number" id="zone_lat" name="zone_lat" class="form-control" required>
+                                    <input type="number" step="0.0000001" id="zone_lat" name="zone_lat" class="form-control" required>
                                     <span class="text-danger" id="error_zone_lat"></span>
                                 </div>
                                 <div class="col-md-4 mt-3">
                                     <label class="required">ลองจิจูด</label>
-                                    <input type="number" id="zone_lon" name="zone_lon" class="form-control" required>
+                                    <input type="number" step="0.0000001" id="zone_lon" name="zone_lon" class="form-control" required>
                                     <span class="text-danger" id="error_zone_lon"></span>
                                 </div>
                             </div>
@@ -160,7 +165,7 @@ $arr_government= mysqli_query($con, $sql);
 
                         <div class="row pb-4">
                             <div class="col-md-4">
-                                <input type="submit" class="btn btn-success" value="บันทึก">
+                                <input type="submit" id="submit" class="btn btn-success" value="บันทึก">
                                 <input type="reset" class="btn btn-secondary" onclick="location.href='./?content=list-zone'" value="ยกเลิก">
                             </div>
                         </div>
@@ -216,7 +221,7 @@ var infowindow = new google.maps.InfoWindow();
 
 var marker, i;
 
-for (i = 0; i < script locations.length; i++) {
+for (i = 0; i < locations.length; i++) {
     marker = new google.maps.Marker({
         position: new google.maps.LatLng(locations[i][1], locations[i][2]),
         map: map
@@ -245,5 +250,6 @@ function getLocation() {
 function showPosition(position) {
     lat_log.value = position.coords.latitude;
     lon_log.value = position.coords.longitude;
+    console.log(position);
 }
 </script>

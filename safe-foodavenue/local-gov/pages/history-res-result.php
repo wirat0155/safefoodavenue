@@ -112,7 +112,7 @@
                 <tr>
                   <td><?= $n; ?></td>
                   <td class="limit-char"><?= $row["menu_name"]; ?></td>
-                  <td><?= $row["for_test_date"]; ?></td>
+                  <td><?= to_format($row["for_test_date"]); ?></td>
                   <td>
                     <?php if($row["for_status"] == 1){ ?>
                       <div class="text-danger">ไม่ปลอดภัย</div>

@@ -67,11 +67,18 @@ function addLocation() {
 function check_zone_name() {
 
     jQuery.ajax({
+        dataType: "json",
         url: "<?php echo "check_name.php" ?>",
         data: 'zone_title=' + $("#zone_title").val(),
         type: "POST",
         success: function(data) {
-            $("#status_zone_title").html(data);
+            if (data == "duplicate") {
+                $("#status_zone_title").html("<span style='color: red'>ชื่อโซนนี้มีผู้ใช้งานแล้ว</span>");
+                $('#submit').prop('disabled', true);
+            } else {
+                $("#status_zone_title").html("<span style='color: green'>ชื่อโซนนี้สามารถใช้งานได้</span>");
+                $('#submit').prop('disabled', false);
+            }
         },
         error: function() {}
     });
@@ -153,12 +160,12 @@ function check_zone_name() {
                             <div class="row">
                                 <div class="col-md-4 mt-3">
                                     <label class="required">ละติจูด</label>
-                                    <input type="number" id="zone_lat" name="zone_lat" class="form-control" value="<?php echo $obj_zone["zone_lat"]?>" required>
+                                    <input type="number" step="0.0000001" id="zone_lat" name="zone_lat" class="form-control" value="<?php echo $obj_zone["zone_lat"]?>" required>
                                     <span class="text-danger" id="error_zone_lat"></span>
                                 </div>
                                 <div class="col-md-4 mt-3">
                                     <label class="required">ลองจิจูด</label>
-                                    <input type="number" id="zone_lon" name="zone_lon" class="form-control" value="<?php echo $obj_zone["zone_lon"]?>" required>
+                                    <input type="number" step="0.0000001" id="zone_lon" name="zone_lon" class="form-control" value="<?php echo $obj_zone["zone_lon"]?>" required>
                                     <span class="text-danger" id="error_zone_lon"></span>
                                 </div>
                                 <!-- <div class="col-md-4">
@@ -171,7 +178,7 @@ function check_zone_name() {
 
                         <div class="row pb-4">
                             <div class="col-md-4">
-                                <input type="submit" class="btn btn-warning" value="แก้ไขโซน">
+                                <input type="submit" id="submit" class="btn btn-warning" value="แก้ไขโซน">
                                 <input type="reset" class="btn btn-secondary" onclick="location.href='./?content=list-zone'" value="ยกเลิก">
                             </div>
                         </div>
@@ -225,7 +232,7 @@ var infowindow = new google.maps.InfoWindow();
 
 var marker, i;
 
-for (i = 0; i < script locations.length; i++) {
+for (i = 0; i < locations.length; i++) {
     marker = new google.maps.Marker({
         position: new google.maps.LatLng(locations[i][1], locations[i][2]),
         map: map

@@ -49,7 +49,8 @@
               </div>
               <div class="col-md-4 h2" style="text-align: left;vertical-align: top;">
                 <span class="text-primary">โซน</span> : <?= $obj_formalin["zone_title"] != "" ? $obj_formalin["zone_title"] : "-" ?> <br>
-                <span class="text-primary">วันที่ตรวจ</span> : <?= date("F d, Y", strtotime($obj_formalin["for_test_date"]))?>
+                <!-- <span class="text-primary">วันที่ตรวจ</span> : <?= date("F d, Y", strtotime($obj_formalin["for_test_date"]))?> -->
+                <span class="text-primary">วันที่ตรวจ</span> : <?= to_format($obj_formalin["for_test_date"]) ?>
               </div>
             </div>
             

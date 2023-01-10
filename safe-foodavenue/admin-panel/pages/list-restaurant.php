@@ -9,7 +9,7 @@
 $sql = "SELECT * FROM `sfa_restaurant` 
         LEFT JOIN `sfa_entrepreneur` ON `sfa_restaurant`.`res_ent_id` = `sfa_entrepreneur`.`ent_id`
         LEFT JOIN `sfa_block` ON `sfa_restaurant`.`res_block_id` = `sfa_block`.`block_id`
-        LEFT JOIN `sfa_zone` ON `sfa_block`.`block_zone_id` = `sfa_zone`.`zone_id`
+        LEFT JOIN `sfa_zone` ON `sfa_restaurant`.`res_zone_id` = `sfa_zone`.`zone_id`
         ORDER BY `sfa_restaurant`.`res_id` DESC";
 $query = mysqli_query($con, $sql);
 ?>
@@ -62,10 +62,14 @@ $query = mysqli_query($con, $sql);
                                 <td><?php echo $n; ?></td>
                                 <td class="limit-char"><?php echo $row["res_title"]; ?></td>
                                 <td><?php 
-                                if ($row["zone_title"])
+                                if ($row["zone_title"] != "")
                                     echo $row["zone_title"] . "<br />";
-                                if ($row["block_title"])
+                                else
+                                    echo "-<br />";
+                                if ($row["block_title"] != "")
                                     echo $row["block_title"];
+                                else
+                                    echo "-";
                                 ?></td>
                                 <td><?php echo $row["ent_firstname"] . " " . $row["ent_lastname"]; ?></td>
                                 <td>

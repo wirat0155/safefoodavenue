@@ -35,11 +35,10 @@ if (!empty($_POST["zone_title"])) {
   $result2 = mysqli_query($con, "SELECT count(*) FROM sfa_zone WHERE zone_title='" . $_POST["zone_title"] . "'");
   $row1 = mysqli_fetch_row($result2);
   $zone_count = $row1[0];
-  if ($zone_count > 0) {echo "<span style='color:red'> ชื่อโซนนี้มีผู้ใช้งานแล้ว </span>";
-    // echo "<script>$('#submit').prop('disabled',true);</script>";
+  if ($zone_count > 0) {
+    echo json_encode("duplicate");
   } else {
-    echo "<span style='color:green'> ชื่อโซนนี้สามารถใช้งานได้ </span>";
-    // echo "<script>$('#submit').prop('disabled',false);</script>";
+    echo json_encode("ok");
   }
 }
 // End code check zone

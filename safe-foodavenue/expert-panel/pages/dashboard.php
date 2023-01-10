@@ -189,8 +189,8 @@
     $sql = "SELECT * FROM `sfa_restaurant`
         LEFT JOIN `sfa_res_category` ON `sfa_restaurant`.`res_cat_id` = `sfa_res_category`.`res_cat_id`
         LEFT JOIN `sfa_entrepreneur` ON `sfa_restaurant`.`res_ent_id` = `sfa_entrepreneur`.`ent_id`
+        LEFT JOIN `sfa_zone` ON `sfa_restaurant`.`res_zone_id` = `sfa_zone`.`zone_id`
         LEFT JOIN `sfa_block` ON `sfa_restaurant`.`res_block_id` = `sfa_block`.`block_id`
-        LEFT JOIN `sfa_zone` ON `sfa_block`.`block_zone_id` = `sfa_zone`.`zone_id`
         LEFT JOIN `sfa_res_formalin_status` ON `sfa_restaurant`.`res_id` = `sfa_res_formalin_status`.`res_for_res_id`
         WHERE `sfa_restaurant`.`res_gov_id` = " . $_SESSION["us_gov_id"]; 
     $arr_restaurant = mysqli_query($con, $sql);
@@ -471,7 +471,7 @@
 
     function toastify_success() {
         Toastify({
-            text: "Login success",
+            text: "เข้าสู่ระบบสำเร็จ",
             duration: 5000,
             close: true,
             gravity: "top", // `top` or `bottom`

@@ -251,31 +251,39 @@
 
                             <!-- โซนร้านอาหาร -->
                             <div class="col-md-3 mt-3">
-                                <label for="res_zone_id" id="res_zone_id_label" class="required">โซนร้านอาหาร</label>
-                                <select class="select2 form-control" id="res_zone_id" name="res_zone_id" oninput="get_block(); check_name_restaurant();" required>
-                                    <option value="" disabled selected>โซน (จำเป็น ถ้าไม่มีเลขที่ร้าน)</option>
-                                    <?php while ($obj_zone = mysqli_fetch_array($arr_zone)) { 
-                                    $selected = $obj_restaurant["res_zone_id"] == $obj_zone["zone_id"] ? "selected" : "";
-                                    ?>
-                                    <option value="<?php echo $obj_zone["zone_id"] ?>" <?php echo $selected ?>>
-                                        <?php echo $obj_zone["zone_title"] ?>
-                                    </option>
-                                    <?php } ?>
+                                <label for="res_zone_id" id="res_zone_id_label" <?php if ($obj_restaurant["res_zone_id"] != 0) echo "class='required'"?>>โซนร้านอาหาร</label>
+                                <select class="select2 form-control" id="res_zone_id" name="res_zone_id" oninput="get_block(); check_name_restaurant();" <?php if ($obj_restaurant["res_zone_id"] != 0) echo "required"?>>
+                                    <?php if ($obj_restaurant["res_zone_id"] == 0) : ?>
+                                        <option value="" selected>โซน (ถ้ามี)</option>
+                                    <?php else : ?>
+                                        <option value="" disabled selected>โซน (จำเป็น ถ้าไม่มีเลขที่ร้าน)</option>
+                                        <?php while ($obj_zone = mysqli_fetch_array($arr_zone)) { 
+                                        $selected = $obj_restaurant["res_zone_id"] == $obj_zone["zone_id"] ? "selected" : "";
+                                        ?>
+                                        <option value="<?php echo $obj_zone["zone_id"] ?>" <?php echo $selected ?>>
+                                            <?php echo $obj_zone["zone_title"] ?>
+                                        </option>
+                                        <?php } ?>
+                                    <?php endif; ?>
                                 </select>
                             </div>
 
                             <!-- ล็อก -->
                             <div class="col-md-3 mt-3">
-                                <label for="res_block_id" id="res_block_id_label" class="required">ล็อก</label>
-                                <select class="select2 form-control" id="res_block_id" name="res_block_id" required>
-                                    <option value="" disabled selected>ล็อก (จำเป็น ถ้าไม่มีเลขที่ร้าน)</option>
-                                    <?php while ($obj_block = mysqli_fetch_array($arr_block)) { 
-                                    $selected = $obj_restaurant["res_block_id"] == $obj_block["block_id"] ? "selected" : "";
-                                    ?>
-                                    <option value="<?php echo $obj_block["block_id"] ?>" <?php echo $selected ?>>
-                                        <?php echo $obj_block["block_title"] ?>
-                                    </option>
-                                    <?php } ?>
+                                <label for="res_block_id" id="res_block_id_label" <?php if ($obj_restaurant["res_block_id"] != 0) echo "class='required'"?>>ล็อก</label>
+                                <select class="select2 form-control" id="res_block_id" name="res_block_id" <?php if ($obj_restaurant["res_block_id"] != 0) echo "required"?>>
+                                    <?php if ($obj_restaurant["res_block_id"] == 0) : ?>
+                                        <option value="" selected>ล็อก (ถ้ามี)</option>
+                                    <?php else : ?>
+                                        <option value="" disabled selected>ล็อก (จำเป็น ถ้าไม่มีเลขที่ร้าน)</option>
+                                        <?php while ($obj_block = mysqli_fetch_array($arr_block)) { 
+                                        $selected = $obj_restaurant["res_block_id"] == $obj_block["block_id"] ? "selected" : "";
+                                        ?>
+                                        <option value="<?php echo $obj_block["block_id"] ?>" <?php echo $selected ?>>
+                                            <?php echo $obj_block["block_title"] ?>
+                                        </option>
+                                        <?php } ?>
+                                    <?php endif; ?>
                                 </select>
                             </div>
                         </div>
@@ -470,29 +478,37 @@
         }
 
         function get_block() {
-            jQuery.ajax({
-                dataType: "json",
-                url: "<?php echo "get_location.php" ?>",
-                data: 'zone_id=' + $("#res_zone_id").val(),
-                type: "POST",
-                success: function(arr_block) {
-                    if (arr_block != "no output") {
-                        if ($("#res_address").val() != "") {
-                            clear_block_dropdown_not_require();
+            if ($("#res_zone_id").val() == "") {
+                if ($("#res_address").val() != "") {
+                    clear_block_dropdown_not_require();
+                } else {
+                    clear_block_dropdown();
+                }
+            } else {
+                jQuery.ajax({
+                    dataType: "json",
+                    url: "<?php echo "get_location.php" ?>",
+                    data: 'zone_id=' + $("#res_zone_id").val(),
+                    type: "POST",
+                    success: function(arr_block) {
+                        if (arr_block != "no output") {
+                            if ($("#res_address").val() != "") {
+                                clear_block_dropdown_not_require();
+                            } else {
+                                clear_block_dropdown();
+                            }
+                            show_block_dropdown(arr_block);
                         } else {
-                            clear_block_dropdown();
+                            if ($("#res_address").val() != "") {
+                                clear_block_dropdown_not_require();
+                            } else {
+                                clear_block_dropdown();
+                            }
                         }
-                        show_block_dropdown(arr_block);
-                    } else {
-                        if ($("#res_address").val() != "") {
-                            clear_block_dropdown_not_require();
-                        } else {
-                            clear_block_dropdown();
-                        }
-                    }
-                },
-                error: function() {}
-            });
+                    },
+                    error: function() {}
+                });
+            }
         }
 
         function show_zone_dropdown(arr_zone) {

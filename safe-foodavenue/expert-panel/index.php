@@ -3,6 +3,7 @@
   ob_start();
   date_default_timezone_set('Asia/Bangkok');
   require("../php/config.php");
+  include_once("./php/date_helper.php");
   if(!isset($_SESSION["us_id"]) || empty($_SESSION["us_id"])) {
     echo("<script>location.href = '../login/login.php';</script>");
     exit();

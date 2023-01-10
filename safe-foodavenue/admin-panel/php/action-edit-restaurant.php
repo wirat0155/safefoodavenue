@@ -12,8 +12,8 @@
     $res_address = $_POST['res_address'];
     $res_district_id = $_POST['res_district_id'];
     $res_gov_id = $_POST['res_gov_id'];
-    $res_zone_id = $_POST['res_zone_id'];
-    $res_block_id = $_POST['res_block_id'] != ""? $_POST['res_block_id'] : 0 ;
+    $res_zone_id = $_POST['res_zone_id'] != ""? $_POST['res_zone_id'] : 0;
+    $res_block_id = $_POST['res_block_id'] != ""? $_POST['res_block_id'] : 0;
     $us_id = $_SESSION['us_id'];
     $doc_loc_address = $_POST['res_address'];
     $doc_loc_district_id = $_POST['res_district_id'];
@@ -45,6 +45,11 @@
         $target_file = $target_dir . $t . $_FILES["file_input"]["name"];
         $file_name = $t . $_FILES["file_input"]["name"];
 
+        if (!move_uploaded_file($_FILES["file_input"]["tmp_name"], $target_file)) {
+            echo "เพิ่มรูปภาพไม่สำเร็จ กรุณาลองใหม่";
+            exit; 
+        }
+
         $sql = "SELECT * FROM `sfa_res_image` WHERE `sfa_res_image`.`res_img_res_id` = '" . $res_id . "'";
         $arr_res_img = mysqli_query($con, $sql);
         if (mysqli_num_rows($arr_res_img) == 0) {
@@ -73,7 +78,6 @@
         $update_document_location = mysqli_query($con, $sql);
         $is_pass = $is_pass == true? $update_document_location : $is_pass;
     }
-
     if ($is_pass) {
         mysqli_query($con, "COMMIT");
         $_SESSION["crud-status"] = "0";
