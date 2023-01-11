@@ -105,10 +105,7 @@
                         </ol>
                     </nav>
                 </div>
-                <!-- <div class="col-lg-6 col-5 text-right">
-                    <a href="#" class="btn btn-sm btn-neutral">New</a>
-                    <a href="#" class="btn btn-sm btn-neutral">Filters</a>
-                </div> -->
+              
             </div>
         </div>
     </div>
@@ -455,9 +452,9 @@
 
                 if (row_res.res_for_status == 0) {
                     //   html += '   <span class="badge badge-success text-size-12  text-white">ปลอดภัยจากสารฟอมาลีน</span>';
-                    html += '<img src="./../assets/img/icons/common/formalin.PNG" class="set-pic text-center" alt="test"> <br>';
+                    html += '<img src="./../assets/img/icons/common/formalin.png" class="set-pic text-center" alt="test"> <br>';
                 } else {
-                    html += '  <img src="./../assets/img/icons/common/formalin_not.PNG" class="set-pic text-center" alt="test">';
+                    html += '  <img src="./../assets/img/icons/common/formalin_not.png" class="set-pic text-center" alt="test">';
                 }
 
                 html += ' </div>';
