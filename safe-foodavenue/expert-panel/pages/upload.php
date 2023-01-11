@@ -58,18 +58,17 @@ $fcl_id = get_fcl_id($con);
 
           <div class="row justify-content-md-center py-4">
             <div class="col-md-2 text-center">
-              <form action="index.php?content=do_upload" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="menu_id" value="<?php echo $_GET["menu_id"] ?>">
-                <input type="hidden" name="menu_res_id" value="<?php echo $menu_res_id ?>">
-                <input type="hidden" name="for_fcl_id" value="<?php echo $fcl_id ?>">
-                <input type="file" id="file_input" name="file_input">
-                <?php
-                  if ($fcl_id != ""): ?>
-                    <button onclick="return checkUpload()" type="submit" class="w-100 btn btn-lg btn-primary my-4">อัพโหลดรูปภาพ</button>
-                  <?php else:  ?>
-                    <h3 class="text-danger">ไม่สามารถตรวจฟอร์มาลีนได้ เนื่องจากไม่อยู่ในรอบการตรวจ</h3>
-                  <?php endif; ?>
-              </form>
+              <?php if ($fcl_id != ""): ?>
+                <form action="index.php?content=do_upload" method="POST" enctype="multipart/form-data">
+                  <input type="hidden" name="menu_id" value="<?php echo $_GET["menu_id"] ?>">
+                  <input type="hidden" name="menu_res_id" value="<?php echo $menu_res_id ?>">
+                  <input type="hidden" name="for_fcl_id" value="<?php echo $fcl_id ?>">
+                  <input type="file" id="file_input" name="file_input">
+                  <button onclick="return checkUpload()" type="submit" class="w-100 btn btn-lg btn-primary my-4">อัพโหลดรูปภาพ</button>
+                </form>
+              <?php else : ?>
+                <h3 class="text-danger">ไม่สามารถตรวจฟอร์มาลีนได้ เนื่องจากไม่อยู่ในรอบการตรวจ</h3>
+              <?php endif; ?>
             </div>
           </div>
         </div>

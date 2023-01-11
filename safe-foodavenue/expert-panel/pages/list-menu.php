@@ -57,11 +57,11 @@
           <table class="table table-striped stripe" id="datatable-basic" style="max-width: 100%">
             <thead class="thead-light">
               <tr>
-                <th style="width: 20%;">ลำดับที่</th>
-                <th style="width: 20%;">ชื่อเมนู</th>
-                <th style="width: 20%;">สถานะ</th>
-                <th style="width: 20%;">รูปภาพ</th>
-                <th style="width: 20%;">Action</th>
+                <th>ลำดับที่</th>
+                <th>ชื่อเมนู</th>
+                <th>สถานะ</th>
+                <th>รูปภาพ</th>
+                <th>Action</th>
               </tr>
             </thead>
 

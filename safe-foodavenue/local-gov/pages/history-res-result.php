@@ -22,17 +22,18 @@
   // get first fcl_id
   $res_id = $_GET["res_id"];
 
-  $sql = "SELECT * FROM `sfa_formalin`
-  LEFT JOIN `sfa_menu` ON `sfa_formalin`.`for_menu_id` = `sfa_menu`.`menu_id` 
-  WHERE `sfa_menu`.`menu_id` IS NOT NULL 
-  AND `sfa_formalin`.`for_fcl_id` = " . $fcl_id . "
-  AND `sfa_formalin`.`for_res_id` = " . $res_id;
-  $dbFormalin = mysqli_query($con, $sql);
+  // $sql = "SELECT * FROM `sfa_formalin`
+  // LEFT JOIN `sfa_menu` ON `sfa_formalin`.`for_menu_id` = `sfa_menu`.`menu_id` 
+  // WHERE `sfa_menu`.`menu_id` IS NOT NULL 
+  // AND `sfa_formalin`.`for_fcl_id` = " . $fcl_id . "
+  // AND `sfa_formalin`.`for_res_id` = " . $res_id;
+  // $dbFormalin = mysqli_query($con, $sql);
 
   $sql = "SELECT * FROM `sfa_formalin`
   LEFT JOIN `sfa_menu` ON `sfa_formalin`.`for_menu_id` = `sfa_menu`.`menu_id` 
   WHERE `sfa_menu`.`menu_id` IS NOT NULL 
-  AND `sfa_formalin`.`for_res_id` = " . $res_id;
+  AND `sfa_formalin`.`for_res_id` = " . $res_id . "
+  ORDER BY `for_test_date` DESC";
   $dbFormalin = mysqli_query($con, $sql);
 
   $sql_res = "SELECT * FROM `sfa_restaurant` WHERE `res_id` = " . $res_id;
@@ -99,10 +100,10 @@
           <table class="table table-striped display nowrap" id="datatable-basic" style="max-width: 100%">
             <thead class="thead-light">
               <tr>
-                <th style="width: 20%;">ลำดับที่</th>
-                <th style="width: 20%;">ชื่อเมนู</th>
-                <th style="width: 20%;">วันที่ตรวจ</th>
-                <th style="width: 20%;">สถานะ</th>
+                <th>ลำดับที่</th>
+                <th>ชื่อเมนู</th>
+                <th>วันที่ตรวจ</th>
+                <th>สถานะ</th>
               </tr>
             </thead>
 
