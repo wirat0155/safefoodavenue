@@ -85,7 +85,7 @@
                     <h3>ที่ตั้งร้าน</h3>
                     <div class="row">
                         <!-- เลขที่ -->
-                        <div class="col-md-4">
+                        <div class="col-md-4 mt-3">
                             <label for="res_address">เลขที่</label>
                             <input class="form-control" id="res_address" type="text" placeholder="เลขที่ หมูบ้าน (ถ้ามี)" name="res_address" oninput="enable_same_as_address(); not_require_zone_block();">
                         </div>
@@ -123,7 +123,7 @@
                         </div>
                     </div>
 
-                    <div class="row pb-4">
+                    <div class="row">
                         <!-- องค์กรปกครองส่วนท้องถิ่น -->
                         <div class="col-md-3 mt-3">
                             <label for="res_gov_id" class="required">องค์กรปกครองส่วนท้องถิ่น</label>
@@ -143,11 +143,32 @@
                         <!-- ล็อก -->
                         <div class="col-md-3 mt-3">
                             <label for="res_block_id" id="res_block_id_label" class="required">ล็อก</label>
-                            <select class="select2 form-control" id="res_block_id" name="res_block_id" required>
+                            <select class="select2 form-control" id="res_block_id" name="res_block_id" oninput="check_require_lat_lon()" required>
                                 <option value="" disabled selected>ล็อก (จำเป็น ถ้าไม่มีเลขที่ร้าน)</option>
                             </select>
                         </div>  
                     </div>
+
+                    <div class="row pb-1">
+                        <div class="col-md-8 mt-3">
+                            <label>ตำแหน่งที่ตั้ง
+                            </label>&nbsp&nbsp <button type="button" class="btn btn-primary" onclick="getLocation()"> <i class="ni ni-pin-3"></i> &nbsp ตำแหน่งปัจจุบัน</button>
+                        </div>
+                    </div>
+                    <label>หากไม่มีล็อก จำเป็นต้องระบุตำแหน่งที่ตั้ง</label>
+                    <div class="row">
+                        <div class="col-md-4 mt-3">
+                            <label id="res_lat_label" class="required">ละติจูด</label>
+                            <input type="number" step="0.0000001" id="res_lat" name="res_lat" class="form-control" required>
+                            <span class="text-danger" id="error_zone_lat"></span>
+                        </div>
+                        <div class="col-md-4 mt-3">
+                            <label id="res_lon_label" class="required">ลองจิจูด</label>
+                            <input type="number" step="0.0000001" id="res_lon" name="res_lon" class="form-control" required>
+                            <span class="text-danger" id="error_zone_lon"></span>
+                        </div>
+                    </div>
+                    <br />
 
                     <h3>ที่อยู่รับเอกสาร</h3>
                     <div class="form-check form-check-inline">
@@ -339,7 +360,6 @@
                     data: 'zone_id=' + $("#res_zone_id").val(),
                     type: "POST",
                     success: function(arr_block) {
-                        console.log(arr_block);
                         if (arr_block != "no output") {
                             if ($("#res_address").val() != "") {
                                 clear_block_dropdown_not_require();
@@ -357,6 +377,21 @@
                     },
                     error: function() {}
                 });
+            }
+            check_require_lat_lon();
+        }
+
+        function check_require_lat_lon() {
+            if ($("#res_block_id").val() == "") {
+                $("#res_lat_label").addClass("required");
+                $("#res_lon_label").addClass("required");
+                $("#res_lat").prop("required", true);
+                $("#res_lon").prop("required", true);
+            } else {
+                $("#res_lat_label").removeClass("required");
+                $("#res_lon_label").removeClass("required");
+                $("#res_lat").prop("required", false);
+                $("#res_lon").prop("required", false);
             }
         }
 
@@ -420,8 +455,6 @@
 
         function not_require_zone_block() {
             if ($("#res_address").val() != "") {
-                console.log("not required zone block");
-                console.log("zone_id : " + $("#res_zone_id").val());
                 if ($("#res_zone_id").val() == null) {
                     clear_zone_dropdown_not_require();
                 }
@@ -434,7 +467,6 @@
                 $("#res_zone_id").prop("required", false);
                 $("#res_block_id").prop("required", false);
             } else {
-                console.log("required zone block");
                 if ($("#res_zone_id").val() == null) {
                     clear_zone_dropdown();
                 }
@@ -459,7 +491,6 @@
                 },
                 type: "POST",
                 success: function(status) {
-                    console.log(status);
                     if (status != "duplicate") {
                         $("#status_res_title").html("<span style='color:green'>ชื่อร้านอาหารนี้สามารถใช้งานได้</span>");
                         chk_res_title = 0;
@@ -490,6 +521,18 @@
         function preview() {
             frame.src = URL.createObjectURL(event.target.files[0]);
             frame.removeAttribute("hidden");
+        }
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                lat.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            $("#res_lat").val(position.coords.latitude);
+            $("#res_lon").val(position.coords.longitude);
         }
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

@@ -8,6 +8,8 @@
     $res_title = $_POST['res_title'];
     $res_cat_id = $_POST['res_cat_id'];
     $res_description = $_POST['res_description'];
+    $res_lat = $_POST['res_lat'] != ""? $_POST['res_lat'] : NULL;
+    $res_lon = $_POST['res_lon'] != ""? $_POST['res_lon'] : NULL;
     $res_address = $_POST['res_address'];
     $res_district_id = $_POST['res_district_id'];
     $res_gov_id = $_POST['res_gov_id'];
@@ -32,7 +34,12 @@
         `res_district_id`,
         `res_gov_id`,
         `res_zone_id`,
-        `res_block_id`,
+        `res_block_id`,";
+    if ($res_lat != "") {
+        $sql .= "`res_lat`,
+        `res_lon`,";
+    }
+    $sql .= "
         `res_created_by`,
         `res_updated_by`
         )
@@ -45,7 +52,13 @@
         $res_district_id,
         $res_gov_id,
         $res_zone_id,
-        $res_block_id,
+        $res_block_id,";
+
+    if ($res_lat != "") {
+        $sql .= "$res_lat,
+        $res_lon,";
+    }
+    $sql .= "
         $us_id,
         $us_id
     )";

@@ -9,6 +9,8 @@
     $res_title = $_POST['res_title'];
     $res_cat_id = $_POST['res_cat_id'];
     $res_description = $_POST['res_description'];
+    $res_lat = $_POST['res_lat'] != ""? $_POST['res_lat'] : NULL;
+    $res_lon = $_POST['res_lon'] != ""? $_POST['res_lon'] : NULL;
     $res_address = $_POST['res_address'];
     $res_district_id = $_POST['res_district_id'];
     $res_gov_id = $_POST['res_gov_id'];
@@ -32,9 +34,18 @@
             `res_description`='$res_description',
             `res_district_id`=$res_district_id,
             `res_gov_id`=$res_gov_id,
-            `res_zone_id`=$res_zone_id,
-            `res_updated_by`=$us_id
+            `res_zone_id`=$res_zone_id,";
+    if ($res_lat == NULL || $res_lat == "") {
+        $sql .= "`res_lat` = NULL,
+        `res_lon` = NULL,";
+    } else {
+        $sql .= "`res_lat` = $res_lat,
+        `res_lon` = $res_lon,";
+    }
+    $sql .= "`res_updated_by`=$us_id
             WHERE `sfa_restaurant`.`res_id` = $res_id";
+    // echo $sql;
+    // exit;
     $update_restaurant = mysqli_query($con, $sql);
     $is_pass = $is_pass == true? $update_restaurant : $is_pass;
 
