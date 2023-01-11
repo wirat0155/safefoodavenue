@@ -1,4 +1,5 @@
 <?php
+session_start();
 error_reporting(E_ALL & ~E_WARNING);
 require_once '../php/config.php';
 // authenticate code from Google OAuth Flow
@@ -42,9 +43,15 @@ if (isset($_GET['code'])) {
     $user_lname=$userinfo['last_name'];
     $sql = "INSERT INTO sfa_user (us_username, us_fname, us_lname, us_role_id, us_accept_password) VALUES ('$user_email', '$user_fname', '$user_lname'
    , 3, 0)";
-  //  echo $sql;
-  //  exit();
     $result = mysqli_query($con, $sql) or die('error');
+
+    $sql = "SELECT * FROM sfa_user WHERE us_username ='{$userinfo['email']}'";
+    $result = mysqli_query($con, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $_SESSION["us_id"] = $row["us_id"];
+    $_SESSION["us_username"] = $row["us_username"];
+    $_SESSION["us_fullname"] = $row["us_fname"] . " " . $row["us_lname"];
+    $_SESSION["us_role_id"] = 3;
 
     if ($result) {
       //$token = $userinfo['token'];
