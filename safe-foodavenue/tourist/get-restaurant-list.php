@@ -65,9 +65,10 @@ sfa_res_image.res_img_res_id = sfa_restaurant.res_id
 LEFT JOIN sfa_review_summary 
 ON 
 sfa_review_summary.srs_res_id = sfa_restaurant.res_id
-$join WHERE res_status = 1 AND sfa_res_formalin_status.res_for_status = 0 AND $query_and  LIMIT "  . $start .  "," . $limit;
+$join WHERE res_status = 1  AND $query_and  LIMIT "  . $start .  "," . $limit;
 
 $query = mysqli_query($con, $sql) or die("Error get res");
+
 
 if (mysqli_num_rows($query) > 0) {
   

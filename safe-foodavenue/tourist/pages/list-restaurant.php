@@ -315,6 +315,8 @@
             //alert(this.value);
             get_amphures(this.value);
             get_zone(this.value);
+            clear_districts_dropdown(); //clear dropdown 
+            clear_amphures_dropdown();
         });
 
         $('#div_amphures').on('change', function() {
@@ -454,7 +456,7 @@
                     //   html += '   <span class="badge badge-success text-size-12  text-white">ปลอดภัยจากสารฟอมาลีน</span>';
                     html += '<img src="./../assets/img/icons/common/formalin.PNG" class="set-pic text-center" alt="test"> <br>';
                 } else {
-                    html += '   <span class="badge badge-warning badge-warning-fix text-size-12  text-white">กำลังรอตรวจสอบ</span>';
+                    html += '  <img src="./../assets/img/icons/common/formalin_not.PNG" class="set-pic text-center" alt="test">';
                 }
 
                 html += ' </div>';
@@ -612,7 +614,7 @@
 
     function clear_provinces_dropdown() {
         var option = '<option value=""  selected>เลือกจังหวัด</option>';
-        $("#div_province").html(option);
+        $("#div_provinces").html(option);
     }
 
     function clear_star_dropdown() {
