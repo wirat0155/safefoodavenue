@@ -67,6 +67,7 @@ ON
 sfa_review_summary.srs_res_id = sfa_restaurant.res_id
 $join WHERE res_status = 1  AND $query_and  LIMIT "  . $start .  "," . $limit;
 
+
 $query = mysqli_query($con, $sql) or die("Error get res");
 
 
@@ -101,7 +102,7 @@ sfa_res_image.res_img_res_id = sfa_restaurant.res_id
 LEFT JOIN sfa_review_summary 
 ON 
 sfa_review_summary.srs_res_id = sfa_restaurant.res_id
-$join WHERE res_status = 1 AND sfa_res_formalin_status.res_for_status = 0 AND $query_and";
+$join WHERE res_status = 1 AND $query_and";
 
 
 $query_no_lmit = mysqli_query($con, $sql_no_lmit) or die("Error get res");
