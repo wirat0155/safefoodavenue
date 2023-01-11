@@ -73,10 +73,11 @@
 
                     <form action="./php/action-edit-user.php" method="POST" enctype="multipart/form-data">
                         <input type="text" name="us_id" value="<?php echo $user_data["us_id"] ?>" hidden>
+                        <?php if($user_data["us_role_id"]!=3){?>
                         <div class="row">
                             <div class="col-md-2 mt-3">
                                 <label for="prefix" class="required">คำนำหน้า</label>
-                                <select name="us_pref_id" class="form-control" value="<?php echo $user_data["us_pref_id"] ?>">
+                                <select name="us_pref_id"  class="select2 form-control" value="<?php echo $user_data["us_pref_id"] ?>">
                                     <option value="" disabled selected>คำนำหน้า</option>
                                     <?php 
                                     while ($objPrefix = mysqli_fetch_array($arrPrefix)) { ?>
@@ -101,7 +102,7 @@
                             <!-- ประเภทผู้ใช้งาน -->
                             <div class="col-md-3 mt-3">
                                 <label for="role_id" class="required">ประเภทผู้ใช้งาน</label>
-                                <select name="role_id" id="role_id" class="form-control" onchange="showGovernment()" required>
+                                <select name="role_id" id="role_id"  class="select2 form-control" onchange="showGovernment()" required>
                                     <option value="" selected disabled>เลือกประเภทผู้ใช้งาน</option>
                                     <?php 
                                     while ($objRole = mysqli_fetch_array($arrRole)) { ?>
@@ -113,7 +114,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div id="government">
+                            <div id="government">
                         <hr>
                         <b style="font-size: 20px;">ตั้งค่าพื้นที่การตรวจ</b>
                         <br>
@@ -145,8 +146,7 @@
                             </div>
                             </div>
                         </div>
-                            <hr>
-
+                        <hr>
                             <b style="font-size: 20px;">สร้างบัญชีผู้ใช้</b>
                             <br>
                             <div class="row">
@@ -175,6 +175,138 @@
                                     <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-user'">
                                 </div>
                             </div>
+                        <?php }else{ ?>
+                            <div class="row">
+                            <div class="col-md-2 mt-3">
+                                <label for="prefix" class="required">คำนำหน้า</label>
+                                <select name="us_pref_id"  class="select2 form-control" value="<?php echo $user_data["us_pref_id"] ?>">
+                                    <option value="" disabled selected>คำนำหน้า</option>
+                                    <?php 
+                                    while ($objPrefix = mysqli_fetch_array($arrPrefix)) { ?>
+                                    <?php $selected = $user_data["us_pref_id"] == $objPrefix["pref_id"] ? "selected" : ""; ?>
+                                    <option value="<?= $objPrefix["pref_id"] ?>" <?= $selected ?>>
+                                        <?= $objPrefix["pref_title"] ?>
+                                    </option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mt-3" class="required">
+                                <label for="first_name" class="required">ชื่อจริง</label>
+                                <input type="text" id="us_fname" name="us_fname" class="form-control" placeholder="ใส่ชื่อจริง" oninput="check_name()" value="<?php echo $user_data["us_fname"] ?>" required>
+                                <span style='color:red' id="status_fname"></span>
+                            </div>
+                            <div class="col-md-4 mt-3">
+                                <label for="last_name" class="required">นามสกุล</label>
+                                <input type="text" id="us_lname" name="us_lname" class="form-control" placeholder="ใส่นามสกุล" oninput="check_name()" value="<?php echo $user_data["us_lname"] ?>" required>
+                                <span style='color:red' id=" status_lname"></span>
+                            </div>
+
+                            <!-- ประเภทผู้ใช้งาน -->
+                            <div class="col-md-3 mt-3">
+                                <label for="role_id" class="required">ประเภทผู้ใช้งาน</label>
+                                <select name="role_id" id="role_id_2"  class="select2 form-control" onchange="showGovernment2()" required>
+                                    <option value="" selected disabled>เลือกประเภทผู้ใช้งาน</option>
+                                    <?php 
+                                    while ($objRole = mysqli_fetch_array($arrRole)) { ?>
+                                    <?php $selected = $user_data["us_role_id"] == $objRole["role_id"] ? "selected" : ""; ?>
+                                    <option value="<?= $objRole["role_id"] ?>" <?= $selected ?>>
+                                        <?= $objRole["role_title"] ?>
+                                    </option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="government2" >
+                        <hr>
+                        <b style="font-size: 20px;">ตั้งค่าพื้นที่การตรวจ</b>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-4 mt-3">
+                                <label for="province" class="required">จังหวัด</label>
+                                <select name="us_province" id="us_province" class="select2 form-control" onchange="SelectGovernment()">
+                                <option value="" selected disabled>เลือกจังหวัด</option>
+                                <?php while ($obj_province = mysqli_fetch_array($arrProvince)) { ?>
+                                <?php $selected = $user_data["us_province_id"] == $obj_province["id"] ? "selected" : ""; ?>
+                                <option value="<?= $obj_province["id"] ?>" <?= $selected ?>>
+                                    <?= $obj_province["name_th"]?>
+                                </option>
+                                <?php } ?>
+                            </select>
+                            </div>
+                            <div class="col-md-4 mt-3">
+                                <label for="us_gov_id" class="required">องค์กรปกครองส่วนท้องถิ่น</label>
+                                <select name="us_gov_id" id="us_gov_id" class="select2 form-control" >
+                                <!-- <option value="" selected disabled>เลือกองค์กรปกครองส่วนท้องถิ่น</option>
+                                <?php while ($obj_government = mysqli_fetch_array($arrGov)) { ?>
+                                <?php $selected = $user_data["us_gov_id"] == $obj_government["gov_id"] ? "selected" : ""; ?>
+                                <option value="<?= $obj_government["gov_id"] ?>"<?= $selected ?>>
+                                    <?= $obj_government["gov_name"]?>
+                                </option>
+                                <?php } ?> -->
+                                <option value="" selected disabled>เลือกองค์กรปกครองส่วนท้องถิ่น</option>
+                            </select>
+                            </div>
+                            </div>
+                        </div>
+                        <hr>
+                            <b style="font-size: 20px;">สร้างบัญชีผู้ใช้</b>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-4 mt-3">
+                                    <label for="username" class="required">ชื่อผู้ใช้งาน</label>
+                                    <input type="text" id="us_username" name="us_username" class="form-control" placeholder="ชื่อผู้ใช้งาน" oninput="check_name_username()" value="<?php echo $user_data["us_username"] ?>" required>
+                                    <span style='color:red' id="status_username"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 mt-3">
+                                    <label for="password">รหัสผ่าน</label>
+                                    <input type="password" id="us_password" name="us_password" minlength="8" class="form-control" placeholder="รหัสผ่านอย่างน้อย 8 ตัวอักษร" onkeyup="confirm_pass()">
+                                    <p>ถ้าไม่กรอกรหัส ระบบจะใช้รหัสผ่านเดิม</p>
+                                </div>
+                                <div class=" col-md-4 mt-3">
+                                    <label for="confirm_password">ยืนยันรหัสผ่าน</label>
+                                    <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="ยืนยันรหัสผ่าน" onkeyup="confirm_pass()">
+                                    <span style='color:red' id="invalid_password"></span>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row pb-4" style="position: relative;">
+                                <div class="col-md-4">
+                                    <input type="submit" class="btn btn-warning" id="cf_btn" value="แก้ไขบัญชี">
+                                    <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-user'">
+                                </div>
+                            </div>
+                            <hr>
+                            <b style="font-size: 20px;">สร้างบัญชีผู้ใช้</b>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-4 mt-3">
+                                    <label for="username" class="required">ชื่อผู้ใช้งาน</label>
+                                    <input type="text" id="us_username" name="us_username" class="form-control" placeholder="ชื่อผู้ใช้งาน" oninput="check_name_username()" value="<?php echo $user_data["us_username"] ?>" required>
+                                    <span style='color:red' id="status_username"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 mt-3">
+                                    <label for="password">รหัสผ่าน</label>
+                                    <input type="password" id="us_password" name="us_password" minlength="8" class="form-control" placeholder="รหัสผ่านอย่างน้อย 8 ตัวอักษร" onkeyup="confirm_pass()">
+                                    <p>ถ้าไม่กรอกรหัส ระบบจะใช้รหัสผ่านเดิม</p>
+                                </div>
+                                <div class=" col-md-4 mt-3">
+                                    <label for="confirm_password">ยืนยันรหัสผ่าน</label>
+                                    <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="ยืนยันรหัสผ่าน" onkeyup="confirm_pass()">
+                                    <span style='color:red' id="invalid_password"></span>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row pb-4" style="position: relative;">
+                                <div class="col-md-4">
+                                    <input type="submit" class="btn btn-warning" id="cf_btn" value="แก้ไขบัญชี">
+                                    <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-user'">
+                                </div>
+                            </div>
+                            <?php } ?>
                         </div>
                     </form>
 
@@ -259,6 +391,9 @@
     //         error: function() {}
     //     });
     // }
+    $(document).ready(function() {
+    $('#government2').hide();
+});
 
     function check_name() {
         jQuery.ajax({
@@ -345,6 +480,13 @@
            $("#government").hide();
         }else{
             $("#government").show();
+        }
+    }
+    function showGovernment2() {
+        if ($('#role_id_2').val()!=3) {
+           $("#government2").show();
+        }else{
+            $("#government2").hide();
         }
     }
     </script>
