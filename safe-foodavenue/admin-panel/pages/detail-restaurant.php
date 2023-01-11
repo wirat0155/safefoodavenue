@@ -14,18 +14,18 @@ $res_id = isset($_GET["res_id"]) ? $_GET["res_id"] : "1";
 ?>
 
 <style>
-    .btn-custom {
-        box-shadow: none !important;
-    }
-
     .card-fix {
-        max-height: 400px !important;
-        height: 400px !important;
+        max-height: 500px !important;
+        height: 500px !important;
 
     }
 
     .text-size-24 {
         font-size: 24px;
+    }
+
+    .text-size-28 {
+        font-size: 28px;
     }
 
     .text-size-16 {
@@ -65,7 +65,20 @@ $res_id = isset($_GET["res_id"]) ? $_GET["res_id"] : "1";
     .pic_fix {
         object-fit: cover;
     }
+
+
+    .card-custom {
+        border-radius: 20px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .card-custom:hover {
+        transform: scale(1.05);
+    }
+
+    @media only screen and (max-width: 600px) {}
 </style>
+
 
 <!-- Header -->
 <div class="header bg-primary pb-6">
@@ -88,14 +101,11 @@ $res_id = isset($_GET["res_id"]) ? $_GET["res_id"] : "1";
 </div>
 
 
-<div class="container-fluid mt--6">
+<div class="container-fluid container-config mt--6">
     <div class="row">
         <div class="col">
             <div class="card border-0">
                 <div class="table-responsive py-4 px-4">
-
-                    <hr style="margin-top: -1rem; margin-bottom: 1rem;">
-
                     <div class="container" id="container">
                         <div class="row">
                             <div class="col">
@@ -110,7 +120,16 @@ $res_id = isset($_GET["res_id"]) ? $_GET["res_id"] : "1";
                                 <div class="card card-fix bg-gray-fix">
                                     <div class="card-body">
 
-                                        <div class="" id="display_formalin"></div>
+                                        <div class="row justify-content-between">
+
+                                            <div class="" id="display_formalin"></div>
+
+
+                                            <button class="btn btn-secondary mr-2" type="button" id="modal_infomation">
+                                                <i class="fa fa-info"></i>
+                                            </button>
+
+                                        </div>
 
                                         <h1 class="mt-2 text-size-42" id="res_title"></h1>
                                         <p class="mt-2" id="res_cat_title"></p>
@@ -134,6 +153,7 @@ $res_id = isset($_GET["res_id"]) ? $_GET["res_id"] : "1";
                                         <div class="" id="google_map_app"></div>
 
                                         <p class="text mt-4 text-size-16" id="res_address">ตัวอย่าง ที่อยู่</p>
+                                        <p class="text mt-2 text-size-16" id="res_provinces"></p>
                                         <hr>
                                         <p>เบอร์โทร : <span id="ent_tel"></span></p>
 
@@ -143,15 +163,20 @@ $res_id = isset($_GET["res_id"]) ? $_GET["res_id"] : "1";
 
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <button type="button" class="btn btn-secondary pull-right" onclick="location.href='./?content=list-restaurant'">กลับ</button>
-                        </div>
+
+
+
+
+
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
+
+
 
 <div class="modal bd-example-modal-lg" id="sfa_menu_modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
@@ -165,6 +190,48 @@ $res_id = isset($_GET["res_id"]) ? $_GET["res_id"] : "1";
             <div class="modal-body">
                 <div id="table_menu"></div>
 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal bd-example-modal-lg" id="sfa_information_modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">สัญลักษณ์ที่ใช้ในระบบ</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">สัญลักษณ์</th>
+                            <th scope="col">คำอธิบาย</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td><img src="./../assets/img/icons/common/formalin.PNG" class=" text-center" alt="test"> </td>
+                            <td>ปลอดภัยจากสารฟอร์มาลีน</td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td><img src="./../assets/img/icons/common/formalin_not.PNG" class=" text-center" alt="test"> </td>
+                            <td>รอตรวจสอบสารฟอร์มาลีน</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
@@ -196,13 +263,19 @@ $res_id = isset($_GET["res_id"]) ? $_GET["res_id"] : "1";
             }
         });
 
-        //show modal menu in res
-        $("#modal_sfa_menu").click(function() {
+  
+    });
+    
+     //show modal menu in res
+     $("#modal_sfa_menu").click(function() {
             $('#sfa_menu_modal').modal('show');
             get_data_menu();
         });
 
-    });
+        //show information
+        $("#modal_infomation").click(function() {
+            $('#sfa_information_modal').modal('show');
+        });
 
 
     function get_data_menu() {
@@ -268,102 +341,98 @@ $res_id = isset($_GET["res_id"]) ? $_GET["res_id"] : "1";
 
     function set_data_in_page(data) {
 
-        //set data in html
-        $("#res_title").html(data["data_res"][0].res_title); //set title
-        $("#res_description").html(data["data_res"][0].res_description); //set description
-        $("#res_cat_title").html(data["data_res"][0].res_cat_title); //set res title
-        $("#ent_tel").html(data["data_res"][0].ent_tel); //set ent_tel
-        $("#res_address").html(data["data_res"][0].res_address); //set ent_tel
+//set data in html
+$("#res_title").html(data["data_res"][0].res_title); //set title
+$("#res_description").html(data["data_res"][0].res_description); //set description
+$("#res_cat_title").html(data["data_res"][0].res_cat_title); //set res title
+$("#ent_tel").html(data["data_res"][0].ent_tel); //set  tel
+$("#res_address").html(data["data_res"][0].res_address); //set address
+$("#res_provinces").html("อำเภอ" + data["data_res"][0].name_amp + " " + "จังหวัด" + data["data_res"][0].name_pro + " " + data["data_res"][0].zip_code); //set 
+
+// set status
+let status_for_html = '';
+if (data["data_formalin"][0] == "Not Safe") {
+
+    status_for_html += '<img src="./../assets/img/icons/common/formalin_not.PNG" class=" text-center" alt="test">';
+    status_for_html += ' <span> ร้านนี้กำลังรอตรวจสอบ</span>';
+
+} else if (data["data_formalin"].length == 0) {
+    status_for_html += '<img src="./../assets/img/icons/common/formalin_not.PNG" class=" text-center" alt="test">';
+    status_for_html += ' <span> ร้านนี้กำลังรอตรวจสอบ</span>';
+} else if (data["data_formalin"][0] == "Safe") {
+    status_for_html += '<img src="./../assets/img/icons/common/formalin.PNG" class=" text-center" alt="test">';
+    status_for_html += ' <span> ร้านนี้ปลอดภัย ไร้สารฟอมาลีน</span>';
+}
+
+$("#display_formalin").html(status_for_html); //set display for status
+
+//กรณีไม่มีล๊อก
+// //button "นำทาง
+res_location_lat = data["data_location"][0].lat; // set location data
+res_location_lon = data["data_location"][0].lon; // set location data 
+
+html_map = '';
+if (res_location_lat == null && res_location_lon == null) {
+    // lat lon res = null ---> no button
+    html_map += '<img src="./../assets/img/icons/common/googlemap.PNG" class="set-pic text-center" alt="test"> <br>';
+    html_map += '<button class="btn btn-light mt-2" id="button_geolocation" ><span class="text-size-16">';
+    html_map += '<i class="fas fa-map-marker"></i> ไม่มีข้อมูลตำแหน่ง</span></button>';
+    $("#google_map_app").html(html_map);
+} else {
+    // create button
+    html_map += '<img src="./../assets/img/icons/common/googlemap.PNG" class="set-pic text-center" alt="test"> <br>';
+    html_map += '<button class="btn btn-info mt-2" id="button_geolocation" onclick="click_go_google_map()" ><span class="text-size-16"> <i class="fas fa-map-marker"></i> นำทาง</span></button>';
+    $("#google_map_app").html(html_map);
+}
+
+}
+
+function click_go_google_map() {
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(on_geo_success, on_geo_error);
+} else {
+    alert("Geolocation is not supported by this browser.");
+}
+}
+
+// If we have a successful location update
+function on_geo_success(event) {
+lat = event.coords.latitude;
+lon = event.coords.longitude;
+
+if (!lat && !lon) {
+
+    window.open(
+        "https://maps.google.com/?daddr=" + res_location_lat + ',' + res_location_lon,
+        '_blank'
+    );
+} else {
+    window.open(
+        "https://maps.google.com/?saddr=" + lat + "," + lon + "&daddr=" + res_location_lat + ',' + res_location_lon,
+        '_blank'
+    );
+}
+}
 
 
-        console.log(data["data_formalin"][0]);
-        // set status
-        let status_for_html = '';
-        if (data["data_formalin"][0] == "Not Safe") {
+// If something has gone wrong with the geolocation request
+function on_geo_error(event) {
+alert("Error code " + event.code + ". " + event.message);
+}
 
-            status_for_html += '<span class="badge badge-warning-fix text-size-24 text-white">กำลังรอตรวจสอบ</span>';
-            status_for_html += ' <span> ร้านนี้กำลังรอตรวจสอบ</span>';
+function set_picture_res(data) {
+//set picture
+let html = '';
 
-        } else if (data["data_formalin"].length == 0) {
-            status_for_html += '<span class="badge badge-warning-fix text-size-24 text-white">กำลังรอตรวจสอบ</span>';
-            status_for_html += ' <span> ร้านนี้กำลังรอตรวจสอบ</span>';
-        } else if (data["data_formalin"][0] == "Safe") {
-            status_for_html += '<span class="badge badge-success text-size-24 text-white">ปลอดภัยจากสารฟอมาลีน</span>';
-            status_for_html += '<span> ร้านนี้ปลอดภัย ไร้สารฟอมาลีน</span>';
-        }
-
-        $("#display_formalin").html(status_for_html); //set display for status
-
-        //กรณีไม่มีล๊อก
-        // //button "นำทาง
-        res_location_lat = data["data_location"][0].lat; // set location data
-        res_location_lon = data["data_location"][0].lon; // set location data 
-
-        html_map = '';
-        if (res_location_lat == null && res_location_lon == null) {
-            // lat lon res = null ---> no button
-            html_map += '<img src="./../assets/img/icons/common/googlemap.PNG" class="set-pic text-center" alt="test"> <br>';
-            html_map += '<button class="btn btn-light mt-2" id="button_geolocation" ><span class="text-size-16">';
-            html_map += '<i class="fas fa-map-marker"></i> ไม่มีข้อมูลตำแหน่ง</span></button>';
-            $("#google_map_app").html(html_map);
-        } else {
-            // create button
-            html_map += '<img src="./../assets/img/icons/common/googlemap.PNG" class="set-pic text-center" alt="test"> <br>';
-            html_map += '<button class="btn btn-info mt-2" id="button_geolocation" onclick="click_go_google_map()" ><span class="text-size-16"> <i class="fas fa-map-marker"></i> นำทาง</span></button>';
-            $("#google_map_app").html(html_map);
-        }
-
-    }
-
-
-    function click_go_google_map() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(on_geo_success, on_geo_error);
-        } else {
-            //  x.innerHTML = "Geolocation is not supported by this browser.";
-            alert("Geolocation is not supported by this browser.");
-        }
-    }
-
-    // If we have a successful location update
-    function on_geo_success(event) {
-        lat = event.coords.latitude;
-        lon = event.coords.longitude;
-
-        if (!lat && !lon) {
-
-            window.open(
-                "https://maps.google.com/?daddr=" + res_location_lat + ',' + res_location_lon,
-                '_blank'
-            );
-        } else {
-            window.open(
-                "https://maps.google.com/?saddr=" + lat + "," + lon + "&daddr=" + res_location_lat + ',' + res_location_lon,
-                '_blank'
-            );
-        }
-    }
-
-
-    // If something has gone wrong with the geolocation request
-    function on_geo_error(event) {
-        alert("Error code " + event.code + ". " + event.message);
-    }
-
-
-    function set_picture_res(data) {
-        //set picture
-        let html = '';
-
-        //set image null
-        if (data[0] == null) {
-            //defaul picture
-            document.getElementById("res_img_path").src = "../../assets/img/theme/detail-banner-default.jpg";
-        } else if (data[0] != null) {
-            document.getElementById("res_img_path").src = "../admin-panel/php/uploads/img/" + data[0].res_img_path;
-        }
-        //modal_sfa_menu
-    }
+//set image null
+if (data[0] == null) {
+    //defaul picture
+    document.getElementById("res_img_path").src = "../assets/img/theme/detail-banner-default.jpg";
+} else if (data[0] != null) {
+    document.getElementById("res_img_path").src = "../admin-panel/php/uploads/img/" + data[0].res_img_path;
+}
+//modal_sfa_menu
+}
 </script>
 <!-- Footer -->
 <?php include("footer.php"); ?>

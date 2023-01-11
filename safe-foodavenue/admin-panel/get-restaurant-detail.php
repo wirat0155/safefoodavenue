@@ -10,11 +10,15 @@ if (isset($_POST["res_id"])) {
     $response["data_location"] = array(); //Array ที่อยู่ (lat lon)
 
     //get data sfa_restaurant
-    $sql = "SELECT * FROM  `sfa_restaurant` 
+    $sql = "SELECT *, th_amphures.name_th As name_amp, th_provinces.name_th AS name_pro, 
+    th_districts.name_th AS name_dis  FROM  `sfa_restaurant` 
     LEFT JOIN sfa_res_category
     ON sfa_restaurant.res_cat_id = sfa_res_category.res_cat_id
     LEFT JOIN sfa_entrepreneur
     ON sfa_restaurant.res_ent_id = sfa_entrepreneur.ent_id
+    LEFT JOIN th_districts ON th_districts.id =  sfa_restaurant.res_district_id 
+    LEFT JOIN th_amphures ON th_districts.amphure_id = th_amphures.id
+    LEFT JOIN th_provinces ON th_amphures.province_id = th_provinces.id
     WHERE res_id = " . $_POST["res_id"] . " ";
 
     $query = mysqli_query($con, $sql);
@@ -26,7 +30,7 @@ if (isset($_POST["res_id"])) {
     ON  sfa_menu.menu_id = sfa_formalin.for_menu_id
     
     WHERE menu_res_id = " . $_POST["res_id"] . " AND sfa_formalin.for_test_date = 
-    (SELECT MAX(sfa_formalin.for_test_date) FROM sfa_formalin  WHERE menu_res_id = " . $_POST["res_id"] . " )";
+    (SELECT MAX(sfa_formalin.for_test_date) FROM sfa_formalin  WHERE for_res_id = " . $_POST["res_id"] . " )";
 
     $query_formalin = mysqli_query($con, $sql_formalin);
     //เช็คว่าในรายการตรวจล่าสุดมีไม่ผ่านไหม
@@ -45,7 +49,7 @@ if (isset($_POST["res_id"])) {
 
 
     //get data sfa_res_image
-    $sql_res_pic = "SELECT * FROM sfa_res_image WHERE res_img_id = '" . $_POST["res_id"] . "'";
+    $sql_res_pic = "SELECT * FROM sfa_res_image WHERE res_img_res_id = '" . $_POST["res_id"] . "'";
     $query_pic = mysqli_query($con, $sql_res_pic);
 
 
@@ -72,9 +76,9 @@ if (isset($_POST["res_id"])) {
 
         //*** fix data */
     } else {
-        $row_res_location["lat"] = 13.2809816;
-        $row_res_location["lon"] = 100.9248775;
-        array_push($response["data_location"], $row_res_location);
+        $row_test["lat"] = "13.2809816";
+        $row_test["lon"] = "100.9248775";
+        array_push($response["data_location"], $row_test);
     }
 
 
