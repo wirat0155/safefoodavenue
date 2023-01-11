@@ -553,10 +553,10 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
 
 
                     for (var i = 0; i < Math.ceil(avg_rating); i++) {
-                        html += '<i class="fas fa-star text-warning mr-1 main_star text-size-36"></i>';
+                        html += '<i class="fas fa-star text-warning mr-1 main_star text-size-28"></i>';
                     }
                     for (var i = 0; i < 5 - Math.ceil(avg_rating); i++) {
-                        html += '<i class="fas fa-star star-light mr-1 main_star text-size-36"></i>';
+                        html += '<i class="fas fa-star star-light mr-1 main_star text-size-28"></i>';
                     }
 
                     $("#main_star").html(html);
