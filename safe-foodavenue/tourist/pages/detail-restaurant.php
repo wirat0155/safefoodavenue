@@ -428,11 +428,11 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
         let status_for_html = '';
         if (data["data_formalin"][0] == "Not Safe") {
 
-            status_for_html += '<span class="badge badge-warning-fix text-size-24 text-white">กำลังรอตรวจสอบ</span>';
+            status_for_html += '<img src="./../assets/img/icons/common/formalin_not.PNG" class=" text-center" alt="test">';
             status_for_html += ' <span> ร้านนี้กำลังรอตรวจสอบ</span>';
 
         } else if (data["data_formalin"].length == 0) {
-            status_for_html += '<span class="badge badge-warning-fix text-size-24 text-white">กำลังรอตรวจสอบ</span>';
+            status_for_html += '<img src="./../assets/img/icons/common/formalin_not.PNG" class=" text-center" alt="test">';
             status_for_html += ' <span> ร้านนี้กำลังรอตรวจสอบ</span>';
         } else if (data["data_formalin"][0] == "Safe") {
             status_for_html += '<img src="./../assets/img/icons/common/formalin.PNG" class=" text-center" alt="test">';
