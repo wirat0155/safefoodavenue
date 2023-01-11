@@ -306,6 +306,7 @@
             clear_star_dropdown();
 
             get_res_list_data();
+            get_provinces();
 
         });
 
