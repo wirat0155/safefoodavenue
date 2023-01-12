@@ -10,7 +10,7 @@
     $password = $_POST["us_password"];
     $us_gov_id = $_POST["us_gov_id"];
     $us_province_id = $_POST["us_province"];
-    if($role==5){
+    if($role!=3){
         $sql = "UPDATE `sfa_user` SET `us_fname`=' $fname', `us_lname`='$lname', `us_username`='$username', ";
         if ($password != "") {
         $sql .= "`us_password` = '$password', ";

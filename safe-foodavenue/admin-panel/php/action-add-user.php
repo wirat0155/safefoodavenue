@@ -19,7 +19,7 @@
      // $gov_created_date = date("Y-m-d H:i:s");
      // $gov_updated_date = date("Y-m-d H:i:s");
 
-     if($us_role_id == 5){
+     if($us_role_id != 3){
           $sql = "INSERT INTO `sfa_user`(`us_fname`, `us_lname`, `us_username`, `us_password`, `us_gov_id`, `us_role_id`, `us_pref_id`, `us_province_id`) 
      VALUES ('$us_fname', '$us_lname', '$us_username', '$us_password',  '$us_gov_id', '$us_role_id', '$us_pref_id', $us_province)";
           $result =  mysqli_query($con, $sql);

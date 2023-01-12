@@ -11,7 +11,7 @@
      $gov_updated_date = date("Y-m-d H:i:s");
      $sql ="INSERT INTO `sfa_government` (`gov_name`, `gov_province_id`, `gov_created_by`, `gov_created_date`, `gov_updated_by`, `gov_updated_date`)
        VALUES ('$gov_name','$gov_province_id', '$gov_created_by', '$gov_created_date', '$gov_updated_by', '$gov_updated_date' )";
-    $result = mysqli_query($con, $sql);
+    //$result = mysqli_query($con, $sql);
     $_SESSION["crud-status"] = mysqli_query($con, $sql) ? 0 : 1;
      echo "<script>window.location.href='../?content=list-government';</script>";
 ?>

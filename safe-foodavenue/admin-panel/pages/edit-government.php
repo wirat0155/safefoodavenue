@@ -78,7 +78,7 @@ $gov_data = mysqli_fetch_array($dbGov);
                         <div class="row pb-4" style="position: relative;">
                             <div class="col-md-4">
                                 <input type="submit" class="btn btn-warning" value="เเก้ไของค์กรปกครองส่วนท้องถิ่น">
-                                <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-user'">
+                                <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-government'">
                             </div>
                         </div>
                     </form>
