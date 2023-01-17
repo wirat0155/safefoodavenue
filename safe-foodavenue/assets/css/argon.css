@@ -8448,6 +8448,7 @@ a.close.disabled
     background-size: cover;
     height: 100%;
     overflow: hidden;
+    background-position: center !important;
 }
 
 .bg-primary

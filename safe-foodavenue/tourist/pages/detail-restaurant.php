@@ -102,8 +102,8 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                     <div class="container" id="container">
                         <div class="row">
                             <div class="col">
-                                <div class="" style="height: 500px;">
-                                    <img id="res_img_path" class="pic_fix" src="">
+                                <div class="" style="height: 500px;" id="res_img">
+                                    <img id="res_img_path" class="pic_fix" src="" alt="Test pic">
                                 </div>
                             </div>
                         </div>
@@ -165,9 +165,9 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                                             <div class="col text-center ">
 
                                                 <b><span class="text-size-28 text-dark" id="average_rating"></span></b>
-                                                <div class="main_star" id="main_star">
-                                                </div>
+                                                <div class="main_star text-size-28" id="">
 
+                                                </div>
                                                 <h3 class="text-size-16 mt-2"><span id="total_review"></span></h3>
 
                                             </div>
@@ -276,12 +276,12 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                             <th scope="row">1</th>
                             <td><img src="./../assets/img/icons/common/formalin.PNG" class=" text-center" alt="test"> </td>
                             <td>ปลอดภัยจากสารฟอร์มาลีน</td>
-                          
+
                         </tr>
                         <tr>
                             <th scope="row">2</th>
                             <td><img src="./../assets/img/icons/common/formalin_not.PNG" class=" text-center" alt="test"> </td>
-                            <td>รอตรวจสอบสารฟอร์มาลีน</td>     
+                            <td>รอตรวจสอบสารฟอร์มาลีน</td>
                         </tr>
                     </tbody>
                 </table>
@@ -424,7 +424,8 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
         $("#res_address").html(data["data_res"][0].res_address); //set address
         $("#res_provinces").html("อำเภอ" + data["data_res"][0].name_amp + " " + "จังหวัด" + data["data_res"][0].name_pro + " " + data["data_res"][0].zip_code); //set 
 
-        // set status
+
+        // set status formalin
         let status_for_html = '';
         if (data["data_formalin"][0] == "Not Safe") {
 
@@ -503,6 +504,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
         if (data[0] == null) {
             //defaul picture
             document.getElementById("res_img_path").src = "../assets/img/theme/detail-banner-default.jpg";
+            html = '<img id="res_img_path" class="pic_fix" src="" alt="Test pic">';
         } else if (data[0] != null) {
             document.getElementById("res_img_path").src = "../admin-panel/php/uploads/img/" + data[0].res_img_path;
         }
@@ -510,6 +512,11 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
     }
 
     // rating module
+
+
+
+
+
     var us_id = <?php if ($_SESSION["us_id"]) {
                     echo $_SESSION["us_id"];
                 } else {
@@ -552,14 +559,38 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                     $('#total_review').text(data.review_data.length + " " + "รีวิว");
 
 
-                    for (var i = 0; i < Math.ceil(avg_rating); i++) {
-                        html += '<i class="fas fa-star text-warning mr-1 main_star text-size-28"></i>';
-                    }
-                    for (var i = 0; i < 5 - Math.ceil(avg_rating); i++) {
-                        html += '<i class="fas fa-star star-light mr-1 main_star text-size-28"></i>';
+                    let score = data.review_avg[0].avg_rev_rating;
+                    let whole_star = Math.floor(score);
+                    var haft_star = (whole_star < score);
+
+
+                    for (var star = 1; star <= whole_star; star++) {
+                        let class_name = 'text-warning';
+                        html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
                     }
 
-                    $("#main_star").html(html);
+                    var final_loop;
+                    // And the half star
+                    if (haft_star) {
+                        let class_name = 'fa-star-half';
+                        html += '<i class="fas fa-star text-warning ' + class_name + ' mr-1"></i>';
+                        final_loop = whole_star + 1;
+                    }else{
+                        final_loop = whole_star;
+                    }
+
+                    if (5 - (final_loop) > 0) {
+
+                        for (var star = 0; star < 5 - final_loop; star++) {
+                            let class_name = 'text-light';
+                            html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
+                        }
+
+                    }
+
+
+                    $(".main_star").html(html);
+
 
 
                     html = '';

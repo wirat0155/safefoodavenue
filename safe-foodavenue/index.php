@@ -44,7 +44,7 @@ body {
 
 <body>
     <!-- Navabr -->
-    <nav id="navbar-main" class="navbar navbar-horizontal navbar-main navbar-expand-lg navbar-dark">
+    <nav id="navbar-main" class="navbar navbar-horizontal navbar-main navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="./pages/dashboards/dashboard.html">
                 <img src="./assets/img/brand/plogo.png">

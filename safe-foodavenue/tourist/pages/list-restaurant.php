@@ -465,18 +465,34 @@
 
                 if (row_res.srs_count != null && row_res.srs_sum_review != null) {
 
-                    let avg_rating = parseFloat(row_res.srs_sum_review / row_res.srs_count); // set float data review star
+                    let score = row_res.srs_sum_review / row_res.srs_count;
+                    let whole_star =  Math.floor(score);
+                    var haft_star = (whole_star < score);
 
-                    for (var star = 1; star <= 5; star++) {
-                        var class_name = '';
 
-                        if (Math.ceil(avg_rating) >= star) {
-                            class_name = 'text-warning';
-                        } else {
-                            class_name = 'star-light';
-                        }
+                    for (var star = 1; star <= whole_star; star++) {
+                        let class_name = 'text-warning';
                         html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
                     }
+
+                    if (haft_star) {
+                        let class_name = 'fa-star-half';
+                        html += '<i class="fas fa-star text-warning ' + class_name + ' mr-1"></i>';
+                        final_loop = whole_star + 1;
+                    }else{
+                        final_loop = whole_star;
+                    }
+
+                    if (5 - (final_loop) > 0) {
+
+                        for (var star = 0; star < 5 - final_loop; star++) {
+                            let class_name = 'text-light';
+                            html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
+                        }
+
+                    }
+
+                
 
                 } else {
                     html += '<span>ไม่มีรีวิว</span>';
@@ -510,6 +526,7 @@
             html += ' </div>     ';
 
             $('#list_res').html(html);
+            $('#rateit').rateit('value', avg_rating, 'max', 5)
             $('#page_next').html(data.page);
 
         } else {

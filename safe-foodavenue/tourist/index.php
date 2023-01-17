@@ -43,6 +43,9 @@ require("../php/config.php");
   <!-- Page plugins -->
   <!-- Argon CSS -->
   <link rel="stylesheet" href="../assets/css/argon.css?v=1.1.0" type="text/css">
+  <link rel="stylesheet" href="../assets/js/rateit.js/rateit.css" type="text/css">
+
+
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsQsJq6QLsJRyETeDLBLyc6Wx73snZPIo&callback=initMap"></script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -105,8 +108,6 @@ require("../php/config.php");
   <script src="../assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
   <script src="../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
   <!-- Optional JS -->
-
-
   <script src="../assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
   <script src="../assets/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="../assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
@@ -117,9 +118,13 @@ require("../php/config.php");
   <script src="../assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
   <!-- Argon JS -->
   <script src="../assets/js/argon.js?v=1.1.0"></script>
+
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <script src="../assets/js/rateit.js/jquery.rateit.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
 
 </body>
 
