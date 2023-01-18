@@ -69,7 +69,17 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
         transform: scale(1.05);
     }
 
-    @media only screen and (max-width: 600px) {}
+    @media only screen and (max-width: 600px) {
+        .res-hide {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 400px) {
+        .res-hide {
+            display: none;
+        }
+    }
 </style>
 
 <!-- Header -->
@@ -241,7 +251,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                 </button>
             </div>
             <div class="modal-body">
-                <div id="table_menu"></div>
+                <div id="table_menu" class="table-responsive"></div>
 
             </div>
             <div class="modal-footer">
@@ -362,7 +372,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
             },
             type: "POST",
             success: function(data) {
-                //console.log(data);
+                console.log(data);
                 show_data_menu(data);
             },
             error: function() {
@@ -374,12 +384,13 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
     function show_data_menu(data) {
         let element = '';
         //add table to var html
-        element += '<table class="table table-hover">';
+        element += '<table class="table table-hover table-responesive">';
         element += '   <thead class="thead-primary bg-primary">';
         element += '       <tr>';
-        element += '           <th> <h3 class="text-white">ลำดับ</h3></th>';
+        element += '           <th class="res-hide"> <h3 class="text-white">ลำดับ</h3></th>';
         element += '           <th><h3 class="text-white">รายการ</h3></th>';
         element += '           <th><h3 class="text-white">ผลการตรวจสอบ</h3></th>';
+        element += '           <th><h3 class="text-white">ตรวจเมื่อ</h3></th>';
         element += '       </tr>';
         element += '   </thead>';
         element += '    <tbody>'
@@ -392,20 +403,24 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
             data["data_menu"].forEach((row_menu, index_menu) => {
 
                 element += '<tr>';
-                element += '<td>' + (index_menu + 1) + '</td>';
+                element += '<td class="res-hide">' + (index_menu + 1) + '</td>';
                 element += '<td>';
                 element += row_menu['menu_name'];
                 element += '</td>';
 
                 if (row_menu['for_status'] == 2) {
                     element += '<td>';
-                    element += '<p class="text-success">ผ่านการตรวจสอบ</p>';
+                    element += '<p class="text-success">ผ่าน</p>';
                     element += '</td>';
                 } else {
                     element += '<td>';
                     element += '<p class="text-warning">รอตรวจสอบ</p>';
                     element += '</td>';
                 }
+
+                element += '<td>';
+                element += data["data_date_check"][index_menu];
+                element += '</td>';
             });
         }
         element += '    </tbody>'
@@ -574,8 +589,8 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                     if (haft_star) {
                         let class_name = 'fa-star-half';
                         html += '<i class="fas fa-star text-warning ' + class_name + ' mr-1"></i>';
-                        final_loop = whole_star + 1;
-                    }else{
+                        final_loop = whole_star;
+                    } else {
                         final_loop = whole_star;
                     }
 
