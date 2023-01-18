@@ -61,15 +61,19 @@
     }
 
     function get_formalin_checklist_by_year($con, $fcl_year) {
-        $sql = "SELECT * FROM `sfa_formalin_checklist` WHERE `sfa_formalin_checklist`.`fcl_year` = '" . $fcl_year . "' 
-                AND `fcl_gov_id` = " . $_SESSION['us_gov_id'];
+        $sql = "SELECT COUNT(`res_for_id`) AS `num`, `fcl_id`
+        FROM `sfa_formalin_checklist` 
+        LEFT JOIN `sfa_res_formalin_status` ON `sfa_formalin_checklist`.`fcl_id` = `sfa_res_formalin_status`.`res_for_last_fcl_id`
+        WHERE `sfa_formalin_checklist`.`fcl_year` = " . $fcl_year . " AND `fcl_gov_id` = " . $_SESSION["us_gov_id"] . " GROUP BY `fcl_id`";
         $arr_formalin_checklist = mysqli_query($con, $sql);
         return $arr_formalin_checklist;
     }
     $arr_formalin_checklist = get_formalin_checklist_by_year($con, $fcl_year);
     $arr_fcl_id = array();
-    while ($obj_fcl_id = mysqli_fetch_assoc($arr_formalin_checklist)["fcl_id"]) {
-        array_push($arr_fcl_id, $obj_fcl_id);
+    $arr_fcl_id_data = array();
+    while ($obj_fcl_id = mysqli_fetch_assoc($arr_formalin_checklist)) {
+        array_push($arr_fcl_id, $obj_fcl_id["fcl_id"]);
+        array_push($arr_fcl_id_data, $obj_fcl_id["num"]);
     }
 
 
@@ -91,6 +95,12 @@
         }
         array_push($arr_fcl_data, $arr_row);
     }
+
+    // for ($i = 0 ;$i < count($arr_fcl_id); $i++) {
+    //     echo $arr_fcl_id[$i] . " " . $arr_fcl_id_data[$i];
+    //     echo "<br>";
+    // }
+    // exit;
 
     function get_all_restaurant_by_year($con, $fcl_year) {
         $sql = "SELECT COUNT(`res_for_res_id`) AS `count_res` FROM `sfa_res_formalin_status`
@@ -132,29 +142,59 @@
     }
 
     $arr_res_category_pass_data = array();
-    function get_res_category_pass($con, $res_cat_id) {
-        $sql = "SELECT COUNT(`res_for_id`) as `pass` FROM `sfa_res_formalin_status`
+    // function get_res_category_pass($con, $res_cat_id) {
+    //     $sql = "SELECT COUNT(`res_for_id`) as `pass` FROM `sfa_res_formalin_status`
+    //     LEFT JOIN `sfa_restaurant` ON `sfa_res_formalin_status`.`res_for_res_id` = `sfa_restaurant`.`res_id`
+    //     WHERE `sfa_res_formalin_status`.`res_for_status` = 0 AND `sfa_restaurant`.`res_cat_id` = " . $res_cat_id;
+    //     $arr_res_category = mysqli_query($con, $sql);
+    //     $obj_res_category = mysqli_fetch_array($arr_res_category);
+    //     return $obj_res_category["pass"];
+    // }
+    function get_res_category_pass($con, $res_cat_id, $arr_fcl_id) {
+        $sql = "SELECT COUNT(`res_for_res_id`) AS `pass` FROM `sfa_res_formalin_status` 
         LEFT JOIN `sfa_restaurant` ON `sfa_res_formalin_status`.`res_for_res_id` = `sfa_restaurant`.`res_id`
-        WHERE `sfa_res_formalin_status`.`res_for_status` = 0 AND `sfa_restaurant`.`res_cat_id` = " . $res_cat_id;
+        WHERE `res_for_last_fcl_id` IN (";
+        for ($i = 0; $i < count($arr_fcl_id); $i++) {
+            $sql .= $arr_fcl_id[$i];
+            if ($i != count($arr_fcl_id) - 1) {
+                $sql .= ",";
+            }
+        }
+        $sql .=  ") AND `res_for_status` = 0 AND `res_cat_id` = " . $res_cat_id;
         $arr_res_category = mysqli_query($con, $sql);
         $obj_res_category = mysqli_fetch_array($arr_res_category);
         return $obj_res_category["pass"];
     }
     for ($i = 0; $i < count($arr_category_id); $i++) {
-        array_push($arr_res_category_pass_data, get_res_category_pass($con, $arr_category_id[$i]));
+        array_push($arr_res_category_pass_data, get_res_category_pass($con, $arr_category_id[$i], $arr_fcl_id));
     }
 
     $arr_res_category_fail_data = array();
-    function get_res_category_fail($con, $res_cat_id) {
-        $sql = "SELECT COUNT(`res_for_id`) as `fail` FROM `sfa_res_formalin_status`
+    // function get_res_category_fail($con, $res_cat_id) {
+    //     $sql = "SELECT COUNT(`res_for_id`) as `fail` FROM `sfa_res_formalin_status`
+    //     LEFT JOIN `sfa_restaurant` ON `sfa_res_formalin_status`.`res_for_res_id` = `sfa_restaurant`.`res_id`
+    //     WHERE `sfa_res_formalin_status`.`res_for_status` = 1 AND `sfa_restaurant`.`res_cat_id` = " . $res_cat_id;
+    //     $arr_res_category = mysqli_query($con, $sql);
+    //     $obj_res_category = mysqli_fetch_array($arr_res_category);
+    //     return $obj_res_category["fail"];
+    // }
+    function get_res_category_fail($con, $res_cat_id, $arr_fcl_id) {
+        $sql = "SELECT COUNT(`res_for_res_id`) AS `fail` FROM `sfa_res_formalin_status` 
         LEFT JOIN `sfa_restaurant` ON `sfa_res_formalin_status`.`res_for_res_id` = `sfa_restaurant`.`res_id`
-        WHERE `sfa_res_formalin_status`.`res_for_status` = 1 AND `sfa_restaurant`.`res_cat_id` = " . $res_cat_id;
+        WHERE `res_for_last_fcl_id` IN (";
+        for ($i = 0; $i < count($arr_fcl_id); $i++) {
+            $sql .= $arr_fcl_id[$i];
+            if ($i != count($arr_fcl_id) - 1) {
+                $sql .= ",";
+            }
+        }
+        $sql .=  ") AND `res_for_status` = 1 AND `res_cat_id` = " . $res_cat_id;
         $arr_res_category = mysqli_query($con, $sql);
         $obj_res_category = mysqli_fetch_array($arr_res_category);
         return $obj_res_category["fail"];
     }
     for ($i = 0; $i < count($arr_category_id); $i++) {
-        array_push($arr_res_category_fail_data, get_res_category_fail($con, $arr_category_id[$i]));
+        array_push($arr_res_category_fail_data, get_res_category_fail($con, $arr_category_id[$i], $arr_fcl_id));
     }
 
     $column_chart_data = array_map(function($arr_category_title, $arr_res_category_pass_data, $arr_res_category_fail_data) {
@@ -186,13 +226,27 @@
         $other_fail_data += intval($column_chart_data[$i]->fail);
     }
 
-    $sql = "SELECT * FROM `sfa_restaurant`
-        LEFT JOIN `sfa_res_category` ON `sfa_restaurant`.`res_cat_id` = `sfa_res_category`.`res_cat_id`
-        LEFT JOIN `sfa_entrepreneur` ON `sfa_restaurant`.`res_ent_id` = `sfa_entrepreneur`.`ent_id`
-        LEFT JOIN `sfa_zone` ON `sfa_restaurant`.`res_zone_id` = `sfa_zone`.`zone_id`
-        LEFT JOIN `sfa_block` ON `sfa_restaurant`.`res_block_id` = `sfa_block`.`block_id`
-        LEFT JOIN `sfa_res_formalin_status` ON `sfa_restaurant`.`res_id` = `sfa_res_formalin_status`.`res_for_res_id`
-        WHERE `sfa_restaurant`.`res_gov_id` = " . $_SESSION["us_gov_id"]; 
+    // $sql = "SELECT * FROM `sfa_restaurant`
+    //     LEFT JOIN `sfa_res_category` ON `sfa_restaurant`.`res_cat_id` = `sfa_res_category`.`res_cat_id`
+    //     LEFT JOIN `sfa_entrepreneur` ON `sfa_restaurant`.`res_ent_id` = `sfa_entrepreneur`.`ent_id`
+    //     LEFT JOIN `sfa_block` ON `sfa_restaurant`.`res_block_id` = `sfa_block`.`block_id`
+    //     LEFT JOIN `sfa_zone` ON `sfa_block`.`block_zone_id` = `sfa_zone`.`zone_id`
+    //     LEFT JOIN `sfa_res_formalin_status` ON `sfa_restaurant`.`res_id` = `sfa_res_formalin_status`.`res_for_res_id`
+    //     WHERE `sfa_restaurant`.`res_gov_id` = " . $_SESSION["us_gov_id"]; 
+    $sql = "SELECT * FROM `sfa_res_formalin_status` 
+    LEFT JOIN `sfa_restaurant` ON `sfa_res_formalin_status`.`res_for_res_id` = `sfa_restaurant`.`res_id`
+    LEFT JOIN `sfa_res_category` ON `sfa_restaurant`.`res_cat_id` = `sfa_res_category`.`res_cat_id`
+    LEFT JOIN `sfa_entrepreneur` ON `sfa_restaurant`.`res_ent_id` = `sfa_entrepreneur`.`ent_id`
+    LEFT JOIN `sfa_block` ON `sfa_restaurant`.`res_block_id` = `sfa_block`.`block_id`
+    LEFT JOIN `sfa_zone` ON `sfa_block`.`block_zone_id` = `sfa_zone`.`zone_id`
+    WHERE `res_for_last_fcl_id` IN (";
+    for ($i = 0; $i < count($arr_fcl_id); $i++) {
+        $sql .= $arr_fcl_id[$i];
+        if ($i != count($arr_fcl_id) - 1) {
+            $sql .= ",";
+        }
+    }
+    $sql .= ")";
     $arr_restaurant = mysqli_query($con, $sql);
 ?>
 
@@ -354,17 +408,22 @@
     <div class="container-fluid" style="max-width: 1600px">
         <div class="row justify-content-sm-center pb-2">
             <?php
+            $round = 1;
             for ($i = 0; $i < count($arr_fcl_id); $i++) { ?>
+                <?php if ($arr_fcl_id_data[$i] != 0) : ?>
                 <div class="col col-lg-3">
                     <div class="card">
                         <div class="card-header bg-primary text-white text-center" style="font-size: 1.25rem;">
-                            อัตราส่วนร้านที่พบฟอร์มาลิน <?php echo ($i+1) ?>/<?php echo ($fcl_year + 543) ?>
+                            อัตราส่วนร้านที่พบฟอร์มาลิน <?php echo ($round) ?>/<?php echo ($fcl_year + 543) ?>
                         </div>
-                        <div class="card-body" id="<?php echo "pie_chart_card_" . ($i+1) ?>">
-                            <canvas id="<?php echo "pie_chart_" . ($i+1) ?>" width="200" height="200"></canvas>
+                        <div class="card-body" id="<?php echo "pie_chart_card_" . ($round+1) ?>">
+                            <canvas id="<?php echo "pie_chart_" . ($round) ?>" width="200" height="200"></canvas>
                         </div>
                     </div>
                 </div>
+                <?php 
+                $round++;
+                endif; ?>
             <?php } ?>
         </div>
         
@@ -446,8 +505,6 @@
 </div>
 <?php // include("./pages/block-map.php"); ?>
 
-
-
 <script>
     $(document).ready(function() {
         if ("<?php echo $_SESSION['login-status']?>" == "0") {
@@ -455,18 +512,23 @@
         }
         <?php unset($_SESSION['login-status']) ?>
     });
-
     getColumnChart();
-    <?php for ($i = 0; $i < count($arr_fcl_id); $i++) { ?>
+    <?php 
+    $round = 1;
+    for ($i = 0; $i < count($arr_fcl_id); $i++) { ?>
+        <?php if ($arr_fcl_id_data[$i] != 0) : ?>
         get_pie_chart(
-            '<?php echo ($i + 1) ?>', 
+            '<?php echo ($round) ?>', 
             '<?php echo ($fcl_year + 543)?>',
             [<?php for ($j = 0; $j < count($arr_fcl_data[$i]); $j++) {
-                echo $arr_fcl_data[$i][$j]; 
+                echo $arr_fcl_data[$i][$j];
                 if ($j == 0) {
                     echo ",";
                 }
             }?>]);
+        <?php 
+        $round++;
+        endif; ?>
     <?php } ?>
 
     function toastify_success() {
@@ -488,9 +550,7 @@
     }
 
     function get_pie_chart(fcl_id, fcl_year, value) {
-        console.log(value);
         if (JSON.stringify(value) === JSON.stringify([0, 0])) {
-            console.log('The arrays are equal');
             $("#pie_chart_card_" + fcl_id).html("ไม่พบข้อมูลการตรวจ");
             return 0;
         }

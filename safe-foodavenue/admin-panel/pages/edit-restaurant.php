@@ -188,7 +188,7 @@
                             <!-- เลขที่ -->
                             <div class="col-md-4">
                                 <label for="res_block_id">เลขที่</label>
-                                <input class="form-control" id="res_address" type="text" placeholder="เลขที่ หมูบ้าน (ถ้ามี)" name="res_address" value="<?php echo $obj_restaurant["res_address"]?>" oninput="enable_same_as_address(); not_require_zone_block();">
+                                <input class="form-control" id="res_address" type="text" placeholder="เลขที่ หมูบ้าน (ถ้ามี)" name="res_address" value="<?php echo $obj_restaurant["res_address"]?>" oninput="not_require_zone_block();">
                             </div>
                         </div>
 
@@ -271,7 +271,7 @@
                             <!-- ล็อก -->
                             <div class="col-md-3 mt-3">
                                 <label for="res_block_id" id="res_block_id_label" <?php if ($obj_restaurant["res_block_id"] != 0) echo "class='required'"?>>ล็อก</label>
-                                <select class="select2 form-control" id="res_block_id" name="res_block_id" <?php if ($obj_restaurant["res_block_id"] != 0) echo "required"?> oninput="check_require_lat_lon()">
+                                <select class="select2 form-control" id="res_block_id" name="res_block_id" <?php if ($obj_restaurant["res_block_id"] != 0) echo "required"?> oninput="enable_same_as_address(); check_require_lat_lon()">
                                     <?php if ($obj_restaurant["res_block_id"] == 0) : ?>
                                         <option value="" selected>ล็อก (ถ้ามี)</option>
                                     <?php else : ?>
@@ -404,6 +404,7 @@
                         show_amphure_dropdown(objLocation['amphure'], res_amphure_id);
                         show_province_dropdown(objLocation['province'], res_province_id);
                         show_government_dropdown(objLocation['arrGovernment'], res_gov_id);
+                        get_zone();
                     } else {
                         clear_district_dropdown(res_district_id, res_district_id);
                         clear_amphure_dropdown(res_amphure_id, res_amphure_id);
@@ -426,7 +427,11 @@
 
         function show_district_dropdown(arrDistrict, res_district_id) {
             for(var i = 0; i < arrDistrict.length; i++) {
-                option = '<option value="' + arrDistrict[i]['district_id'] + '">' + arrDistrict[i]['district_name'] + '</option>'
+                if (i == 0) {
+                    option = '<option value="' + arrDistrict[i]['district_id'] + '" selected>' + arrDistrict[i]['district_name'] + '</option>';
+                } else {
+                    option = '<option value="' + arrDistrict[i]['district_id'] + '">' + arrDistrict[i]['district_name'] + '</option>';
+                }
                 $("#" + res_district_id).append(option);
             }
         }
@@ -443,7 +448,11 @@
 
         function show_government_dropdown(arr_government, res_gov_id) {
             for(var i = 0; i < arr_government.length; i++) {
-                option = '<option value="' + arr_government[i]['gov_id'] + '">' + arr_government[i]['gov_name'] + '</option>'
+                if (i == 0) {
+                    option = '<option value="' + arr_government[i]['gov_id'] + '" selected>' + arr_government[i]['gov_name'] + '</option>';
+                } else {
+                    option = '<option value="' + arr_government[i]['gov_id'] + '">' + arr_government[i]['gov_name'] + '</option>';
+                }
                 $("#" + res_gov_id).append(option);
             }
         }
@@ -549,16 +558,26 @@
 
         function show_zone_dropdown(arr_zone) {
             for(var i = 0; i < arr_zone.length; i++) {
-                option = '<option value="' + arr_zone[i]['zone_id'] + '">' + arr_zone[i]['zone_title'] + '</option>'
+                if (i == 0) {
+                    option = '<option value="' + arr_zone[i]['zone_id'] + '" selected>' + arr_zone[i]['zone_title'] + '</option>';
+                } else {
+                    option = '<option value="' + arr_zone[i]['zone_id'] + '">' + arr_zone[i]['zone_title'] + '</option>';
+                }
                 $("#res_zone_id").append(option);
             }
+            get_block();
         }
 
         function show_block_dropdown(arr_block) {
             for(var i = 0; i < arr_block.length; i++) {
-                option = '<option value="' + arr_block[i]['block_id'] + '">' + arr_block[i]['block_title'] + '</option>'
+                if (i == 0) {
+                    option = '<option value="' + arr_block[i]['block_id'] + '" selected>' + arr_block[i]['block_title'] + '</option>';
+                } else {
+                    option = '<option value="' + arr_block[i]['block_id'] + '">' + arr_block[i]['block_title'] + '</option>';
+                }
                 $("#res_block_id").append(option);
             }
+            enable_same_as_address();
         }
 
         function clear_zone_dropdown() {
@@ -596,7 +615,7 @@
             }
         }
         function enable_same_as_address() {
-            if ($("#res_address").val() != "") {
+            if ($("#res_block_id").val() != "") {
                 $('#same_as_address').prop('disabled', false);
             } else {
                 $('#same_as_address').prop('checked', false);
@@ -607,8 +626,6 @@
 
         function not_require_zone_block() {
             if ($("#res_address").val() != "") {
-                console.log("not required zone block");
-                console.log("zone_id : " + $("#res_zone_id").val());
                 if ($("#res_zone_id").val() == null) {
                     clear_zone_dropdown_not_require();
                 }
@@ -621,7 +638,6 @@
                 $("#res_zone_id").prop("required", false);
                 $("#res_block_id").prop("required", false);
             } else {
-                console.log("required zone block");
                 if ($("#res_zone_id").val() == null) {
                     clear_zone_dropdown();
                 }
@@ -677,7 +693,6 @@
             frame.src = URL.createObjectURL(event.target.files[0]);
             frame.removeAttribute("hidden");
         }
-
         function getLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition);

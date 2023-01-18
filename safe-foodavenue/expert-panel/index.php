@@ -68,6 +68,9 @@
       .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
         background-color: #5e72e4;
       }
+      .select2-container--default .select2-selection--multiple {
+        border: 1px solid #ddd !important;
+      }
       .limit-char {
         max-width: 40ch;
         overflow: hidden;
@@ -131,6 +134,11 @@
     <script>
       $(document).ready(function() {
         $('.select2').select2();
+        $(".select2-multiple").select2({
+          multiple: true,
+          allowClear: true,
+          placeholder: 'Select options'
+        });
         $('#datatable-basic').DataTable( {
           responsive: true,
           fixedHeader: true,

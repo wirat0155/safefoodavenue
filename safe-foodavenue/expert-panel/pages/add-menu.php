@@ -33,17 +33,16 @@ function addMenuForm() {
 
     $("#menuPanel").append('' +
         '<div id="div_menu_' + menu_order + '" class="row pb-4">' +
-        '<div class="col-md-4">' +
+        '<div class="col-md-6">' +
         '<label class="text-primary font-weight-bold required">ชื่อเมนู</label>' +
         '<input type="text" id="menu_name_' + menu_order + '" name="menu_name[]" class="form-control" required>' +
         '</div>' +
-        '<div class="col-md-4">' +
+        '<div class="col-md-6">' +
         '<label class="text-primary">&nbsp</label><br>' +
         '<button type="button" class="btn btn-danger" style="font-size: 20px;line-height: 0.75;" onclick="return confirmDelete(' + menu_order + ')"><i class="ni ni-fat-remove"></button>' +
         '</div>' +
         '</div>'
     )
-
     menu_order += 1;
     // to add postion
 }
@@ -86,12 +85,28 @@ function addMenuForm() {
                     <form action="index.php?content=do_add_menu" method="POST" enctype="multipart/form-data">
                         <input name="res_id" value="<?= $row["res_id"] ?>" hidden>           
                         <div class="row pb-4">
-                            <div class="col-md-6">
+                            <div class="col col-md-6">
                                 <label class="text-primary font-weight-bold">ชื่อร้านอาหาร</label>
                                 <input type="text" id="res_name" name="res_name" class="form-control" value="<?= $row["res_title"] ?>" readonly>
                             </div>
                         </div>
 
+                        <div class="row pb-4">
+                            <div class="col col-md-6">
+                                <label class="text-primary font-weight-bold">วัตถุดิบสำหรับการตรวจสอบ</label>
+                                <select id="menu_default_name" class="select2-multiple" name="menu_default_name[]" multiple oninput="check_require_menu_name()">
+                                    <option value="หมึก">หมึก</option>
+                                    <option value="กุ้ง">กุ้ง</option>
+                                    <option value="ปลา">ปลา</option>
+                                    <option value="หอย">หอย</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h4>ถ้าไม่พบวัตถุที่ต้องการ สามารถระบุเมนูที่นี่</h4>
+                            </div>
+                        </div>
                         <div class="row pb-4">
                             <div class="col-md-8">
                                 <label class="text-primary font-weight-bold">เมนูอาหาร <span class="text-danger">(Dynamic form)</span></label>
@@ -102,16 +117,14 @@ function addMenuForm() {
                         </div>
 
                         <div id="menuPanel">
-
                             <div class="row pb-4">
-                                <div class="col-md-4">
-                                    <label class="text-primary font-weight-bold required">ชื่อเมนู</label>
+                                <div class="col-md-6">
+                                    <label id="menu_name_label" class="text-primary font-weight-bold required">ชื่อเมนู</label>
                                     <input type="text" id="menu_name_0" name="menu_name[]" class="form-control" required>
                                 </div>
                             </div>
 
                         </div>
-
                         <div class="row pb-4">
                             <div class="col-md-4">
                                 <input type="submit" class="btn btn-success" value="บันทึก">
@@ -120,9 +133,7 @@ function addMenuForm() {
                                 </a>
                             </div>
                         </div>
-
                     </form>
-
                 </div>
             </div>
         </div>
@@ -131,3 +142,18 @@ function addMenuForm() {
     <!-- Footer -->
     <?php include("footer.php"); ?>
 </div>
+
+<script>
+    function check_require_menu_name() {
+        // console.log($("#menu_default_name").val());
+        if ($("#menu_default_name").val().length != 0) {
+            console.log("เลือก");
+            $("#menu_name_label").removeClass("required");
+            $("#menu_name_0").prop("required", false);
+        } else {
+            console.log("ไม่ได้เลือก");
+            $("#menu_name_label").addClass("required");
+            $("#menu_name_0").prop("required", true);
+        }
+    }
+</script>
