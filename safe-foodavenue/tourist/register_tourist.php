@@ -13,7 +13,7 @@
  -->
 <?php
     require("../php/config.php"); 
-    session_start();
+    //session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,6 +33,12 @@
     <link rel="stylesheet" href="../assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
     <!-- Argon CSS -->
     <link rel="stylesheet" href="../assets/css/argon.css?v=1.1.0" type="text/css">
+
+    <!-- modal -->
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+  <!-- modal -->
 </head>
 
 <body class="bg-default">
@@ -143,8 +149,9 @@
             <div class="row justify-content-center">
                 <div class="col-lg-6 col-md-8">
                     <div class="card bg-secondary border-0">
-                        <div class="card-header bg-transparent pb-5">
+                        <!-- <div class="card-header bg-transparent pb-5">
                             <div class="text-muted text-center mt-2 mb-4"><small>สมัครสมาชิกด้วยช่องทางต่อไปนี้</small></div>
+                            <div class="text-muted"><h2>สมัครสมาชิก</h2></div>
                             <div class="text-center">
                                 <a href="#" class="btn btn-neutral btn-icon">
                                     <span class="btn-inner--icon"><img src="../assets/img/icons/common/facebook.svg"></span>
@@ -155,10 +162,11 @@
                                     <span class="btn-inner--text">Google</span>
                                 </a>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="card-body px-lg-5 py-lg-5">
                             <div class="text-center text-muted mb-4">
-                                <small>หรือลงทะเบียนกับทางเว็บไซต์</small>
+                                <!-- <small>หรือลงทะเบียนกับทางเว็บไซต์</small> -->
+                                <h2>สมัครสมาชิกกับทางเว็บไซต์</h2>
                             </div>
                             <form role="form" id="register" action="./register_db.php" method="post" enctype="multipart/form-data">
                                 <div class="form-group">
@@ -167,7 +175,7 @@
                                             <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
                                         </div>
 
-                                        <select name="us_pre_id" id="us_pre_id" class="form-control" required>
+                                        <select name="us_pref_id" id="us_pref_id" class="form-control" required>
                                             <option value="" selected disabled>เลือกคำนำหน้า</option>
                                             <option value="1">นาย</option>
                                             <option value="2">นาง</option>
@@ -180,7 +188,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
                                         </div>
-                                        <input class="form-control" placeholder="ชื่อภาษาไทย" type="text" name="us_fname" id="us_fname" oninput="check_username()">
+                                        <input class="form-control" placeholder="ชื่อจริง" type="text" name="us_fname" id="us_fname" oninput="check_username()">
                                     </div>
 
                                 </div>
@@ -189,11 +197,11 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
                                         </div>
-                                        <input class="form-control" placeholder="นามสกุลภาษาไทย" type="text" name="us_lname" id="us_lname" oninput="check_name()">
+                                        <input class="form-control" placeholder="นามสกุล" type="text" name="us_lname" id="us_lname" oninput="check_name()">
                                     </div>
                                     <span style='color:red' id="status_fname"></span>
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <div class="input-group input-group-merge input-group-alternative mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="ni ni-single-02"></i></span>
@@ -228,7 +236,7 @@
                                         </div>
                                         <input class="form-control" placeholder="เบอร์โทรศัพท์" type="text" name="tel" id="tel" required>
                                     </div>
-                                </div>
+                                </div> -->
                                 <hr>
                                 <div class="form-group">
                                     <div class="input-group input-group-merge input-group-alternative mb-3">
@@ -244,18 +252,31 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                                         </div>
-                                        <input class="form-control" placeholder="รหัสผ่าน" type="password" name="us_password" id="us_password">
+                                        <input class="form-control" type="password" name="us_password" id="us_password" placeholder="รหัสผ่านอย่างน้อย 8 ตัวอักษร" minlength="8" onkeyup="confirm_pass()">
                                     </div>
                                 </div>
-                                <div class="text-muted font-italic"><small>password strength: <span class="text-success font-weight-700">strong</span></small></div>
+                                <div class="form-group">
+                                    <div class="input-group input-group-merge input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                        </div>
+                                        <input class="form-control" placeholder="ยืนยันรหัสผ่าน" type="password" name="confirm_password" id="confirm_password" onkeyup="confirm_pass()">
+                                    </div>
+                                    <span style='color:red' id="invalid_password"></span>
+                                </div>
+                                <!-- <div class="text-muted font-italic"><small>password strength: <span class="text-success font-weight-700">strong</span></small></div> -->
                                 <div class="row my-4">
                                     <div class="col-12">
-                                        <div class="custom-control custom-control-alternative custom-checkbox">
-                                            <input class="custom-control-input" id="customCheckRegister" type="checkbox">
+                                        <!-- <div class="custom-control custom-control-alternative custom-checkbox">
+                                            <input class="custom-control-input" id="customCheckRegister" type="checkbox" required="required">
                                             <label class="custom-control-label" for="customCheckRegister">
-                                                <span class="text-muted">ฉันเห็นด้วยกับ<a href="#!">ข้อกำหนดการใช้งาน</a></span>
+                                                <span class="text-muted">ยืนยันการอนุญาตให้ระบบสามารถจัดเก็บข้อมูลส่วนบุคคลของท่านจากการขอใช้บริการ <a href="">Privacy Policy</a></span>
                                             </label>
-                                        </div>
+                                        </div> -->
+                                        <div class="custom-control custom-control-alternative  custom-checkbox custom-control-inline">
+               <input name="uaccept" id="uaccept_0" type="checkbox" required="required" class="custom-control-input" value="pdpa"> 
+               <label for="uaccept_0" class="custom-control-label"><span class="text-muted">ยืนยันการอนุญาตให้ระบบสามารถจัดเก็บข้อมูลส่วนบุคคลของท่านจากการขอใช้บริการ</span> <a data-toggle="modal" data-target="#privacy"><u>Privacy Policy</u></a></label>
+          </div>
                                     </div>
                                 </div>
                                 <div class="text-center">
@@ -266,8 +287,38 @@
                     </div>
                 </div>
             </div>
+
+            <!--modal -->
+  <div class="modal fade" id="privacy" role="dialog">
+    <div class="modal-dialog"  style="max-width: 780px;">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" style="background: black ;color: white;">
+          <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+          <h4 class="modal-title text-muted">นโยบายความเป็นส่วนตัว (Privacy Policy) และการคุ้มครองข้อมูลส่วนบุคคล</h4>
         </div>
+        <div class="modal-body">
+            <h2>ddddddddddd<h2>
+            <p>
+dddd
+            <!--  รายละเอียดนโยบาย PDPA ของหน่วยงาน -->
+            </p>
+
+            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default text-muted" data-dismiss="modal">&times; ปิดหน้าต่าง</button>
+        </div>
+      </div>
+      
     </div>
+  </div>
+   <!-- modal -->
+        </div>
+        
+        
+    </div>
+    
     <!-- Footer -->
     <footer class="py-5" id="footer-main">
         <div class="container">
@@ -308,6 +359,9 @@
     <!-- Demo JS - remove this in your project -->
     <script src="../assets/js/demo.min.js"></script>
     <script>
+        var chk_password = 0;
+        var chk_name = 0;
+        var chk_username = 0;
     function check_username() {
         jQuery.ajax({
             url: "<?php echo "check_username.php" ?>",
@@ -347,6 +401,30 @@
     function submit_log() {
         if (confirm("ยืนยันการสมัครสมาชิก")) {
             document.getElementById("register").submit();
+        }
+    }
+
+    function confirm_pass() {
+        if ($('#us_password').val() != $('#confirm_password').val() && $('#confirm_password').val() == null || $('#confirm_password').val() == "") {
+            $('#invalid_password').text('');
+            chk_password = 1;
+            check_btn_submit();
+        } else if ($('#us_password').val() != $('#confirm_password').val()) {
+            $('#invalid_password').text('รหัสผ่านไม่ถูกต้อง');
+            chk_password = 1;
+            check_btn_submit();
+        } else {
+            $('#invalid_password').text('');
+            chk_password = 0;
+            check_btn_submit();
+        }
+    }
+
+    function check_btn_submit() {
+        if (chk_password == 1 || chk_username == 1 || chk_name == 1) {
+            $('#cf_btn').prop('disabled', true);
+        } else {
+            $('#cf_btn').prop('disabled', false);
         }
     }
     </script>

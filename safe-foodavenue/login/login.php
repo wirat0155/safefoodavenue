@@ -111,7 +111,7 @@ error_reporting(E_ALL & ~E_WARNING);
                                   <!-- <span class="btn-inner--text">Line</span> -->
                                 </a>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="">
+                                <a href="fb-index.php">
                                  <img src="../assets/img/icons/common/facebook.svg">
                                   <!-- <span class="btn-inner--text">Facebook</span> -->
                                 </a>

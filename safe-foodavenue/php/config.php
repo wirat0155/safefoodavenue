@@ -14,6 +14,7 @@
   $client->addScope("email");
   $client->addScope("profile");
 
+  
   // DB configuration
   $serverName = "db";
   $username = "manpower";
