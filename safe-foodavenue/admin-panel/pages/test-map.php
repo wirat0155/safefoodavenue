@@ -4,11 +4,7 @@
     $arr_result =  array();
 
 
-    $sql = "SELECT COUNT(`res_id`), `block_id`, `block_title`, `block_lat`, `block_lon` FROM `sfa_block`
-    LEFT JOIN `sfa_restaurant` ON `sfa_block`.`block_id` = `sfa_restaurant`.`res_block_id`
-    WHERE block_lat <> ''
-    GROUP BY `block_id`
-    HAVING COUNT(`res_id`) != 0";
+    $sql = "SELECT * FROM sfa_block WHERE block_lat <> ''";
     $arr_block = mysqli_query($con, $sql); 
     while($obj_block = mysqli_fetch_assoc($arr_block)){
         $arr_block_data = array();
@@ -47,5 +43,7 @@
         array_push($arr_restaurant_data, $obj_restaurant["res_id"], $obj_restaurant["res_title"], $obj_restaurant["res_lat"], $obj_restaurant["res_lon"], $obj_restaurant["res_for_status"], "res_id", 1);
         array_push($arr_result, $arr_restaurant_data);
     }
-    echo json_encode($arr_result);
+    echo "<pre>";
+    print_r($arr_result);
+    echo "</pre>";
 ?>

@@ -18,6 +18,8 @@
 <div id="map" class="map-canvas"></div>
 
 <script>
+    console.log("this is map");
+
 // Initialize and add the map 
 function getLocationData() {
     var fetch_location = [];
