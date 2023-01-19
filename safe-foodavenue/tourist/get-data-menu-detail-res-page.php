@@ -1,8 +1,10 @@
 <?php
 header('Content-Type: application/json');
 require("../php/config.php");
+include("date_helper.php");
 
 $response["data_menu"] = array(); //Array ร้านอาหาร
+$response["data_date_check"] = array();
 
 //check parameter
 if (isset($_POST["res_id"])) {
@@ -18,6 +20,8 @@ if (isset($_POST["res_id"])) {
     while ($row_menu = $query->fetch_assoc()) {
    
       array_push($response["data_menu"], $row_menu);
+      array_push($response["data_date_check"],to_format($row_menu['status']));
+   
     }
 
 

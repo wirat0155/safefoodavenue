@@ -88,7 +88,57 @@
         display: inline-block;
         text-align: left;
     }
+
+    .loader_bg {
+        position: fixed;
+        z-index: 9999999;
+        background: #fff;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .loader4 {
+        width: 200px;
+        height: 200px;
+        margin-top: 6rem;
+        position: absolute;
+        padding: 0px;
+        border-radius: 100%;
+        border: 5px solid;
+        border-top-color: rgba(246, 36, 89, 1);
+        border-bottom-color: rgba(255, 255, 255, 0.3);
+        border-left-color: rgba(246, 36, 89, 1);
+        border-right-color: rgba(255, 255, 255, 0.3);
+        -webkit-animation: loader4 1s ease-in-out infinite;
+        animation: loader4 1s ease-in-out infinite;
+    }
+
+    @keyframes loader4 {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    @-webkit-keyframes loader4 {
+        from {
+            -webkit-transform: rotate(0deg);
+        }
+
+        to {
+            -webkit-transform: rotate(360deg);
+        }
+    }
 </style>
+
+
 
 <!-- Header -->
 <div class="header bg-primary pb-6">
@@ -99,13 +149,13 @@
                     <h6 class="h2 text-white d-inline-block mb-0">รายการร้านอาหาร</h6>
                     <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                            <li class="breadcrumb-item"><a href="https://prepro.informatics.buu.ac.th/~manpower/safe-foodavenue"><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href=""><i class="fas fa-home"></i></a></li>
                             <li class="breadcrumb-item"><a href="?content=disp-block-map">หน้าแรก</a></li>
                             <li class="breadcrumb-item active" aria-current="page">รายการร้านอาหาร</li>
                         </ol>
                     </nav>
                 </div>
-              
+
             </div>
         </div>
     </div>
@@ -114,8 +164,17 @@
 
 <div class="container-fluid mt--6">
     <div class="row">
+        
         <div class="col">
             <div class="card border-0">
+
+                <div class="loader_bg py-4 px-4 border-0 justify-content-center">
+                    <div class="row">
+                        <div class="col">
+                            <span class="loader4"></span>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="table-responsive py-4 px-4">
 
@@ -396,6 +455,11 @@
 
     function get_res_list_data(query = '', page_number, provinces = '', amphures = '', districts = '', zone = '', star = '') {
         // alert(page_number);
+
+
+        $('.loader_bg').fadeToggle();
+
+
         $.ajax({
             url: "./get-restaurant-list.php",
             method: "POST",
@@ -413,6 +477,7 @@
                 console.log(data);
 
                 set_data_in_page(data)
+                $('.loader_bg').hide();
 
             },
             error: function() {
@@ -466,7 +531,7 @@
                 if (row_res.srs_count != null && row_res.srs_sum_review != null) {
 
                     let score = row_res.srs_sum_review / row_res.srs_count;
-                    let whole_star =  Math.floor(score);
+                    let whole_star = Math.floor(score);
                     var haft_star = (whole_star < score);
 
 
@@ -478,8 +543,8 @@
                     if (haft_star) {
                         let class_name = 'fa-star-half';
                         html += '<i class="fas fa-star text-warning ' + class_name + ' mr-1"></i>';
-                        final_loop = whole_star + 1;
-                    }else{
+                        final_loop = whole_star;
+                    } else {
                         final_loop = whole_star;
                     }
 
@@ -492,7 +557,7 @@
 
                     }
 
-                
+
 
                 } else {
                     html += '<span>ไม่มีรีวิว</span>';
@@ -526,7 +591,6 @@
             html += ' </div>     ';
 
             $('#list_res').html(html);
-            $('#rateit').rateit('value', avg_rating, 'max', 5)
             $('#page_next').html(data.page);
 
         } else {
