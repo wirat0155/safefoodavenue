@@ -1,16 +1,3 @@
-<!-- =========================================================
-* Argon Dashboard PRO v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-pro
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
 <!DOCTYPE html>
 <html>
 
@@ -20,26 +7,40 @@
     <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
     <meta name="author" content="Creative Tim">
     <title>Safe Food Avenue | BUU</title>
-    <!-- Favicon -->
     <link rel="icon" href="./assets/img/brand/favicon.png" type="image/png">
-    <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
     <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
-    <!-- Icons -->
     <link rel="stylesheet" href="./assets/vendor/nucleo/css/nucleo.css" type="text/css">
     <link rel="stylesheet" href="./assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
-    <!-- Page plugins -->
-    <!-- Argon CSS -->
     <link rel="stylesheet" href="./assets/css/argon.css?v=1.1.0" type="text/css">
-    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADQJLBR2n_WOLPbxOmLLSvR6XN0AibN-0&callback=initMap"></script >--> 
-
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsQsJq6QLsJRyETeDLBLyc6Wx73snZPIo&callback=initMap"></script> 
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsQsJq6QLsJRyETeDLBLyc6Wx73snZPIo&callback=initMap"></script>  -->
+
 </head>
 
 <style>
-body {
-    font-family: 'Prompt';
-}
+    body {
+        font-family: 'Prompt';
+    }
+    /* width */
+    ::-webkit-scrollbar {
+    width: 6px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+    background: #ccc; 
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+    }
 </style>
 
 <body>
@@ -51,7 +52,6 @@ body {
             </a>
             <div class="col-3">
             <img src="./assets/img/brand/logo-saensuk.jpg">
-            <!-- <img src="./assets/img/brand/AHS_BUU_Logo.png"> -->
             <img src="./assets/img/brand/Buu-logo11.png">
             <img src="./assets/img/brand/Research-innovation.png">
             </div>
@@ -75,67 +75,9 @@ body {
                     </div>
                 </div>
                 <ul class="navbar-nav mr-auto">
-                    <!-- <li class="nav-item">
-            <a href="./pages/dashboards/dashboard.html" class="nav-link">
-              <span class="nav-link-inner--text text-primary">Dashboard</span>
-            </a>
-          </li> -->
-                    <!-- <li class="nav-item">
-            <a href="./pages/examples/pricing.html" class="nav-link">
-              <span class="nav-link-inner--text text-primary">Pricing</span>
-            </a>
-          </li> -->
-
-                    <!-- <li class="nav-item">
-            <a href="./pages/examples/lock.html" class="nav-link">
-              <span class="nav-link-inner--text text-primary">Lock</span>
-            </a>
-          </li> -->
                 </ul>
                 <hr class="d-lg-none" />
                 <ul class="navbar-nav align-items-lg-center ml-lg-auto">
-                    <!-- <li class="nav-item">
-                        <a href="./tourist/login_tourist.php" class="nav-link">
-                            <span class="nav-link-inner--text text-primary">เข้าสู่ระบบ</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="./tourist/register_tourist.php" class="nav-link">
-                            <span class="nav-link-inner--text text-primary">ลงทะเบียน</span>
-                        </a>
-                    </li> -->
-                    <!-- <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="https://www.facebook.com/creativetim" target="_blank" data-toggle="tooltip" title="" data-original-title="Like us on Facebook">
-              <i class="fab fa-facebook-square text-primary"></i>
-              <span class="nav-link-inner--text d-lg-none">Facebook</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="https://www.instagram.com/creativetimofficial" target="_blank" data-toggle="tooltip" title="" data-original-title="Follow us on Instagram">
-              <i class="fab fa-instagram text-primary"></i>
-              <span class="nav-link-inner--text d-lg-none">Instagram</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="https://twitter.com/creativetim" target="_blank" data-toggle="tooltip" title="" data-original-title="Follow us on Twitter">
-              <i class="fab fa-twitter-square text-primary"></i>
-              <span class="nav-link-inner--text d-lg-none">Twitter</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="https://github.com/creativetimofficial" target="_blank" data-toggle="tooltip" title="" data-original-title="Star us on Github">
-              <i class="fab fa-github text-primary"></i>
-              <span class="nav-link-inner--text d-lg-none">Github</span>
-            </a>
-          </li> -->
-                    <!-- <li class="nav-item d-none d-lg-block ml-lg-4">
-            <a href="https://www.creative-tim.com/product/argon-dashboard-pro" target="_blank" class="btn btn-neutral btn-icon">
-              <span class="btn-inner--icon">
-                <i class="fas fa-shopping-cart mr-2"></i>
-              </span>
-              <span class="nav-link-inner--text">Purchase now</span>
-            </a>
-          </li> -->
                 </ul>
             </div>
         </div>
@@ -155,7 +97,6 @@ body {
                                 <div class="mt-5">
                                     <a href="./login/login.php" class="btn btn-neutral my-2">เข้าสู่ระบบ</a>
                                     <a href="./tourist/register_tourist.php" class="btn btn-default my-2">ลงทะเบียน</a>
-                                    <!-- <a href="./expert-panel" class="btn btn-primary my-2">ผู้เชี่ยวชาญ</a> -->
                                 </div>
                             </div>
                         </div>
@@ -164,7 +105,6 @@ body {
                                 <div class="col-md">
                                     <div class="card" style="border-radius: 1.5rem;">
                                         <div class="card-body" >
-                                            
                                             <div class="row">
                                                 <div class="col-md">
                                                     <h2>ความสำคัญของการปนเปื้อนฟอร์มาลินในอาหารทะเล</h2>
@@ -204,15 +144,25 @@ body {
             </div>
         </div>
 
-        <section class="py-6 pb-9 bg-default">
-            <div class="row justify-content-center text-center">
-                <div class="col-md-6">
+        <section class="py-6 pb-9 bg-default px-3">
+            <div class="row">
+                <div class="col">
                     <h2 class="display-3 text-white">แผนที่แสดงร้านอาหารปลอดสารฟอร์มาลิน</h3>
                 </div>
             </div>
-            <div class="row justify-content-md-center">
-                <div class="col-md-8 text-center">
+
+            <div class="row">
+                <div class="col-12 col-xl-9 p-0" id="map-panel">
                     <?php require("./tourist/pages/block-map.php"); ?>
+                </div>
+                <div class="col-12 col-xl-3 p-0" id="click-map-panel">
+                    <div id="map-restaurant-panel" style="background-color: white; height: 70vh; overflow-y: auto;" class="p-1">
+                        <?php
+                        for ($i = 0; $i < 100; $i++) {
+                            echo "restaurant panel" . "<br>";
+                        }
+                        ?>
+                    </div>
                 </div>
             </div>
         </section>
@@ -239,7 +189,6 @@ body {
                         </div>
                     </div>
                     <div class="col-md-6 py-2">
-                        <!-- <iframe width="100%" height="315" src="https://www.youtube.com/embed/PqsHI_SU0V4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
                         <video width="100%" height="315" controls>
                             <source src="./assets/img/formalin_kit_video.mp4" type="video/mp4">
                             Your browser does not support the video tag.
@@ -307,7 +256,6 @@ body {
                 </div>
                 <div class="row row-grid align-items-center">
                     <div class="col-md-6 border-right" style="border-width:5px !important; border-color: #c0cf39 !important; padding: 4rem 0px;">
-
                         <div class="row justify-content-md-center">
                             <div class="col-md-6">
                                 <a href="https://www.facebook.com/Innosens-2021-CO-LTD-จำหน่ายชุดทดสอบสารปนเปื้อนในอาหาร-108295175196433/" target="_blank">
@@ -333,7 +281,6 @@ body {
                                 </a>
                             </div>
                         </div>
-
                     </div>
                     <div class="col-md-6 text-center">
                         <div class="border border-success" style="width:50%; border-width:5px !important; margin:0px auto;">
@@ -360,315 +307,14 @@ body {
                 </div>
             </div>
         </section>
-
-        <!-- <section class="section">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-12">
-                        <div class="row justify-content-lg-center">
-
-                            <div class="col-lg-4">
-                                <div class="card card-lift--hover shadow border-0">
-                                    <div class="card-body py-5">
-                                        <div class="icon icon-shape bg-gradient-success text-white rounded-circle mb-4">
-                                            <i class="ni ni-shop"></i>
-                                        </div>
-                                        <h4 class="h3 text-success text-uppercase">ร้านอาหาร</h4>
-                                        <p class="description mt-3">“รวม 140 ร้านเด็ด ทั่วบางแสน” ที่คัดมาแล้วว่าสด สะอาด ปลอดสารฟอร์มาลิน</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4">
-                                <div class="card card-lift--hover shadow border-0">
-                                    <div class="card-body py-5">
-                                        <div class="icon icon-shape bg-gradient-primary text-white rounded-circle mb-4">
-                                            <i class="ni ni-like-2"></i>
-                                        </div>
-                                        <h4 class="h3 text-primary text-uppercase">อร่อย ปลอดภัย โดนใจ</h4>
-                                        <p class="description mt-3">รางวัลสุดยอดร้านอาหารอร่อย ปลอดภัย โดนใจ ที่การันตีโดยรีวิว เรตติ้ง จากผู้ใช้งานระบบ
-                                            เราจึงขอเป็นสื่อกลางเฟ้นหาร้านอาหารที่ดีที่สุด </p>
-                                        <div>
-                                            <span class="badge badge-pill badge-primary">เครื่องหมาย</span>
-                                            <span class="badge badge-pill badge-primary">Certification (CERT)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section> -->
-
-        <!-- <section class="py-6">
-            <div class="container">
-                <div class="row row-grid align-items-center">
-                    <div class="col-md-6 order-md-2">
-                        <img src="./assets/img/theme/landing-8.jpg" class="img-fluid">
-                    </div>
-                    <div class="col-md-6 order-md-1">
-                        <div class="pr-md-5">
-                            <h1> Introduction</h1>
-                            <p>ระบบระบบสารสนเทศนี้ได้มีการตรวจวิเคราะห์หาสารฟอร์มาลินที่เจือปนในอาหารทะเลที่จำหน่ายในบริเวณเขตเทศบาลเมืองแสนสุข จ.ชลบุรี
-                                และระบบสารสนเทศสำหรับการจัดระดับคุณภาพ มาตรฐาน และความพึงพอใจต่อร้านอาหารในระบบ
-                                เพื่อให้ข้อมูลแก่นักท่องเที่ยวในการตรวจสอบร้านอาหารที่มีความปลอดภัยและสุขใจเมื่อได้รับประทาน</p>
-                            <ul class="list-unstyled mt-5">
-                                <li class="py-2">
-                                    <div class="d-flex align-items-center">
-                                        <div>
-                                            <div class="badge badge-circle badge-success mr-3">
-                                                <i class="ni ni-like-2"></i>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <h4 class="mb-0">อาหารสด สะอาด ปลอดสารฟอร์มาลิน</h4>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="py-2">
-                                    <div class="d-flex align-items-center">
-                                        <div>
-                                            <div class="badge badge-circle badge-success mr-3">
-                                                <i class="ni ni-building"></i>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <h4 class="mb-0">สนับสนุนการท่องเที่ยวของท้องถิ่น</h4>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="py-2">
-                                    <div class="d-flex align-items-center">
-                                        <div>
-                                            <div class="badge badge-circle badge-success mr-3">
-                                                <i class="ni ni-world"></i>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <h4 class="mb-0">อนุรักษ์ประเพณี และสิ่งแวดล้อม</h4>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section> -->
-
-        <!-- <section class="py-6">
-            <div class="container">
-                <div class="row row-grid align-items-center">
-                    <div class="col-md-6">
-                        <img src="./assets/img/theme/landing-4.jpg" class="img-fluid">
-                    </div>
-                    <div class="col-md-6">
-                        <div class="pr-md-5">
-                            <h1>ร้านอาหาร</h1>
-                            <p>“รวม 140 ร้านเด็ด ทั่วบางแสน” ที่คัดมาแล้วว่าสด สะอาด ปลอดสารฟอร์มาลิน</p>
-                            <a href="./tourist/index.php?content=list-restaurant" class="font-weight-bold text-warning mt-5">ดูทั้งหมด >> </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section> -->
-        <!-- <section class="py-6">
-            <div class="container">
-                <div class="row row-grid align-items-center">
-                    <div class="col-md-6 order-md-2">
-                        <img src="./assets/img/theme/landing-6.jpg" class="img-fluid">
-                    </div>
-                    <div class="col-md-6 order-md-1">
-                        <div class="pr-md-5">
-                            <h1>สถานที่ท่องเที่ยว</h1>
-                            <p>ตำบลแสนสุขเต็มไปด้วยสถานที่ให้ท่องเที่ยว พิพิธภัณฑ์สัตว์น้ำ ตลาดคนเดิน และธรรมชาติอีกมากมาย</p>
-                            <a href="./pages/widgets.html" class="font-weight-bold text-info mt-5">ดูทั้งหมด >> </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="py-6">
-            <div class="container">
-                <div class="row row-grid align-items-center">
-                    <div class="col-md-6">
-                        <img src="./assets/img/theme/landing-5.jpg" class="img-fluid">
-                    </div>
-                    <div class="col-md-6">
-                        <div class="pr-md-5">
-                            <h1>กิจกรรมกีฬา</h1>
-                            <p>พบกับงานวิ่งมาราธอน ปั่นจักรยาน แข่งรถ การแข่งขันกีฬาทางน้ำ และกีฬาอีกมากมาย</p>
-                            <a href="./pages/examples/profile.html" class="font-weight-bold text-warning mt-5">ดูทั้งหมด >> </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="py-6">
-            <div class="container">
-                <div class="row row-grid align-items-center">
-                    <div class="col-md-6 order-md-2">
-                        <img src="./assets/img/theme/landing-7.jpg" class="img-fluid">
-                    </div>
-                    <div class="col-md-6 order-md-1">
-                        <div class="pr-md-5">
-                            <h1>เทศกาลท้องถิ่น</h1>
-                            <p>อีกทั้งยังมีงานเทศกาลต่างๆ เช่น วันไหลบางแสน บางแสนเคาท์ดาวน์</p>
-                            <a href="./pages/widgets.html" class="font-weight-bold text-info mt-5">ดูทั้งหมด >> </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section> -->
-
-        
-        <!-- <section class="py-7 section-nucleo-icons bg-white overflow-hidden">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-6 text-center">
-                        <h2 class="display-3">ท่องเที่ยวบางแสน</h2>
-                
-                        <style>
-                        .search-panel {
-                            position: relative;
-                        }
-
-                        .search-icon {
-                            position: absolute;
-                            font-size: 24px;
-                            top: 10px;
-                            right: 10px;
-                            cursor: pointer;
-                            transition: all .5s ease;
-                        }
-
-                        .search-icon:hover {
-                            color: #5e72e4;
-                        }
-                        </style>
-
-                        <div>
-                            <div class="search-panel">
-                                <input type="text" class="form-control text-center" style="padding-right: 3rem;" name="txtSearch" placeholder="ค้นหาร้านอาหาร หรือสถานที่ท่องเที่ยว" value="">
-                                <i class="fa fa-search search-icon"></i>
-                            </div>
-                        </div>
-                        <div class="btn-wrapper my-3">
-                            <button type="button" class="btn btn-primary">ค้นหา</button>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="blur--hover">
-                    <a href="./tourist/?content=disp-block-map">
-                        <div class="icons-container blur-item mt-5">
-                            <i class="icon ni ni-square-pin"></i>
-                            <i class="icon icon-sm ni ni-building"></i>
-                            <i class="icon icon-sm ni ni-bus-front-12"></i>
-                            <i class="icon icon-sm ni ni-map-big"></i>
-                            <i class="icon ni ni-world"></i>
-                            <i class="icon ni ni-note-03"></i>
-                            <i class="icon ni ni-bag-17"></i>
-                            <i class="icon icon-sm fa fa-hotel"></i>
-                            <i class="icon icon-sm ni ni-shop"></i>
-                            <i class="icon icon-sm fa fa-bed"></i>
-                            <i class="icon fa fa-bath"></i>
-                            <i class="icon fa fa-coffee"></i>
-                            <i class="icon fa fa-shopping-cart"></i>
-                        </div>
-                        <span class="blur-hidden h5 text-success">สำรวจร้านที่ร่วมรายการมากกว่า 100+ แห่ง</span>
-                    </a>
-                </div>
-            </div>
-        </section> -->
-
-
-        <!-- <section class="py-7">
-      <div class="container">
-        <div class="row row-grid justify-content-center">
-          <div class="col-lg-8 text-center">
-            <h2 class="display-3">Do you love this awesome <span class="text-success">Dashboard for Bootstrap 4?</span></h2>
-            <p class="lead">Cause if you do, it can be yours now. Hit the button below to navigate to get the free version or purchase a license for your next project. Build a new web app or give an old Bootstrap project a new look!</p>
-            <div class="btn-wrapper">
-              <a href="https://www.creative-tim.com/product/argon-dashboard" class="btn btn-neutral mb-3 mb-sm-0" target="_blank">
-                <span class="btn-inner--text">Get FREE version</span>
-              </a>
-              <a href="https://www.creative-tim.com/product/argon-dashboard-pro" class="btn btn-primary btn-icon mb-3 mb-sm-0">
-                <span class="btn-inner--icon"><i class="ni ni-basket"></i></span>
-                <span class="btn-inner--text">Purchase now</span>
-                <span class="badge badge-md badge-pill badge-floating badge-danger border-white">$79</span>
-              </a>
-            </div>
-            <div class="text-center">
-              <h4 class="display-4 mb-5 mt-5">Available on these technologies</h4>
-              <div class="row justify-content-center">
-                <div class="w-10 mx-2 mb-2">
-                  <a href="https://www.creative-tim.com/product/argon-dashboard" target="_blank" data-toggle="tooltip" data-original-title="Bootstrap 4 - Most popular front-end component library">
-                    <img src="https://s3.amazonaws.com/creativetim_bucket/tim_static_images/presentation-page/bootstrap.jpg" class="img-fluid rounded-circle shadow shadow-lg--hover">
-                  </a>
-                </div>
-                <div class="w-10 mx-2 mb-2">
-                  <a href=" https://www.creative-tim.com/product/vue-argon-dashboard" target="_blank" data-toggle="tooltip" data-original-title="Vue.js - The progressive javascript framework">
-                    <img src="https://s3.amazonaws.com/creativetim_bucket/tim_static_images/presentation-page/vue.jpg" class="img-fluid rounded-circle">
-                  </a>
-                </div>
-                <div class="w-10 mx-2 mb-2">
-                  <a href=" https://www.creative-tim.com/product/argon-dashboard" target="_blank" data-toggle="tooltip" data-original-title="Sketch - Digital design toolkit">
-                    <img src="https://s3.amazonaws.com/creativetim_bucket/tim_static_images/presentation-page/sketch.jpg" class="img-fluid rounded-circle">
-                  </a>
-                </div>
-                <div class="w-10 mx-2 mb-2">
-                  <a href=" https://www.creative-tim.com/product/argon-dashboard-angular" target="_blank" data-toggle="tooltip" data-original-title="Angular - One framework. Mobile &amp; desktop">
-                    <img src="https://s3.amazonaws.com/creativetim_bucket/tim_static_images/presentation-page/angular.jpg" class="img-fluid rounded-circle">
-                  </a>
-                </div>
-                <div class="w-10 mx-2 mb-2">
-                  <a href=" https://www.creative-tim.com/product/argon-dashboard-react" target="_blank" data-toggle="tooltip" data-original-title="React - A JavaScript library for building user interfaces">
-                    <img src="https://s3.amazonaws.com/creativetim_bucket/tim_static_images/presentation-page/react.jpg" class="img-fluid rounded-circle">
-                  </a>
-                </div>
-                <div class="w-10 mx-2 mb-2">
-                  <a href=" https://www.creative-tim.com/product/argon-dashboard-laravel" target="_blank" data-toggle="tooltip" data-original-title="Laravel - The PHP Framework For Web Artisans">
-                    <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/laravel_logo.png" class="img-fluid rounded-circle">
-                  </a>
-                </div>
-                <div class="w-10 mx-2 mb-2">
-                  <a href=" https://www.creative-tim.com/product/argon-dashboard-nodejs" target="_blank" data-toggle="tooltip" data-original-title="Node.js - a JavaScript runtime built on Chrome's V8 JavaScript engine">
-                    <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/nodejs-logo.jpg" class="img-fluid rounded-circle">
-                  </a>
-                </div>
-                <div class="w-10 mx-2 mb-2">
-                  <a href=" https://www.adobe.com/products/photoshop.html" target="_blank" data-toggle="tooltip" data-original-title="[Coming Soon] Adobe Photoshop - Software for digital images manipulation">
-                    <img src="https://s3.amazonaws.com/creativetim_bucket/tim_static_images/presentation-page/ps.jpg" class="img-fluid rounded-circle opacity-3">
-                  </a>
-                </div>
-              </div>
-              <div class="spinner-border" role="status">
-                <span class="sr-only">Loading...</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section> -->
     </div>
-   <?php require('tourist/footer.php');   ?>
-    <!-- Argon Scripts -->
-    <!-- Core -->
+   <?php require('tourist/footer.php'); ?>
     <script src="./assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="./assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./assets/vendor/js-cookie/js.cookie.js"></script>
     <script src="./assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
     <script src="./assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
-    <!-- Optional JS -->
     <script src="./assets/vendor/onscreen/dist/on-screen.umd.min.js"></script>
-    <!-- Argon JS -->
     <script src="./assets/js/argon.js?v=1.1.0"></script>
-    <!-- Demo JS - remove this in your project -->
-    <script src="./assets/js/demo.min.js"></script>
-    
 </body>
-
 </html>
