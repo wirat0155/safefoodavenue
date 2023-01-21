@@ -113,7 +113,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                         <div class="row">
                             <div class="col">
                                 <div class="" style="height: 500px;" id="res_img">
-                                    <img id="res_img_path" class="pic_fix" src="" alt="Test pic">
+                                 
                                 </div>
                             </div>
                         </div>
@@ -515,14 +515,20 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
         //set picture
         let html = '';
 
+        console.log("show");
         //set image null
         if (data[0] == null) {
             //defaul picture
-            document.getElementById("res_img_path").src = "../assets/img/theme/detail-banner-default.jpg";
-            html = '<img id="res_img_path" class="pic_fix" src="" alt="Test pic">';
+          //  document.getElementById("res_img_path").src = "../assets/img/theme/detail-banner-default.jpg";
+            html += '<img id="res_img_path" class="pic_fix" src="../assets/img/theme/detail-banner-default.jpg" alt="Test pic">';
         } else if (data[0] != null) {
-            document.getElementById("res_img_path").src = "../admin-panel/php/uploads/img/" + data[0].res_img_path;
+           // document.getElementById("res_img_path").src = "../admin-panel/php/uploads/img/" + data[0].res_img_path;
+
+            html += '<img id="res_img_path" class="pic_fix" src="../admin-panel/php/uploads/img/' + data[0].res_img_path + '"alt="Test pic">';
         }
+
+        $("#res_img").html(html);
+
         //modal_sfa_menu
     }
 

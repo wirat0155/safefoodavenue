@@ -3,6 +3,7 @@
     height: 70vh;
     width: 100%;
   }
+
   .maker-title {
     font-size: 20px;
     font-weight: bold;
@@ -23,9 +24,10 @@
   var map;
   var my_lat;
   var my_lon;
-  
-  $(document).ready(function(){
+
+  $(document).ready(function() {
     getLocation();
+
     function getLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
@@ -33,13 +35,13 @@
         console.log("Geolocation is not supported by this browser.");
       }
     }
-  
+
     function showPosition(position) {
       my_lat = position.coords.latitude;
       my_lon = position.coords.longitude;
       initMap(position.coords.latitude, position.coords.longitude);
     }
-  
+
     function get_block_location() {
       var fetch_location = []
       $.ajax({
@@ -49,6 +51,7 @@
         cache: false,
         async: false,
         success: function(block_data) {
+          // console.log(block_data);
           for (let i = 0; i < block_data.length; i++) {
             fetch_location.push(block_data[i])
           }
@@ -59,7 +62,7 @@
       });
       return fetch_location;
     }
-  
+
     function get_restaurant_data(block_id) {
       var returnData = []
       $.ajax({
@@ -79,10 +82,10 @@
           }
         }
       });
-  
+
       return returnData
     }
-    
+
     function initMap(my_lat, my_lon) {
       var locations = get_block_location();
       locations.push([0, "", my_lat, my_lon, 0, "user", 1]);
@@ -93,6 +96,7 @@
           visibility: "off"
         }]
       }];
+      //console.log(locations);
       map = new google.maps.Map(document.getElementById('map'), {
         zoom: 15,
         center: new google.maps.LatLng(my_lat, my_lon),
@@ -112,7 +116,7 @@
           strokeColor: '#333',
           scale: 12
         };
-  
+
         if (locations[i][5] == "user") {
           mIcon = "../../assets/img/brand/user.png";
         } else if (locations[i][4] == 1) {
@@ -127,28 +131,163 @@
 
           }
         }
-  
-        var num_restaurant = locations[i][5] == "block_id"  ? locations[i][6] : " ";
+
+        var num_restaurant = locations[i][5] == "block_id" ? locations[i][6] : " ";
         num_restaurant = num_restaurant.toString();
         marker = new google.maps.Marker({
           position: new google.maps.LatLng(locations[i][2], locations[i][3]),
           map: map,
           title: num_restaurant,
           icon: mIcon,
-          label: {color: '#000', fontSize: '12px', fontWeight: '400',
-            text: num_restaurant}
+          label: {
+            color: '#000',
+            fontSize: '12px',
+            fontWeight: '400',
+            text: num_restaurant
+          }
         });
-    
+
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
           return function() {
             console.log(locations[i][0], locations[i][5]);
-            $("#map-restaurant-panel").html("คุณคลิ๊ก " + locations[i][5] + " ที่ " + locations[i][0]);
+            // $("#map-restaurant-panel").html("คุณคลิ๊ก " + locations[i][5] + " ที่ " + locations[i][0]);
+            get_data_restarant_panel(locations[i][5], locations[i][0])
           }
         })(marker, i));
       }
     }
   });
+
   function relocation() {
     map.setCenter(new google.maps.LatLng(my_lat, my_lon));
+  }
+
+  function get_data_restarant_panel(res_location_type, id) {
+
+    // console.log(res_location_type + id)
+    $.ajax({
+      url: "./tourist/get_data_map.php",
+      method: "POST",
+      dataType: "JSON",
+      data: {
+        res_location_type: res_location_type,
+        id: id
+      },
+      success: function(data) {
+
+        // console.log(data);
+        show_data_block(data)
+        // show_province_dropdown(data);
+
+      },
+      error: function(error) {
+        //console.log("error")a}
+        alert(error);
+      }
+    })
+
+  }
+
+  function show_data_block(data) {
+    let html = '';
+
+    if (data != "No data") {
+
+      html += '  <div class="row text-center">';
+      //loop show data 
+      data.data_res.forEach((row_res, index_res) => {
+
+        html += '<div class="col-8 col-sm-6 col-md-6 col-lg-8 py-2">';
+        html += ' <a href="/tourist/index.php?content=detail-restaurant&id=' + row_res.res_id + '">';
+        html += ' <div class="card card-fix card-custom rounded-4 hover-zoom">';
+
+        if (row_res.res_img_path == null) {
+
+          html += '<img class="card-img-top" style="height: 200px; object-fit: cover;" src="../assets/img/theme/detail-banner-default.jpg" alt="Card image cap">';
+
+        } else {
+
+          html += ' <img class="card-img-top w-100" style="height: 200px; object-fit: cover;" src="' + '../admin-panel/php/uploads/img/' + row_res.res_img_path + '" alt="Card image cap">';
+
+        }
+        html += '<div class="card-body">';
+        html += '<div class="row">';
+        html += ' <div class="col col-sm-8 col-md-8 col-lg-6">';
+
+        if (row_res.res_for_status == 0) {
+          //   html += '   <span class="badge badge-success text-size-12  text-white">ปลอดภัยจากสารฟอมาลีน</span>';
+          html += '<img src="./../assets/img/icons/common/formalin.png" class="set-pic text-center" alt="test"> <br>';
+        } else {
+          html += '  <img src="./../assets/img/icons/common/formalin_not.png" class="set-pic text-center" alt="test">';
+        }
+
+        html += ' </div>';
+        html += '<div class="col col-sm-8 col-md-8 col-lg-6">';
+        html += '   <h4 class="text-center mt-2 text-size-11">';
+
+
+
+        if (row_res.srs_count != null && row_res.srs_sum_review != null) {
+
+          let score = row_res.srs_sum_review / row_res.srs_count;
+          let whole_star = Math.floor(score);
+          var haft_star = (whole_star < score);
+
+
+          for (var star = 1; star <= whole_star; star++) {
+            let class_name = 'text-warning';
+            html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
+          }
+
+          if (haft_star) {
+            let class_name = 'fa-star-half';
+            html += '<i class="fas fa-star text-warning ' + class_name + ' mr-1"></i>';
+            final_loop = whole_star;
+          } else {
+            final_loop = whole_star;
+          }
+
+          if (5 - (final_loop) > 0) {
+
+            for (var star = 0; star < 5 - final_loop; star++) {
+              let class_name = 'text-light';
+              html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
+            }
+
+          }
+
+        } else {
+          html += '<span>ไม่มีรีวิว</span>';
+        }
+
+
+        html += '   </h4>';
+        html += '</div>';
+        html += '</div>';
+        html += '<div class="row mt-2">';
+        html += '   <div class="col col-sm-12 col-md-12 col-lg-12">';
+        html += '       <h2 class="ml-2">' + row_res.res_title + '</h2>';
+        html += '    </div> ';
+        html += '</div>';
+        html += ' <div class="row">';
+        html += '     <div class="col">';
+        if (row_res.res_cat_title != null) {
+          html += '        <p class="ml-2 text-dark">' + row_res.res_cat_title + '</p>';
+        } else {
+          html += '        <p class="ml-2 text-dark">อื่น ๆ</p>';
+        }
+
+        html += '      </div>     ';
+        html += '</div>     ';
+        html += '</div>     ';
+        html += '</div>     ';
+        html += '</div>     ';
+
+      });
+      html += ' </a>';
+      html += ' </div>     ';
+
+      $('#res_list').html(html);
+    }
   }
 </script>

@@ -62,7 +62,7 @@ if (isset($_POST["res_id"])) {
     // เนื่องจากว่า ร้านมี block หรืออยู่แค่โซน
     // หรือไม่ได้อยู่ทั้ง 2 อย่าง
     // เลยต้องเช็คว่า เอาล๊อก หรือ เอา Location ร้านเอง
-    if ($row_res["res_block_id"] != NULL) {
+    if ($row_res["res_block_id"] != NULL AND $row_res["res_block_id"] != 0) {
 
         $sql_location = "SELECT block_lat AS lat, block_lon AS lon 
         FROM  `sfa_block` INNER JOIN `sfa_restaurant` 
@@ -76,9 +76,9 @@ if (isset($_POST["res_id"])) {
 
         //*** fix data */
     } else {
-        $row_test["lat"] = "13.2809816";
-        $row_test["lon"] = "100.9248775";
-        array_push($response["data_location"], $row_test);
+        $row_res_location["lat"] = $row_res["res_lat"] ;
+        $row_res_location["lon"] = $row_res["res_lon"] ;
+        array_push($response["data_location"], $row_res_location);
     }
 
 
