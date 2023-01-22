@@ -70,6 +70,8 @@
     $result = mysqli_query($con, $sql);
     $arr_restaurant = mysqli_fetch_array($result);
     $res_id = $arr_restaurant['res_id'];
+
+    $sql = "INSERT INTO `sfa_res_formalin_status`(`res_for_res_id`, `res_for_status`, `res_for_last_fcl_id`, `res_for_created_by`, `res_for_created_date`, `res_for_updated_by`, `res_for_updated_date`) VALUES ('$res_id', 1, 0,'[value-5]','[value-6]','[value-7]','[value-8]')"
     
 
     // upload image

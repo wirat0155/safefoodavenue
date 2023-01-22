@@ -15,7 +15,7 @@
         $block_id  = $obj_block["block_id"]; 
         $sql = "SELECT COUNT(`res_for_res_id`) AS `pass` FROM `sfa_res_formalin_status`
         LEFT JOIN `sfa_restaurant` ON `sfa_res_formalin_status`.`res_for_res_id` = `sfa_restaurant`.`res_id`
-        WHERE `sfa_res_formalin_status`.`res_for_status` = 1 AND `sfa_restaurant`.`res_block_id` = " . $block_id;  
+        WHERE `sfa_res_formalin_status`.`res_for_status` = 0 AND `sfa_restaurant`.`res_block_id` = " . $block_id;  
         $arr_res_formalin = mysqli_query($con, $sql);
         $obj_res_formalin = mysqli_fetch_assoc($arr_res_formalin);
 
@@ -25,12 +25,9 @@
         $num_restaurant = $obj_restaurant["num"];
         // echo $block_id . " สถานะ " . $obj_res_formalin["pass"];
         // echo "<br>";
-        
-        if ($obj_res_formalin["pass"] == 1) {
-            // ไม่ปลอดภัย
+        if ($obj_res_formalin["pass"] == "0") {
             array_push($arr_block_data, $obj_block["block_id"], $obj_block["block_title"], $obj_block["block_lat"], $obj_block["block_lon"], 1, "block_id", $num_restaurant);
         } else {
-            // ปลอดภัย
             array_push($arr_block_data, $obj_block["block_id"], $obj_block["block_title"], $obj_block["block_lat"], $obj_block["block_lon"], 0, "block_id", $num_restaurant);
         }
         array_push($arr_result, $arr_block_data);

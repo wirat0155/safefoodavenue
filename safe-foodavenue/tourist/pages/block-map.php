@@ -51,7 +51,7 @@
         cache: false,
         async: false,
         success: function(block_data) {
-          // console.log(block_data);
+          console.log(block_data);
           for (let i = 0; i < block_data.length; i++) {
             fetch_location.push(block_data[i])
           }
