@@ -27,6 +27,35 @@
     body {
         font-family: 'Prompt';
     }
+    .limit-char {
+        max-width: 24ch;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      @media only screen and (max-width: 720px) {
+        .limit-char {
+          max-width: 16ch;
+        }
+      }
+      @media only screen and (max-width: 360px) {
+        .limit-char {
+          max-width: 16ch;
+        }
+      }
+
+      
+    .card-fix {
+        max-height: 400px !important;
+        height: 400px !important;
+
+    }
+
+    .fix-a{
+        color: #fff !important;
+    }
+    .fix-a hover{
+        color: #fff;
+    }
 </style>
 
 
@@ -94,18 +123,17 @@
                             <h2 class="card-title">ร้านไกล้ฉัน</h2>
                         </div>
                         <div class="card-body">
-                          
-                                <div class="row">
-                                    <div class="" id="res_near_me"></div>
-                                </div>
 
+                        <div class="container">
+                        <div class="row">
+                                <div class="" id="list_res"></div>
+                            </div>
+                        </div>
+                            
 
-
-                          
-                           
                             <div class="row d-flex justify-content-end">
-                                <button class="btn btn-primary px-4 m-2" onClick="">
-                                    ดูทั้งหมด</button>
+                                <a class="btn btn-primary px-4 m-2 fix-a" href="./tourist/index.php?content=list-restaurant">
+                                    ดูทั้งหมด</a>
                             </div>
 
                         </div>
@@ -128,9 +156,12 @@
             </div>
             <div class="col-12 col-xl-3 p-0" id="click-map-panel">
                 <div id="map-restaurant-panel" style="background-color: white; height: 70vh; overflow-y: auto;" class="p-1 text-center">
-                    <div class="" id="res_list">
+                   <div class="container">
+                   <div class="" id="res_list">
                         <h1 class="mt-4">คลิกบนแผนที่เพื่อเลือกร้านอาหาร</h1>
                     </div>
+                   </div>
+                   
                 </div>
             </div>
         </div>
@@ -179,26 +210,24 @@
                         // The data object contains the full address of the location, including the province
                         const addressComponents = data.results[0].address_components;
 
-                        console.log(data.results[0].address_components);
+                        console.log(data.results[0].address_components[6].long_name);
+
+                        get_data_res_near_me(data.results[0].address_components[6].long_name)
 
                     });
-
-
             }
 
-            function get_data_res_near_me() {
+            function get_data_res_near_me(zip_code) {
                 $.ajax({
                     url: "./tourist/get_data_res_near_me.php",
                     method: "POST",
                     dataType: "JSON",
                     data: {
-                        res_location_type: res_location_type,
+                        zip_code: zip_code,
                     },
                     success: function(data) {
 
-                        // console.log(data);
-                       // show_data_block(data)
-                        // show_province_dropdown(data);
+                        show_res_data(data) 
 
                     },
                     error: function(error) {
@@ -207,16 +236,136 @@
                     }
                 })
             }
-
-
-
-
-
         });
 
 
-        function get_res_near_me() {
+        function show_res_data(data) {
+            // show data restaurant in page
+            let html = '';
 
+            if (data != "No data") {
+
+                html += '  <div class="row py-3">';
+                //loop show data 
+                data.data_res.forEach((row_res, index_res) => {
+
+                    html += '<div class="col-12 col-sm-6 col-md-6 col-lg-4 py-2">';
+                    html += ' <a href="/tourist/index.php?content=detail-restaurant&id=' + row_res.res_id + '">';
+                    html += ' <div class="card card-fix card-custom rounded-4 hover-zoom">';
+
+                    if (row_res.res_img_path == null) {
+
+                        html += '<img class="card-img-top" style="height: 200px; object-fit: cover;" src="../assets/img/theme/detail-banner-default.jpg" alt="Card image cap">';
+
+                    } else {
+
+                        html += ' <img class="card-img-top w-100" style="height: 200px; object-fit: cover;" src="' + '../admin-panel/php/uploads/img/' + row_res.res_img_path + '" alt="Card image cap">';
+
+                    }
+                    html += '<div class="card-body">';
+                    html += '<div class="row">';
+                    html += ' <div class="col col-sm-8 col-md-8 col-lg-6">';
+
+                    if (row_res.res_for_status == 0) {
+                        //   html += '   <span class="badge badge-success text-size-12  text-white">ปลอดภัยจากสารฟอมาลีน</span>';
+                        html += '<img src="./../assets/img/icons/common/formalin.png" class="set-pic text-center" alt="test"> <br>';
+                    } else {
+                        html += '  <img src="./../assets/img/icons/common/formalin_not.png" class="set-pic text-center" alt="test">';
+                    }
+
+                    html += ' </div>';
+                    html += '<div class="col col-sm-8 col-md-8 col-lg-6">';
+                    html += '   <h4 class="text-center mt-2 text-size-11">';
+
+
+
+                    if (row_res.srs_count != null && row_res.srs_sum_review != null) {
+
+                        let score = row_res.srs_sum_review / row_res.srs_count;
+                        let whole_star = Math.floor(score);
+                        var haft_star = (whole_star < score);
+
+
+                        for (var star = 1; star <= whole_star; star++) {
+                            let class_name = 'text-warning';
+                            html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
+                        }
+
+                        if (haft_star) {
+                            let class_name = 'fa-star-half';
+                            html += '<i class="fas fa-star text-warning ' + class_name + ' mr-1"></i>';
+                            final_loop = whole_star;
+                        } else {
+                            final_loop = whole_star;
+                        }
+
+                        if (5 - (final_loop) > 0) {
+
+                            for (var star = 0; star < 5 - final_loop; star++) {
+                                let class_name = 'text-light';
+                                html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
+                            }
+
+                        }
+
+                    } else {
+                        html += '<span>ไม่มีรีวิว</span>';
+                    }
+
+
+                    html += '   </h4>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '<div class="row mt-2">';
+                    html += '   <div class="col col-sm-12 col-md-12 col-lg-12">';
+                    html += '       <h2 class="ml-2 limit-char">' + row_res.res_title + '</h2>';
+                    html += '    </div> ';
+                    html += '</div>';
+                    html += ' <div class="row">';
+                    html += '     <div class="col">';
+                    if (row_res.res_cat_title != null) {
+                        html += '        <p class="ml-2 text-dark">' + row_res.res_cat_title + '</p>';
+                    } else {
+                        html += '        <p class="ml-2 text-dark">อื่น ๆ</p>';
+                    }
+
+                    html += '      </div>     ';
+                    html += '</div>     ';
+                    html += '</div>     ';
+                    html += '</div>     ';
+                    html += '</div>     ';
+
+                });
+                html += ' </a>';
+                html += ' </div>     ';
+
+                $('#list_res').html(html);
+
+
+            } else {
+
+                html += '<div class="container p-9">';
+                html += '<div class="row text-center">';
+                html += '<div class="col text-center">';
+                html += '<h1>ไม่พบร้านค้า จากการค้นหานี้</h1>';
+                html += '</div>';
+                html += '</div>';
+                html += '<div class="row mt-4 text-center">';
+                html += '<div class="col text-center">';
+                html += '<h3>ฉันควรทำอย่างไรต่อไป : </h3>';
+
+                html += '<ul class = "list-group border-0 fixul" > ';
+                html += '<li class = "list-group-item border-0" >1. ใช้คำค้นหาที่ไม่เจาะจงเกินไป </li>';
+                html += '<li class = "list-group-item border-0" >2. เปลี่ยนตัวเลือกพื้นที่ </li>';
+                html += '</ul>';
+                html += '</div>';
+                html += '</div>';
+                html += '</div>';
+
+
+                $('#list_res').html(html);
+
+            }
         }
     </script>
 </body>

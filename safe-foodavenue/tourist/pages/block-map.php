@@ -197,7 +197,7 @@
       //loop show data 
       data.data_res.forEach((row_res, index_res) => {
 
-        html += '<div class="col-8 col-sm-6 col-md-6 col-lg-8 py-2">';
+        html += '<div class="col-12 col-md-4 col-xl-12 py-2">';
         html += ' <a href="/tourist/index.php?content=detail-restaurant&id=' + row_res.res_id + '">';
         html += ' <div class="card card-fix card-custom rounded-4 hover-zoom">';
 
