@@ -414,6 +414,7 @@
                 $("#res_zone_id").append(option);
             }
             get_block();
+            check_name_restaurant();
         }
 
         function show_block_dropdown(arr_block) {
