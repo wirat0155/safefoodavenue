@@ -56,7 +56,7 @@
             </a>
 
             <div class="col-6">
-                <img src="./assets/img/brand/logo-saensuk.jpg">
+                <img src="./assets/img/brand/logo-saensuk.png">
                 <!-- <img src="./assets/img/brand/AHS_BUU_Logo.png"> -->
                 <img src="./assets/img/brand/Buu-logo11.png">
                 <img src="./assets/img/brand/Research-innovation.png">
