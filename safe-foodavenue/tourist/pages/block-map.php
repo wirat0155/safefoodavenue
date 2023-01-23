@@ -175,7 +175,7 @@
       },
       success: function(data) {
 
-        // console.log(data);
+        console.log(data);
         show_data_block(data)
         // show_province_dropdown(data);
 

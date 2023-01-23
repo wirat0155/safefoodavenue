@@ -15,7 +15,7 @@ services:
 
   php:
     container_name: lemp_php_formalin
-    image: safefoodavenue
+    image: sun0155/docker-repo:safefoodavenue
     restart: unless-stopped
     volumes:
       - ./safe-foodavenue/:/var/www/html
