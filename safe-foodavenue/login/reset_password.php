@@ -9,7 +9,7 @@ error_reporting(E_ALL & ~E_WARNING);
     session_start();
     require("../php/config.php");
     
-    require_once('LineLogin.php');
+    //require_once('LineLogin.php');
     // require("config.php");
     ?>
 
@@ -79,6 +79,13 @@ error_reporting(E_ALL & ~E_WARNING);
             </div>
         </div>
     </nav>
+<?php
+$token = $_GET["token"];
+
+$sql = "SELECT * FROM sfa_user WHERE us_password = " . $token;
+$dbToken = mysqli_query($con, $sql);
+$token_data = mysqli_fetch_array($dbToken);
+?>
     <!-- Main content -->
     <div class="main-content" id="panel">
         <div class="container-fluid page-body-wrapper full-page-wrapper" style="margin:  auto;">
@@ -93,47 +100,27 @@ error_reporting(E_ALL & ~E_WARNING);
                                     <img src="../assets/img/brand/plogo.png" style="width: 100%;">
                                 </div>
                             </div> -->
-                            <div class="text-muted"><h2>เข้าสู่ระบบ</h2></div>
-                            <div class="justify-content-center row">
-                              <div class="btn-wrapper text-center">
-                      
-                                <a href="<?php echo $client->createAuthUrl(); ?>">
-                                  <img src="../assets/img/icons/common/google.svg">
-                                  <!-- <span class="btn-inner--text">Google</span>  -->
-                                </a>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <?php
-                                $line = new LineLogin();
-                                $link = $line->getLink();?>
-                                <a href="./index1.php"
-                             >
-                               <img src="../assets/img/icons/common/line.svg" style="width: 36px; height: 36px;">
-                                  <!-- <span class="btn-inner--text">Line</span> -->
-                                </a>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="fb-index.php">
-                                 <img src="../assets/img/icons/common/facebook.svg">
-                                  <!-- <span class="btn-inner--text">Facebook</span> -->
-                                </a>
-                              </div>
-                            </div>
-                            <hr>
-                            <div class="text-muted text-center mt-2 mb-3"><h2>หรือเข้าสู่ระบบด้วย</h2></div>
-                            <form action="./do_login.php" method="post" class="pt-3">
+                            <div class="text-muted"><h2>เปลี่ยนรหัสผ่าน</h2></div>
+                            <form action="./update_password.php" enctype="multipart/form-data" method="post" class="pt-3">
+                            <!-- <?php echo $token ;?> -->
+                            <input type="text" name="token" value="<?php echo $token_data["us_password"] ?>" hidden>
+                            <!-- <input type="hidden" class="form-control form-control-lg" id="token" value="<?php echo $token ?>"> -->
                               <div class="form-group">
-                                <input type="text" class="form-control form-control-lg" id="txtUsername" name="txtUsername" placeholder="ชื่อผู้ใช้งาน">
+                                <input type="password" class="form-control form-control-lg" id="us_password" name="us_password" placeholder="รหัสผ่านใหม่อย่างน้อย 8 ตัวอักษร" minlength="8" onkeyup="confirm_pass()">
                               </div>
                               <div class="form-group">
-                                <input type="password" class="form-control form-control-lg" id="txtPassword" name="txtPassword" placeholder="รหัสผ่าน">
+                                <input type="password" class="form-control form-control-lg" id="confirm_password" name="confirm_password" placeholder="ยืนยันรหัสผ่าน" onkeyup="confirm_pass()">
+                                <span style='color:red' id="invalid_password"></span>
                               </div>
-                              <div class="text font-weight-light"><a href="./forgot_password.php">
-                                ลืมรหัสผ่าน? </a>
-                              </div>
+                              
                               <div class="mt-3">
-                                <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" id="btn_login">
-                                  เข้าสู่ระบบ
+                              
+                                <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" id="cf_btn">
+                                  เปลี่ยนรหัสผ่าน
                                 </button>
                               </div>
+                            
+                              
                               
                               <!-- <div class="my-2 d-flex justify-content-between align-items-center">
                                 <div class="form-check">
@@ -147,8 +134,10 @@ error_reporting(E_ALL & ~E_WARNING);
                                 มีบัญชีหรือไม่? <a href="https://prepro.informatics.buu.ac.th/~manpower/safe-foodavenue/tourist/register_tourist.php" class="text-primary">สร้างบัญชีใหม่</a>
                               </div> -->
                             </form>
+                            
                           </div>
                         </div>
+                        <!-- <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='login.php'"> -->
                       </div>
                 </div>
                 <div class="col-lg-7 mx-auto">
@@ -189,36 +178,81 @@ error_reporting(E_ALL & ~E_WARNING);
     <!-- Argon JS -->
     <script src="../assets/js/argon.js?v=1.1.0"></script>
     <!-- Datatable -->
-    <!-- <script>
-    function signIn(){
-    // Google's OAuth 2.0 endpoint for requesting an access token
-  var oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
+</script> 
+<script>
 
-  // Create <form> element to submit parameters to OAuth 2.0 endpoint.
-  var form = document.createElement('form');
-  form.setAttribute('method', 'GET'); // Send as a GET request.
-  form.setAttribute('action', oauth2Endpoint);
+// $(document).ready(function() {
+//     confirm_password();
+//     $("txtCPassword").on('keyup', function() {
+//         confirm_password();
+//     }); // Event Keyup
 
-  // Parameters to pass to OAuth 2.0 endpoint.
-  var params = {'client_id': '867635099034-4pmf85ehtflileje2s0ks7i3cqtsk059.apps.googleusercontent.com',
-                'redirect_uri': 'http://localhost/safe-foodavenue/login/profile.php',
-                'response_type': 'token',
-                'scope':'https://www.googleapis.com/auth/userinfo.profile',
-                'include_granted_scopes': 'true',
-                'state': 'pass-through value'};
+//     $("#reset_pass").on('click', function() {
+//         let password = $('txtPassword').val(); // ค่าที่ป้อนเข้าไปใน ช่อง input
+//         let token = $('#token').val(); // ค่าที่ป้อนเข้าไปใน ช่อง input
+//         reset_password(password, token);
+//     }); // Event Keyup
 
-  // Add form parameters as hidden input values.
-  for (var p in params) {
-    var input = document.createElement('input');
-    input.setAttribute('type', 'hidden');
-    input.setAttribute('name', p);
-    input.setAttribute('value', params[p]);
-    form.appendChild(input);
-  }
 
-  // Add form to page and submit it to open the OAuth 2.0 endpoint.
-  document.body.appendChild(form);
-  form.submit();
-}</script> -->
+// }); // Jqurey
+//     function confirm_password() {
+//     if ($('#txtPassword').val() != $('#txtCPassword').val()) {
+//         $('#err_text').text('รหัสผ่านไม่ตรงกัน');
+//         $('#reset_pass').prop('disabled', true);
+//     } else if ($('#txtPassword').val() == '' || $('#txtCPassword').val() == '') {
+//         $('#reset_pass').prop('disabled', true);
+//     } else {
+//         $('#err_text').text('');
+//         $('#reset_pass').prop('disabled', false);
+//     }
+
+// }
+var chk_password = 0;
+function confirm_pass() {
+        if ($('#us_password').val() != $('#confirm_password').val() && $('#confirm_password').val() == null || $('#confirm_password').val() == "") {
+            $('#invalid_password').text('');
+            chk_password = 1;
+            check_btn_submit();
+        } else if ($('#us_password').val() != $('#confirm_password').val()) {
+            $('#invalid_password').text('รหัสผ่านไม่ถูกต้อง');
+            chk_password = 1;
+            check_btn_submit();
+        } else {
+            $('#invalid_password').text('');
+            chk_password = 0;
+            check_btn_submit();
+        }
+    }
+
+    function check_btn_submit() {
+        if (chk_password == 1) {
+            $('#cf_btn').prop('disabled', true);
+        } else {
+            $('#cf_btn').prop('disabled', false);
+        }
+    }
+
+//     function reset_password(password, token) {
+//     $.ajax({
+//         type: "POST",
+//         url: 'update_password.php',
+//         data: {
+//             password: password,
+//             token: token
+//         },
+//         success: function() {
+//             <?php //echo "<script>
+//     window.location.href='../login/login.php';
+//     </script>
+//     ";?>;
+//         },
+//         error: function() {
+//             alert('เปลี่ยนรหัสผ่านไม่สำเร็จ กรุณาลองใหม่อีกครั้ง');
+//         }
+
+
+//     });
+// }
+</script>
 </body>
 </html>
