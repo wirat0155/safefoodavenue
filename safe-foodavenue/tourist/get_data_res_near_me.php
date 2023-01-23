@@ -28,11 +28,19 @@ if (isset($_POST['zip_code'])) {
     $query_res = mysqli_query($con, $sql_res);
 
     if ($query_res) {
-      while ($row_res = $query_res->fetch_assoc()) {
 
-        array_push($response["data_res"], $row_res);
+      if (mysqli_num_rows($query_res) > 0) {
+        
+        while ($row_res = $query_res->fetch_assoc()) {
+
+          array_push($response["data_res"], $row_res);
+        }
+        echo json_encode($response);
+      } else {
+        echo json_encode("No data");
+    
       }
-      echo json_encode($response);
+
     } else {
 
       throw new Exception('SQL ERROR');

@@ -56,6 +56,20 @@
     .fix-a hover{
         color: #fff;
     }
+    .card-custom {
+        border-radius: 20px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .card-custom:hover {
+        transform: scale(1.05);
+    }
+
+    .fixul {
+        display: inline-block;
+        text-align: left;
+    }
+
 </style>
 
 
