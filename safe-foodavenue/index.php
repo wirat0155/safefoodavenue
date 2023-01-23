@@ -361,17 +361,12 @@
                 html += '<div class="container p-9">';
                 html += '<div class="row text-center">';
                 html += '<div class="col text-center">';
-                html += '<h1>ไม่พบร้านค้า จากการค้นหานี้</h1>';
+                html += '<h1>ไม่พบร้านค้า ไกล้ตำแหน่งของคุณ</h1>';
                 html += '</div>';
                 html += '</div>';
                 html += '<div class="row mt-4 text-center">';
                 html += '<div class="col text-center">';
-                html += '<h3>ฉันควรทำอย่างไรต่อไป : </h3>';
-
-                html += '<ul class = "list-group border-0 fixul" > ';
-                html += '<li class = "list-group-item border-0" >1. ใช้คำค้นหาที่ไม่เจาะจงเกินไป </li>';
-                html += '<li class = "list-group-item border-0" >2. เปลี่ยนตัวเลือกพื้นที่ </li>';
-                html += '</ul>';
+             
                 html += '</div>';
                 html += '</div>';
                 html += '</div>';
