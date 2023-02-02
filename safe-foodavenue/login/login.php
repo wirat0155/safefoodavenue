@@ -43,11 +43,11 @@ error_reporting(E_ALL & ~E_WARNING);
 <body>
 <nav id="navbar-main" class="navbar navbar-horizontal navbar-main navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand">
+            <a class="navbar-brand" href="../index.php">
                 <img src="../assets/img/brand/plogo.png">
             </a>
-            <div class="col-3">
-            <img src="../assets/img/brand/logo-saensuk.jpg">
+            <div class="col-6">
+            <img src="../assets/img/brand/logo-saensuk.png">
             <!-- <img src="./assets/img/brand/AHS_BUU_Logo.png"> -->
             <img src="../assets/img/brand/Buu-logo11.png">
             <img src="../assets/img/brand/Research-innovation.png">
@@ -79,6 +79,24 @@ error_reporting(E_ALL & ~E_WARNING);
             </div>
         </div>
     </nav>
+    <div class="header bg-primary">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <h6 class="h2 text-white d-inline-block mb-0">เข้าสู่ระบบ</h6>
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                  <li class="breadcrumb-item"><a href="../index.php"><i class="fas fa-home"></i></a></li>
+                  <li class="breadcrumb-item"><a href="../index.php">หน้าแรก</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">เข้าสู่ระบบ</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- Main content -->
     <div class="main-content" id="panel">
         <div class="container-fluid page-body-wrapper full-page-wrapper" style="margin:  auto;">

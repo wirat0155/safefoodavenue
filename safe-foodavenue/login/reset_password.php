@@ -46,8 +46,8 @@ error_reporting(E_ALL & ~E_WARNING);
             <a class="navbar-brand">
                 <img src="../assets/img/brand/plogo.png">
             </a>
-            <div class="col-3">
-            <img src="../assets/img/brand/logo-saensuk.jpg">
+            <div class="col-6">
+            <img src="../assets/img/brand/logo-saensuk.png">
             <!-- <img src="./assets/img/brand/AHS_BUU_Logo.png"> -->
             <img src="../assets/img/brand/Buu-logo11.png">
             <img src="../assets/img/brand/Research-innovation.png">

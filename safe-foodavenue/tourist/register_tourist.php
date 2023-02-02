@@ -41,22 +41,28 @@
   <!-- modal -->
 </head>
 
-<body class="bg-default">
+<body>
     <!-- Navbar -->
-    <nav id="navbar-main" class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light">
+    <nav id="navbar-main" class="navbar navbar-horizontal navbar-main navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="../pages/dashboards/dashboard.html">
+            <a class="navbar-brand" href="../index.php">
                 <img src="../assets/img/brand/plogo.png">
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+            <div class="col-6">
+            <img src="../assets/img/brand/logo-saensuk.png">
+            <!-- <img src="./assets/img/brand/AHS_BUU_Logo.png"> -->
+            <img src="../assets/img/brand/Buu-logo11.png">
+            <img src="../assets/img/brand/Research-innovation.png">
+            </div>
+            <button class="navbar-toggler bg-primary" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse navbar-custom-collapse collapse" id="navbar-collapse">
                 <div class="navbar-collapse-header">
                     <div class="row">
                         <div class="col-6 collapse-brand">
-                            <a href="../pages/dashboards/dashboard.html">
-                                <img src="../assets/img/brand/favicon.png">
+                            <a href="./pages/dashboards/dashboard.html">
+                                <img src="../assets/img/brand/blue.png">
                             </a>
                         </div>
                         <div class="col-6 collapse-close">
@@ -68,66 +74,35 @@
                     </div>
                 </div>
                 <ul class="navbar-nav mr-auto">
-                    <!-- <li class="nav-item">
-            <a href="../pages/dashboards/dashboard.html" class="nav-link">
-              <span class="nav-link-inner--text">Dashboard</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="../pages/examples/pricing.html" class="nav-link">
-              <span class="nav-link-inner--text">Pricing</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="../pages/examples/login.html" class="nav-link">
-              <span class="nav-link-inner--text">Login</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="../pages/examples/register.html" class="nav-link">
-              <span class="nav-link-inner--text">Register</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="../pages/examples/lock.html" class="nav-link">
-              <span class="nav-link-inner--text">Lock</span>
-            </a>
-          </li> -->
                 </ul>
                 <hr class="d-lg-none" />
                 <ul class="navbar-nav align-items-lg-center ml-lg-auto">
-                    <!-- <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="https://www.facebook.com/creativetim" target="_blank" data-toggle="tooltip" data-original-title="Like us on Facebook">
-              <i class="fab fa-facebook-square"></i>
-              <span class="nav-link-inner--text d-lg-none">Facebook</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="https://www.instagram.com/creativetimofficial" target="_blank" data-toggle="tooltip" data-original-title="Follow us on Instagram">
-              <i class="fab fa-instagram"></i>
-              <span class="nav-link-inner--text d-lg-none">Instagram</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="https://twitter.com/creativetim" target="_blank" data-toggle="tooltip" data-original-title="Follow us on Twitter">
-              <i class="fab fa-twitter-square"></i>
-              <span class="nav-link-inner--text d-lg-none">Twitter</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="https://github.com/creativetimofficial" target="_blank" data-toggle="tooltip" data-original-title="Star us on Github">
-              <i class="fab fa-github"></i>
-              <span class="nav-link-inner--text d-lg-none">Github</span>
-            </a>
-          </li> -->
                 </ul>
             </div>
         </div>
     </nav>
+    <div class="header bg-primary">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <h6 class="h2 text-white d-inline-block mb-0">สมัครสมาชิก</h6>
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                  <li class="breadcrumb-item"><a href="../index.php"><i class="fas fa-home"></i></a></li>
+                  <li class="breadcrumb-item"><a href="../index.php">หน้าแรก</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">สมัครสมาชิก</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- Main content -->
     <div class="main-content">
         <!-- Header -->
-        <div class="header bg-gradient-primary py-7 py-lg-8 pt-lg-9">
+        <div class="header bg-gradient-default py-7 py-lg-8 pt-lg-9">
             <div class="container">
                 <div class="header-body text-center mb-7">
                     <div class="row justify-content-center">
@@ -298,9 +273,15 @@
           <h4 class="modal-title text-muted">นโยบายความเป็นส่วนตัว (Privacy Policy) และการคุ้มครองข้อมูลส่วนบุคคล</h4>
         </div>
         <div class="modal-body">
-            <h2>ddddddddddd<h2>
+            <h2>นโยบายความเป็นส่วนตัว<h2>
             <p>
-dddd
+            นโยบายความเป็นส่วนตัวหรือนโยบายคุ้มครองข้อมูลส่วนบุคคลเป็นสัญญาอย่างหนึ่ง โดยมีคู่สัญญาฝ่ายหนึ่งคือผู้ให้บริการหรือเจ้าของเว็บไซต์หรือแอปพลิเคชันซึ่งเป็นผู้เก็บรวบรวม ใช้ เปิดเผยข้อมูลส่วนบุคคลของคู่สัญญาอีกฝ่ายหนึ่งซึ่งเรียกว่าผู้ใช้งานเว็บไซต์หรือแอปพลิเคชันซึ่งเข้ามาใช้บริการในเว็บไซต์หรือแอปพลิเคชันนั้น โดยเนื้อหาในสัญญาจะกล่าวถึงสิทธิและหน้าที่ของคู่สัญญาแต่ละฝ่ายเกี่ยวกับการให้ข้อมูล การเก็บรวบรวมข้อมูล การใช้ข้อมูล รวมถึงการเผยแพร่ข้อมูลของผู้ใช้งานเว็บไซต์หรือแอปพลิเคชัน
+
+โดยที่ข้อมูลส่วนบุคคลของผู้ใช้งาน ได้แก่ ข้อมูลที่สามารถระบุตัวบุคคลซึ่งเป็นเจ้าของข้อมูลนั้นได้ ไม่ว่าจะเป็นข้อมูลส่วนบุคคลทั่วไป เช่น ชื่อ นามสกุล ที่อยู่ วันเดือนปีเกิด เบอร์โทรศัพท์ อายุ วุฒิการศึกษา งานที่ทำ หรือข้อมูลส่วนบุคคลที่มีความอ่อนไหว (Sensitive Data) เช่น เชื้อชาติ เผ่าพันธ์ุ ความคิดเห็นทางการเมือง ความเชื่อ (ลัทธิ ศาสนา ปรัชญา) พฤติกรรมทางเพศ ประวัติอาชญากรรม สุขภาพ ความพิการ พันธุกรรม ข้อมูลชีวภาพ ข้อมูลภาพจำลองใบหน้า ม่านตา หรือลายนิ้วมือ สหภาพแรงงานของผู้ใช้งาน
+
+ทั้งนี้ ข้อกำหนดเงื่อนไขต่างๆ ที่กำหนดในนโยบายคุ้มครองข้อมูลส่วนบุคคล (เช่น การได้รับความยินยอมจากผู้ใช้งานในการเก็บรวบรวม ใช้ และ/หรือเผยแพร่ข้อมูลส่วนบุคคลของผู้ใช้งาน) จะต้องสอดคล้องและไม่ขัดต่อกฎหมายคุ้มครองข้อมูลส่วนบุคคล ในทางกลับกันอาจกล่าวได้ว่าผู้ให้บริการหรือเจ้าของมักจัดทำนโยบายคุ้มครองข้อมูลส่วนบุคคลเพื่อให้การเก็บรวบรวม ใช้ เปิดเผยข้อมูลนั้นถูกต้องและเป็นไปตามกฎหมายคุ้มครองข้อมูลส่วนบุคคล
+
+
             <!--  รายละเอียดนโยบาย PDPA ของหน่วยงาน -->
             </p>
 
@@ -320,7 +301,7 @@ dddd
     </div>
     
     <!-- Footer -->
-    <footer class="py-5" id="footer-main">
+    <!-- <footer class="py-5" id="footer-main">
         <div class="container">
             <div class="row align-items-center justify-content-xl-between">
                 <div class="col-xl-6">
@@ -346,7 +327,7 @@ dddd
                 </div>
             </div>
         </div>
-    </footer>
+    </footer> -->
     <!-- Argon Scripts -->
     <!-- Core -->
     <script src="../assets/vendor/jquery/dist/jquery.min.js"></script>
