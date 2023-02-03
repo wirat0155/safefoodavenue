@@ -43,7 +43,7 @@
     }
 
     function get_block_location() {
-      var fetch_location = []
+      var fetch_location = [];
       $.ajax({
         dataType: "JSON",
         url: "../tourist/get-formalin-detail.php",
@@ -117,19 +117,25 @@
           scale: 12
         };
 
+        // if (locations[i][5] == "user") {
+          //   mIcon = "../../assets/img/brand/user.png";
+          // } else if (locations[i][4] == 1) {
+            //   color = "#fff";
+        //   if (locations[i][5] == "res_id") {
+          //     mIcon = "../../assets/img/brand/icon-store-grey.png";
+          //   }
+          // } else {
+            //   color = "#42ee7d";
+            //   if (locations[i][5] == "res_id") {
+              //     mIcon = "../../assets/img/brand/icon-store-green.png";
+              //   }
+              // }
+        console.log("block_id " + locations[i][0] + " " + locations[i][4]);
         if (locations[i][5] == "user") {
           mIcon = "../../assets/img/brand/user.png";
-        } else if (locations[i][4] == 1) {
-          color = "#fff";
-          if (locations[i][5] == "res_id") {
-            mIcon = "../../assets/img/brand/icon-store-grey.png";
-          }
         } else {
-          color = "#42ee7d";
-          if (locations[i][5] == "res_id") {
-            mIcon = "../../assets/img/brand/icon-store-green.png";
-
-          }
+          if (locations[i][4] === 1) mIcon = "../../assets/img/brand/icon-store-grey.png";
+          else mIcon = "../../assets/img/brand/icon-store-green.png";;
         }
 
         var num_restaurant = locations[i][5] == "block_id" ? locations[i][6] : " ";

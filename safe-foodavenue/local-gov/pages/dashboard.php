@@ -207,9 +207,9 @@
 
 
     function sort_pass_value_desc($a, $b) {
-        if ($a->pass < $b->pass) {
+        if ($a->fail < $b->fail) {
             return 1;
-        } elseif ($a->pass > $b->pass) {
+        } elseif ($a->fail > $b->fail) {
             return -1;
         } else {
             return 0;

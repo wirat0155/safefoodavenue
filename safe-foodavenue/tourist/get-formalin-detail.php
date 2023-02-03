@@ -25,7 +25,9 @@
         $num_restaurant = $obj_restaurant["num"];
         // echo $block_id . " สถานะ " . $obj_res_formalin["pass"];
         // echo "<br>";
-        if ($obj_res_formalin["pass"] == "0") {
+
+        // ไม่พบร้านปลอดภัยเลย
+        if ($obj_res_formalin["pass"] == 0) {
             array_push($arr_block_data, $obj_block["block_id"], $obj_block["block_title"], $obj_block["block_lat"], $obj_block["block_lon"], 1, "block_id", $num_restaurant);
         } else {
             array_push($arr_block_data, $obj_block["block_id"], $obj_block["block_title"], $obj_block["block_lat"], $obj_block["block_lon"], 0, "block_id", $num_restaurant);

@@ -188,7 +188,7 @@
                             <!-- เลขที่ -->
                             <div class="col-md-4">
                                 <label for="res_block_id">เลขที่</label>
-                                <input class="form-control" id="res_address" type="text" placeholder="เลขที่ หมูบ้าน (ถ้ามี)" name="res_address" value="<?php echo $obj_restaurant["res_address"]?>" oninput="not_require_zone_block();">
+                                <input class="form-control" id="res_address" type="text" placeholder="เลขที่ หมูบ้าน (ถ้ามี)" name="res_address" value="<?php echo $obj_restaurant["res_address"]?>" oninput="enable_same_as_address();not_require_zone_block();">
                             </div>
                         </div>
 
@@ -616,7 +616,7 @@
             }
         }
         function enable_same_as_address() {
-            if ($("#res_block_id").val() != "") {
+            if ($("#res_block_id").val() != "" || $("#res_address").val().trim() != "") {
                 $('#same_as_address').prop('disabled', false);
             } else {
                 $('#same_as_address').prop('checked', false);

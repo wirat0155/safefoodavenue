@@ -122,7 +122,7 @@
               </div>
               <div class="col-md-4 h2" style="text-align: left;vertical-align: top;">
                 <span class="text-primary">โซน</span> : <?= $obj_menu["zone_title"] != ""? $obj_menu["zone_title"] : "-" ?> <br>
-                <span class="text-primary">วันที่ตรวจ</span> : <?= date("F d, Y") ?>
+                <span class="text-primary">วันที่ตรวจ</span> : <?= to_format(date("Y-m-d")) ?>
               </div>
             </div>
             

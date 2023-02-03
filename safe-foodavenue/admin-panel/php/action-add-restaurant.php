@@ -71,11 +71,11 @@
     $arr_restaurant = mysqli_fetch_array($result);
     $res_id = $arr_restaurant['res_id'];
 
-    $sql = "INSERT INTO `sfa_res_formalin_status`(`res_for_res_id`, `res_for_status`, `res_for_last_fcl_id`, `res_for_created_by`, `res_for_created_date`, `res_for_updated_by`, `res_for_updated_date`) VALUES ('$res_id', 1, 0,'[value-5]','[value-6]','[value-7]','[value-8]')"
+    $sql = "INSERT INTO `sfa_res_formalin_status`(`res_for_res_id`, `res_for_status`, `res_for_last_fcl_id`, `res_for_created_by`, `res_for_created_date`, `res_for_updated_by`, `res_for_updated_date`) VALUES ('$res_id', 1, 0,'[value-5]','[value-6]','[value-7]','[value-8]')";
     
 
     // upload image
-    if(file_exists($_FILES['file_input']['tmp_name']) || is_uploaded_file($_FILES['file_input']['tmp_name'])) {
+    if (file_exists($_FILES['file_input']['tmp_name']) || is_uploaded_file($_FILES['file_input']['tmp_name'])) {
         $t = time();
         $target_dir = "./uploads/img/";
         $target_file = $target_dir . $t . $_FILES["file_input"]["name"];
