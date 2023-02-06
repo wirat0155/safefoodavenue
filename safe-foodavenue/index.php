@@ -233,7 +233,7 @@
 
                         for (let i = 0; i < data.results[0].address_components.length; i++) {
 
-                            if (data.results[0].address_components[i].long_name.length == "5") {
+                            if (data.results[0].address_components[i].long_name.length == "5" && Number.isInteger(+data.results[0].address_components[i].long_name)) {
 
                                 get_data_res_near_me(data.results[0].address_components[i].long_name);
 
