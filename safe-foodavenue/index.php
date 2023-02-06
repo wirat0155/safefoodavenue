@@ -224,14 +224,15 @@
                         // The data object contains the full address of the location, including the province
                         const addressComponents = data.results[0].address_components;
 
-                        // console.log(data.results[0].address_components[5].long_name);
+                         console.log(data.results[0].address_components);
 
-                        get_data_res_near_me(data.results[0].address_components[5].long_name)
+                        get_data_res_near_me(data.results[0].address_components[6].long_name)
 
                     });
             }
 
             function get_data_res_near_me(zip_code) {
+                console.log("zipcode = " +zip_code)
                 $.ajax({
                     url: "./tourist/get_data_res_near_me.php",
                     method: "POST",
@@ -262,7 +263,7 @@
                 //loop show data 
                 data.data_res.forEach((row_res, index_res) => {
 
-                    html += '<div class="col-12 col-sm-6 py-2">';
+                    html += '<div class="col-12 col-sm-6 col-md-6 col-lg-4 py-2">';
                     html += ' <a href="/tourist/index.php?content=detail-restaurant&id=' + row_res.res_id + '">';
                     html += ' <div class="card card-fix card-custom rounded-4 hover-zoom">';
 
