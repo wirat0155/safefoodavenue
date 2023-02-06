@@ -27,35 +27,40 @@
     body {
         font-family: 'Prompt';
     }
+
     .limit-char {
         max-width: 24ch;
         overflow: hidden;
         text-overflow: ellipsis;
-      }
-      @media only screen and (max-width: 720px) {
-        .limit-char {
-          max-width: 16ch;
-        }
-      }
-      @media only screen and (max-width: 360px) {
-        .limit-char {
-          max-width: 16ch;
-        }
-      }
+    }
 
-      
+    @media only screen and (max-width: 720px) {
+        .limit-char {
+            max-width: 16ch;
+        }
+    }
+
+    @media only screen and (max-width: 360px) {
+        .limit-char {
+            max-width: 16ch;
+        }
+    }
+
+
     .card-fix {
         max-height: 400px !important;
         height: 400px !important;
 
     }
 
-    .fix-a{
+    .fix-a {
         color: #fff !important;
     }
-    .fix-a hover{
+
+    .fix-a hover {
         color: #fff;
     }
+
     .card-custom {
         border-radius: 20px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -69,7 +74,6 @@
         display: inline-block;
         text-align: left;
     }
-
 </style>
 
 
@@ -138,12 +142,12 @@
                         </div>
                         <div class="card-body">
 
-                        <div class="container">
-                        <div class="row">
-                                <div class="" id="list_res"></div>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="" id="list_res"></div>
+                                </div>
                             </div>
-                        </div>
-                            
+
 
                             <div class="row d-flex justify-content-end">
                                 <a class="btn btn-primary px-4 m-2 fix-a" href="./tourist/index.php?content=list-restaurant">
@@ -170,12 +174,12 @@
             </div>
             <div class="col-12 col-xl-3 p-0" id="click-map-panel">
                 <div id="map-restaurant-panel" style="background-color: white; height: 70vh; overflow-y: auto;" class="p-1 text-center">
-                   <div class="container">
-                   <div class="" id="res_list">
-                        <h1 class="mt-4">คลิกบนแผนที่เพื่อเลือกร้านอาหาร</h1>
+                    <div class="container">
+                        <div class="" id="res_list">
+                            <h1 class="mt-4">คลิกบนแผนที่เพื่อเลือกร้านอาหาร</h1>
+                        </div>
                     </div>
-                   </div>
-                   
+
                 </div>
             </div>
         </div>
@@ -224,15 +228,41 @@
                         // The data object contains the full address of the location, including the province
                         const addressComponents = data.results[0].address_components;
 
-                         console.log(data.results[0].address_components);
+                        console.log(data.results[0].address_components.length);
 
-                        get_data_res_near_me(data.results[0].address_components[6].long_name)
+
+                        for (let i = 0; i < data.results[0].address_components.length; i++) {
+
+                            if (data.results[0].address_components[i].long_name.length == "5") {
+
+                                get_data_res_near_me(data.results[0].address_components[i].long_name);
+
+                            } else {
+                                let html = '';
+
+                                html += '<div class="container p-9">';
+                                html += '<div class="row text-center">';
+                                html += '<div class="col text-center">';
+                                html += '<h1>มีปัญหาเกิดขึ้น</h1>';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '<div class="row mt-4 text-center">';
+                                html += '<div class="col text-center">';
+
+                                html += '</div>';
+                                html += '</div>';
+                                html += '</div>';
+
+                                $('#list_res').html(html);
+
+                            }
+                        }
 
                     });
             }
 
             function get_data_res_near_me(zip_code) {
-                console.log("zipcode = " +zip_code)
+                console.log("zipcode = " + zip_code)
                 $.ajax({
                     url: "./tourist/get_data_res_near_me.php",
                     method: "POST",
@@ -242,7 +272,7 @@
                     },
                     success: function(data) {
                         console.log(data);
-                        show_res_data(data) 
+                        show_res_data(data)
 
                     },
                     error: function(error) {
@@ -366,7 +396,7 @@
                 html += '</div>';
                 html += '<div class="row mt-4 text-center">';
                 html += '<div class="col text-center">';
-             
+
                 html += '</div>';
                 html += '</div>';
                 html += '</div>';
