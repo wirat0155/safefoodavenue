@@ -77,7 +77,7 @@ $arrProvince = mysqli_query($con, $sql);
                         </div>
                         <br>
                         <div class="row pb-4" style="position: relative;">
-                            <div class="col-md-4">
+                            <div class="col">
                                 <input type="submit" class="btn btn-success" value="บันทึก">
                                 <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-government'">
                             </div>

@@ -16,7 +16,8 @@
         $sql .= "`us_password` = '$password', ";
         }
         $sql .= "`us_role_id`='$role', `us_pref_id`= '$prefix', `us_gov_id` = '$us_gov_id' , `us_province_id` = '$us_province_id'WHERE `us_id` = $user_id";
-        mysqli_query($con, $sql);
+        // mysqli_query($con, $sql);
+        echo $sql;
     }else{
         $sql = "UPDATE `sfa_user` SET `us_fname`=' $fname', `us_lname`='$lname', `us_username`='$username', ";
         if ($password != "") {
@@ -26,5 +27,5 @@
         mysqli_query($con, $sql);
     }
     
-    echo "<script>window.location.href='../?content=list-user'</script>";
+    // echo "<script>window.location.href='../?content=list-user'</script>";
 ?>
