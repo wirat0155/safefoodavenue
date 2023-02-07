@@ -156,7 +156,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 py-2">
-                        <iframe style="width: 570px; height: 380px" src="https://www.youtube.com/embed/yAQwlLZoFVY" title="formalin kit video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        <iframe style="width: 100%; height: 100%" src="https://www.youtube.com/embed/yAQwlLZoFVY" title="formalin kit video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
