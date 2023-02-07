@@ -33,7 +33,7 @@ if (isset($_GET['code'])) {
     //$token = $userinfo['token'];
     //print_r($userinfo);
 
-    if($_SESSION["res_id"]){
+    if(isset($_SESSION["res_id"])){
      // echo "TEST TESt";
      // header('location: ../tourist/?content=detail-restaurant&id=' . urlencode($_SESSION["res_id"]) );
       echo "<script>
