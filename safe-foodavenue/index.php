@@ -74,12 +74,15 @@
         display: inline-block;
         text-align: left;
     }
+    .text-size-11 {
+        font-size: 11px;
+    }
 </style>
 
 
 <body>
 
-    <nav class="navbar navbar-horizontal navbar-main navbar-expand-lg navbar-primary">
+    <nav id="navbar-main" class="navbar navbar-horizontal navbar-main navbar-expand-lg navbar-dark">
         <div class="container">
 
             <a class="navbar-brand" href="./index.php">
@@ -93,20 +96,32 @@
                 <img src="./assets/img/brand/Research-innovation.png">
             </div>
 
-            <button class="navbar-toggler bg-light" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="sr-only">Toggle navigation</span>
+            <button class="navbar-toggler bg-primary" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse navbar-collapse navbar-custom-collapse collapse" id="navbarNavDropdown">
+            <div class="navbar-collapse navbar-custom-collapse collapse" id="navbar-collapse">
+                <div class="navbar-collapse-header">
+                    <div class="row">
+                        <div class="col-6 collapse-brand">
+
+                        </div>
+                        <div class="col-6 collapse-close">
+                            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                                <span></span>
+                                <span></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="./aboutme.php" style="font-size: 16px;">เกี่ยวกับเรา</a>
+                        <a class="nav-link" href="./aboutme.php" style="font-size: 16px; color:black;">เกี่ยวกับเรา</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./tourist/register_tourist.php" style="font-size: 16px;">ลงทะเบียน</a>
+                        <a class="nav-link" href="./tourist/register_tourist.php" style="font-size: 16px; color:black;">ลงทะเบียน</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./login/login.php" style="font-size: 16px;">เข้าสู่ระบบ</a>
+                        <a class="nav-link" href="./login/login.php" style="font-size: 16px; color:black;">เข้าสู่ระบบ</a>
                     </li>
                 </ul>
             </div>
@@ -133,10 +148,10 @@
             </div>
         </div>
 
-        <div class="container-fulid mt--5 pl-8 pr-8">
+        <div class="container-fulid mt--5 pl-5 pr-5">
             <div class="row">
                 <div class="col-12">
-                    <div class="card mx-auto p-4">
+                    <div class="card mx-auto">
                         <div class="card-header">
                             <h2 class="card-title">ร้านไกล้ฉัน</h2>
                         </div>
@@ -144,8 +159,9 @@
 
                             <div class="container">
                                 <div class="row">
-                                    <div class="" id="list_res"></div>
+                                 <div class="" id="list_res"></div>
                                 </div>
+                               
                             </div>
 
 
@@ -243,7 +259,7 @@
                                 html += '<div class="container p-9">';
                                 html += '<div class="row text-center">';
                                 html += '<div class="col text-center">';
-                                html += '<h1>มีปัญหาเกิดขึ้น</h1>';
+                                html += '<h1>ไม่พบร้านค้า ไกล้ตำแหน่งของคุณ</h1>';
                                 html += '</div>';
                                 html += '</div>';
                                 html += '<div class="row mt-4 text-center">';
