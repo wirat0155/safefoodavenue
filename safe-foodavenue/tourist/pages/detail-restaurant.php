@@ -91,8 +91,8 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                     <h6 class="h2 text-white d-inline-block mb-0">รายละเอียดร้านอาหาร</h6>
                     <nav aria-label="breadcrumb" class=" d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                            <li class="breadcrumb-item"><a href=""><i class="fas fa-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="?content=disp-block-map">หน้าแรก</a></li>
+                            <li class="breadcrumb-item"><a href="../index.php"><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="../index.php">หน้าแรก</a></li>
                             <li class="breadcrumb-item"><a href="?content=list-restaurant">รายการร้านอาหาร</a></li>
                             <li class="breadcrumb-item active" aria-current="page">รายละเอียดร้านอาหาร</li>
                         </ol>

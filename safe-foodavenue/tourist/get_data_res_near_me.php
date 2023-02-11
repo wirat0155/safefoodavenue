@@ -23,7 +23,7 @@ if (isset($_POST['zip_code'])) {
     ON 
     sfa_review_summary.srs_res_id = sfa_restaurant.res_id
     WHERE th_districts.zip_code = '$zip_code'
-    LIMIT 9";
+    LIMIT 6";
 
     $query_res = mysqli_query($con, $sql_res);
 
@@ -37,8 +37,8 @@ if (isset($_POST['zip_code'])) {
         }
         echo json_encode($response);
       } else {
+
         echo json_encode("No data");
-    
       }
 
     } else {

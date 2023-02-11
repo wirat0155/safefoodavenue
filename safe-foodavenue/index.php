@@ -27,35 +27,40 @@
     body {
         font-family: 'Prompt';
     }
+
     .limit-char {
         max-width: 24ch;
         overflow: hidden;
         text-overflow: ellipsis;
-      }
-      @media only screen and (max-width: 720px) {
-        .limit-char {
-          max-width: 16ch;
-        }
-      }
-      @media only screen and (max-width: 360px) {
-        .limit-char {
-          max-width: 16ch;
-        }
-      }
+    }
 
-      
+    @media only screen and (max-width: 720px) {
+        .limit-char {
+            max-width: 16ch;
+        }
+    }
+
+    @media only screen and (max-width: 360px) {
+        .limit-char {
+            max-width: 16ch;
+        }
+    }
+
+
     .card-fix {
         max-height: 400px !important;
         height: 400px !important;
 
     }
 
-    .fix-a{
+    .fix-a {
         color: #fff !important;
     }
-    .fix-a hover{
+
+    .fix-a hover {
         color: #fff;
     }
+
     .card-custom {
         border-radius: 20px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -69,13 +74,15 @@
         display: inline-block;
         text-align: left;
     }
-
+    .text-size-11 {
+        font-size: 11px;
+    }
 </style>
 
 
 <body>
 
-    <nav class="navbar navbar-horizontal navbar-main navbar-expand-lg navbar-primary">
+    <nav id="navbar-main" class="navbar navbar-horizontal navbar-main navbar-expand-lg navbar-dark">
         <div class="container">
 
             <a class="navbar-brand" href="./index.php">
@@ -89,20 +96,32 @@
                 <img src="./assets/img/brand/Research-innovation.png">
             </div>
 
-            <button class="navbar-toggler bg-light" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="sr-only">Toggle navigation</span>
+            <button class="navbar-toggler bg-primary" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse navbar-collapse navbar-custom-collapse collapse" id="navbarNavDropdown">
+            <div class="navbar-collapse navbar-custom-collapse collapse" id="navbar-collapse">
+                <div class="navbar-collapse-header">
+                    <div class="row">
+                        <div class="col-6 collapse-brand">
+
+                        </div>
+                        <div class="col-6 collapse-close">
+                            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                                <span></span>
+                                <span></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="./aboutme.php" style="font-size: 16px;">เกี่ยวกับเรา</a>
+                        <a class="nav-link" href="./aboutme.php" style="font-size: 16px; color:black;">เกี่ยวกับเรา</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./tourist/register_tourist.php" style="font-size: 16px;">ลงทะเบียน</a>
+                        <a class="nav-link" href="./tourist/register_tourist.php" style="font-size: 16px; color:black;">ลงทะเบียน</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./login/login.php" style="font-size: 16px;">เข้าสู่ระบบ</a>
+                        <a class="nav-link" href="./login/login.php" style="font-size: 16px; color:black;">เข้าสู่ระบบ</a>
                     </li>
                 </ul>
             </div>
@@ -129,21 +148,22 @@
             </div>
         </div>
 
-        <div class="container-fulid mt--5 pl-8 pr-8">
+        <div class="container-fulid mt--5 pl-5 pr-5">
             <div class="row">
                 <div class="col-12">
-                    <div class="card mx-auto p-4">
+                    <div class="card mx-auto">
                         <div class="card-header">
                             <h2 class="card-title">ร้านไกล้ฉัน</h2>
                         </div>
                         <div class="card-body">
 
-                        <div class="container">
-                        <div class="row">
-                                <div class="" id="list_res"></div>
+                            <div class="container">
+                                <div class="row">
+                                 <div class="" id="list_res"></div>
+                                </div>
+                               
                             </div>
-                        </div>
-                            
+
 
                             <div class="row d-flex justify-content-end">
                                 <a class="btn btn-primary px-4 m-2 fix-a" href="./tourist/index.php?content=list-restaurant">
@@ -170,12 +190,12 @@
             </div>
             <div class="col-12 col-xl-3 p-0" id="click-map-panel">
                 <div id="map-restaurant-panel" style="background-color: white; height: 70vh; overflow-y: auto;" class="p-1 text-center">
-                   <div class="container">
-                   <div class="" id="res_list">
-                        <h1 class="mt-4">คลิกบนแผนที่เพื่อเลือกร้านอาหาร</h1>
+                    <div class="container">
+                        <div class="" id="res_list">
+                            <h1 class="mt-4">คลิกบนแผนที่เพื่อเลือกร้านอาหาร</h1>
+                        </div>
                     </div>
-                   </div>
-                   
+
                 </div>
             </div>
         </div>
@@ -224,14 +244,41 @@
                         // The data object contains the full address of the location, including the province
                         const addressComponents = data.results[0].address_components;
 
-                        // console.log(data.results[0].address_components[5].long_name);
+                        console.log(data.results[0].address_components.length);
 
-                        get_data_res_near_me(data.results[0].address_components[5].long_name)
+
+                        for (let i = 0; i < data.results[0].address_components.length; i++) {
+
+                            if (data.results[0].address_components[i].long_name.length == "5" && Number.isInteger(+data.results[0].address_components[i].long_name)) {
+
+                                get_data_res_near_me(data.results[0].address_components[i].long_name);
+
+                            } else {
+                                let html = '';
+
+                                html += '<div class="container p-9">';
+                                html += '<div class="row text-center">';
+                                html += '<div class="col text-center">';
+                                html += '<h1>ไม่พบร้านค้า ไกล้ตำแหน่งของคุณ</h1>';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '<div class="row mt-4 text-center">';
+                                html += '<div class="col text-center">';
+
+                                html += '</div>';
+                                html += '</div>';
+                                html += '</div>';
+
+                                $('#list_res').html(html);
+
+                            }
+                        }
 
                     });
             }
 
             function get_data_res_near_me(zip_code) {
+                console.log("zipcode = " + zip_code)
                 $.ajax({
                     url: "./tourist/get_data_res_near_me.php",
                     method: "POST",
@@ -241,7 +288,7 @@
                     },
                     success: function(data) {
                         console.log(data);
-                        show_res_data(data) 
+                        show_res_data(data)
 
                     },
                     error: function(error) {
@@ -262,7 +309,7 @@
                 //loop show data 
                 data.data_res.forEach((row_res, index_res) => {
 
-                    html += '<div class="col-12 col-sm-6 py-2">';
+                    html += '<div class="col-12 col-sm-6 col-md-6 col-lg-4 py-2">';
                     html += ' <a href="/tourist/index.php?content=detail-restaurant&id=' + row_res.res_id + '">';
                     html += ' <div class="card card-fix card-custom rounded-4 hover-zoom">';
 
@@ -365,7 +412,7 @@
                 html += '</div>';
                 html += '<div class="row mt-4 text-center">';
                 html += '<div class="col text-center">';
-             
+
                 html += '</div>';
                 html += '</div>';
                 html += '</div>';

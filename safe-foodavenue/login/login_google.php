@@ -32,10 +32,23 @@ if (isset($_GET['code'])) {
     //$userinfo = mysqli_fetch_assoc($result);
     //$token = $userinfo['token'];
     //print_r($userinfo);
-    echo "<script>
-    window.location.href='../tourist/?content=disp-block-map';
-    </script>
-    ";
+
+    if(isset($_SESSION["res_id"])){
+     // echo "TEST TESt";
+     // header('location: ../tourist/?content=detail-restaurant&id=' . urlencode($_SESSION["res_id"]) );
+      echo "<script>
+            window.location.href='../tourist/?content=detail-restaurant&id=" . urlencode($_SESSION["res_id"]) . "'" .
+            "</script>";
+
+    }else{
+       //header("location: ../tourist/?content=disp-block-map");
+       echo "<script>
+       window.location.href='../tourist/?content=disp-block-map';
+       </script>
+       ";
+    }
+
+
    }else {
     // user is not exists
     $user_email=$userinfo['email'];
@@ -59,10 +72,20 @@ if (isset($_GET['code'])) {
        echo "User is not created";
     //   die();
     }
-    echo "<script>
-    window.location.href='../tourist/?content=disp-block-map';
-    </script>
-    ";
+    if($_SESSION["res_id"]){
+      // echo "TEST TESt";
+      // header('location: ../tourist/?content=detail-restaurant&id=' . urlencode($_SESSION["res_id"]) );
+       echo "<script>
+             window.location.href='../tourist/?content=detail-restaurant&id=" . urlencode($_SESSION["res_id"]) . "'" .
+             "</script>";
+ 
+     }else{
+        //header("location: ../tourist/?content=disp-block-map");
+        echo "<script>
+        window.location.href='../tourist/?content=disp-block-map';
+        </script>
+        ";
+     }
   }
 } else {
   if (!isset($_SESSION["google_username"])) {

@@ -48,7 +48,7 @@
 
 <body>
 
-    <nav class="navbar navbar-horizontal navbar-main navbar-expand-lg navbar-primary">
+<nav id="navbar-main" class="navbar navbar-horizontal navbar-main navbar-expand-lg navbar-dark">
         <div class="container">
 
             <a class="navbar-brand" href="./index.php">
@@ -81,18 +81,19 @@
                 </div>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link my_active" href="./aboutme.php" style="font-size: 16px;">เกี่ยวกับเรา</a>
+                        <a class="nav-link" href="./aboutme.php" style="font-size: 16px; color:black;">เกี่ยวกับเรา</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./tourist/register_tourist.php" style="font-size: 16px;">ลงทะเบียน</a>
+                        <a class="nav-link" href="./tourist/register_tourist.php" style="font-size: 16px; color:black;">ลงทะเบียน</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./login/login.php" style="font-size: 16px;">เข้าสู่ระบบ</a>
+                        <a class="nav-link" href="./login/login.php" style="font-size: 16px; color:black;">เข้าสู่ระบบ</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
+
 
     <!-- Main content -->
     <div class="main-content">
@@ -156,10 +157,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 py-2">
-                        <video width="100%" height="315" controls>
-                            <source src="./assets/img/formalin_kit_video.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
+                        <iframe style="width: 100%; height: 100%" src="https://www.youtube.com/embed/yAQwlLZoFVY" title="formalin kit video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>

@@ -277,39 +277,9 @@
                                     <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-user'">
                                 </div>
                             </div>
-                            <hr>
-                            <b style="font-size: 20px;">สร้างบัญชีผู้ใช้</b>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-4 mt-3">
-                                    <label for="username" class="required">ชื่อผู้ใช้งาน</label>
-                                    <input type="text" id="us_username" name="us_username" class="form-control" placeholder="ชื่อผู้ใช้งาน" oninput="check_name_username()" value="<?php echo $user_data["us_username"] ?>" required>
-                                    <span style='color:red' id="status_username"></span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4 mt-3">
-                                    <label for="password">รหัสผ่าน</label>
-                                    <input type="password" id="us_password" name="us_password" minlength="8" class="form-control" placeholder="รหัสผ่านอย่างน้อย 8 ตัวอักษร" onkeyup="confirm_pass()">
-                                    <p>ถ้าไม่กรอกรหัส ระบบจะใช้รหัสผ่านเดิม</p>
-                                </div>
-                                <div class=" col-md-4 mt-3">
-                                    <label for="confirm_password">ยืนยันรหัสผ่าน</label>
-                                    <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="ยืนยันรหัสผ่าน" onkeyup="confirm_pass()">
-                                    <span style='color:red' id="invalid_password"></span>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="row pb-4" style="position: relative;">
-                                <div class="col-md-4">
-                                    <input type="submit" class="btn btn-warning" id="cf_btn" value="แก้ไขบัญชี">
-                                    <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='./?content=list-user'">
-                                </div>
-                            </div>
                             <?php } ?>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
