@@ -43,15 +43,18 @@ error_reporting(E_ALL & ~E_WARNING);
 <body>
 <nav id="navbar-main" class="navbar navbar-horizontal navbar-main navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand">
+
+            <a class="navbar-brand" href="../index.php">
                 <img src="../assets/img/brand/plogo.png">
             </a>
+
             <div class="col-6">
-            <img src="../assets/img/brand/logo-saensuk.png">
-            <!-- <img src="./assets/img/brand/AHS_BUU_Logo.png"> -->
-            <img src="../assets/img/brand/Buu-logo11.png">
-            <img src="../assets/img/brand/Research-innovation.png">
+                <img src="../assets/img/brand/logo-saensuk.png">
+                <!-- <img src="./assets/img/brand/AHS_BUU_Logo.png"> -->
+                <img src="../assets/img/brand/Buu-logo11.png">
+                <img src="../assets/img/brand/Research-innovation.png">
             </div>
+
             <button class="navbar-toggler bg-primary" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -59,9 +62,7 @@ error_reporting(E_ALL & ~E_WARNING);
                 <div class="navbar-collapse-header">
                     <div class="row">
                         <div class="col-6 collapse-brand">
-                            <a href="./pages/dashboards/dashboard.html">
-                                <img src="../assets/img/brand/blue.png">
-                            </a>
+
                         </div>
                         <div class="col-6 collapse-close">
                             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,10 +72,16 @@ error_reporting(E_ALL & ~E_WARNING);
                         </div>
                     </div>
                 </div>
-                <ul class="navbar-nav mr-auto">
-                </ul>
-                <hr class="d-lg-none" />
-                <ul class="navbar-nav align-items-lg-center ml-lg-auto">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../aboutme.php" style="font-size: 16px; color:black;">เกี่ยวกับเรา</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../tourist/register_tourist.php" style="font-size: 16px; color:black;">ลงทะเบียน</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../login/login.php" style="font-size: 16px; color:black;">เข้าสู่ระบบ</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -124,7 +131,7 @@ error_reporting(E_ALL & ~E_WARNING);
                             
                           </div>
                         </div>
-                        <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='login.php'">
+                        <!-- <input type="reset" class="btn btn-secondary" value="กลับ" onclick="location.href='login.php'"> -->
                       </div>
                 </div>
                 <div class="col-lg-7 mx-auto">
