@@ -43,15 +43,18 @@ error_reporting(E_ALL & ~E_WARNING);
 <body>
 <nav id="navbar-main" class="navbar navbar-horizontal navbar-main navbar-expand-lg navbar-dark">
         <div class="container">
+
             <a class="navbar-brand" href="../index.php">
                 <img src="../assets/img/brand/plogo.png">
             </a>
+
             <div class="col-6">
-            <img src="../assets/img/brand/logo-saensuk.png">
-            <!-- <img src="./assets/img/brand/AHS_BUU_Logo.png"> -->
-            <img src="../assets/img/brand/Buu-logo11.png">
-            <img src="../assets/img/brand/Research-innovation.png">
+                <img src="../assets/img/brand/logo-saensuk.png">
+                <!-- <img src="./assets/img/brand/AHS_BUU_Logo.png"> -->
+                <img src="../assets/img/brand/Buu-logo11.png">
+                <img src="../assets/img/brand/Research-innovation.png">
             </div>
+
             <button class="navbar-toggler bg-primary" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -59,9 +62,7 @@ error_reporting(E_ALL & ~E_WARNING);
                 <div class="navbar-collapse-header">
                     <div class="row">
                         <div class="col-6 collapse-brand">
-                            <a href="./pages/dashboards/dashboard.html">
-                                <img src="../assets/img/brand/blue.png">
-                            </a>
+
                         </div>
                         <div class="col-6 collapse-close">
                             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,19 +72,25 @@ error_reporting(E_ALL & ~E_WARNING);
                         </div>
                     </div>
                 </div>
-                <ul class="navbar-nav mr-auto">
-                </ul>
-                <hr class="d-lg-none" />
-                <ul class="navbar-nav align-items-lg-center ml-lg-auto">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../aboutme.php" style="font-size: 16px; color:black;">เกี่ยวกับเรา</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../tourist/register_tourist.php" style="font-size: 16px; color:black;">ลงทะเบียน</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../login/login.php" style="font-size: 16px; color:black;">เข้าสู่ระบบ</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="header bg-primary">
+    <!-- <div class="header bg-primary">
       <div class="container-fluid">
         <div class="header-body">
-          <div class="row align-items-center py-4">
-            <div class="col-lg-6 col-7">
+          <div class="row align-items-center py-4 ">
+            <div class="col-lg-6 col-7" >
               <h6 class="h2 text-white d-inline-block mb-0">เข้าสู่ระบบ</h6>
               <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                 <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
@@ -96,7 +103,7 @@ error_reporting(E_ALL & ~E_WARNING);
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- Main content -->
     <div class="main-content" id="panel">
         <div class="container-fluid page-body-wrapper full-page-wrapper" style="margin:  auto;">
@@ -144,13 +151,17 @@ error_reporting(E_ALL & ~E_WARNING);
                               <div class="form-group">
                                 <input type="password" class="form-control form-control-lg" id="txtPassword" name="txtPassword" placeholder="รหัสผ่าน">
                               </div>
-                              <div class="text font-weight-light"><a href="./forgot_password.php">
-                                ลืมรหัสผ่าน? </a>
+                              <div class="text font-weight-light">
+                                <a href="./forgot_password.php">
+                                ลืมรหัสผ่าน? </a>  
                               </div>
                               <div class="mt-3">
                                 <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" id="btn_login">
                                   เข้าสู่ระบบ
                                 </button>
+                              </div>
+                              <div class="mt-3 text font-weight-light">
+                              มีบัญชีผู้ใช้ของนักท่องเที่ยวหรือไม่? <a href="../tourist/register_tourist.php" class="text-primary">ลงทะเบียน</a>
                               </div>
                               
                               <!-- <div class="my-2 d-flex justify-content-between align-items-center">

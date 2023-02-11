@@ -55,7 +55,7 @@
     <nav id="navbar-main" class="navbar navbar-horizontal navbar-main navbar-expand-lg navbar-dark">
         <div class="container">
 
-            <a class="navbar-brand" href="./index.php">
+            <a class="navbar-brand" href="../index.php">
                 <img src="../assets/img/brand/plogo.png">
             </a>
 
@@ -98,7 +98,7 @@
         </div>
     </nav>
 
-    <div class="header bg-primary">
+    <!-- <div class="header bg-primary">
       <div class="container-fluid">
         <div class="header-body">
           <div class="row align-items-center py-4">
@@ -115,7 +115,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- Main content -->
     <div class="main-content">
         <!-- Header -->
