@@ -3,50 +3,48 @@
 </style>
 
 <?php
-    // จำนวนร้านอาหารทั้งหมด
-    function get_all_restaurant($con)
-    {
+    // จำนวนร้านอาหารทั้งหมด ล่าสุด
+    function get_all_restaurant($con) {
         $sql = "SELECT COUNT(`res_id`) as `count_res` 
         FROM `sfa_restaurant` 
-        WHERE `sfa_restaurant`.`res_active` = 1 
+        WHERE `sfa_restaurant`.`res_active` = 1
+        AND `sfa_restaurant`.`res_active` = 1 
         AND `sfa_restaurant`.`res_gov_id` = " . $_SESSION['us_gov_id'];
         $arr_restaurant = mysqli_query($con, $sql);
         $count_restaurant = mysqli_fetch_assoc($arr_restaurant)["count_res"];
         return $count_restaurant;
     }
     $all_restaurant = get_all_restaurant($con);
-    // echo "จำนวนร้านค้าที่เปิดกิจการ ณ ปัจจุบัน " . $all_restaurant;
-    // echo "<br/>";
 
+    // จำนวนร้านอาหารที่ปลอดภัยล่าสุด
     function get_number_formalin_pass_restaurant($con) {
         $sql = "SELECT COUNT(`res_for_id`) as `count_res` 
         FROM `sfa_res_formalin_status` 
         LEFT JOIN `sfa_restaurant` ON `sfa_res_formalin_status`.`res_for_res_id` = `sfa_restaurant`.`res_id`
         WHERE `sfa_res_formalin_status`.`res_for_status` = 0 
+        AND `sfa_restaurant`.`res_active` = 1
         AND `sfa_restaurant`.`res_gov_id` = " . $_SESSION['us_gov_id'];
         $arr_restaurant = mysqli_query($con, $sql);
         $count_restaurant = mysqli_fetch_assoc($arr_restaurant)["count_res"];
         return $count_restaurant;
     }
     $pass_restaurant = get_number_formalin_pass_restaurant($con);
-    // echo "ร้านค้าที่ผ่านการตรวจสอบ " . $pass_restaurant;
-    // echo "<br/>";
    
-    $all_restaurant = $all_restaurant == 0? 1 : $all_restaurant;
-    // echo "ร้อยละที่ผ่าน " . ($pass_restaurant / $all_restaurant) * 100;
-    // echo "<br/>";
+    // แปลงเป็น 1 เพื่อให้หาร 1 ตอนหาเศษส่วน
+    $all_restaurant = $all_restaurant == 0 ? 1 : $all_restaurant;
     
 
     function get_year_dropdown($con) {
         $sql = "SELECT DISTINCT `fcl_year` AS `fcl_year` 
-                FROM `sfa_formalin_checklist` WHERE `fcl_gov_id` = " . $_SESSION['us_gov_id'] . " ORDER BY fcl_year DESC";
+        FROM `sfa_formalin_checklist` 
+        WHERE `fcl_gov_id` = " . $_SESSION['us_gov_id'] . 
+        " ORDER BY fcl_year DESC";
         $arr_year = mysqli_query($con, $sql);
         return $arr_year;
     }
     $arr_fcl_year = get_year_dropdown($con);
-    // while($year = mysqli_fetch_assoc($arr_fcl_year)["fcl_year"]) {
-    //     echo $year . "<br/>";
-    // }
+
+
     function get_max_year($con) {
         $sql = "SELECT MAX(`fcl_year`) AS `fcl_year` FROM `sfa_formalin_checklist`";
         $arr_year = mysqli_query($con, $sql);
@@ -96,30 +94,44 @@
         array_push($arr_fcl_data, $arr_row);
     }
 
-    // for ($i = 0 ;$i < count($arr_fcl_id); $i++) {
-    //     echo $arr_fcl_id[$i] . " " . $arr_fcl_id_data[$i];
-    //     echo "<br>";
-    // }
+
+    $arr_fcl_data_pass = array();
+    $arr_fcl_data_fail = array();
+    for ($i = 0; $i < count($arr_fcl_data); $i++) {
+        if (!($arr_fcl_data[$i][0] == 0 && $arr_fcl_data[$i][1] == 0)) {
+            array_push($arr_fcl_data_pass, $arr_fcl_data[$i][0]);
+            array_push($arr_fcl_data_fail, $arr_fcl_data[$i][1]);
+        }
+    }
+
+    // echo "<pre>";
+    // print_r($arr_fcl_data_pass);
+    // echo "</pre>";
+
+    // echo "<pre>";
+    // print_r($arr_fcl_data_fail);
+    // echo "</pre>";
     // exit;
+
 
     function get_all_restaurant_by_year($con, $fcl_year) {
         $sql = "SELECT COUNT(`res_for_res_id`) AS `count_res` FROM `sfa_res_formalin_status`
         LEFT JOIN `sfa_formalin_checklist` ON `sfa_res_formalin_status`.`res_for_last_fcl_id` = `sfa_formalin_checklist`.`fcl_id`
-        WHERE `sfa_formalin_checklist`.`fcl_year` = '" . $fcl_year . "'";
+        LEFT JOIN `sfa_restaurant` ON `sfa_res_formalin_status`.`res_for_res_id` = `sfa_restaurant`.`res_id`
+        WHERE `sfa_restaurant`.`res_active` = 1
+        AND `sfa_formalin_checklist`.`fcl_year` = '" . $fcl_year . "'";
         $arr_res_formalin_status = mysqli_query($con, $sql);
         $count_restaurant = mysqli_fetch_assoc($arr_res_formalin_status)["count_res"];
         return $count_restaurant;
     }
     $all_restaurant_by_year = get_all_restaurant_by_year($con, $fcl_year);
-    // echo "<br/>";
-    // echo "ร้านค้าที่ตรวจสอบในปีนี้ " . $all_restaurant_by_year;
-    // echo "<br/>";
-    // $all_restaurant_by_year = $all_restaurant_by_year == 0? 1 : $all_restaurant_by_year;
 
     function get_pass_restaurant_by_year($con, $fcl_year) {
         $sql = "SELECT COUNT(`res_for_res_id`) AS `count_res` FROM `sfa_res_formalin_status`
         LEFT JOIN `sfa_formalin_checklist` ON `sfa_res_formalin_status`.`res_for_last_fcl_id` = `sfa_formalin_checklist`.`fcl_id`
-        WHERE `sfa_formalin_checklist`.`fcl_year` = '" . $fcl_year . "' AND `sfa_res_formalin_status`.`res_for_status` = 0";
+        LEFT JOIN `sfa_restaurant` ON `sfa_res_formalin_status`.`res_for_res_id` = `sfa_restaurant`.`res_id`
+        WHERE `sfa_formalin_checklist`.`fcl_year` = '" . $fcl_year . "' AND `sfa_restaurant`.`res_active` = 1
+        AND `sfa_res_formalin_status`.`res_for_status` = 0";
         $arr_res_formalin_status = mysqli_query($con, $sql);
         $count_restaurant = mysqli_fetch_assoc($arr_res_formalin_status)["count_res"];
         return $count_restaurant;
@@ -142,14 +154,7 @@
     }
 
     $arr_res_category_pass_data = array();
-    // function get_res_category_pass($con, $res_cat_id) {
-    //     $sql = "SELECT COUNT(`res_for_id`) as `pass` FROM `sfa_res_formalin_status`
-    //     LEFT JOIN `sfa_restaurant` ON `sfa_res_formalin_status`.`res_for_res_id` = `sfa_restaurant`.`res_id`
-    //     WHERE `sfa_res_formalin_status`.`res_for_status` = 0 AND `sfa_restaurant`.`res_cat_id` = " . $res_cat_id;
-    //     $arr_res_category = mysqli_query($con, $sql);
-    //     $obj_res_category = mysqli_fetch_array($arr_res_category);
-    //     return $obj_res_category["pass"];
-    // }
+
     function get_res_category_pass($con, $res_cat_id, $arr_fcl_id) {
         $sql = "SELECT COUNT(`res_for_res_id`) AS `pass` FROM `sfa_res_formalin_status` 
         LEFT JOIN `sfa_restaurant` ON `sfa_res_formalin_status`.`res_for_res_id` = `sfa_restaurant`.`res_id`
@@ -170,14 +175,7 @@
     }
 
     $arr_res_category_fail_data = array();
-    // function get_res_category_fail($con, $res_cat_id) {
-    //     $sql = "SELECT COUNT(`res_for_id`) as `fail` FROM `sfa_res_formalin_status`
-    //     LEFT JOIN `sfa_restaurant` ON `sfa_res_formalin_status`.`res_for_res_id` = `sfa_restaurant`.`res_id`
-    //     WHERE `sfa_res_formalin_status`.`res_for_status` = 1 AND `sfa_restaurant`.`res_cat_id` = " . $res_cat_id;
-    //     $arr_res_category = mysqli_query($con, $sql);
-    //     $obj_res_category = mysqli_fetch_array($arr_res_category);
-    //     return $obj_res_category["fail"];
-    // }
+
     function get_res_category_fail($con, $res_cat_id, $arr_fcl_id) {
         $sql = "SELECT COUNT(`res_for_res_id`) AS `fail` FROM `sfa_res_formalin_status` 
         LEFT JOIN `sfa_restaurant` ON `sfa_res_formalin_status`.`res_for_res_id` = `sfa_restaurant`.`res_id`
@@ -239,7 +237,7 @@
     LEFT JOIN `sfa_entrepreneur` ON `sfa_restaurant`.`res_ent_id` = `sfa_entrepreneur`.`ent_id`
     LEFT JOIN `sfa_block` ON `sfa_restaurant`.`res_block_id` = `sfa_block`.`block_id`
     LEFT JOIN `sfa_zone` ON `sfa_block`.`block_zone_id` = `sfa_zone`.`zone_id`
-    WHERE `res_for_last_fcl_id` IN (";
+    WHERE `sfa_restaurant`.`res_active` = 1 AND `res_for_last_fcl_id` IN (";
     for ($i = 0; $i < count($arr_fcl_id); $i++) {
         $sql .= $arr_fcl_id[$i];
         if ($i != count($arr_fcl_id) - 1) {
@@ -312,7 +310,7 @@
                                             <h1 class="text-success"><i class="bi bi-shield-fill-check"></i></h1>
                                         </div>
                                         <div>
-                                            <h1 class="font-weight-bold mb-0"><?php echo round(($pass_restaurant / $all_restaurant) * 100, 2) ?></h1>
+                                            <h1 class="font-weight-bold mb-0"><?php echo round(($pass_restaurant / $all_restaurant) * 100, 2) ?>%</h1>
                                         </div>
                                     </div>
                                 </div>
@@ -331,7 +329,7 @@
                         <?php
                         while($obj_fcl_year = mysqli_fetch_assoc($arr_fcl_year)["fcl_year"]) {
                             $selected = $fcl_year == $obj_fcl_year? "selected" : "" ?>
-                            <option value="<?php echo $obj_fcl_year ?>" <?php echo $selected ?>><?php echo $obj_fcl_year ?></option>
+                            <option value="<?php echo $obj_fcl_year ?>" <?php echo $selected ?>><?php echo ($obj_fcl_year + 543) ?></option>
                         <?php } ?>
                     </select>
                 </div>
@@ -393,7 +391,7 @@
                                             <h1 class="text-success"><i class="bi bi-shield-fill-check"></i></h1>
                                         </div>
                                         <div>
-                                            <h1 class="font-weight-bold mb-0"><?php echo round(($pass_restaurant_by_year / $all_restaurant_by_year) * 100, 2) ?></h1>
+                                            <h1 class="font-weight-bold mb-0"><?php echo round(($pass_restaurant_by_year / $all_restaurant_by_year) * 100, 2) ?>%</h1>
                                         </div>
                                     </div>
                                 </div>
@@ -405,7 +403,7 @@
         </div>
     </div>
 
-    <div class="container-fluid" style="max-width: 1600px">
+    <!-- <div class="container-fluid" style="max-width: 1600px">
         <div class="row justify-content-sm-center pb-2">
             <?php
             $round = 1;
@@ -414,7 +412,7 @@
                 <div class="col col-lg-3">
                     <div class="card">
                         <div class="card-header bg-primary text-white text-center" style="font-size: 1.25rem;">
-                            อัตราส่วนร้านที่พบฟอร์มาลิน <?php echo ($round) ?>/<?php echo ($fcl_year + 543) ?>
+                            สัดส่วนการตรวจฟอร์มาลิน รอบ <?php echo ($round) ?>/<?php echo ($fcl_year + 543) ?>
                         </div>
                         <div class="card-body" id="<?php echo "pie_chart_card_" . ($round+1) ?>">
                             <canvas id="<?php echo "pie_chart_" . ($round) ?>" width="200" height="200"></canvas>
@@ -425,16 +423,29 @@
                 $round++;
                 endif; ?>
             <?php } ?>
-        </div>
+        </div> -->
         
         <div class="row justify-content-sm-center pb-2">
             <div class="col">
                 <div class="card p-0">
                     <div class="card-header bg-primary text-white text-start" style="font-size: 1.25rem;">
-                    ผลตรวจฟอร์มาลินของร้านจำแนกตามประเภทของร้านอาหาร
+                    ผลตรวจฟอร์มาลินตามรอบการตรวจ
                     </div>
                     <div class="card-body p-0">
-                        <div id="ColumnChart"></div>
+                        <div id="stackedColumn"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-sm-center pb-2">
+            <div class="col">
+                <div class="card p-0">
+                    <div class="card-header bg-primary text-white text-start" style="font-size: 1.25rem;">
+                    ผลตรวจฟอร์มาลินของร้านจำแนกตามประเภทของร้านอาหาร ณ ปีที่เลือก
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="columnChart"></div>
                     </div>
                 </div>
             </div>
@@ -531,6 +542,9 @@
         endif; ?>
     <?php } ?>
 
+    getStackedColumn();
+    
+
     function toastify_success() {
         Toastify({
             text: "เข้าสู่ระบบสำเร็จ",
@@ -593,8 +607,105 @@
             }
         });
     }
+    function getStackedColumn() {
+        Highcharts.chart('stackedColumn', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: "<b>จำนวนร้านอาหารในรอบการตรวจ</b>",
+                style: {
+                    fontSize: '14px',
+                    fontFamily: 'Prompt, sans-serif'
+                }
+            },
+            xAxis: {
+                categories: [<?php for ($i = 0; $i < count($arr_fcl_data_pass); $i++) {
+                    echo "'รอบที่ " . ($i + 1) . "'";
+                    if ($i != count($arr_fcl_data_pass) - 1) {
+                        echo ",";
+                    }
+                }?>],
+                labels: {
+                    style: {
+                        fontSize: "14px",
+                        fontFamily: 'Prompt, sans-serif'
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'จำนวนร้านค้า'
+                },
+                style: {
+                    fontFamily: 'Prompt, sans-serif'
+                },
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (
+                            Highcharts.defaultOptions.title.style &&
+                            Highcharts.defaultOptions.title.style.color
+                        ) || 'gray',
+                        textOutline: 'none'
+                    }
+                }
+            },
+            // legend: {
+            //     align: 'left',
+            //     x: 70,
+            //     verticalAlign: 'top',
+            //     y: 70,
+            //     floating: true,
+            //     backgroundColor:
+            //         Highcharts.defaultOptions.legend.backgroundColor || 'white',
+            //     borderColor: '#CCC',
+            //     borderWidth: 1,
+            //     shadow: false
+            // },
+            legend: {
+                layout: 'vertical',
+                style: {
+                    fontFamily: 'Prompt, sans-serif'
+                }
+            },
+            tooltip: {
+                headerFormat: '<b>{point.x}</b><br/>',
+                pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            series: [{
+                name: 'ปลอดภัย',
+                data: [<?php for ($i = 0; $i < count($arr_fcl_data_pass); $i++) {
+                            echo $arr_fcl_data_pass[$i];
+                            if ($i != count($arr_fcl_data_pass) - 1) {
+                                echo ",";
+                            }
+                        }?>],
+                color: 'rgb(45, 206, 137)'
+            }, {
+                name: 'พบสาร',
+                data: [<?php for ($i = 0; $i < count($arr_fcl_data_fail); $i++) {
+                            echo $arr_fcl_data_fail[$i];
+                            if ($i != count($arr_fcl_data_fail) - 1) {
+                                echo ",";
+                            }
+                        }?>],
+                color: 'rgb(201, 27, 14)'
+            }]
+        });
+    }
     function getColumnChart() {
-        Highcharts.chart('ColumnChart', {
+        Highcharts.chart('columnChart', {
             chart: {
                 type: 'column'
             },
@@ -661,7 +772,7 @@
                 , <?php echo $other_pass_data ?>],
                 color: 'rgb(45, 206, 137)'
             }, {
-                name: 'รอตรวจสอบ',
+                name: 'พบสาร',
                 data: [
                     <?php
                         for ($i = 0; $i < $number_top_category; $i++) {
@@ -680,7 +791,7 @@
                     fontFamily: 'Prompt, sans-serif'
                 }
             },
-            });
+        });
     }
 </script>
 
