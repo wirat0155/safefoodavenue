@@ -118,18 +118,18 @@
         };
 
         // if (locations[i][5] == "user") {
-          //   mIcon = "../../assets/img/brand/user.png";
-          // } else if (locations[i][4] == 1) {
-            //   color = "#fff";
+        //   mIcon = "../../assets/img/brand/user.png";
+        // } else if (locations[i][4] == 1) {
+        //   color = "#fff";
         //   if (locations[i][5] == "res_id") {
-          //     mIcon = "../../assets/img/brand/icon-store-grey.png";
-          //   }
-          // } else {
-            //   color = "#42ee7d";
-            //   if (locations[i][5] == "res_id") {
-              //     mIcon = "../../assets/img/brand/icon-store-green.png";
-              //   }
-              // }
+        //     mIcon = "../../assets/img/brand/icon-store-grey.png";
+        //   }
+        // } else {
+        //   color = "#42ee7d";
+        //   if (locations[i][5] == "res_id") {
+        //     mIcon = "../../assets/img/brand/icon-store-green.png";
+        //   }
+        // }
         console.log("block_id " + locations[i][0] + " " + locations[i][4]);
         if (locations[i][5] == "user") {
           mIcon = "../../assets/img/brand/user.png";
@@ -217,57 +217,26 @@
 
         }
         html += '<div class="card-body">';
-        html += '<div class="row">';
-        html += ' <div class="col col-sm-8 col-md-8 col-lg-6">';
-
+        html += '<div class="d-flex justify-content-between">';
+        html += ' <div  class="p-2">';
         if (row_res.res_for_status == 0) {
-          //   html += '   <span class="badge badge-success text-size-12  text-white">ปลอดภัยจากสารฟอมาลีน</span>';
-          html += '<img src="./../assets/img/icons/common/formalin.png" class="set-pic text-center" alt="test"> <br>';
-        } else {
-          html += '  <img src="./../assets/img/icons/common/formalin_not.png" class="set-pic text-center" alt="test">';
+          html += '   <span class="badge badge-success text-size-12  text-white">ปลอดภัย</span>';
+          //html += '<img src="./../assets/img/icons/common/formalin.png" class="set-pic text-center" alt="test"> <br>';
         }
 
         html += ' </div>';
-        html += '<div class="col col-sm-8 col-md-8 col-lg-6">';
-        html += '   <h4 class="text-center mt-2 text-size-11">';
-
-
+        html += '<div  class="p-2">';
 
         if (row_res.srs_count != null && row_res.srs_sum_review != null) {
 
           let score = row_res.srs_sum_review / row_res.srs_count;
-          let whole_star = Math.floor(score);
-          var haft_star = (whole_star < score);
 
-
-          for (var star = 1; star <= whole_star; star++) {
-            let class_name = 'text-warning';
-            html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
-          }
-
-          if (haft_star) {
-            let class_name = 'fa-star-half';
-            html += '<i class="fas fa-star text-warning ' + class_name + ' mr-1"></i>';
-            final_loop = whole_star;
-          } else {
-            final_loop = whole_star;
-          }
-
-          if (5 - (final_loop) > 0) {
-
-            for (var star = 0; star < 5 - final_loop; star++) {
-              let class_name = 'text-light';
-              html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
-            }
-
-          }
+          html += '   <span class="badge badge-warning-fix text-size-12  text-white"><i class="fas fa-star text-warnng mr-1"></i>' + score.toFixed(1) + '</span>';
+          html += '   <span class="text-size-12 text-dark">' + row_res.srs_count + ' รีวิว</span>';
 
         } else {
           html += '<span>ไม่มีรีวิว</span>';
         }
-
-
-        html += '   </h4>';
         html += '</div>';
         html += '</div>';
         html += '<div class="row mt-2">';
@@ -277,11 +246,6 @@
         html += '</div>';
         html += ' <div class="row">';
         html += '     <div class="col">';
-        if (row_res.res_cat_title != null) {
-          html += '        <p class="ml-2 text-dark">' + row_res.res_cat_title + '</p>';
-        } else {
-          html += '        <p class="ml-2 text-dark">อื่น ๆ</p>';
-        }
 
         html += '      </div>     ';
         html += '</div>     ';

@@ -1,11 +1,13 @@
 <?php
 header('Content-Type: application/json');
 require("../php/config.php");
+include("date_helper.php");
 
 if (isset($_POST["res_id"])) {
 
     $response["data_res"] = array(); //Array ร้านอาหาร
     $response["data_formalin"] = array(); //Array การตรวจฟอมาลีน
+    $response["data_formalin_date"] = array(); // dateการตรวจฟอมาลีน
     $response["data_pic"] = array(); //Array รูปภาพ (เผื่อมีหลายรูปเด้อ)
     $response["data_location"] = array(); //Array ที่อยู่ (lat lon)
 
@@ -25,7 +27,7 @@ if (isset($_POST["res_id"])) {
 
 
     //get data sfa_formalin
-    $sql_formalin = "SELECT sfa_menu.menu_id, sfa_menu.menu_name, sfa_formalin.for_status, sfa_formalin.for_test_date AS status FROM sfa_menu 
+    $sql_formalin = "SELECT sfa_menu.menu_id, sfa_menu.menu_name, sfa_formalin.for_status, sfa_formalin.for_test_date FROM sfa_menu 
     LEFT JOIN sfa_formalin 
     ON  sfa_menu.menu_id = sfa_formalin.for_menu_id
     
@@ -42,6 +44,7 @@ if (isset($_POST["res_id"])) {
             break;
         }else if($row_res_formalin["for_status"] == "2"){
             array_push($response["data_formalin"], "Safe");
+            array_push($response["data_formalin_date"], to_format($row_res_formalin["for_test_date"]));
         }else{
             array_push($response["data_formalin"], "Not Safe"); 
         }
