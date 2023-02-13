@@ -72,9 +72,69 @@ include("date_helper.php");
   .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
     background-color: #5e72e4;
   }
+
+  .loader_bg {
+    position: fixed;
+    z-index: 9999999;
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: none;
+
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  .loader4 {
+    width: 200px;
+    height: 200px;
+    margin-top: 6rem;
+    position: absolute;
+    padding: 0px;
+    border-radius: 100%;
+    border: 5px solid;
+    border-top-color: rgba(246, 36, 89, 1);
+    border-bottom-color: rgba(255, 255, 255, 0.3);
+    border-left-color: rgba(246, 36, 89, 1);
+    border-right-color: rgba(255, 255, 255, 0.3);
+    -webkit-animation: loader4 1s ease-in-out infinite;
+    animation: loader4 1s ease-in-out infinite;
+  }
+
+  @keyframes loader4 {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @-webkit-keyframes loader4 {
+    from {
+      -webkit-transform: rotate(0deg);
+    }
+
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
 </style>
 
 <body>
+
+  <div class="loader_bg">
+
+    <span class="loader4"></span>
+
+  </div>
+
   <!-- Sidenav -->
   <!-- </?php include("sidebar.php"); ?>  -->
   <!-- Main content -->

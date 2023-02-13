@@ -128,16 +128,16 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                                             <div class="" id="display_formalin"></div>
 
 
-                                            <button class="btn btn-secondary mr-2" type="button" id="modal_infomation">
+                                            <!-- <button class="btn btn-secondary mr-2" type="button" id="modal_infomation">
                                                 <i class="fa fa-info"></i>
-                                            </button>
+                                            </button> -->
 
                                         </div>
 
                                         <h1 class="mt-2 text-size-42" id="res_title"></h1>
                                         <p class="mt-2" id="res_cat_title"></p>
 
-                                        <button class="btn btn-primary mt-2" id="modal_sfa_menu">ดูวัตถุดิบที่ได้รับการตรวจ</button>
+                                        
 
                                         <p class="font-weight-bold mt-3 text-size-24">รายละเอียดร้านอาหาร</p>
 
@@ -169,7 +169,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
 
                         <div class="row">
                             <div class="col">
-                                <div class="card d-flex justify-content-center bg-gray-fix">
+                                <div class="card d-flex bg-gray-fix">
                                     <div class="card-body text-center">
                                         <div class="row">
                                             <div class="col text-center ">
@@ -195,9 +195,9 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                                             </div>
                                         </div>
                                         <div class="row mt-4">
-                                            <div class="col">
-                                                <div class="form-group justify-content-center">
-                                                    <textarea name="rev_comment" id="rev_comment" rows="7" class="form-control text-size-16" placeholder="รีวิวของคุณ"></textarea>
+                                            <div class="container">
+                                                <div class="form-group">
+                                                    <textarea name="rev_comment" id="rev_comment" rows="5" class="form-control text-size-16" placeholder="รีวิวของคุณ"></textarea>
                                                 </div>
 
                                             </div>
@@ -225,7 +225,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                                         </div>
 
 
-                                        <div class="mt-5" id="review_content"></div>
+                                        <div class="mt-5 text-left" id="review_content"></div>
 
 
                                     </div>
@@ -444,15 +444,17 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
         let status_for_html = '';
         if (data["data_formalin"][0] == "Not Safe") {
 
-            status_for_html += '<img src="./../assets/img/icons/common/formalin_not_grey.PNG" class=" text-center" alt="test">';
+          //  status_for_html += '<img src="./../assets/img/icons/common/formalin_not_grey.PNG" class=" text-center" alt="test">';
             status_for_html += ' <span> ร้านนี้กำลังรอตรวจสอบ</span>';
 
         } else if (data["data_formalin"].length == 0) {
-            status_for_html += '<img src="./../assets/img/icons/common/formalin_not_grey.PNG" class=" text-center" alt="test">';
+          //  status_for_html += '<img src="./../assets/img/icons/common/formalin_not_grey.PNG" class=" text-center" alt="test">';
             status_for_html += ' <span> ร้านนี้กำลังรอตรวจสอบ</span>';
         } else if (data["data_formalin"][0] == "Safe") {
-            status_for_html += '<img src="./../assets/img/icons/common/formalin_grey.PNG" class=" text-center" alt="test">';
-            status_for_html += ' <span> ร้านนี้ปลอดภัย ไร้สารฟอมาลีน</span>';
+           // status_for_html += '<img src="./../assets/img/icons/common/formalin_grey.PNG" class=" text-center" alt="test">';
+            status_for_html += '   <span class="badge badge-success text-size-24  text-white">ปลอดภัย</span>';
+            status_for_html += ' <span> ร้านนี้ปลอดภัย ไร้สารฟอร์มาลีน</span> <br><br>';
+            status_for_html += ' <span>ได้รับการตรวจเมื่อวันที่ ' + data["data_formalin_date"][0] + '</span>';
         }
 
         $("#display_formalin").html(status_for_html); //set display for status
@@ -569,7 +571,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
             dataType: "JSON",
             success: function(data) {
 
-                // console.log(data);
+                console.log(data);
                 var html = '';
                 if (data.review_data.length > 0) {
 
@@ -590,45 +592,30 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                         html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
                     }
 
-                    var final_loop;
+                
                     // And the half star
                     if (haft_star) {
                         let class_name = 'fa-star-half';
                         html += '<i class="fas fa-star text-warning ' + class_name + ' mr-1"></i>';
-                        final_loop = whole_star;
-                    } else {
-                        final_loop = whole_star;
-                    }
-
-                    if (5 - (final_loop) > 0) {
-
-                        for (var star = 0; star < 5 - final_loop; star++) {
-                            let class_name = 'text-light';
-                            html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
-                        }
-
-                    }
-
-
+                     
+                    } 
+                
+                    
                     $(".main_star").html(html);
-
-
-
                     html = '';
 
                     for (var i = 0; i < data.review_data.length; i++) {
-                        html += '<div class="row mb-3">';
+                        html += '<div class="row mb-3 ml-3 mt-2">';
 
-                        html += '<div class="col-sm-1"><i class="fas fa-user text-size-36"></i>';
-                        html += '</div>';
+                     
 
-                        html += '<div class="col-sm-11">';
+                        html += '<div class="col-sm-12">';
 
-                        html += '<div class="card">';
+                       // html += '<div class="card">';
 
-                        html += '<div class="card-header"><b>' + data.review_data[i].us_fname + ' ' + data.review_data[i].us_lname + '</b></div>';
-
-                        html += '<div class="card-body">';
+                        html += '<b>' + data.review_data[i].us_fname + ' ' + data.review_data[i].us_lname + '</b><br>';
+                        html += '<p class="text-size-14"> เมื่อ ' + data.review_data_date[i] + '</p>';
+                       // html += '<div class="card-body">';
 
                         for (var star = 1; star <= 5; star++) {
                             var class_name = '';
@@ -644,23 +631,24 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
 
                         html += '<br />';
                         html += '<br />';
+                   
 
-                        html += data.review_data[i].rev_comment;
-
-                        html += '</div>';
-
-                        html += '</div>';
+                        html += '<p class="text-size-14 ml-2">' + data.review_data[i].rev_comment + '</p>';
 
                         html += '</div>';
 
                         html += '</div>';
+
+                       // html += '</div>';
+
+                       // html += '</div>';
                     }
                     $('#review_content').html(html);
                 } else {
 
                     $('#total_review').text("ยังไม่มีการรีวิว");
 
-                    html += '<div class="row mb-3 mt-4 p-5 ">';
+                    html += '<div class="row mb-3 mt-4 p-5 text-center">';
                     html += '<div class="col-sm-12">';
                     html += 'ร้านนี้ยังไม่มีรีวิว เป็นคนแรกที่รีวิวเลยสิ';
                     html += '</div>';

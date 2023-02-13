@@ -61,13 +61,13 @@
     }
 
     .card-fix {
-        max-height: 400px !important;
-        height: 400px !important;
+        max-height: 350px !important;
+        height: 350px !important;
 
     }
 
     .badge-warning-fix {
-        background-color: #FFB600;
+        background-color: #FFA728;
     }
 
     .set-pic {
@@ -88,54 +88,7 @@
         display: inline-block;
         text-align: left;
     }
-
-    .loader_bg {
-        position: fixed;
-        z-index: 9999999;
-        background: #fff;
-        width: 100%;
-        height: 100%;
-        text-align: center;
-        justify-content: center;
-        align-items: center;
-
-    }
-
-    .loader4 {
-        width: 200px;
-        height: 200px;
-        margin-top: 6rem;
-        position: absolute;
-        padding: 0px;
-        border-radius: 100%;
-        border: 5px solid;
-        border-top-color: rgba(246, 36, 89, 1);
-        border-bottom-color: rgba(255, 255, 255, 0.3);
-        border-left-color: rgba(246, 36, 89, 1);
-        border-right-color: rgba(255, 255, 255, 0.3);
-        -webkit-animation: loader4 1s ease-in-out infinite;
-        animation: loader4 1s ease-in-out infinite;
-    }
-
-    @keyframes loader4 {
-        from {
-            transform: rotate(0deg);
-        }
-
-        to {
-            transform: rotate(360deg);
-        }
-    }
-
-    @-webkit-keyframes loader4 {
-        from {
-            -webkit-transform: rotate(0deg);
-        }
-
-        to {
-            -webkit-transform: rotate(360deg);
-        }
-    }
+    
 </style>
 
 
@@ -163,17 +116,11 @@
 
 <div class="container-fluid mt--6">
     <div class="row">
-        
+
         <div class="col">
             <div class="card border-0">
 
-                <div class="loader_bg py-4 px-4 border-0 justify-content-center">
-                    <div class="row">
-                        <div class="col">
-                            <span class="loader4"></span>
-                        </div>
-                    </div>
-                </div>
+
 
                 <div class="table-responsive py-4 px-4">
 
@@ -246,9 +193,9 @@
                                         <button class="btn btn-secondary" type="button" id="button_reset">
                                             รีเซ็ต
                                         </button>
-                                        <button class="btn btn-secondary mr-2" type="button" id="modal_infomation">
+                                        <!-- <button class="btn btn-secondary mr-2" type="button" id="modal_infomation">
                                             <i class="fa fa-info"></i>
-                                        </button>
+                                        </button> -->
                                     </div>
                                 </div>
 
@@ -511,58 +458,27 @@
 
                 }
                 html += '<div class="card-body">';
-                html += '<div class="row">';
-                html += ' <div class="col col-sm-8 col-md-8 col-lg-6">';
+                html += '<div class="d-flex justify-content-between">';
+                html += ' <div  class="p-2">';
 
                 if (row_res.res_for_status == 0) {
-                    //   html += '   <span class="badge badge-success text-size-12  text-white">ปลอดภัยจากสารฟอมาลีน</span>';
-                    html += '<img src="./../assets/img/icons/common/formalin.png" class="set-pic text-center" alt="test"> <br>';
-                } else {
-                    html += '  <img src="./../assets/img/icons/common/formalin_not.png" class="set-pic text-center" alt="test">';
+                     html += '   <span class="badge badge-success text-size-12  text-white">ปลอดภัย</span>';
+                    //html += '<img src="./../assets/img/icons/common/formalin.png" class="set-pic text-center" alt="test"> <br>';
                 }
 
                 html += ' </div>';
-                html += '<div class="col col-sm-8 col-md-8 col-lg-6">';
-                html += '   <h4 class="text-center mt-2 text-size-11">';
-
-
-
+                html += '<div  class="p-2">';
+               
                 if (row_res.srs_count != null && row_res.srs_sum_review != null) {
 
                     let score = row_res.srs_sum_review / row_res.srs_count;
-                    let whole_star = Math.floor(score);
-                    var haft_star = (whole_star < score);
-
-
-                    for (var star = 1; star <= whole_star; star++) {
-                        let class_name = 'text-warning';
-                        html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
-                    }
-
-                    if (haft_star) {
-                        let class_name = 'fa-star-half';
-                        html += '<i class="fas fa-star text-warning ' + class_name + ' mr-1"></i>';
-                        final_loop = whole_star;
-                    } else {
-                        final_loop = whole_star;
-                    }
-
-                    if (5 - (final_loop) > 0) {
-
-                        for (var star = 0; star < 5 - final_loop; star++) {
-                            let class_name = 'text-light';
-                            html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
-                        }
-
-                    }
-
+                  
+                    html += '   <span class="badge badge-warning-fix text-size-12  text-white"><i class="fas fa-star text-warnng mr-1"></i>' + score.toFixed(1)   + '</span>';
+                    html += '   <span class="text-size-12 text-dark">' + row_res.srs_count    + ' รีวิว</span>';
 
                 } else {
                     html += '<span>ไม่มีรีวิว</span>';
                 }
-
-
-                html += '   </h4>';
                 html += '</div>';
                 html += '</div>';
                 html += '<div class="row mt-2">';
@@ -572,11 +488,7 @@
                 html += '</div>';
                 html += ' <div class="row">';
                 html += '     <div class="col">';
-                if (row_res.res_cat_title != null) {
-                    html += '        <p class="ml-2 text-dark">' + row_res.res_cat_title + '</p>';
-                } else {
-                    html += '        <p class="ml-2 text-dark">อื่น ๆ</p>';
-                }
+                
 
                 html += '      </div>     ';
                 html += '</div>     ';
