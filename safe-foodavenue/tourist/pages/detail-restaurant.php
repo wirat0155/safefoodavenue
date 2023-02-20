@@ -220,8 +220,8 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                                         <div class="row">
                                             <div class="col-lg-4 col-sm-8">
                                                 <div class="form-inline m-3">
-                                                    <label for="">ตัวกรอง : </label>
-                                                    <select class="form-control m-2 bg-info text-white" id="star_search">
+                                                    <label for="" class="">ตัวกรอง : </label>
+                                                    <select class="form-control m-2 bg-info text-white" style="color:white !important;" id="star_search">
                                                         <option value="0">ทั้งหมด</option>
                                                         <option value="5">5 ดาว</option>
                                                         <option value="4">4 ดาว</option>

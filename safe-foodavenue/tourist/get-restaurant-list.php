@@ -87,6 +87,7 @@ if (mysqli_num_rows($query) > 0) {
 }
 
 
+// นับจำนวนทั้งหมด โดยไม่ได้ทำการ Limit start  เพื่อสร้าง pagination
 $sql_no_lmit = "
 SELECT sfa_restaurant.res_id, sfa_restaurant.res_title, sfa_res_category.res_cat_title, 
 sfa_res_image.res_img_path, sfa_res_formalin_status.res_for_status, sfa_restaurant.res_zone_id,

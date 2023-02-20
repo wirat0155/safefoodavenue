@@ -1,6 +1,6 @@
 <?php
 require("../php/config.php");
-include("date_helper.php");
+include("./php/date_helper.php");
 
 if (isset($_POST["action"])) {
   
@@ -48,7 +48,6 @@ if (isset($_POST["action"])) {
 
 
     }
-
 
     $sql_rating = "
     SELECT srs_sum_review/srs_count AS avg_rev_rating FROM `sfa_review_summary` WHERE srs_res_id = " . $res_id;

@@ -8,7 +8,61 @@
     font-size: 20px;
     font-weight: bold;
   }
+  .loader_bg {
+    position: fixed;
+    z-index: 9999999;
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: none;
+
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  .loader4 {
+    width: 200px;
+    height: 200px;
+    margin-top: 6rem;
+    position: absolute;
+    padding: 0px;
+    border-radius: 100%;
+    border: 5px solid;
+    border-top-color: rgba(246, 36, 89, 1);
+    border-bottom-color: rgba(255, 255, 255, 0.3);
+    border-left-color: rgba(246, 36, 89, 1);
+    border-right-color: rgba(255, 255, 255, 0.3);
+    -webkit-animation: loader4 1s ease-in-out infinite;
+    animation: loader4 1s ease-in-out infinite;
+  }
+
+  @keyframes loader4 {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @-webkit-keyframes loader4 {
+    from {
+      -webkit-transform: rotate(0deg);
+    }
+
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
 </style>
+
+
 
 <div id="map" class="map-canvas"></div>
 <div class="d-flex justify-content-end">
@@ -26,9 +80,14 @@
   var my_lon;
 
   $(document).ready(function() {
-    getLocation();
+
+
+ 
+
+  getLocation();
 
     function getLocation() {
+  
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
       } else {
@@ -43,6 +102,9 @@
     }
 
     function get_block_location() {
+
+    
+  
       var fetch_location = [];
       $.ajax({
         dataType: "JSON",
@@ -51,7 +113,7 @@
         cache: false,
         async: false,
         success: function(block_data) {
-          console.log(block_data);
+          //console.log(block_data);
           for (let i = 0; i < block_data.length; i++) {
             fetch_location.push(block_data[i])
           }
@@ -130,7 +192,7 @@
         //     mIcon = "../../assets/img/brand/icon-store-green.png";
         //   }
         // }
-        console.log("block_id " + locations[i][0] + " " + locations[i][4]);
+       // console.log("block_id " + locations[i][0] + " " + locations[i][4]);
         if (locations[i][5] == "user") {
           mIcon = "../../assets/img/brand/user.png";
         } else {
@@ -155,7 +217,7 @@
 
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
           return function() {
-            console.log(locations[i][0], locations[i][5]);
+           // console.log(locations[i][0], locations[i][5]);
             // $("#map-restaurant-panel").html("คุณคลิ๊ก " + locations[i][5] + " ที่ " + locations[i][0]);
             get_data_restarant_panel(locations[i][5], locations[i][0])
           }
@@ -181,7 +243,7 @@
       },
       success: function(data) {
 
-        console.log(data);
+       // console.log(data);
         show_data_block(data)
         // show_province_dropdown(data);
 

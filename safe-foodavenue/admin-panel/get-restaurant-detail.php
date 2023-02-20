@@ -1,11 +1,13 @@
 <?php
 header('Content-Type: application/json');
 require("../php/config.php");
+include("./php/date_helper.php");
 
 if (isset($_POST["res_id"])) {
 
     $response["data_res"] = array(); //Array ร้านอาหาร
     $response["data_formalin"] = array(); //Array การตรวจฟอมาลีน
+    $response["data_formalin_date"] = array(); // dateการตรวจฟอมาลีน
     $response["data_pic"] = array(); //Array รูปภาพ (เผื่อมีหลายรูปเด้อ)
     $response["data_location"] = array(); //Array ที่อยู่ (lat lon)
 
@@ -25,7 +27,7 @@ if (isset($_POST["res_id"])) {
 
 
     //get data sfa_formalin
-    $sql_formalin = "SELECT sfa_menu.menu_id, sfa_menu.menu_name, sfa_formalin.for_status, sfa_formalin.for_test_date AS status FROM sfa_menu 
+    $sql_formalin = "SELECT sfa_menu.menu_id, sfa_menu.menu_name, sfa_formalin.for_status, sfa_formalin.for_test_date FROM sfa_menu 
     LEFT JOIN sfa_formalin 
     ON  sfa_menu.menu_id = sfa_formalin.for_menu_id
     
@@ -42,6 +44,7 @@ if (isset($_POST["res_id"])) {
             break;
         }else if($row_res_formalin["for_status"] == "2"){
             array_push($response["data_formalin"], "Safe");
+            array_push($response["data_formalin_date"], to_format($row_res_formalin["for_test_date"]));
         }else{
             array_push($response["data_formalin"], "Not Safe"); 
         }
@@ -62,7 +65,7 @@ if (isset($_POST["res_id"])) {
     // เนื่องจากว่า ร้านมี block หรืออยู่แค่โซน
     // หรือไม่ได้อยู่ทั้ง 2 อย่าง
     // เลยต้องเช็คว่า เอาล๊อก หรือ เอา Location ร้านเอง
-    if ($row_res["res_block_id"] != NULL) {
+    if ($row_res["res_block_id"] != NULL AND $row_res["res_block_id"] != 0) {
 
         $sql_location = "SELECT block_lat AS lat, block_lon AS lon 
         FROM  `sfa_block` INNER JOIN `sfa_restaurant` 
@@ -76,9 +79,9 @@ if (isset($_POST["res_id"])) {
 
         //*** fix data */
     } else {
-        $row_test["lat"] = "13.2809816";
-        $row_test["lon"] = "100.9248775";
-        array_push($response["data_location"], $row_test);
+        $row_res_location["lat"] = $row_res["res_lat"] ;
+        $row_res_location["lon"] = $row_res["res_lon"] ;
+        array_push($response["data_location"], $row_res_location);
     }
 
 
@@ -90,3 +93,4 @@ if (isset($_POST["res_id"])) {
 }else{
     echo "error";
 }
+

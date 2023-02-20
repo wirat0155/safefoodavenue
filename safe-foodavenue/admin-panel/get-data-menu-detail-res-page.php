@@ -1,26 +1,29 @@
 <?php
 header('Content-Type: application/json');
 require("../php/config.php");
+include("./php/date_helper.php");
 
 $response["data_menu"] = array(); //Array ร้านอาหาร
-
+$response["data_date_check"] = array();
 //check parameter
 if (isset($_POST["res_id"])) {
-    $res_id =  $_POST["res_id"];
+  $res_id =  $_POST["res_id"];
 
-    $sql = "SELECT sfa_menu.menu_id, sfa_menu.menu_name, sfa_formalin.for_status, sfa_formalin.for_test_date AS status FROM sfa_menu 
-    LEFT JOIN sfa_formalin 
-    ON  sfa_menu.menu_id = sfa_formalin.for_menu_id
-    
-    WHERE menu_res_id = " . $res_id . " AND sfa_formalin.for_test_date = (SELECT MAX(sfa_formalin.for_test_date) FROM sfa_formalin  WHERE menu_res_id = " . $res_id . " )";
-    $query = mysqli_query($con, $sql);
+  $sql = "SELECT sfa_menu.menu_id, sfa_menu.menu_name, sfa_formalin.for_status, sfa_formalin.for_test_date AS status FROM sfa_menu 
+  LEFT JOIN sfa_formalin 
+  ON  sfa_menu.menu_id = sfa_formalin.for_menu_id
+  
+  WHERE menu_res_id = " . $res_id . " AND sfa_formalin.for_test_date = (SELECT MAX(sfa_formalin.for_test_date) FROM sfa_formalin  WHERE for_res_id = " . $res_id . " )";
+  $query = mysqli_query($con, $sql);
 
-    while ($row_menu = $query->fetch_assoc()) {
-   
-      array_push($response["data_menu"], $row_menu);
-    }
+  while ($row_menu = $query->fetch_assoc()) {
+ 
+    array_push($response["data_menu"], $row_menu);
+    array_push($response["data_date_check"],to_format($row_menu['status']));
+ 
+  }
 
 
-    echo json_encode($response);
+  echo json_encode($response);
 }
 

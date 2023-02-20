@@ -112,8 +112,11 @@
     .loader4 {
         width: 200px;
         height: 200px;
-        margin-top: 6rem;
-        position: absolute;
+        /* margin-top: 6rem; */
+        /* position: fixed; */
+        left: 45%;
+        margin-left: auto;
+        margin-right: auto;
         padding: 0px;
         border-radius: 100%;
         border: 5px solid;
@@ -196,6 +199,12 @@
     </nav>
 
 
+    <div class="loader_bg">
+
+    <span class="loader4"></span>
+
+  </div>
+
     <!-- Main content -->
     <div class="main-content">
         <!-- Header -->
@@ -256,6 +265,7 @@
     </div>
 
 
+
     <section class="py-6 pb-9 bg-default px-3 mt-5">
         <div class="row">
             <div class="col">
@@ -263,7 +273,9 @@
             </div>
         </div>
         <div class="row">
+
             <div class="col-12 col-xl-9 p-0" id="map-panel">
+                
                 <?php require("./tourist/pages/block-map.php"); ?>
             </div>
             <div class="col-12 col-xl-3 p-0" id="click-map-panel">
@@ -279,6 +291,9 @@
         </div>
     </section>
 
+
+
+             
 
     </div>
 
@@ -301,6 +316,8 @@
         var my_lat;
         var my_lon;
         $(document).ready(function() {
+
+            $('.loader_bg').show();
 
             getLocation();
 
@@ -357,7 +374,7 @@
 
             function get_data_res_near_me(zip_code) {
                 console.log("zipcode = " + zip_code)
-                $('.loader_bg').fadeToggle();
+            
                 $.ajax({
                     url: "./tourist/get_data_res_near_me.php",
                     method: "POST",
