@@ -80,6 +80,24 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
             display: none;
         }
     }
+
+    .comment-widgets .comment-row:hover {
+        background: rgba(0, 0, 0, 0.02) !important;
+        cursor: pointer !important;
+    }
+
+    .comment-widgets .comment-row {
+        border-bottom: 1px solid rgba(120, 130, 140, 0.13) !important;
+        padding: 15px !important;
+    }
+
+    .comment-text:hover {
+        visibility: hidden;
+    }
+
+    .comment-text:hover {
+        visibility: visible;
+    }
 </style>
 
 <!-- Header -->
@@ -113,7 +131,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                         <div class="row">
                             <div class="col">
                                 <div class="" style="height: 500px;" id="res_img">
-                                 
+
                                 </div>
                             </div>
                         </div>
@@ -127,24 +145,15 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
 
                                             <div class="" id="display_formalin"></div>
 
-
-                                            <!-- <button class="btn btn-secondary mr-2" type="button" id="modal_infomation">
-                                                <i class="fa fa-info"></i>
-                                            </button> -->
-
                                         </div>
 
                                         <h1 class="mt-2 text-size-42" id="res_title"></h1>
-                                        <p class="mt-2" id="res_cat_title"></p>
-
-                                        
-
+                                       
                                         <p class="font-weight-bold mt-3 text-size-24">รายละเอียดร้านอาหาร</p>
 
                                         <p class="text text-size-16" id="res_description"></p>
 
                                     </div>
-
 
                                 </div>
                             </div>
@@ -337,12 +346,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
             }
         });
 
-        //show modal menu in res
-        $("#modal_sfa_menu").click(function() {
-            $('#sfa_menu_modal').modal('show');
-            get_data_menu();
-        });
-
+       
         //show information
         $("#modal_infomation").click(function() {
             $('#sfa_information_modal').modal('show');
@@ -364,77 +368,15 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
     });
 
 
-    function get_data_menu() {
-        jQuery.ajax({
-            url: "./get-data-menu-detail-res-page.php",
-            data: {
-                res_id: res_id
-            },
-            type: "POST",
-            success: function(data) {
-                console.log(data);
-                show_data_menu(data);
-            },
-            error: function() {
 
-            }
-        });
-    }
-
-    function show_data_menu(data) {
-        let element = '';
-        //add table to var html
-        element += '<table class="table table-hover table-responesive">';
-        element += '   <thead class="thead-primary bg-primary">';
-        element += '       <tr>';
-        element += '           <th class="res-hide"> <h3 class="text-white">ลำดับ</h3></th>';
-        element += '           <th><h3 class="text-white">รายการ</h3></th>';
-        element += '           <th><h3 class="text-white">ผลการตรวจสอบ</h3></th>';
-        element += '           <th><h3 class="text-white">ตรวจเมื่อ</h3></th>';
-        element += '       </tr>';
-        element += '   </thead>';
-        element += '    <tbody>'
-
-        if (data["data_menu"].length == 0) {
-            element += '<tr class="text-center" >';
-            element += '<td colspan = "3">ไม่มีข้อมูล</td>';
-            element += '<tr>';
-        } else {
-            data["data_menu"].forEach((row_menu, index_menu) => {
-
-                element += '<tr>';
-                element += '<td class="res-hide">' + (index_menu + 1) + '</td>';
-                element += '<td>';
-                element += row_menu['menu_name'];
-                element += '</td>';
-
-                if (row_menu['for_status'] == 2) {
-                    element += '<td>';
-                    element += '<p class="text-success">ผ่าน</p>';
-                    element += '</td>';
-                } else {
-                    element += '<td>';
-                    element += '<p class="text-warning">รอตรวจสอบ</p>';
-                    element += '</td>';
-                }
-
-                element += '<td>';
-                element += data["data_date_check"][index_menu];
-                element += '</td>';
-            });
-        }
-        element += '    </tbody>'
-        element += '  </table>'
-
-        $("#table_menu").html(element); //set ent_tel
-    }
+  
 
     function set_data_in_page(data) {
 
         //set data in html
         $("#res_title").html(data["data_res"][0].res_title); //set title
         $("#res_description").html(data["data_res"][0].res_description); //set description
-        $("#res_cat_title").html(data["data_res"][0].res_cat_title); //set res title
+
         $("#ent_tel").html(data["data_res"][0].ent_tel); //set  tel
         $("#res_address").html(data["data_res"][0].res_address); //set address
         $("#res_provinces").html("อำเภอ" + data["data_res"][0].name_amp + " " + "จังหวัด" + data["data_res"][0].name_pro + " " + data["data_res"][0].zip_code); //set 
@@ -444,14 +386,14 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
         let status_for_html = '';
         if (data["data_formalin"][0] == "Not Safe") {
 
-          //  status_for_html += '<img src="./../assets/img/icons/common/formalin_not_grey.PNG" class=" text-center" alt="test">';
+            //  status_for_html += '<img src="./../assets/img/icons/common/formalin_not_grey.PNG" class=" text-center" alt="test">';
             status_for_html += ' <span> ร้านนี้กำลังรอตรวจสอบ</span>';
 
         } else if (data["data_formalin"].length == 0) {
-          //  status_for_html += '<img src="./../assets/img/icons/common/formalin_not_grey.PNG" class=" text-center" alt="test">';
+            //  status_for_html += '<img src="./../assets/img/icons/common/formalin_not_grey.PNG" class=" text-center" alt="test">';
             status_for_html += ' <span> ร้านนี้กำลังรอตรวจสอบ</span>';
         } else if (data["data_formalin"][0] == "Safe") {
-           // status_for_html += '<img src="./../assets/img/icons/common/formalin_grey.PNG" class=" text-center" alt="test">';
+            // status_for_html += '<img src="./../assets/img/icons/common/formalin_grey.PNG" class=" text-center" alt="test">';
             status_for_html += '   <span class="badge badge-success text-size-24  text-white">ปลอดภัย</span>';
             status_for_html += ' <span> ร้านนี้ปลอดภัย ไร้สารฟอร์มาลีน</span> <br><br>';
             status_for_html += ' <span>ได้รับการตรวจเมื่อวันที่ ' + data["data_formalin_date"][0] + '</span>';
@@ -521,10 +463,10 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
         //set image null
         if (data[0] == null) {
             //defaul picture
-          //  document.getElementById("res_img_path").src = "../assets/img/theme/detail-banner-default.jpg";
+            //  document.getElementById("res_img_path").src = "../assets/img/theme/detail-banner-default.jpg";
             html += '<img id="res_img_path" class="pic_fix" src="../assets/img/theme/detail-banner-default.jpg" alt="Test pic">';
         } else if (data[0] != null) {
-           // document.getElementById("res_img_path").src = "../admin-panel/php/uploads/img/" + data[0].res_img_path;
+            // document.getElementById("res_img_path").src = "../admin-panel/php/uploads/img/" + data[0].res_img_path;
 
             html += '<img id="res_img_path" class="pic_fix" src="../admin-panel/php/uploads/img/' + data[0].res_img_path + '"alt="Test pic">';
         }
@@ -592,31 +534,25 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                         html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
                     }
 
-                
+
                     // And the half star
                     if (haft_star) {
                         let class_name = 'fa-star-half';
                         html += '<i class="fas fa-star text-warning ' + class_name + ' mr-1"></i>';
-                     
-                    } 
-                
-                    
+
+                    }
+
                     $(".main_star").html(html);
                     html = '';
 
+                    html += '<div class="comment-widgets m-b-20">';
                     for (var i = 0; i < data.review_data.length; i++) {
-                        html += '<div class="row mb-3 ml-3 mt-2">';
+                        html += '<div class="d-flex flex-row comment-row" >';
+                        html += '<div class="comment-text w-100">';
 
-                     
-
-                        html += '<div class="col-sm-12">';
-
-                       // html += '<div class="card">';
-
-                        html += '<b>' + data.review_data[i].us_fname + ' ' + data.review_data[i].us_lname + '</b><br>';
-                        html += '<p class="text-size-14"> เมื่อ ' + data.review_data_date[i] + '</p>';
-                       // html += '<div class="card-body">';
-
+                        html += '<b><h3>' + data.review_data[i].us_fname + ' ' + data.review_data[i].us_lname + '<h3></b>';
+                        html += ' <div class="comment-footer">';
+                       
                         for (var star = 1; star <= 5; star++) {
                             var class_name = '';
 
@@ -628,20 +564,15 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
 
                             html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
                         }
+                        html += '<p class="date">' + data.review_data_date[i] + '</p>';
 
-                        html += '<br />';
-                        html += '<br />';
-                   
+                        html += '</div>'; //footer
+                    
+                        html += '<p class="m-b-5 m-t-10">' + data.review_data[i].rev_comment + '</p>';
 
-                        html += '<p class="text-size-14 ml-2">' + data.review_data[i].rev_comment + '</p>';
-
+                        html += '</div>';//comment text w-100
                         html += '</div>';
 
-                        html += '</div>';
-
-                       // html += '</div>';
-
-                       // html += '</div>';
                     }
                     $('#review_content').html(html);
                 } else {
