@@ -40,100 +40,6 @@
 // จำนวนร้านที่รอตรวจสอบ
 $lat = $_POST["lat"];
 $long = $_POST["long"];
-function get_allrestaurant($con)
-{
-  $sql = "SELECT count(res_id) as count_res FROM `sfa_restaurant`";
-  $entries = mysqli_query($con, $sql);
-  return $entries;
-}
-$db_restaurant = get_allrestaurant($con);
-$row_restaurant = mysqli_fetch_array($db_restaurant)["count_res"];
-
-// // จำนวนร้านอาหารที่ไม่ปลอดภัย
-// function get_status_restaurant($con)
-// {
-//   $sql = "SELECT count(res_status) as count_row FROM `sfa_restaurant` where res_status = 0";
-//   $entries = mysqli_query($con, $sql);
-//   return $entries;
-// }
-// $db_restaurant = get_status_restaurant($con);
-// $row_not_safe = mysqli_fetch_array($db_restaurant)["count_row"];
-
-// // จำนวนร้านอาหารที่ปลอดภัย
-// function get_cat_restaurant($con)
-// {
-//   $sql = "SELECT count(res_status) as count_row FROM `sfa_restaurant` where res_status = 0";
-//   $entries = mysqli_query($con, $sql);
-//   return $entries;
-// }
-// $db_restaurant = get_cat_restaurant($con);
-// $row_safe = mysqli_fetch_array($db_restaurant)["count_row"];
-
-// จำนวนร้านอาหารที่ ไม่ปลอดภัย + ปลอดภัย
-function getCountStatus($con, $lat, $long)
-{
-  $sql = "SELECT * FROM sfa_restaurant NATURAL JOIN sfa_entrepreneur NATURAL JOIN sfa_block WHERE 1";
-  $query = mysqli_query($con, $sql);
-
-  $countData = array();
-  $countData["wait"] = 0;
-  $countData["no_pass"] = 0;
-  $countData["pass"] = 0;
-
-  while ($row = mysqli_fetch_array($query)) {
-
-    if ($row["block_lat"] != "") {
-      $dist = distance($lat, $long, $row["block_lat"], $row["block_lon"], "K");
-      $dist = $dist * 100;
-    }
-
-    if ($dist < 110) {
-
-      # รายการเมนู
-      $sql = "SELECT * FROM `sfa_menu` WHERE res_id = " . $row["res_id"] . " ORDER BY `menu_id` ASC";
-      $dbMenu = mysqli_query($con, $sql);
-      $countMenu = mysqli_num_rows($dbMenu);
-      $menuList = [];
-      while ($rowMenu = mysqli_fetch_array($dbMenu)) {
-        $menuList[] = $rowMenu["menu_id"];
-      }
-      $menuList = implode("','", $menuList);
-
-      // สถานะตรวจสอบของแต่ละร้าน
-      $sql = "
-        SELECT for_status
-        FROM `sfa_formalin` 
-        WHERE res_id = " . $row["res_id"] . " 
-        AND menu_id in ('" . $menuList . "')
-      ";
-      $dbFormalin = mysqli_query($con, $sql);
-      $countFormalin = mysqli_num_rows($dbFormalin);
-
-      $formalin_status = 0;
-      if ($countFormalin == $countMenu && $countFormalin !== 0) { // ถ้าตรวจครบแล้ว
-        $formalin_status = 2;
-        while ($rowFormalin = mysqli_fetch_array($dbFormalin)) {
-          if ($rowFormalin["for_status"] == 1) { // ไม่ปลอดภัย
-            $formalin_status = 1; // ไม่ปลอดภัย
-          }
-        }
-      }
-
-      if ($formalin_status == 0) {
-        $countData["wait"] += 1;
-      }
-      if ($formalin_status == 1) {
-        $countData["no_pass"] += 1;
-      }
-      if ($formalin_status == 2) {
-        $countData["pass"] += 1;
-      }
-    }
-  }
-
-  return $countData;
-}
-$countStatus = getCountStatus($con, $lat, $long);
 
 function distance($lat1, $lon1, $lat2, $lon2, $unit)
 {
@@ -163,64 +69,18 @@ function distance($lat1, $lon1, $lat2, $lon2, $unit)
   <div class="container-fluid">
     <div class="header-body">
       <div class="row align-items-center py-4">
-        <div class="col-lg">
-          <h6 class="h1 d-inline-block mb-0 pr-3">รอบการตรวจ</h6>
-          <a href="#" class="btn btn-primary">ครั้งที่ 1</a>
-          <a href="#" class="btn btn-secondary">ครั้งที่ 2</a>
-        </div>
+       
       </div>
       <!-- Card stats -->
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card card-stats">
-            <!-- Card body -->
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">จำนวนร้านที่รอตรวจสอบ</h5>
-                  <span class="h2 font-weight-bold mb-0"><?php echo $countStatus["wait"] ?></span>
-                </div>
-                <div class="col-auto">
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card card-stats">
-            <!-- Card body -->
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">จำนวนร้านอาหารที่ไม่ปลอดภัย</h5>
-                  <span class="h2 font-weight-bold mb-0"><?php echo $countStatus["no_pass"]; ?></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card card-stats">
-            <!-- Card body -->
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">จำนวนร้านอาหารที่ปลอดภัย</h5>
-                  <span class="h2 font-weight-bold mb-0"><?php echo $countStatus["pass"]; ?></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+   
     </div>
   </div>
 </div>
 
 <!-- Content -->
 <?php
-$sql = "SELECT * FROM sfa_restaurant NATURAL JOIN sfa_entrepreneur NATURAL JOIN sfa_block WHERE 1";
+$sql = "SELECT * FROM sfa_restaurant LEFT JOIN sfa_block
+ON sfa_restaurant.res_block_id =  sfa_block.block_id WHERE 1";
 $query = mysqli_query($con, $sql);
 ?>
 
@@ -267,7 +127,7 @@ $query = mysqli_query($con, $sql);
                 ?>
                   <?php
                   # รายการเมนู
-                  $sql = "SELECT * FROM `sfa_menu` WHERE res_id = " . $row["res_id"] . " ORDER BY `menu_id` ASC";
+                  $sql = "SELECT * FROM `sfa_menu` WHERE menu_res_id = " . $row["res_id"] . " ORDER BY `menu_id` ASC";
                   $dbMenu = mysqli_query($con, $sql);
                   $countMenu = mysqli_num_rows($dbMenu);
                   $menuList = [];
@@ -280,8 +140,8 @@ $query = mysqli_query($con, $sql);
                   $sql = "
                       SELECT for_status
                       FROM `sfa_formalin` 
-                      WHERE res_id = " . $row["res_id"] . " 
-                      AND menu_id in ('" . $menuList . "')
+                      WHERE for_res_id = " . $row["res_id"] . " 
+                      AND for_menu_id in ('" . $menuList . "')
                     ";
                   $dbFormalin = mysqli_query($con, $sql);
                   $countFormalin = mysqli_num_rows($dbFormalin);
@@ -341,6 +201,54 @@ $query = mysqli_query($con, $sql);
       </div>
     </div>
   </div>
+
+<script>
+   $(document).ready(function() {
+        var my_lat = <?php echo  $_POST["lat"] ?> ;
+        var my_lon = <?php echo  $_POST["long"] ?> ;
+
+        console.log("test");
+        fetch("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + my_lat + "," + my_lon + "&key=AIzaSyAxCoeDi4K2LJTzTC1VzL2DEJcD5srXq0o")
+                    .then(response => response.json())
+                    .then(data => {
+                        // The data object contains the full address of the location, including the province
+                        const addressComponents = data.results[0].address_components;
+
+                        console.log(data.results[0].address_components.length);
+
+
+                        for (let i = 0; i < data.results[0].address_components.length; i++) {
+
+                            if (data.results[0].address_components[i].long_name.length == "5" && Number.isInteger(+data.results[0].address_components[i].long_name)) {
+
+                               // get_data_res_near_me(data.results[0].address_components[i].long_name);
+
+                            } else {
+                                let html = '';
+
+                                html += '<div class="container p-9">';
+                                html += '<div class="row text-center">';
+                                html += '<div class="col text-center">';
+                                html += '<h1>ไม่พบร้านค้า ไกล้ตำแหน่งของคุณ</h1>';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '<div class="row mt-4 text-center">';
+                                html += '<div class="col text-center">';
+
+                                html += '</div>';
+                                html += '</div>';
+                                html += '</div>';
+
+                                $('#list_res').html(html);
+
+                            }
+                        }
+
+                    });
+
+   });
+</script>
+
 
   <!-- Footer -->
   <?php include("footer.php"); ?>

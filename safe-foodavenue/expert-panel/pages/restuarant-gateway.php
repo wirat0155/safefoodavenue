@@ -129,8 +129,12 @@
                          </div>
                      </div>
                      <script>
+                          $(document).ready(function() {
+                            getLocation()
+                          });
                          //var x = document.getElementById("demo");
                          function getLocation() { 
+                            console.log("test")
                              if (navigator.geolocation) {
                                  navigator.geolocation.getCurrentPosition(showPosition);
                              } 
@@ -143,10 +147,15 @@
                              //x.innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;
                              document.getElementById("lat").value = position.coords.latitude; 
                              document.getElementById("long").value = position.coords.longitude; 
-                             setTimeout(redirect_me, 3000);
+                             //setTimeout(redirect_me, 3000);
+
+
+                             redirect_me();
+
                              //document.getElementById("posForm").submit();
                          }
                          function redirect_me(){
+                            console.log("test");
                             document.getElementById("posForm").submit();
                          }
                      </script>

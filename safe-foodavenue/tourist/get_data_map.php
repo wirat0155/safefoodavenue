@@ -11,8 +11,13 @@ if(isset($_POST["res_location_type"])){
     if($_POST["res_location_type"] == "block_id"){
 
         try{
-            $sql_block = "SELECT * FROM sfa_restaurant LEFT JOIN sfa_res_formalin_status
-            ON sfa_restaurant.res_id = sfa_res_formalin_status.res_for_res_id WHERE res_block_id = ".$loc_id ." ";
+            $sql_block = "SELECT * FROM sfa_restaurant 
+            LEFT JOIN sfa_res_formalin_status
+            ON sfa_restaurant.res_id = sfa_res_formalin_status.res_for_res_id 
+            LEFT JOIN sfa_review_summary 
+            ON 
+            sfa_review_summary.srs_res_id = sfa_restaurant.res_id
+            WHERE res_block_id = ".$loc_id ." ";
             $query_block_check = mysqli_query($con, $sql_block);
 
             // echo json_encode($sql_block);
@@ -39,7 +44,11 @@ if(isset($_POST["res_location_type"])){
 
         try{
             $sql_res = "SELECT * FROM sfa_restaurant LEFT JOIN sfa_res_formalin_status
-            ON sfa_restaurant.res_id = sfa_res_formalin_status.res_for_res_id WHERE res_id = ".$loc_id ." ";
+            ON sfa_restaurant.res_id = sfa_res_formalin_status.res_for_res_id 
+            LEFT JOIN sfa_review_summary 
+            ON 
+            sfa_review_summary.srs_res_id = sfa_restaurant.res_id
+            WHERE res_id = ".$loc_id ." ";
             $query_res = mysqli_query($con, $sql_res);
             
             if($query_res){
