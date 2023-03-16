@@ -74,9 +74,9 @@
                                 <li class="nav-item">
                                     <a href="./?content=list-block" class="nav-link">แสดงรายการล็อก</a>
                                 </li>
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a href="./?content=disp-block-map" class="nav-link">ตำแหน่งร้านอาหาร</a>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </li>

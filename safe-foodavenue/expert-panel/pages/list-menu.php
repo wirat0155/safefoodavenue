@@ -22,17 +22,17 @@
     <div class="header-body">
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
-          <h6 class="h2 text-white d-inline-block mb-0">รายการเมนู</h6>
+          <h6 class="h2 text-white d-inline-block mb-0">รายการวัตถุดิบ</h6>
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
               <li class="breadcrumb-item"><a href="./"><i class="fas fa-home"></i></a></li>
               <li class="breadcrumb-item"><a href="./">หน้าแรก</a></li>
-              <li class="breadcrumb-item active" aria-current="page">รายการเมนู</li>
+              <li class="breadcrumb-item active" aria-current="page">รายการวัตถุดิบ</li>
             </ol>
           </nav>
         </div>
         <div class="col-lg-6 col-5 text-right">
-          <a href="?content=add-menu&res_id=<?= $res_id ?>" class="btn btn-sm btn-neutral">เพิ่มเมนูอาหาร</a>
+          <a href="?content=add-menu&res_id=<?= $res_id ?>" class="btn btn-sm btn-neutral">เพิ่มวัตถุดิบ</a>
           <a href="?content=history-res-result&res_id=<?= $res_id ?>" class="btn btn-sm btn-neutral">ดูผลตรวจ</a>
         </div>
       </div>
@@ -58,7 +58,7 @@
             <thead class="thead-light">
               <tr>
                 <th>ลำดับที่</th>
-                <th>ชื่อเมนู</th>
+                <th>ชื่อวัตถุดิบ</th>
                 <th>สถานะ</th>
                 <th>รูปภาพ</th>
                 <th>Action</th>
@@ -144,7 +144,7 @@
           <?php else : ?>
             <div class="py-5">
               <center>
-                <h3>ไม่พบข้อมูลเมนู</h3>
+                <h3>ไม่พบข้อมูลวัตถุดิบ</h3>
               </center>
             </div>
           <?php endif; ?>

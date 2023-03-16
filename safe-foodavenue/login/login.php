@@ -38,21 +38,25 @@ error_reporting(E_ALL & ~E_WARNING);
     body {
         font-family: 'Prompt';
     }
+    @media only screen and (max-width: 450px) {
+        .logo-hide {
+            display: none !important;
+        }
+    }
 </style>
 
 <body>
+
 <nav id="navbar-main" class="navbar navbar-horizontal navbar-main navbar-expand-lg navbar-dark">
         <div class="container">
-
-            <a class="navbar-brand" href="../index.php">
+            <a class="navbar-brand" href="./index.php">
                 <img src="../assets/img/brand/plogo.png">
             </a>
 
-            <div class="col-6">
-                <img src="../assets/img/brand/logo-saensuk.png">
-                <!-- <img src="./assets/img/brand/AHS_BUU_Logo.png"> -->
-                <img src="../assets/img/brand/Buu-logo11.png">
-                <img src="../assets/img/brand/Research-innovation.png">
+            <div class="col-6 logo-hide">
+                <img src="../assets/img/brand/logo-saensuk.png" class = "logo-hide">
+                <img src="../assets/img/brand/Buu-logo11.png" class = "logo-hide">
+                <img src="../assets/img/brand/Research-innovation.png" class = "logo-hide">
             </div>
 
             <button class="navbar-toggler bg-primary" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,45 +90,23 @@ error_reporting(E_ALL & ~E_WARNING);
             </div>
         </div>
     </nav>
-    <!-- <div class="header bg-primary">
-      <div class="container-fluid">
-        <div class="header-body">
-          <div class="row align-items-center py-4 ">
-            <div class="col-lg-6 col-7" >
-              <h6 class="h2 text-white d-inline-block mb-0">เข้าสู่ระบบ</h6>
-              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                  <li class="breadcrumb-item"><a href="../index.php"><i class="fas fa-home"></i></a></li>
-                  <li class="breadcrumb-item"><a href="../index.php">หน้าแรก</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">เข้าสู่ระบบ</li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
+
+    
     <!-- Main content -->
     <div class="main-content" id="panel">
         <div class="container-fluid page-body-wrapper full-page-wrapper" style="margin:  auto;">
             <div class="content-wrapper d-flex align-items-center auth px-0">
                 <div class="row w-100 mx-0">
-                    <div class="col-lg-5 mx-auto px-5">
-                      <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+                    <div class="col-lg-5 mx-auto px-0">
+                      <div class="auth-form-light text-left py-5">
                         <div class="card">
                           <div class="card-body">
-                            <!-- <div class="row">
-                                <div class="col-md py-5 px-5">
-                                    <img src="../assets/img/brand/plogo.png" style="width: 100%;">
-                                </div>
-                            </div> -->
                             <div class="text-muted"><h2>เข้าสู่ระบบ</h2></div>
                             <div class="justify-content-center row">
                               <div class="btn-wrapper text-center">
                       
                                 <a href="<?php echo $client->createAuthUrl(); ?>">
                                   <img src="../assets/img/icons/common/google.svg">
-                                  <!-- <span class="btn-inner--text">Google</span>  -->
                                 </a>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <?php
@@ -133,12 +115,10 @@ error_reporting(E_ALL & ~E_WARNING);
                                 <a href="./index1.php"
                              >
                                <img src="../assets/img/icons/common/line.svg" style="width: 36px; height: 36px;">
-                                  <!-- <span class="btn-inner--text">Line</span> -->
                                 </a>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <a href="fb-index.php">
                                  <img src="../assets/img/icons/common/facebook.svg">
-                                  <!-- <span class="btn-inner--text">Facebook</span> -->
                                 </a>
                               </div>
                             </div>
@@ -163,30 +143,12 @@ error_reporting(E_ALL & ~E_WARNING);
                               <div class="mt-3 text font-weight-light">
                               มีบัญชีผู้ใช้ของนักท่องเที่ยวหรือไม่? <a href="../tourist/register_tourist.php" class="text-primary">ลงทะเบียน</a>
                               </div>
-                              
-                              <!-- <div class="my-2 d-flex justify-content-between align-items-center">
-                                <div class="form-check">
-                                  <label class="form-check-label text-muted">
-                                    <input type="checkbox" name="keepme" class="form-check-input">
-                                    Keep me signed in
-                                    <i class="input-helper"></i></label>
-                                </div>
-                              </div> -->
-                              <!-- <div class="text-center mt-4 font-weight-light">
-                                มีบัญชีหรือไม่? <a href="https://prepro.informatics.buu.ac.th/~manpower/safe-foodavenue/tourist/register_tourist.php" class="text-primary">สร้างบัญชีใหม่</a>
-                              </div> -->
                             </form>
                           </div>
                         </div>
                       </div>
                 </div>
                 <div class="col-lg-7 mx-auto">
-                <!-- <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signin-ill.jpg');
-          background-size: cover;">
-<span class="mask bg-gradient-primary opacity-6"></span>
-<h4 class="mt-5 text-white font-weight-bolder position-relative">"Attention is the new currency"</h4>
-<p class="text-white position-relative">The more effortless the writing looks, the more effort the writer actually put into the process.</p>
-                </div> -->
                 <div class="position-relative h-100 m-3 px-7 d-flex flex-column justify-content-center " style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signin-ill.jpg');
           background-size: cover;">
 <span class="mask bg-gradient-primary opacity-6"></span>

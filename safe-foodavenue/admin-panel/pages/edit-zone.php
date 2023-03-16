@@ -22,38 +22,38 @@ $arr_government= mysqli_query($con, $sql);
 ?>
 
 <script>
-let location_order = 1;
+// let location_order = 1;
 
-function confirmDelete(order) {
+// function confirmDelete(order) {
 
-    if (confirm("ต้องการลบจุดที่เลือก?")) {
-        // to delete zone
-        $("#location_" + order).remove()
-    }
-    return false;
+//     if (confirm("ต้องการลบจุดที่เลือก?")) {
+//         // to delete zone
+//         $("#location_" + order).remove()
+//     }
+//     return false;
 
-}
+// }
 
-function addLocation() {
-    $("#locationPanel").append('' +
-        '<div id="location_' + location_order + '" class="row pb-4">' +
-        '<div class="col-md-4">' +
-        '<label>ละติจูด</label>' +
-        '<input type="text" id="zone_lat' + location_order + '" name="zone_lat" class="form-control">' +
-        '</div>' +
-        '<div class="col-md-4">' +
-        '<label>ลองจิจูด</label>' +
-        '<input type="text" id="zone_lon' + location_order + '" name="zone_lon" class="form-control">' +
-        '</div>' +
-        '<div class="col-md-4">' +
-        '<label>&nbsp;</label><br>' +
-        '<button type="button" class="btn btn-danger" onclick="return confirmDelete(' + location_order + ')">ลบ</button>' +
-        '</div>' +
-        '</div>'
-    )
-    location_order += 1;
-    // to add postion
-}
+// function addLocation() {
+//     $("#locationPanel").append('' +
+//         '<div id="location_' + location_order + '" class="row pb-4">' +
+//         '<div class="col-md-4">' +
+//         '<label>ละติจูด</label>' +
+//         '<input type="text" id="zone_lat' + location_order + '" name="zone_lat" class="form-control">' +
+//         '</div>' +
+//         '<div class="col-md-4">' +
+//         '<label>ลองจิจูด</label>' +
+//         '<input type="text" id="zone_lon' + location_order + '" name="zone_lon" class="form-control">' +
+//         '</div>' +
+//         '<div class="col-md-4">' +
+//         '<label>&nbsp;</label><br>' +
+//         '<button type="button" class="btn btn-danger" onclick="return confirmDelete(' + location_order + ')">ลบ</button>' +
+//         '</div>' +
+//         '</div>'
+//     )
+//     location_order += 1;
+//     // to add postion
+// }
 
 /*
  * check_name_block
@@ -195,7 +195,7 @@ function check_zone_name() {
     <?php include("footer.php"); ?>
 
 </div>
-<style>
+<!-- <style>
 /* Set the size of the div element that contains the map */
 #map {
     height: 400px;
@@ -268,4 +268,4 @@ function submit_update() {
         document.getElementById("update_zone").submit();
     }
 }
-</script>
+</script> -->

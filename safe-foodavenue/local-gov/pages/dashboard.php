@@ -253,7 +253,7 @@
         <div class="header-body">
             <div class="row align-items-center py-4">
                 <div class="col-7">
-                    <h6 class="h1 d-inline-block mb-0">ข้อมูลร้านอาหาร ณ ปัจจุบัน</h6>
+                    <h6 class="h1 d-inline-block mb-0">ข้อมูลร้านอาหาร ณ ปัจจุบัน <?php echo $_SESSION["us_gov_name"]?></h6>
                 </div>
             </div>
             <!-- Card stats -->

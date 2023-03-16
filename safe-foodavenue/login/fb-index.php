@@ -14,7 +14,7 @@ $helper = $fb->getRedirectLoginHelper();
 // // }
 $permissions = ['email']; // optional
 
-$loginUrl = $helper->getLoginUrl('http://localhost/login/fb-callback.php', $permissions);
+$loginUrl = $helper->getLoginUrl('https://www.safefood-avenue.com/login/fb-callback.php', $permissions);
 
 echo '<a href="' . $loginUrl . '" id = "fb_login"></a>';
 //}

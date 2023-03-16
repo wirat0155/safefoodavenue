@@ -4,7 +4,7 @@ class LineLogin
     #### change your id
     private const CLIENT_ID = '1657777241';
     private const CLIENT_SECRET = '9c737f2ad2273d155c435d74d4c51f49';
-    private const REDIRECT_URL = 'http://localhost/login/Line_callback.php';
+    private const REDIRECT_URL = 'http://www.safefood-avenue.com/login/Line_callback.php';
 
     private const AUTH_URL = 'https://access.line.me/oauth2/v2.1/authorize';
     private const PROFILE_URL = 'https://api.line.me/v2/profile';

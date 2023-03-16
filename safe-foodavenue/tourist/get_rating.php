@@ -16,7 +16,7 @@ if (isset($_POST["action"])) {
     $sql_comment = "
 	SELECT   rev_rating, rev_comment, rev_us_id , sfa_user.us_fname, sfa_user.us_lname, rev_date 
     FROM `sfa_review` 
-    LEFT JOIN sfa_user
+    RIGHT JOIN sfa_user
     ON sfa_user.us_id = sfa_review.rev_us_id
     WHERE sfa_res_id =  '$res_id'  ORDER BY sfa_review.rev_date DESC";
 
@@ -35,7 +35,7 @@ if (isset($_POST["action"])) {
         $sql_comment = "
         SELECT   rev_rating, rev_comment, rev_us_id , sfa_user.us_fname, sfa_user.us_lname, rev_date  
         FROM `sfa_review` 
-        LEFT JOIN sfa_user
+        RIGHT JOIN sfa_user
         ON sfa_user.us_id = sfa_review.rev_us_id
         WHERE sfa_res_id = " . $res_id . $and;
     

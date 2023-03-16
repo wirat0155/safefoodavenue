@@ -1,4 +1,6 @@
 <?php
+  include_once 'verify.php';
+
   function doResizeImage($target_file) {
     $images = $target_file;
     $new_images = $target_file;
@@ -61,14 +63,8 @@
     WHERE `menu_id` = " . $_POST["menu_id"]; 
   $arr_menu = mysqli_query($con, $sql);  
   $obj_menu = mysqli_fetch_array($arr_menu);
-  
-  $result = array(
-    'formalin(mg/kg)' => 0.7,
-    'Centroid1' => [0, 0],
-    'Centroid2' => [0, 0],
-    'Radius1' => '10',
-    'Radius2' => '12',
-  );
+  $result = verify($_FILES["file_input"]["name"]);
+
   $result_of_formalin = $result["formalin(mg/kg)"];
   $formalin_status = $result_of_formalin >= 0.5 ? 1 : 2; // 1 คือ ไม่ปลอดภัย , 2 คือ ปลอดภัย
 
@@ -99,8 +95,8 @@
   <input type="hidden" name="Centroid2" value="<?= implode(",", $result["Centroid2"]) ?>">
   <input type="hidden" name="for_radius_1" value="<?= $result["Radius1"] ?>">
   <input type="hidden" name="for_radius_2" value="<?= $result["Radius2"] ?>">
-  <input type="hidden" name="for_value" value="<?= $result["formalin(mg/kg)"] ?>">
-  <input type="hidden" name="for_status" value="<?= $formalin_status ?>">
+  <input type="hidden" name="for_value" id="for_value" value="<?= $result["formalin(mg/kg)"] ?>">
+  <!-- <input type="hidden" name="for_status" value="<?= $formalin_status ?>"> -->
 
   <div class="container">
 
@@ -118,7 +114,7 @@
               <div class="col-md-4 h2" style="text-align: left;vertical-align: top;">
                 <span class="text-primary">บล็อก</span> :  <?=  $obj_menu["block_title"] != ""? $obj_menu["block_title"] : "-"  ?> <br>
                 <span class="text-primary">ร้านอาหาร</span> : <?= $obj_menu["res_title"] ?> <br>
-                <span class="text-primary">เมนูที่ตรวจ</span> : <?= $obj_menu["menu_name"] ?>
+                <span class="text-primary">วัตถุดิบ</span> : <?= $obj_menu["menu_name"] ?>
               </div>
               <div class="col-md-4 h2" style="text-align: left;vertical-align: top;">
                 <span class="text-primary">โซน</span> : <?= $obj_menu["zone_title"] != ""? $obj_menu["zone_title"] : "-" ?> <br>
@@ -132,18 +128,18 @@
               </div>
             </div>
 
-            <div class="row justify-content-md-center">
+            <!-- <div class="row justify-content-md-center">
               <div class="col-md h3" style="text-align: center;">
                 <span class="text-primary">Formalin</span>: <?= $result["formalin(mg/kg)"] ?> ppm <br>
-                <!-- ค่าที่ออกมาเป็น "Centroid1": [ [ 0, 0 ] ] ทำให้ต้องเพิ่ม index -->
+                ค่าที่ออกมาเป็น "Centroid1": [ [ 0, 0 ] ] ทำให้ต้องเพิ่ม index
                 <span class="text-primary">Centroid 1</span>: <?= implode(",", $result["Centroid1"]) ?> <br>
                 <span class="text-primary">Centroid 2</span>: <?= implode(",", $result["Centroid2"]) ?> <br>
                 <span class="text-primary">Radius 1</span>: <?= $result["Radius1"] ?> <br>
                 <span class="text-primary">Radius 2</span>: <?= $result["Radius2"] ?> <br>
               </div>
-            </div>
+            </div> -->
 
-            <div class="row justify-content-md-center">
+            <!-- <div class="row justify-content-md-center">
               <div class="col-md" style="text-align: center;">
                 <?php 
                   if($formalin_status == 1) {
@@ -153,6 +149,23 @@
                   }
                 ?>
               </div>
+            </div> -->
+
+            <div class="p-3">
+              <img src="<?= "../assets/img/uploads/" . $file_name ?>" alt="Formalin image" style="max-width: 250px;">
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="for_status" id="safe" value="2" checked onchange="change_formalin_status(2)">
+              <label class="form-check-label" for="safe">
+                ปลอดภัย
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="for_status" id="danger" value="1" onchange="change_formalin_status(2)">
+              <label class="form-check-label" for="danger">
+                พบฟอร์มาลีน
+              </label>
             </div>
 
             <div class="row justify-content-md-center">
@@ -175,3 +188,16 @@
     </div>
   </div>
 </form>
+
+<script>
+  function change_formalin_status(for_status) {
+    // ไม่ปลอดภัย
+    if (for_status == 1)  {
+      $("#for_value").val(0.9);
+    }
+    // ปลอดภัย
+    else {
+      $("#for_value").val(0.1);
+    }
+  }
+</script>

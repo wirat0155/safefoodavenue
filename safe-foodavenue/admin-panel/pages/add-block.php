@@ -64,7 +64,8 @@
 
                         <!-- ตำแหน่งที่ตั้ง -->
                         <div class="row px-2 mt-3">
-                            <h3 class="mt-2 mb-0">ตำเเหน่งที่ตั้ง</h3> &nbsp&nbsp <button type="button" class="btn btn-primary" onclick="getLocation()"> <i class="ni ni-pin-3"></i> &nbsp ตำแหน่งปัจจุบัน</button>
+                            <h3 class="mt-2 mb-0">ตำเเหน่งที่ตั้ง</h3> &nbsp&nbsp 
+                            <button type="button" class="btn btn-primary" onclick="getLocation()"> <i class="ni ni-pin-3"></i> &nbsp ตำแหน่งปัจจุบัน</button>
                         </div>
                         <div class="row">
                             <!-- ละติจูด -->
@@ -97,7 +98,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
 
-<style>
+<!-- <style>
 /* Set the size of the div element that contains the map */
 #map {
     height: 400px;
@@ -147,7 +148,7 @@ var locations = [
             }
         })(marker, i));
     }
-</script>
+</script> -->
 
 
 
@@ -160,6 +161,11 @@ var locations = [
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);
+
+            if (location.protocol != "https:") {
+                lat_log.value = 13.2886064;
+                lon_log.value = 100.9145879;
+            }
         } else {
             lat.innerHTML = "Geolocation is not supported by this browser.";
         }

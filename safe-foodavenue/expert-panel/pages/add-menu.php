@@ -21,7 +21,7 @@ let menu_order = 1;
 
 function confirmDelete(order) {
 
-    if (confirm("ต้องการยกเลิกเมนูที่เลือก?")) {
+    if (confirm("ต้องการยกเลิกวัตถุดิบที่เลือก?")) {
         // to delete menu
         $("#div_menu_" + order).remove()
     }
@@ -34,7 +34,7 @@ function addMenuForm() {
     $("#menuPanel").append('' +
         '<div id="div_menu_' + menu_order + '" class="row pb-4">' +
         '<div class="col-md-6">' +
-        '<label class="text-primary font-weight-bold required">ชื่อเมนู</label>' +
+        '<label class="text-primary font-weight-bold required">ชื่อวัตถุดิบ</label>' +
         '<input type="text" id="menu_name_' + menu_order + '" name="menu_name[]" class="form-control" required>' +
         '</div>' +
         '<div class="col-md-6">' +
@@ -61,12 +61,12 @@ function addMenuForm() {
         <div class="header-body">
             <div class="row align-items-center py-4">
                 <div class="col-lg-6 col-7">
-                    <h6 class="h2 text-white d-inline-block mb-0">เพิ่มเมนูอาหาร</h6>
+                    <h6 class="h2 text-white d-inline-block mb-0">เพิ่มวัตถุดิบ</h6>
                     <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                             <li class="breadcrumb-item"><a href="./"><i class="fas fa-home"></i></a></li>
                             <li class="breadcrumb-item"><a href="./">หน้าแรก</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">เพิ่มเมนูอาหาร</li>
+                            <li class="breadcrumb-item active" aria-current="page">เพิ่มวัตถุดิบ</li>
                         </ol>
                     </nav>
                 </div>
@@ -104,22 +104,22 @@ function addMenuForm() {
                         </div>
                         <div class="row">
                             <div class="col">
-                                <h4>ถ้าไม่พบวัตถุที่ต้องการ สามารถระบุเมนูที่นี่</h4>
+                                <h4>ถ้าไม่พบวัตถุดิบที่ต้องการ สามารถระบุได้เองที่นี่</h4>
                             </div>
                         </div>
                         <div class="row pb-4">
                             <div class="col-md-8">
-                                <label class="text-primary font-weight-bold">เมนูอาหาร <span class="text-danger">(Dynamic form)</span></label>
+                                <label class="text-primary font-weight-bold">วัตถุดิบ <span class="text-danger">(Dynamic form)</span></label>
                             </div>
                             <div class="col-md-4 text-end">
-                                <button type="button" class="btn btn-info" onclick="addMenuForm()">+เพิ่มเมนู</button>
+                                <button type="button" class="btn btn-info" onclick="addMenuForm()">+เพิ่มวัตถุดิบ</button>
                             </div>
                         </div>
 
                         <div id="menuPanel">
                             <div class="row pb-4">
                                 <div class="col-md-6">
-                                    <label id="menu_name_label" class="text-primary font-weight-bold required">ชื่อเมนู</label>
+                                    <label id="menu_name_label" class="text-primary font-weight-bold required">ชื่อวัตถุดิบ</label>
                                     <input type="text" id="menu_name_0" name="menu_name[]" class="form-control" required>
                                 </div>
                             </div>

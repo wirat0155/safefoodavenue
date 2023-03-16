@@ -43,6 +43,11 @@
         width: 150px;
         height: 150px;
     }
+    @media only screen and (max-width: 450px) {
+        .logo-hide {
+            display: none !important;
+        }
+    }
 </style>
 
 
@@ -51,17 +56,21 @@
 <nav id="navbar-main" class="navbar navbar-horizontal navbar-main navbar-expand-lg navbar-dark">
         <div class="container">
 
+
+
             <a class="navbar-brand" href="./index.php">
                 <img src="./assets/img/brand/plogo.png">
             </a>
 
-            <div class="col-6">
-                <img src="./assets/img/brand/logo-saensuk.png">
+            <div class="col-6 logo-hide">
+                <img src="./assets/img/brand/logo-saensuk.png" class = "logo-hide">
                 <!-- <img src="./assets/img/brand/AHS_BUU_Logo.png"> -->
-                <img src="./assets/img/brand/Buu-logo11.png">
-                <img src="./assets/img/brand/Research-innovation.png">
+                <img src="./assets/img/brand/Buu-logo11.png" class = "logo-hide">
+                <img src="./assets/img/brand/Research-innovation.png" class = "logo-hide">
             </div>
 
+
+           
             <button class="navbar-toggler bg-primary" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -92,8 +101,10 @@
                 </ul>
             </div>
         </div>
-    </nav>
 
+     
+        
+    </nav>
 
     <!-- Main content -->
     <div class="main-content">
@@ -157,7 +168,10 @@
                         </div>
                     </div>
                     <div class="col-md-6 py-2">
-                        <iframe style="width: 100%; height: 100%" src="https://www.youtube.com/embed/yAQwlLZoFVY" title="formalin kit video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        <video width="100%" height="315" controls>
+                            <source src="./assets/img/formalin_kit_video.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
                     </div>
                 </div>
             </div>

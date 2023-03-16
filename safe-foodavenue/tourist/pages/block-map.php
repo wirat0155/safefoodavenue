@@ -8,6 +8,7 @@
     font-size: 20px;
     font-weight: bold;
   }
+
   .loader_bg {
     position: fixed;
     z-index: 9999999;
@@ -62,8 +63,6 @@
   }
 </style>
 
-
-
 <div id="map" class="map-canvas"></div>
 <div class="d-flex justify-content-end">
   <div>
@@ -80,14 +79,13 @@
   var my_lon;
 
   $(document).ready(function() {
-
-
- 
-
-  getLocation();
+    if (location.protocol === "https:") {
+      getLocation();
+    } else {
+      showDefaultPosition();
+    }
 
     function getLocation() {
-  
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
       } else {
@@ -98,13 +96,21 @@
     function showPosition(position) {
       my_lat = position.coords.latitude;
       my_lon = position.coords.longitude;
-      initMap(position.coords.latitude, position.coords.longitude);
+      initMap(my_lat, my_lon);
+    }
+
+    function showDefaultPosition() {
+      // buu informatics
+      // my_lat = 13.2814501;
+      // my_lon = 100.9240634;
+
+      // government
+      my_lat = 13.2886064;
+      my_lon = 100.9145879;
+      initMap(my_lat, my_lon);
     }
 
     function get_block_location() {
-
-    
-  
       var fetch_location = [];
       $.ajax({
         dataType: "JSON",
@@ -192,7 +198,7 @@
         //     mIcon = "../../assets/img/brand/icon-store-green.png";
         //   }
         // }
-       // console.log("block_id " + locations[i][0] + " " + locations[i][4]);
+        // console.log("block_id " + locations[i][0] + " " + locations[i][4]);
         if (locations[i][5] == "user") {
           mIcon = "../../assets/img/brand/user.png";
         } else {
@@ -217,7 +223,7 @@
 
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
           return function() {
-           // console.log(locations[i][0], locations[i][5]);
+            // console.log(locations[i][0], locations[i][5]);
             // $("#map-restaurant-panel").html("คุณคลิ๊ก " + locations[i][5] + " ที่ " + locations[i][0]);
             get_data_restarant_panel(locations[i][5], locations[i][0])
           }
@@ -227,7 +233,8 @@
   });
 
   function relocation() {
-    map.setCenter(new google.maps.LatLng(my_lat, my_lon));
+    // map.setCenter(new google.maps.LatLng(my_lat, my_lon));
+    map.setCenter(new google.maps.LatLng(13.2886064, 100.9145879));
   }
 
   function get_data_restarant_panel(res_location_type, id) {
@@ -243,7 +250,7 @@
       },
       success: function(data) {
 
-       // console.log(data);
+        // console.log(data);
         show_data_block(data)
         // show_province_dropdown(data);
 
@@ -271,7 +278,8 @@
 
         if (row_res.res_img_path == null) {
 
-          html += '<img class="card-img-top" style="height: 200px; object-fit: cover;" src="../assets/img/theme/detail-banner-default.jpg" alt="Card image cap">';
+          let src = get_jpg_name(row_res.res_title);
+          html += '<img class="card-img-top" style="height: 200px; object-fit: cover;" src="' + src + '" alt="Card image cap">';
 
         } else {
 
@@ -322,4 +330,5 @@
       $('#res_list').html(html);
     }
   }
+
 </script>

@@ -18,7 +18,7 @@
     <!-- Page plugins -->
     <!-- Argon CSS -->
     <link rel="stylesheet" href="./assets/css/argon.css?v=1.1.0" type="text/css">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsQsJq6QLsJRyETeDLBLyc6Wx73snZPIo&callback=initMap"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxCoeDi4K2LJTzTC1VzL2DEJcD5srXq0o&callback=Function.prototype"></script>
 </head>
 
 
@@ -43,6 +43,11 @@
     @media only screen and (max-width: 360px) {
         .limit-char {
             max-width: 16ch;
+        }
+    }
+    @media only screen and (max-width: 450px) {
+        .logo-hide {
+            display: none !important;
         }
     }
 
@@ -147,6 +152,8 @@
             -webkit-transform: rotate(360deg);
         }
     }
+
+
 </style>
 
 
@@ -155,17 +162,21 @@
     <nav id="navbar-main" class="navbar navbar-horizontal navbar-main navbar-expand-lg navbar-dark">
         <div class="container">
 
+
+
             <a class="navbar-brand" href="./index.php">
                 <img src="./assets/img/brand/plogo.png">
             </a>
 
-            <div class="col-6">
-                <img src="./assets/img/brand/logo-saensuk.png">
+            <div class="col-6 logo-hide">
+                <img src="./assets/img/brand/logo-saensuk.png" class = "logo-hide">
                 <!-- <img src="./assets/img/brand/AHS_BUU_Logo.png"> -->
-                <img src="./assets/img/brand/Buu-logo11.png">
-                <img src="./assets/img/brand/Research-innovation.png">
+                <img src="./assets/img/brand/Buu-logo11.png" class = "logo-hide">
+                <img src="./assets/img/brand/Research-innovation.png" class = "logo-hide">
             </div>
 
+
+           
             <button class="navbar-toggler bg-primary" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -196,6 +207,9 @@
                 </ul>
             </div>
         </div>
+
+     
+        
     </nav>
 
 
@@ -227,7 +241,7 @@
 
 
 
-        <div class="container-fulid mt--5 pl-5 pr-5">
+        <div class="container-fulid mt--5 px-0 px-md-5">
 
             <div class="row">
                 <div class="col-12">
@@ -235,13 +249,7 @@
                         <div class="card-header">
                             <h2 class="card-title">ร้านไกล้ฉัน</h2>
                         </div>
-
-
-
                         <div class="card-body">
-
-
-
                             <div class="container">
                                 <div class="row">
                                     <div class="" id="list_res">
@@ -316,10 +324,12 @@
         var my_lat;
         var my_lon;
         $(document).ready(function() {
-
             $('.loader_bg').show();
-
-            getLocation();
+            if (location.protocol === "https:") {
+                getLocation();
+            } else {
+                showDefaultPosition();
+            }
 
             function getLocation() {
                 if (navigator.geolocation) {
@@ -327,6 +337,50 @@
                 } else {
                     console.log("Geolocation is not supported by this browser.");
                 }
+            }
+
+            // function showPosition(position) {
+            function showDefaultPosition() {
+                my_lat = 13.2814501;
+                my_lon = 100.9240634;
+
+                fetch("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + my_lat + "," + my_lon + "&key=AIzaSyAxCoeDi4K2LJTzTC1VzL2DEJcD5srXq0o")
+                    .then(response => response.json())
+                    .then(data => {
+                        // The data object contains the full address of the location, including the province
+                        const addressComponents = data.results[0].address_components;
+
+                        console.log(data.results[0].address_components.length);
+
+
+                        for (let i = 0; i < data.results[0].address_components.length; i++) {
+
+                            if (data.results[0].address_components[i].long_name.length == "5" && Number.isInteger(+data.results[0].address_components[i].long_name)) {
+
+                                get_data_res_near_me(data.results[0].address_components[i].long_name);
+
+                            } else {
+                                let html = '';
+
+                                html += '<div class="container p-9">';
+                                html += '<div class="row text-center">';
+                                html += '<div class="col text-center">';
+                                html += '<h1>ไม่พบร้านค้า ไกล้ตำแหน่งของคุณ</h1>';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '<div class="row mt-4 text-center">';
+                                html += '<div class="col text-center">';
+
+                                html += '</div>';
+                                html += '</div>';
+                                html += '</div>';
+
+                                $('#list_res').html(html);
+
+                            }
+                        }
+
+                    });
             }
 
             function showPosition(position) {
@@ -412,8 +466,8 @@
                     html += ' <div class="card card-fix card-custom rounded-4 hover-zoom">';
 
                     if (row_res.res_img_path == null) {
-
-                        html += '<img class="card-img-top" style="height: 200px; object-fit: cover;" src="../assets/img/theme/detail-banner-default.jpg" alt="Card image cap">';
+                        let src = get_jpg_name(row_res.res_title);
+                        html += '<img class="card-img-top" style="height: 200px; object-fit: cover;" src="' + src  + '" alt="Card image cap">';
 
                     } else {
 
@@ -425,7 +479,7 @@
                     html += ' <div  class="p-2">';
                     if (row_res.res_for_status == 0) {
                         html += '   <span class="badge badge-success text-size-12  text-white">ปลอดภัย</span>';
-                        //html += '<img src="./../assets/img/icons/common/formalin.png" class="set-pic text-center" alt="test"> <br>';
+                    
                     }
 
                     html += ' </div>';
@@ -485,6 +539,30 @@
                 $('#list_res').html(html);
 
             }
+        }
+
+        function get_jpg_name(title){
+
+          if(title.search("กุ้งย่าง") != -1){
+            // src = "../assets/img/theme/detail-banner-default.jpg";
+             return "../assets/img/theme/kung.jpg";
+          }else if(title.search("แมงดา") != -1){
+            return "../assets/img/theme/mangda.jpg";
+          }else if(title.search("ส้มตำ") != -1){
+            return "../assets/img/theme/somtum.jpg";
+          }else if(title.search("ไก่") != -1){
+            return "../assets/img/theme/kai.jpg";
+          }else if(title.search("ไส้กรอก") != -1){
+            return "../assets/img/theme/saikok.jpg";
+          }else if(title.search("อาหารทะเล") != -1){
+            return "../assets/img/theme/sea.jpg";
+          }    
+          else{
+            return "../assets/img/theme/detail-banner-default.jpg";
+          }
+
+        //   return src;
+
         }
     </script>
 </body>

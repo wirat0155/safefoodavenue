@@ -37,7 +37,7 @@ use PHPMailer\PHPMailer\Exception;
             $mail->isHTML(true);
             $mail->Subject = 'Password Reset link from Safe-FoodAvenue System';
             $mail->Body    = "we got a request form you to reset Password! <br>Click the link bellow: <br>
-            <a href='http://localhost/login/reset_password.php?email=$email&token=$token'>reset password</a>";
+            <a href='http://45.91.133.84/login/reset_password.php?email=$email&token=$token'>reset password</a>";
 
             $mail->send();
             echo "<script>

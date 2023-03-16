@@ -14,12 +14,36 @@ echo "<br>";
 echo "<br>";
 $token = $line->token($code, $state);
 echo "<br>";
-
+//echo $token;
+// if (property_exists($token, 'error'))
+//     echo "<script>
+//     window.location.href='login.php';
+//     </script>
+//     ";
+// if (isset($token->error))
+//     echo "<script>
+//     window.location.href='login.php';
+//     </script>
+//     ";
+    // echo "<script>
+    // window.location.href='index.php';
+    // </script>
+    // ";
+    //    echo "<script>
+    // window.location.href='../tourist/?content=disp-block-map';
+    // </script>
+    // ";
 
 if ($token->id_token) {
     $profile = $line->profileFormIdToken($token);
     $_SESSION['profile'] = $profile;
-   
+    // echo $profile->name;
+    // print_r($profile);
+    // echo "<script>
+    // window.location.href='login.php';
+    // </script>
+    // ";
+  //   $profile = $_SESSION['profile'];
     $user_fname=$profile->name;
     $user_email=$profile->email;
     //print_r($profile);
@@ -51,19 +75,11 @@ if ($token->id_token) {
     //   die();
     }
   }
-  if($_SESSION["res_id"]){
-    // echo "TEST TESt";
-    // header('location: ../tourist/?content=detail-restaurant&id=' . urlencode($_SESSION["res_id"]) );
-     echo "<script>
-           window.location.href='../tourist/?content=detail-restaurant&id=" . urlencode($_SESSION["res_id"]) . "'" .
-           "</script>";
-
-   }else{
-      //header("location: ../tourist/?content=disp-block-map");
-      echo "<script>
-      window.location.href='../tourist/?content=disp-block-map';
-      </script>
-      ";
-   }
+  echo "<script>
+  window.location.href='../tourist/?content=disp-block-map';
+  </script>
+  ";
+} else {
+  echo "ไม่เข้า token";
 }
 ?>

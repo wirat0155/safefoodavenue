@@ -10,40 +10,40 @@
 -->
 
 <script>
-let location_order = 1;
+// let location_order = 1;
 
-function confirmDelete(order) {
+// function confirmDelete(order) {
 
-    if (confirm("ต้องการลบจุดที่เลือก?")) {
-        // to delete zone
-        $("#location_" + order).remove()
-    }
-    return false;
+//     if (confirm("ต้องการลบจุดที่เลือก?")) {
+//         // to delete zone
+//         $("#location_" + order).remove()
+//     }
+//     return false;
 
-}
+// }
 
-function addLocation() {
+// function addLocation() {
 
-    $("#locationPanel").append('' +
-        '<div id="location_' + location_order + '" class="row pb-4">' +
-        '<div class="col-md-4">' +
-        '<label>ละติจูด</label>' +
-        '<input type="text" id="zone_lat' + location_order + '" name="zone_lat" class="form-control">' +
-        '</div>' +
-        '<div class="col-md-4">' +
-        '<label>ลองจิจูด</label>' +
-        '<input type="text" id="zone_lon' + location_order + '" name="zone_lon" class="form-control">' +
-        '</div>' +
-        '<div class="col-md-4">' +
-        '<label>&nbsp;</label><br>' +
-        '<button type="button" class="btn btn-danger" onclick="return confirmDelete(' + location_order + ')">ลบ</button>' +
-        '</div>' +
-        '</div>'
-    )
+//     $("#locationPanel").append('' +
+//         '<div id="location_' + location_order + '" class="row pb-4">' +
+//         '<div class="col-md-4">' +
+//         '<label>ละติจูด</label>' +
+//         '<input type="text" id="zone_lat' + location_order + '" name="zone_lat" class="form-control">' +
+//         '</div>' +
+//         '<div class="col-md-4">' +
+//         '<label>ลองจิจูด</label>' +
+//         '<input type="text" id="zone_lon' + location_order + '" name="zone_lon" class="form-control">' +
+//         '</div>' +
+//         '<div class="col-md-4">' +
+//         '<label>&nbsp;</label><br>' +
+//         '<button type="button" class="btn btn-danger" onclick="return confirmDelete(' + location_order + ')">ลบ</button>' +
+//         '</div>' +
+//         '</div>'
+//     )
 
-    location_order += 1;
-    // to add postion
-}
+//     location_order += 1;
+//     // to add postion
+// }
 
 /*
  * check_name_block
@@ -182,7 +182,7 @@ $arr_government= mysqli_query($con, $sql);
     <!-- Footer -->
     <?php include("footer.php"); ?>
 </div>
-
+<!-- 
 <style>
     
 /* Set the size of the div element that contains the map */
@@ -234,22 +234,28 @@ for (i = 0; i < locations.length; i++) {
         }
     })(marker, i));
 }
-</script>
-<script>
-let lat_log = document.getElementById("zone_lat");
-let lon_log = document.getElementById("zone_lon");
+</script> -->
 
-function getLocation() {
+<script>
+    let lat_log = document.getElementById("zone_lat");
+    let lon_log = document.getElementById("zone_lon");
+
+    function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
+
+        if (location.protocol != "https:") {
+            lat_log.value = 13.2886064;
+            lon_log.value = 100.9145879;
+        }
     } else {
         lat.innerHTML = "Geolocation is not supported by this browser.";
     }
 }
 
-function showPosition(position) {
-    lat_log.value = position.coords.latitude;
-    lon_log.value = position.coords.longitude;
-    console.log(position);
-}
+    function showPosition(position) {
+        lat_log.value = position.coords.latitude;
+        lon_log.value = position.coords.longitude;
+        console.log(position);
+    }
 </script>

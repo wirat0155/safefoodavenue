@@ -73,12 +73,31 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
         .res-hide {
             display: none;
         }
+
+        .text-size-42 {
+            font-size: 24px;
+        }
+
+        .text-size-24 {
+            font-size: 18px;
+        }
+
     }
 
     @media screen and (max-width: 400px) {
         .res-hide {
             display: none;
         }
+
+        .text-size-42 {
+            font-size: 18px;
+        }
+
+        .text-size-24 {
+            font-size: 16px;
+        }
+
+
     }
 
     .comment-widgets .comment-row:hover {
@@ -148,7 +167,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                                         </div>
 
                                         <h1 class="mt-2 text-size-42" id="res_title"></h1>
-                                       
+
                                         <p class="font-weight-bold mt-3 text-size-24">รายละเอียดร้านอาหาร</p>
 
                                         <p class="text text-size-16" id="res_description"></p>
@@ -336,7 +355,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
             success: function(data) {
                 //console.log(data)
                 set_data_in_page(data);
-                set_picture_res(data['data_pic']);
+                set_picture_res(data['data_pic'], data["data_res"][0].res_title);
 
 
             },
@@ -346,7 +365,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
             }
         });
 
-       
+
         //show information
         $("#modal_infomation").click(function() {
             $('#sfa_information_modal').modal('show');
@@ -369,7 +388,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
 
 
 
-  
+
 
     function set_data_in_page(data) {
 
@@ -409,13 +428,13 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
         html_map = '';
         if (res_location_lat == null && res_location_lon == null) {
             // lat lon res = null ---> no button
-            html_map += '<img src="./../assets/img/icons/common/googlemap.PNG" class="set-pic text-center" alt="test"> <br>';
+            html_map += '<img src="./../assets/img/icons/common/googlemap.png" class="set-pic text-center" alt="test"> <br>';
             html_map += '<button class="btn btn-light mt-2" id="button_geolocation" ><span class="text-size-16">';
             html_map += '<i class="fas fa-map-marker"></i> ไม่มีข้อมูลตำแหน่ง</span></button>';
             $("#google_map_app").html(html_map);
         } else {
             // create button
-            html_map += '<img src="./../assets/img/icons/common/googlemap.PNG" class="set-pic text-center" alt="test"> <br>';
+            html_map += '<img src="./../assets/img/icons/common/googlemap.png" class="set-pic text-center" alt="test"> <br>';
             html_map += '<button class="btn btn-info mt-2" id="button_geolocation" onclick="click_go_google_map()" ><span class="text-size-16"> <i class="fas fa-map-marker"></i> นำทาง</span></button>';
             $("#google_map_app").html(html_map);
         }
@@ -423,11 +442,28 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
     }
 
     function click_go_google_map() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(on_geo_success, on_geo_error);
+        if (location.protocol === "https:") {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(on_geo_success, on_geo_error);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
         } else {
-            alert("Geolocation is not supported by this browser.");
+            get_default_position();
         }
+
+    }
+
+    function get_default_position() {
+
+        lat = 13.2886064;
+        lon = 100.9145879;
+
+        window.open(
+            "https://maps.google.com/?saddr=" + lat + "," + lon + "&daddr=" + res_location_lat + ',' + res_location_lon,
+            '_blank'
+        );
+
     }
 
     // If we have a successful location update
@@ -455,7 +491,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
         alert("Error code " + event.code + ". " + event.message);
     }
 
-    function set_picture_res(data) {
+    function set_picture_res(data, title) {
         //set picture
         let html = '';
 
@@ -463,8 +499,8 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
         //set image null
         if (data[0] == null) {
             //defaul picture
-            //  document.getElementById("res_img_path").src = "../assets/img/theme/detail-banner-default.jpg";
-            html += '<img id="res_img_path" class="pic_fix" src="../assets/img/theme/detail-banner-default.jpg" alt="Test pic">';
+            let src = get_jpg_name(title);
+            html += '<img class="card-img-top" style="height: 500px; object-fit: cover;" src="' + src + '" alt="Card image cap">';
         } else if (data[0] != null) {
             // document.getElementById("res_img_path").src = "../admin-panel/php/uploads/img/" + data[0].res_img_path;
 
@@ -478,6 +514,28 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
 
     // rating module
 
+    function get_jpg_name(title) {
+
+        if (title.search("กุ้งย่าง") != -1) {
+            // src = "../assets/img/theme/detail-banner-default.jpg";
+            return "../assets/img/theme/kung-min.jpg";
+        } else if (title.search("แมงดา") != -1) {
+            return "../assets/img/theme/mangda-min.jpg";
+        } else if (title.search("ส้มตำ") != -1) {
+            return "../assets/img/theme/somtum-min.jpg";
+        } else if (title.search("ไก่") != -1) {
+            return "../assets/img/theme/kai-min.jpg";
+        } else if (title.search("ไส้กรอก") != -1) {
+            return "../assets/img/theme/saikok-min.jpg";
+        } else if (title.search("อาหารทะเล") != -1) {
+            return "../assets/img/theme/sea-min.jpg";
+        } else {
+            return "../assets/img/theme/detail-banner-default.jpg";
+        }
+
+        //   return src;
+
+    }
 
 
 
@@ -552,7 +610,7 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
 
                         html += '<b><h3>' + data.review_data[i].us_fname + ' ' + data.review_data[i].us_lname + '<h3></b>';
                         html += ' <div class="comment-footer">';
-                       
+
                         for (var star = 1; star <= 5; star++) {
                             var class_name = '';
 
@@ -567,10 +625,10 @@ $res_id = isset($_GET["id"]) ? $_GET["id"] : "1";
                         html += '<p class="date">' + data.review_data_date[i] + '</p>';
 
                         html += '</div>'; //footer
-                    
+
                         html += '<p class="m-b-5 m-t-10">' + data.review_data[i].rev_comment + '</p>';
 
-                        html += '</div>';//comment text w-100
+                        html += '</div>'; //comment text w-100
                         html += '</div>';
 
                     }

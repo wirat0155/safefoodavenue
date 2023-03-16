@@ -88,7 +88,6 @@
         display: inline-block;
         text-align: left;
     }
-    
 </style>
 
 
@@ -450,7 +449,8 @@
 
                 if (row_res.res_img_path == null) {
 
-                    html += '<img class="card-img-top" style="height: 200px; object-fit: cover;" src="../assets/img/theme/detail-banner-default.jpg" alt="Card image cap">';
+                    let src = get_jpg_name(row_res.res_title);
+                    html += '<img class="card-img-top" style="height: 200px; object-fit: cover;" src="' + src + '" alt="Card image cap">';
 
                 } else {
 
@@ -462,19 +462,19 @@
                 html += ' <div  class="p-2">';
 
                 if (row_res.res_for_status == 0) {
-                     html += '   <span class="badge badge-success text-size-12  text-white">ปลอดภัย</span>';
+                    html += '   <span class="badge badge-success text-size-12  text-white">ปลอดภัย</span>';
                     //html += '<img src="./../assets/img/icons/common/formalin.png" class="set-pic text-center" alt="test"> <br>';
                 }
 
                 html += ' </div>';
                 html += '<div  class="p-2">';
-               
+
                 if (row_res.srs_count != null && row_res.srs_sum_review != null) {
 
                     let score = row_res.srs_sum_review / row_res.srs_count;
-                  
-                    html += '   <span class="badge badge-warning-fix text-size-12  text-white"><i class="fas fa-star text-warnng mr-1"></i>' + score.toFixed(1)   + '</span>';
-                    html += '   <span class="text-size-12 text-dark">' + row_res.srs_count    + ' รีวิว</span>';
+
+                    html += '   <span class="badge badge-warning-fix text-size-12  text-white"><i class="fas fa-star text-warnng mr-1"></i>' + score.toFixed(1) + '</span>';
+                    html += '   <span class="text-size-12 text-dark">' + row_res.srs_count + ' รีวิว</span>';
 
                 } else {
                     html += '<span>ไม่มีรีวิว</span>';
@@ -488,7 +488,7 @@
                 html += '</div>';
                 html += ' <div class="row">';
                 html += '     <div class="col">';
-                
+
 
                 html += '      </div>     ';
                 html += '</div>     ';
@@ -527,6 +527,29 @@
             $('#list_res').html(html);
             $('#page_next').html(" ");
         }
+
+    }
+
+    function get_jpg_name(title) {
+
+        if (title.search("กุ้งย่าง") != -1) {
+            // src = "../assets/img/theme/detail-banner-default.jpg";
+            return "../assets/img/theme/kung.jpg";
+        } else if (title.search("แมงดา") != -1) {
+            return "../assets/img/theme/mangda.jpg";
+        } else if (title.search("ส้มตำ") != -1) {
+            return "../assets/img/theme/somtum.jpg";
+        } else if (title.search("ไก่") != -1) {
+            return "../assets/img/theme/kai.jpg";
+        } else if (title.search("ไส้กรอก") != -1) {
+            return "../assets/img/theme/saikok.jpg";
+        } else if (title.search("อาหารทะเล") != -1) {
+            return "../assets/img/theme/sea.jpg";
+        } else {
+            return "../assets/img/theme/detail-banner-default.jpg";
+        }
+
+        //   return src;
 
     }
 

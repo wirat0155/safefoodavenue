@@ -105,7 +105,7 @@ $query = mysqli_query($con, $sql);
                 <th>ชื่อร้าน</th>
                 <th>สถานที่ตั้งร้าน</th>
                 <th>ระยะห่าง</th>
-                <th>เจ้าของร้าน</th>
+              
                 <th>สถานะ</th>
                 <th>Action</th>
 
@@ -119,6 +119,9 @@ $query = mysqli_query($con, $sql);
                 if ($row["block_lat"] != "") {
                   $dist = distance($lat, $long, $row["block_lat"], $row["block_lon"], "K");
                   $dist = $dist * 100;
+                }else if($row["block_lat"] == ""){
+                  $dist = distance($lat, $long, $row["res_lat"], $row["res_lon"], "K");
+                  $dist = $dist * 100;
                 }
 
               ?>
@@ -126,35 +129,18 @@ $query = mysqli_query($con, $sql);
                 if ($dist < 110) {
                 ?>
                   <?php
-                  # รายการเมนู
-                  $sql = "SELECT * FROM `sfa_menu` WHERE menu_res_id = " . $row["res_id"] . " ORDER BY `menu_id` ASC";
-                  $dbMenu = mysqli_query($con, $sql);
-                  $countMenu = mysqli_num_rows($dbMenu);
-                  $menuList = [];
-                  while ($rowMenu = mysqli_fetch_array($dbMenu)) {
-                    $menuList[] = $rowMenu["menu_id"];
-                  }
-                  $menuList = implode("','", $menuList);
-
+                
                   // สถานะตรวจสอบของแต่ละร้าน
                   $sql = "
-                      SELECT for_status
-                      FROM `sfa_formalin` 
-                      WHERE for_res_id = " . $row["res_id"] . " 
-                      AND for_menu_id in ('" . $menuList . "')
-                    ";
+                      SELECT res_for_status
+                      FROM `sfa_res_formalin_status` 
+                      WHERE res_for_res_id = " . $row["res_id"];
                   $dbFormalin = mysqli_query($con, $sql);
-                  $countFormalin = mysqli_num_rows($dbFormalin);
 
-                  $formalin_status = 0;
-                  if ($countFormalin == $countMenu && $countFormalin !== 0) { // ถ้าตรวจครบแล้ว
-                    $formalin_status = 2; // ปลอดภัย
-                    while ($rowFormalin = mysqli_fetch_array($dbFormalin)) {
-                      if ($rowFormalin["for_status"] == 1) {
-                        $formalin_status = 1; // ไม่ปลอดภัย
-                      }
-                    }
-                  }
+                 $row_res = mysqli_fetch_assoc($dbFormalin);
+                 $formalin_status =  $row_res['res_for_status'];
+
+
                   ?>
 
                   <tr>
@@ -162,22 +148,15 @@ $query = mysqli_query($con, $sql);
                     <td><?php echo $row["res_title"]; ?></td>
                     <td><?php echo $row["block_title"]; ?></td>
                     <td><?php echo round($dist, 2);  ?> ม. </td>
-                    <td>
-                      <?php
-                      $fullname = $row["ent_title"] . " " . $row["ent_firstname"] . " " . $row["ent_lastname"];
-                      echo $fullname;
-                      ?>
-                    </td>
+                    
                     <td>
                       <?php if ($formalin_status == 0) { ?>
-                        <div style="color: #888;">รอตรวจสอบ</div>
+                        <div style="color: green;">ปลอดภัย</div>
                       <?php } ?>
                       <?php if ($formalin_status == 1) { ?>
                         <div class="text-danger">ไม่ปลอดภัย</div>
                       <?php } ?>
-                      <?php if ($formalin_status == 2) { ?>
-                        <div class="text-success">ปลอดภัย</div>
-                      <?php } ?>
+                    
                     </td>
                     <td>
                       <!-- ลิ้งค์เก่า -->
@@ -208,45 +187,75 @@ $query = mysqli_query($con, $sql);
         var my_lon = <?php echo  $_POST["long"] ?> ;
 
         console.log("test");
-        fetch("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + my_lat + "," + my_lon + "&key=AIzaSyAxCoeDi4K2LJTzTC1VzL2DEJcD5srXq0o")
-                    .then(response => response.json())
-                    .then(data => {
-                        // The data object contains the full address of the location, including the province
-                        const addressComponents = data.results[0].address_components;
+        // fetch("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + my_lat + "," + my_lon + "&key=AIzaSyAxCoeDi4K2LJTzTC1VzL2DEJcD5srXq0o")
+        //             .then(response => response.json())
+        //             .then(data => {
+        //                 // The data object contains the full address of the location, including the province
+        //                 const addressComponents = data.results[0].address_components;
 
-                        console.log(data.results[0].address_components.length);
+        //                 console.log(data.results[0].address_components.length);
 
 
-                        for (let i = 0; i < data.results[0].address_components.length; i++) {
+        //                 for (let i = 0; i < data.results[0].address_components.length; i++) {
 
-                            if (data.results[0].address_components[i].long_name.length == "5" && Number.isInteger(+data.results[0].address_components[i].long_name)) {
+        //                     if (data.results[0].address_components[i].long_name.length == "5" && Number.isInteger(+data.results[0].address_components[i].long_name)) {
 
-                               // get_data_res_near_me(data.results[0].address_components[i].long_name);
+        //                         get_data_res_near_me(data.results[0].address_components[i].long_name);
 
-                            } else {
-                                let html = '';
+        //                     } else {
+        //                         let html = '';
 
-                                html += '<div class="container p-9">';
-                                html += '<div class="row text-center">';
-                                html += '<div class="col text-center">';
-                                html += '<h1>ไม่พบร้านค้า ไกล้ตำแหน่งของคุณ</h1>';
-                                html += '</div>';
-                                html += '</div>';
-                                html += '<div class="row mt-4 text-center">';
-                                html += '<div class="col text-center">';
+        //                         html += '<div class="container p-9">';
+        //                         html += '<div class="row text-center">';
+        //                         html += '<div class="col text-center">';
+        //                         html += '<h1>ไม่พบร้านค้า ไกล้ตำแหน่งของคุณ</h1>';
+        //                         html += '</div>';
+        //                         html += '</div>';
+        //                         html += '<div class="row mt-4 text-center">';
+        //                         html += '<div class="col text-center">';
 
-                                html += '</div>';
-                                html += '</div>';
-                                html += '</div>';
+        //                         html += '</div>';
+        //                         html += '</div>';
+        //                         html += '</div>';
 
-                                $('#list_res').html(html);
+        //                         $('#list_res').html(html);
 
-                            }
-                        }
+        //                     }
+        //                 }
 
-                    });
+        //             });
+
+
 
    });
+
+   function get_data_res_near_me(zip_code){
+                $.ajax({
+                    url: "./pages/get_data_res_near_me.php",
+                    method: "POST",
+                    dataType: "JSON",
+                    data: {
+                        zip_code: zip_code,
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        cratetable_res(data);
+                       
+
+                    },
+                    error: function(error) {
+                        alert(error);
+                    }
+                })
+   }
+
+   function cratetable_res(data){
+    let html = '';
+
+    html += ' <div class="table-responsive py-4">';
+
+
+   }
 </script>
 
 
